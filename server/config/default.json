@@ -1,0 +1,5 @@
+{
+  "port": 5000,
+  "postgres": "postgres://postgres:1234@localhost:5432/IROB",
+  "secretKey": "80FB4C119C46C9B0596E244B07D20C67D5B7B70BFE886AA97FC17F75A9C1174F"
+}

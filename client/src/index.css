@@ -1,0 +1,14 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.active {
+    color: #EAB308;
+    cursor: default;
+}
+
+body {
+    background-color: #15202a;
+    max-width: 100%;
+    overflow-x: hidden;
+}
