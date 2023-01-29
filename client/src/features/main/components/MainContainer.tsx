@@ -1,26 +1,40 @@
-import {NonAuthHeader} from "../../header/components/NonAuthHeader";
 import {Route, Routes, useLocation} from "react-router-dom";
 import {StartPage} from "../../start/components/StartPage";
-import {CataloguePage} from "../../catalogue/CataloguePage";
-import {AuthContainer} from "../../auth/components/AuthContainer/AuthContainer";
-import {IMain} from "../../../App";
-import {Header} from "../../header/components/Header";
+import {CataloguePage} from "../../catalogue/components/CataloguePage";
+import {AuthPage} from "../../auth/components/AuthPage";
+import {SettingsPage} from "../../settings/components/SettingsPage";
+import {IROBRoutes} from "../../../routes/IROBRoutes";
+import {ProfilePage} from "../../profile/components/ProfilePage";
+import {HeaderComponent} from "../../header/components/HeaderComponent";
+import {useModalsContext} from "../ModalsProvider";
+import {LicenseFullCardComponent} from "../../licenseFullCard/LicenseFullCardComponent";
+import {AboutUsComponent} from "../../abousUs/components/AboutUsComponent";
+import {RoomComponent} from "../../rooms/components/RoomComponent";
+import {CreateRoomModal} from "../../rooms/createRoom/CreateRoomModal";
+import {useCreateRoomModalContext} from "../CreateRoomModalProvider";
 
-export function MainContainer({routes, isUserLogged}: IMain) {
-    const location = useLocation()
-    return (<div>
-        {location.pathname !== routes.auth && isUserLogged && <NonAuthHeader routes={routes} />}
-        {location.pathname !== routes.auth && !isUserLogged && <Header routes={routes} />}
+export function MainContainer() {
+    const modalsContext = useModalsContext()
+    const createRoomModalContext = useCreateRoomModalContext()
+    const location = useLocation();
+    console.log(location.pathname)
+    return <>
+        {createRoomModalContext?.isVisible && <CreateRoomModal />}
+        {modalsContext?.isVisible && <LicenseFullCardComponent />}
+        {!location.pathname.toString().includes(IROBRoutes.rooms) && <HeaderComponent />}
         <Routes>
-            <Route index element={<StartPage routes={routes} />} />
-            <Route path={routes.home} element={<StartPage routes={routes} />}></Route>
-            <Route path={routes.messages} element={<CataloguePage />} />
-            <Route path={routes.profile} element={<CataloguePage />} />
-            <Route path={routes.notification} element={<CataloguePage />} />
-            <Route path={routes.sell} element={<CataloguePage />} />
-            <Route path={routes.buy} element={<CataloguePage />} />
-            <Route path={routes.catalogue} element={<CataloguePage />} />
-            <Route path={routes.auth} element={<AuthContainer routes={routes} />} />
+            <Route index element={<StartPage />} />
+            <Route path={IROBRoutes.home} element={<StartPage />}></Route>
+            <Route path={IROBRoutes.messages} element={<CataloguePage />} />
+            <Route path={IROBRoutes.about} element={<AboutUsComponent />} />
+            <Route path={IROBRoutes.rooms + "/:id"} element={<RoomComponent />} />
+            <Route path={IROBRoutes.profile} element={<ProfilePage />} />
+            <Route path={IROBRoutes.notification} element={<CataloguePage />} />
+            <Route path={IROBRoutes.sell} element={<CataloguePage />} />
+            <Route path={IROBRoutes.buy} element={<CataloguePage />} />
+            <Route path={IROBRoutes.catalogue} element={<CataloguePage />} />
+            <Route path={IROBRoutes.auth} element={<AuthPage />} />
+            <Route path={IROBRoutes.settings} element={<SettingsPage />} />
         </Routes>
-    </div>)
+    </>
 }

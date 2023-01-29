@@ -1,0 +1,32 @@
+import {buttonTheme} from "../../../themes/Themes";
+import {IROBRoutes} from "../../../routes/IROBRoutes";
+import {useNavigate} from "react-router-dom";
+import {useAuthContext} from "../../auth/middleware/AuthProvider";
+
+export function ProfileCard() {
+    const navigate = useNavigate()
+    const authContext = useAuthContext()
+    return <div className="text-center w-[380px] border-[#4a5058] h-fit border-2 p-4 rounded-2xl top-0">
+        <div className="flex justify-center">
+            <img className="rounded-full bg-white content-center w-[120px] h-[120px]" />
+        </div>
+        <h1 className="text-4xl mt-6">Mikhail usov</h1>
+        <div className="space-y-2 mt-4">
+            <p>@usovmisha</p>
+            <p>ааааа</p>
+            <p>14 подписок</p>
+        </div>
+        <div className="flex space-x-2">
+            <button className={buttonTheme + " mt-6 w-full"} onClick={() => {
+
+            }}>Share </button>
+            <button className={buttonTheme + " mt-6 w-full"} onClick={() => {
+                authContext?.setAuth({token: null})
+                navigate(IROBRoutes.home)
+            }}>Logout</button>
+        </div>
+        <button className={buttonTheme + " mt-6 w-full"} onClick={() => {
+            navigate(IROBRoutes.settings)
+        }}>Change profile</button>
+    </div>
+}

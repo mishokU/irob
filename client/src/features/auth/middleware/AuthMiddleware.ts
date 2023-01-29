@@ -1,15 +1,20 @@
-export class AuthMiddleware {
+function AuthMiddleware() {
 
-    isUserLogged(): boolean {
-        return localStorage.getItem("jwtToken") !== ""
+    function getToken(): string | null {
+        return localStorage.getItem("jwtToken")
     }
 
-    saveToken(token: string) {
+    function saveToken(token: string) {
         localStorage.setItem("jwtToken", token)
     }
 
-    removeToken() {
+    function removeToken() {
         localStorage.removeItem("jwtToken")
     }
 
+    return {
+        saveToken, removeToken, getToken
+    }
 }
+
+export default AuthMiddleware;

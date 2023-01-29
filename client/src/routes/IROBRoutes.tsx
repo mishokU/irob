@@ -1,27 +1,25 @@
-export class IROBRoutes {
+export enum IROBRoutes {
 
-    auth: string = "/auth"
-    login: string = "/login"
-    registration: string = "/registration"
+    auth = '/auth',
+    login = '/login',
+    registration= '/registration',
 
-    profile: string = "/profile"
-    catalogue: string = "/catalogue"
-    messages: string = "/messages"
-    notification: string = "/notification"
-    sell: string = "/sell"
-    buy: string = "/buy"
-    about: string = "/about"
-    home: string = "/home"
-    privacy: string = "/privacy"
-    terms: string = "/terms"
-    faq: string = "/faq"
+    profile = '/profile',
+    settings = '/settings',
+    catalogue = '/catalogue',
+    rooms = '/rooms',
+    messages = '/messages',
+    notification = '/notification',
+    sell = '/sell',
+    buy = '/buy',
+    about = '/about',
+    home = '/home',
+    privacy = '/privacy',
+    terms = '/terms',
+    faq = '/faq'
 
 }
 
 export interface IRoutes {
     routes: IROBRoutes
-}
-
-export interface IPath {
-    path: string
 }

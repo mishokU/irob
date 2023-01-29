@@ -1,25 +1,41 @@
 import {createApi, fetchBaseQuery} from "@reduxjs/toolkit/query/react";
 import {RegistrationRequest} from "../../../features/auth/domain/models/RegistrationRequest";
-import {RegistrationResponse} from "../../models/RegistrationResponse";
+import {LoginRequest} from "../../../features/auth/domain/models/LoginRequest";
+import {AuthResponse} from "../../models/AuthResponse";
+import {LicensesResponse} from "../../models/LicensesResponse";
 
 export const IROBApi = createApi({
     reducerPath: 'irob/api', baseQuery: fetchBaseQuery({
         baseUrl: 'http://localhost:5000/'
-    }),
-    tagTypes: ['Post'],
-    refetchOnFocus: true,
-    endpoints: build => ({
-        registration: build.query<RegistrationResponse, RegistrationRequest>({
-            query: ({email, password}) => ({
-                url: `auth/registration`,
-                method: `POST`
+    }), endpoints: build => ({
+        registration: build.mutation<string, RegistrationRequest>({
+            query: (body) => ({
+                url: `auth/registration`, method: `POST`, body
+            }),
+            transformResponse: (response: AuthResponse) => response.token,
+            transformErrorResponse(baseQueryReturnValue: unknown, meta: unknown, arg: unknown): string {
+                console.log(`response: ${baseQueryReturnValue}`)
+                return baseQueryReturnValue as string
+            }
+        }), login: build.mutation<string, LoginRequest>({
+            query: (body) => ({
+                url: `auth/login`, method: `POST`, body
+            }),
+            transformResponse: (response: AuthResponse) => response.token,
+            transformErrorResponse(baseQueryReturnValue: unknown, meta: unknown, arg: unknown): string {
+                console.log(`response: ${baseQueryReturnValue}`)
+                return baseQueryReturnValue as string
+            }
+        }), getUser: build.mutation<string, void>({
+            query: (body) => ({
+                url: `profile`, method: `POST`, body
             })
-        }), login: build.query({
-            query: () => ({
-                url: `auth/login`
+        }), getUserLicenses: build.mutation<any, LicensesResponse>({
+            query: (type: string) => ({
+                url: `profile/licenses/${type}`, method: `GET`
             })
         })
     })
 })
 
-export const {useRegistrationQuery, useLoginQuery} = IROBApi
+export const {useRegistrationMutation, useLoginMutation} = IROBApi

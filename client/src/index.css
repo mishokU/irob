@@ -8,7 +8,8 @@
 }
 
 body {
-    background-color: #15202a;
+    background-color: #0E1420;
     max-width: 100%;
+    font-family: 'Roboto', sans-serif;
     overflow-x: hidden;
 }

@@ -1,7 +1,6 @@
-import {UserResponse} from "./UserResponse";
-
 export interface RegistrationResponse {
     status: number
-    data: UserResponse
+    token: string
+    data: string
     message: string
 }

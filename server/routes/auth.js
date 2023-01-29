@@ -7,6 +7,7 @@ const config = require('config')
 const authRouter = new Router()
 
 const USERS_TABLE_NAME = 'users'
+const secretKey = config.get('secretKey')
 
 // export our router to be mounted by the parent application
 module.exports = authRouter
@@ -27,38 +28,32 @@ async function loginWithEmailPassword(request, result) {
         const user = data.rows;
         if (user.length === 0) {
             result.status(400).json({
-                error: "User is not registered, Sign Up first",
+                error: `User with email ${email} is not registered, Sign Up first`,
             });
         } else {
             let currentUser = user[0]
-            bcrypt.compare(password, currentUser.password, (err, result) => { //Comparing the hashed password
+            bcrypt.compare(password, currentUser.password, (err, hashResult) => { //Comparing the hashed password
                 if (err) {
-                    result.status(500).json({
-                        error: "Server error",
+                    result.status(400).json({
+                        error: `Incorrect password`,
                     });
-                } else if (result === true) { //Checking if credentials match
-                    const token = jwt.sign(
-                        {
-                            email: email
-                        },
-                        process.env.SECRET_KEY
-                    );
+                } else if (hashResult === true) {
+                    const token = jwt.sign({email: email}, secretKey);
                     result.status(200).json({
                         message: "User signed in!",
                         token: token,
                     });
                 } else {
-                    if (result !== true)
-                        result.status(400).json({
-                            error: "Enter correct password!",
-                        });
+                    result.status(400).json({
+                        error: "Enter correct password!"
+                    });
                 }
             })
         }
     } catch (err) {
         console.log(err);
         result.status(500).json({
-            error: "Database error occurred while signing in!", //Database connection error
+            error: "Database error occurred while signing in!"
         });
     }
 }
@@ -70,8 +65,10 @@ async function registrationWithEmailPassword(request, result) {
         const users = data.rows;
         if (users.length !== 0) {
             return result.status(400).json({
-                error: `Email ${email} already there, No need to register again.`
-            })
+                    code: 1,
+                    error: `Email ${email} already there, No need to register again.`
+                }
+            )
         } else {
             bcrypt.hash(password, 10, (error, hash) => {
                     if (error) {
@@ -82,7 +79,7 @@ async function registrationWithEmailPassword(request, result) {
                         (name, surname, photo_url, description, website_url, nickname, password, email)
                         VALUES ('${name}', '${surname}', '${photoUrl}', '${description}', '${websiteUrl}', '${nickname}', '${hash}', '${email}')
                     `).then(function (data) {
-                        const token = jwt.sign({email: email}, config.get('secretKey'));
+                        const token = jwt.sign({email: email}, secretKey);
                         result.status(200)
                             .json({
                                 status: 'success',
