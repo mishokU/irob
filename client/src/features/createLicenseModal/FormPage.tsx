@@ -1,7 +1,7 @@
 import {ContentTypeDropDown} from "./ContentTypeDropDown";
+import {inputStyle} from "../../themes/Themes";
 
 export function FormPage() {
-    const inputStyle = `border-[#29303A] border-2 rounded-lg pt-2 pl-4 pr-4 pb-2 bg-transparent mt-2 w-full `
     return <div>
         <div>
             <p className="mt-4">Content Type</p>

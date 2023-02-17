@@ -16,9 +16,6 @@ export interface IProps {
 
 const CreateRoomModalProvider = ({children}: IProps) => {
     const [isVisible, setVisibility] = useState(false)
-
-    console.log(isVisible)
-
     return <ModalsContext.Provider value={{isVisible, setVisibility}}>
         {children}
     </ModalsContext.Provider>

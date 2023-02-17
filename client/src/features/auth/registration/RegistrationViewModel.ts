@@ -1,10 +1,10 @@
 import {useState} from "react";
-import {useRegistrationMutation} from "../../../data/store/irob/IROBApi";
-import {useAuthContext} from "../middleware/AuthProvider";
+import {useRegistrationMutation} from "../../../data/store/auth/AuthApi";
 import {useNavigate} from "react-router-dom";
 import {IROBRoutes} from "../../../routes/IROBRoutes";
 import {minPasswordLength} from "../domain/utils/Auth";
 import {AuthExceptionsConverter} from "../domain/errors/AuthExceptionsConverter";
+import AuthMiddleware from "../middleware/AuthMiddleware";
 
 const validator = require("email-validator");
 
@@ -20,14 +20,17 @@ export default function RegistrationViewModel(errorState: (value: string) => voi
 
     const [registration] = useRegistrationMutation()
 
-    const authContext = useAuthContext()
+    const authMiddleware = AuthMiddleware()
     const navigate = useNavigate()
 
     const handleRegistration = async () => {
         try {
             if (isEmailAndPasswordValid(email, password)) {
-                const payload = await registration({email, password}).unwrap()
-                authContext?.setAuth({token: payload})
+                const payload = await registration({
+                    email: email,
+                    password: password
+                }).unwrap()
+                authMiddleware.saveToken(payload)
                 navigate(IROBRoutes.profile)
             }
         } catch (exception: any) {

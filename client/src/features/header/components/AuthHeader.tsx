@@ -1,7 +1,7 @@
 import React, {useState} from 'react'
 import {Link, NavLink} from 'react-router-dom'
 import {IROBRoutes, IRoutes} from "../../../routes/IROBRoutes";
-import {CreateRoomModal} from "../../rooms/createRoom/CreateRoomModal";
+import {CreateRoomModal} from "../../rooms/main/dialogs/createRoom/CreateRoomModal";
 import {useCreateRoomModalContext} from "../../main/CreateRoomModalProvider";
 
 /*

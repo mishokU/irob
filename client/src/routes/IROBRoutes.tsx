@@ -4,6 +4,7 @@ export enum IROBRoutes {
     login = '/login',
     registration= '/registration',
 
+    nonAuthPage = '/nonAuthPage',
     profile = '/profile',
     settings = '/settings',
     catalogue = '/catalogue',

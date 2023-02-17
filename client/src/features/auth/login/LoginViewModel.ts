@@ -1,11 +1,13 @@
 import {useState} from "react";
 import {IROBRoutes} from "../../../routes/IROBRoutes";
-import {useLoginMutation} from "../../../data/store/irob/IROBApi";
-import {useAuthContext} from "../middleware/AuthProvider";
+import {useLoginMutation} from "../../../data/store/auth/AuthApi";
 import {useNavigate} from "react-router-dom";
 import validator from "email-validator";
 import {minPasswordLength} from "../domain/utils/Auth";
 import {AuthExceptionsConverter} from "../domain/errors/AuthExceptionsConverter";
+import {useDispatch} from "react-redux";
+import {updateProfile} from "../../../data/slices/ProfileSlice";
+import AuthMiddleware from "../middleware/AuthMiddleware";
 
 export default function LoginViewModel(errorState: (value: string) => void) {
 
@@ -15,18 +17,25 @@ export default function LoginViewModel(errorState: (value: string) => void) {
     const [password, setPasswordState] = useState("")
     const [passwordError, setPasswordError] = useState<string | null>(null)
 
+    const authMiddleware = AuthMiddleware()
     const [login] = useLoginMutation()
 
     const authErrorConverter = new AuthExceptionsConverter()
-    const authContext = useAuthContext()
-    const navigate = useNavigate()
+
+    const navigate = useNavigate();
+    const dispatch = useDispatch();
 
     const handleLogin = async () => {
         try {
             if (isEmailAndPasswordValid(email, password)) {
                 const payload = await login({email, password}).unwrap()
-                authContext?.setAuth({token: payload})
-                navigate(IROBRoutes.catalogue)
+                console.log("new token: " + payload.token)
+
+                authMiddleware.saveToken(payload.token)
+                dispatch(updateProfile({
+                    user: payload.user
+                }))
+                navigate(IROBRoutes.profile)
             }
         } catch (exception: any) {
             errorState(authErrorConverter.convert(exception))

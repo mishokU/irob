@@ -3,9 +3,7 @@ import {IROBRoutes} from "../../../routes/IROBRoutes";
 import {NonAuthHeader} from "./NonAuthHeader";
 import {AuthHeader} from "./AuthHeader";
 import {useLocation} from "react-router-dom";
-import {useAuthContext} from "../../auth/middleware/AuthProvider";
-
-
+import AuthMiddleware from "../../auth/middleware/AuthMiddleware";
 
 export function HeaderComponent() {
 
@@ -13,7 +11,8 @@ export function HeaderComponent() {
     const [visible, setVisible] = useState(true)
 
     const location = useLocation()
-    const isUserLogged = useAuthContext()?.auth.token !== null
+    const authMiddleware = AuthMiddleware()
+    const isUserLogged = authMiddleware.getToken() !== null
 
     const handleScroll = () => {
         const currentScrollPos = window.scrollY

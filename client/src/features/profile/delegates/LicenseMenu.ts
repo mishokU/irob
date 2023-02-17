@@ -1,6 +1,6 @@
 export enum LicenseMenu {
-    MY_LICENSES,
-        FAVOURITE,
-    REQUESTS,
-    SEARCH
+  MY_LICENSES,
+  FAVOURITE,
+  REQUESTS,
+  SEARCH,
 }

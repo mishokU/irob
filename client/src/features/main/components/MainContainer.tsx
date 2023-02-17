@@ -9,22 +9,23 @@ import {HeaderComponent} from "../../header/components/HeaderComponent";
 import {useModalsContext} from "../ModalsProvider";
 import {LicenseFullCardComponent} from "../../licenseFullCard/LicenseFullCardComponent";
 import {AboutUsComponent} from "../../abousUs/components/AboutUsComponent";
-import {RoomComponent} from "../../rooms/components/RoomComponent";
-import {CreateRoomModal} from "../../rooms/createRoom/CreateRoomModal";
+import {RoomComponent} from "../../rooms/main/page/RoomComponent";
+import {CreateRoomModal} from "../../rooms/main/dialogs/createRoom/CreateRoomModal";
 import {useCreateRoomModalContext} from "../CreateRoomModalProvider";
+import {NonAuthPage} from "../../noAuth/NonAuthPage";
 
 export function MainContainer() {
     const modalsContext = useModalsContext()
     const createRoomModalContext = useCreateRoomModalContext()
     const location = useLocation();
-    console.log(location.pathname)
     return <>
         {createRoomModalContext?.isVisible && <CreateRoomModal />}
         {modalsContext?.isVisible && <LicenseFullCardComponent />}
         {!location.pathname.toString().includes(IROBRoutes.rooms) && <HeaderComponent />}
         <Routes>
             <Route index element={<StartPage />} />
-            <Route path={IROBRoutes.home} element={<StartPage />}></Route>
+            <Route path={IROBRoutes.nonAuthPage} element={<NonAuthPage />} />
+            <Route path={IROBRoutes.home} element={<StartPage />} />
             <Route path={IROBRoutes.messages} element={<CataloguePage />} />
             <Route path={IROBRoutes.about} element={<AboutUsComponent />} />
             <Route path={IROBRoutes.rooms + "/:id"} element={<RoomComponent />} />
