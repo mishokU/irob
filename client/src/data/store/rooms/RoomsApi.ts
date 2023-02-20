@@ -1,12 +1,12 @@
 import {createApi, fetchBaseQuery} from "@reduxjs/toolkit/dist/query/react";
-import {CreateRoomResponse} from "../../rooms/CreateRoomResponse";
-import {DeleteRoomResponse} from "../../rooms/DeleteRoomResponse";
+import {CreateRoomResponse} from "../../rooms/room/CreateRoomResponse";
+import {DeleteRoomResponse} from "../../rooms/room/DeleteRoomResponse";
 import {CreateRoomRequest} from "../../../features/rooms/domain/CreateRoomRequest";
-import {GetRoomResponse} from "../../rooms/GetRoomResponse";
-import {GetRoomsResponse} from "../../rooms/GetRoomsResponse";
-import {RoomResponse} from "../../rooms/RoomResponse";
+import {GetRoomResponse} from "../../rooms/room/GetRoomResponse";
+import {GetRoomsResponse} from "../../rooms/room/GetRoomsResponse";
+import {RoomResponse} from "../../rooms/room/RoomResponse";
 import {UpdateRoomRequest} from "../../../features/rooms/domain/UpdateRoomRequest";
-import {UpdateRoomResult} from "../../rooms/UpdateRoomResult";
+import {UpdateRoomResult} from "../../rooms/room/UpdateRoomResult";
 
 export const RoomsApi = createApi({
     reducerPath: "irob/api/rooms", baseQuery: fetchBaseQuery({

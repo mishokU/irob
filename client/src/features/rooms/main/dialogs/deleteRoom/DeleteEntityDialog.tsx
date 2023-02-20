@@ -1,6 +1,7 @@
 import {Fragment} from "react";
 import {Dialog, Transition} from "@headlessui/react";
 import {DeleteDialogProms} from "./DeleteDialogProms";
+import {buttonTheme} from "../../../../../themes/Themes";
 
 export function DeleteEntityDialog({
                                        isDeleteDialogVisible,
@@ -34,18 +35,21 @@ export function DeleteEntityDialog({
                         leaveFrom="opacity-100 scale-100"
                         leaveTo="opacity-0 scale-95"
                     >
-                        <Dialog.Panel className=" transform overflow-hidden rounded-2xl bg-white p-6 text-left align-middle shadow-xl transition-all">
+                        <Dialog.Panel className="
+                        transform border-2 border-[#29303A] transform overflow-hidden rounded-2xl
+                            bg-[#0E1420] p-6 text-left align-middle shadow-xl w-[400px] transition-all">
                             <div className="space-y-4">
-                                <h1>Are you sure to delete room?</h1>
+                                <h1 className="text-white text-xl">Are you sure to delete room?</h1>
                                 <button
-                                    className="rounded-md bg-red-600 w-full h-[40px] text-white"
+                                    className={buttonTheme + " bg-red-600 w-full h-[40px] text-white"}
                                     type="button"
                                     onClick={handleDeleteRoomClick}>
                                     <h1>Delete</h1>
                                 </button>
                                 <button
-                                    className="rounded-md bg-black w-full h-[40px] text-white"
+                                    className={buttonTheme + " w-full h-[40px] text-white"}
                                     type="button"
+
                                     onClick={onClose}>
                                     <h1>Cancel</h1>
                                 </button>

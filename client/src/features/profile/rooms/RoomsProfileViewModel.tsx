@@ -1,6 +1,6 @@
 import {useEffect, useState} from "react";
 import {useGetRoomsMutation} from "../../../data/store/rooms/RoomsApi";
-import {RoomResponse} from "../../../data/rooms/RoomResponse";
+import {RoomResponse} from "../../../data/rooms/room/RoomResponse";
 import {useNavigate} from "react-router-dom";
 import {IROBRoutes} from "../../../routes/IROBRoutes";
 import {useDispatch} from "react-redux";

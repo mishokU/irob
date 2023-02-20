@@ -1,7 +1,7 @@
 import useWebSocket from "react-use-websocket";
 import {WS_URL} from "../main/page/RoomViewModel";
 import {
-    getUser, getUserEventType, getUserFromServer, isUserEvent, RoomWebSocketTypes
+    getUser, getEventType, getUserFromServer, isUserEvent, RoomWebSocketTypes
 } from "../domain/HandleEventTypes";
 import {useEffect, useState} from "react";
 import {useSelector} from "react-redux";
@@ -49,7 +49,7 @@ export default function RoommatesViewModel() {
 
     useEffect(() => {
         if (lastMessage !== null) {
-            const type = getUserEventType(lastMessage)
+            const type = getEventType(lastMessage)
             if (type === RoomWebSocketTypes.userJoined) {
                 joinUser(getUser(lastMessage))
             } else {

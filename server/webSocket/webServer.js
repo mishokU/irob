@@ -12,13 +12,13 @@ server.listen(port, () => {
 
 const roomController = require("../controllers/RoomControllers")
 const roomUserController = require("../controllers/RoomUsersController");
+const roomRequirementsController = require("../controllers/RoomRequirementsController")
 
 // I'm maintaining all active connections in this object
 const clients = {};
 // I'm maintaining all active users in this object
 const users = {};
-// The current editor content is maintained here.
-let editorContent = null;
+
 // User activity history.
 let userActivity = [];
 
@@ -26,7 +26,10 @@ let userActivity = [];
 const typesDef = {
     USER_JOINED: 'userJoined',
     USER_LEAVED: 'userDisconnected',
-    SEND_MESSAGE: 'sendMessage'
+    SEND_MESSAGE: 'sendMessage',
+    CREATE_REQUIREMENT: 'createRequirement',
+    APPLY_REQUIREMENT: 'applyRequirement',
+    DECLINE_REQUIREMENT: 'declineRequirement'
 }
 
 function broadcastMessage(json) {
@@ -42,7 +45,9 @@ function broadcastMessage(json) {
 
 async function handleMessage(message, userId) {
     const dataFromClient = JSON.parse(message.toString());
+    const datetime = new Date();
     const json = {type: dataFromClient.type};
+    console.log("type: " + dataFromClient.type)
     if (dataFromClient.type === typesDef.USER_JOINED) {
 
         users[userId] = dataFromClient;
@@ -58,10 +63,26 @@ async function handleMessage(message, userId) {
         if (!hasUserInRoom) {
             await roomUserController.joinUser(Number(id), roomId)
         }
-        json.data = {username, id, isAdmin, userActivity};
+
+        json.data = {username, id, isAdmin};
+
     } else if (dataFromClient.type === typesDef.SEND_MESSAGE) {
-        editorContent = dataFromClient.content;
-        json.data = {editorContent, userActivity};
+        const content = dataFromClient.content
+        const username = dataFromClient.username
+        const avatar = dataFromClient.avatar
+        const date = datetime.toISOString().slice(0, 10) + " " + datetime.toISOString().slice(12, 19)
+        const userId = dataFromClient.userId
+        json.data = {content, username, avatar, date, userId};
+    } else if (dataFromClient.type === typesDef.CREATE_REQUIREMENT) {
+        const username = dataFromClient.username
+        const requirementId = dataFromClient.requirementId
+        json.data = {username, requirementId}
+    } else if (dataFromClient.type === typesDef.APPLY_REQUIREMENT) {
+        const requirementId = dataFromClient.requirementId
+        json.data = {requirementId}
+    } else if (dataFromClient.type === typesDef.DECLINE_REQUIREMENT) {
+        const requirementId = dataFromClient.requirementId
+        json.data = {requirementId}
     }
     broadcastMessage(json);
 }
@@ -70,7 +91,7 @@ async function handleDisconnect(userId) {
     console.log(`${userId} disconnected.`);
     const json = {type: typesDef.USER_LEAVED};
     const user = users[userId]
-    if(user !== undefined){
+    if (user !== undefined) {
         userActivity.push(`${user.username} left the document`);
         const id = user.userId
         json.data = {id, userActivity};

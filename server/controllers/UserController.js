@@ -14,12 +14,10 @@ const generatePassword = (
 module.exports = {
     getUser: async function (token) {
         const data = await db.query(`SELECT * FROM users WHERE token= $1;`, [token])
-        console.log("userrrr: " + data.rows)
         return data.rows[0]
     },
     getUserById: async function (userId){
         const data = await db.query(`SELECT * FROM users WHERE id= $1;`, [userId])
-        console.log("user: " + data.rows[0])
         return data.rows[0]
     },
     updatePassword: function (token, newPassword) {

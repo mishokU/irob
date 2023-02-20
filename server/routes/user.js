@@ -1,5 +1,3 @@
-// notice here I'm requiring my database adapter file
-// and not requiring node-postgres directly
 const db = require('../db');
 const {Router} = require("express");
 
@@ -55,7 +53,6 @@ async function getProfile(request, result) {
     try {
         const token = request.get('token')
         const user = await userController.getUser(token)
-        console.log("user: " + user)
         if (user !== undefined) {
             result.status(200).json({
                 user: user

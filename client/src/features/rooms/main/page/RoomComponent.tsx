@@ -1,5 +1,5 @@
 import {RoommatesComponent} from "../../roommates/RoommatesComponent";
-import {RequirementsComponent} from "../../requirements/RequirementsComponent";
+import {RequirementsMainComponent} from "../../requirements/RequirementsMainComponent";
 import {RoomSmartMessengerComponent} from "../../messenger/RoomSmartMessengerComponent";
 import useViewModel from "./RoomViewModel";
 import deleteImg from "../../../../ui/assets/delete_96px.png";
@@ -85,7 +85,7 @@ export function RoomComponent() {
                     setIsVisible={setIsRequirementsDialogVisible}
                     isVisible={isRequirementsDialogVisible}
                 />
-                <RequirementsComponent />
+                <RequirementsMainComponent />
             </div>
         </div>}
     </div>

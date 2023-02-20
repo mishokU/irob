@@ -3,13 +3,11 @@ import {buttonTheme, inputStyle} from "../../../../../themes/Themes";
 import useViewModel from "./CreateRequrementViewModel"
 import {Dispatch} from "react";
 
-export const contentTypes = [
-    {id: 1, name: 'Duration days', unavailable: false},
-    {id: 2, name: 'Show times', unavailable: false},
-    {id: 3, name: 'Views count', unavailable: false},
-    {id: 4, name: 'Cost', unavailable: false},
-    {id: 5, name: 'Else', unavailable: false}
-]
+export const contentTypes = [{id: 1, name: 'Duration days', unavailable: false}, {
+    id: 2, name: 'Show times', unavailable: false
+}, {id: 3, name: 'Views count', unavailable: false}, {id: 4, name: 'Cost', unavailable: false}, {
+    id: 5, name: 'Else', unavailable: false
+}]
 
 export interface CreateRequirementFormPageProps {
     setIsVisible: Dispatch<boolean>
@@ -23,14 +21,16 @@ export function CreateRequirementFormPage({setIsVisible}: CreateRequirementFormP
         description,
         setValue,
         value,
-        type,
+        contentType,
         setType,
         customType,
         setCustomType,
         handleCreateRequirement
-    } = useViewModel()
+    } = useViewModel(setIsVisible)
 
     const maxTitleLength = 30
+    const customTypeNumber = 5
+    const maxValueLength = 10
     const maxDescriptionLength = 300
 
     return <div>
@@ -51,21 +51,22 @@ export function CreateRequirementFormPage({setIsVisible}: CreateRequirementFormP
             </div>
             <div>
                 <p className="mt-4">Content type</p>
-                <ContentTypeDropDown type={type} setType={setType} />
+                <ContentTypeDropDown type={contentType} setType={setType} />
             </div>
             <div>
                 <p className="mt-4">Value</p>
                 <input
-                    maxLength={10}
+                    maxLength={maxValueLength}
                     value={value}
                     placeholder="0"
+                    pattern="[0-9]*"
                     onChange={(valueField) => {
-                        setValue(valueField.target.value)
+                        setValue((value) => valueField.target.validity.valid ? Number(valueField.target.value) : value)
                     }}
                     className={inputStyle} />
             </div>
         </div>
-        {type.id === 5 && <div>
+        {contentType.id === customTypeNumber && <div>
             <p className="mt-4">Custom type</p>
             <textarea
                 maxLength={40}

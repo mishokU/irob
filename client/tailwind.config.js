@@ -1,3 +1,5 @@
+
+
 module.exports = {
   content: [
     './src/**/*.{js,jsx,ts,tsx}',
@@ -9,6 +11,7 @@ module.exports = {
   plugins: [
     require('@tailwindcss/line-clamp'),
     require('tailwind-scrollbar'),
-    require('flowbite/plugin')
+    require('flowbite/plugin'),
+
   ],
 }
