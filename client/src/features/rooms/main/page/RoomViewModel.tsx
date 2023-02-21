@@ -52,7 +52,7 @@ export default function RoomViewModel() {
         }).then(data => {
             dispatch(updateRoom(data))
         })
-    }, [dispatch, roomMutation, roomReducer.roomId])
+    }, [])
 
     const handleDeleteRoomClick = async () => {
         try {

@@ -10,7 +10,7 @@ import {ApplyRequirementResponse} from "../../rooms/requirements/ApplyRequiremen
 import {DeclineRequirementResponse} from "../../rooms/requirements/DeclineRequirementResponse";
 
 export const RoomRequirementsApi = createApi({
-    reducerPath: 'irob/api/rooms/requirements', baseQuery: fetchBaseQuery({
+    reducerPath: 'irob/api/room/requirements', baseQuery: fetchBaseQuery({
         baseUrl: 'http://localhost:5000/room/requirements', headers: {
             token: localStorage.getItem("jwtToken") || ""
         }

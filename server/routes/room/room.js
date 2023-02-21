@@ -97,7 +97,6 @@ async function deleteRoom(request, result) {
 async function getRoom(request, result) {
     try {
         const token = request.get('token')
-        console.log("token: " + token);
         const roomId = request.params.roomId;
         const user = await userController.getUser(token)
         const roomRes = await db.query(`SELECT * FROM rooms WHERE room_id= $1;`, [roomId])

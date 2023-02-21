@@ -85,7 +85,10 @@ export function RoomComponent() {
                     setIsVisible={setIsRequirementsDialogVisible}
                     isVisible={isRequirementsDialogVisible}
                 />
-                <RequirementsMainComponent />
+                <RequirementsMainComponent
+                    isVisible={isRequirementsDialogVisible}
+                    setIsVisible={setIsRequirementsDialogVisible}
+                />
             </div>
         </div>}
     </div>

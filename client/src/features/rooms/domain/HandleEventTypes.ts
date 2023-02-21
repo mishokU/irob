@@ -42,7 +42,6 @@ export function getRequirementMessage(lastMessage: any): MessageModel {
 }
 
 function createMessageModel(data: any, type: MessageType): MessageModel {
-    console.log("data: " + data)
     return {
         userId: data.userId,
         date: data.date,

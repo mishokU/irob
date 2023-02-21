@@ -3,7 +3,7 @@ import {ProfileCard} from "../card/ProfileCard";
 import {ProfileMenuHandlerDelegate} from "../delegates/ProfileMenuHandlerDelegate";
 import {ProfileMenu} from "../delegates/ProfileMenu";
 import {LicensesPage} from "./LicensesPage";
-import {ProfileLedgerPage} from "./ProfileLedgerPage";
+import {ProfileLedgerPage} from "../ledger/ProfileLedgerPage";
 import {DevelopersPage} from "./DevelopersPage";
 import {useState} from "react";
 import {CreateLicenseModal} from "../../createLicenseModal/CreateLicenseModal";

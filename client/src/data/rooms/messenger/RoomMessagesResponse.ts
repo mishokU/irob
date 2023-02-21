@@ -1,8 +1,9 @@
 export interface RoomMessageResponse {
     avatar: string
-    name: string
+    username: string
     content: string
     date: string
-    userId: string
+    user_id: number
     type: number
+    id: number
 }

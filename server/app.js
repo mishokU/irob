@@ -3,6 +3,7 @@ const config = require('config')
 const mountRoutes = require('./routes')
 const {pool} = require("./db");
 const cors = require('cors')
+//const web3 = require('./web3/Web3Index')
 
 const app = express()
 app.use(express.urlencoded())

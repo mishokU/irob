@@ -1,13 +1,26 @@
 import {ReactComponent as DeleteRequirementsIcon} from "../asserts/delete_request.svg";
 import {ReactComponent as ApplyRequirementsIcon} from "../asserts/check_request.svg";
-
+import createRequirementImg from "../asserts/create_48px.png"
 import useViewModel from "./RequirementsViewModel"
 import {RequirementTabs} from "./RequirementTabs";
+import {Dispatch} from "react";
 
-export function RequirementsMainComponent() {
+export interface RequirementsMainProps {
+    isVisible: boolean,
+    setIsVisible: Dispatch<boolean>
+}
+
+export function RequirementsMainComponent({isVisible, setIsVisible}: RequirementsMainProps) {
     const {requirements, onRequirementClick, onApplyRequirementClick, onDeclineRequirementClick, menu, setMenu} = useViewModel()
-    return <div className="w-[300px] min-w-[300px]">
-        <div className="text-white text-2xl">Requirements</div>
+    return <div className="w-[300px] min-w-[300px] -mt-2">
+        <div className="flex justify-between items-end">
+            <div className="text-white text-2xl">Requirements</div>
+            <div className="cursor-pointer" onClick={() => {
+                setIsVisible(!isVisible)
+            }}>
+                <img className="w-10 h-10" src={createRequirementImg} />
+            </div>
+        </div>
         <RequirementTabs menu={menu} setMenu={setMenu} />
         <div className="mt-2 border-2 border-[#29303A] p-4 space-y-4 h-fit rounded-lg overflow-y-scroll max-h-[700px]
             scrollbar-thin scrollbar-thumb-gray-800 scrollbar-track-gray-100

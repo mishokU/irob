@@ -5,12 +5,12 @@ import {AuthResponse} from "../../models/AuthResponse";
 import {LicensesResponse} from "../../models/LicensesResponse";
 
 export const AuthApi = createApi({
-    reducerPath: 'irob/api', baseQuery: fetchBaseQuery({
-        baseUrl: 'http://localhost:5000/'
+    reducerPath: 'irob/api/auth', baseQuery: fetchBaseQuery({
+        baseUrl: 'http://localhost:5000/auth'
     }), endpoints: build => ({
         registration: build.mutation<string, RegistrationRequest>({
             query: (body) => ({
-                url: `auth/registration`, method: `POST`, body
+                url: `/registration`, method: `POST`, body
             }),
             transformResponse: (response: AuthResponse) => response.token,
             transformErrorResponse(baseQueryReturnValue: unknown, meta: unknown, arg: unknown): string {
@@ -20,7 +20,7 @@ export const AuthApi = createApi({
         }),
         login: build.mutation<AuthResponse, LoginRequest>({
             query: (body) => ({
-                url: `auth/login`, method: `POST`, body
+                url: `/login`, method: `POST`, body
             }),
             transformResponse: (response: AuthResponse) => response,
             transformErrorResponse(baseQueryReturnValue: unknown, meta: unknown, arg: unknown): string {

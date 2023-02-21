@@ -9,6 +9,7 @@ import App from "./App";
 import {ModalsProvider} from "./features/main/ModalsProvider";
 import {CreateRoomModalProvider} from "./features/main/CreateRoomModalProvider";
 import {PersistGate} from "redux-persist/integration/react";
+import {MetaMaskProvider} from "metamask-react";
 
 const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement);
 
@@ -18,7 +19,9 @@ root.render(<ModalsProvider>
             <PersistGate loading={null} persistor={persistor}>
                 <BrowserRouter>
                     <ModalState>
-                        <App />
+                        <MetaMaskProvider>
+                            <App />
+                        </MetaMaskProvider>
                     </ModalState>
                 </BrowserRouter>
             </PersistGate>

@@ -12,7 +12,7 @@ server.listen(port, () => {
 
 const roomController = require("../controllers/RoomControllers")
 const roomUserController = require("../controllers/RoomUsersController");
-const roomRequirementsController = require("../controllers/RoomRequirementsController")
+const roomMessagesController = require("../controllers/RoomMessagesController")
 
 // I'm maintaining all active connections in this object
 const clients = {};
@@ -67,11 +67,19 @@ async function handleMessage(message, userId) {
         json.data = {username, id, isAdmin};
 
     } else if (dataFromClient.type === typesDef.SEND_MESSAGE) {
+
         const content = dataFromClient.content
         const username = dataFromClient.username
         const avatar = dataFromClient.avatar
         const date = datetime.toISOString().slice(0, 10) + " " + datetime.toISOString().slice(12, 19)
         const userId = dataFromClient.userId
+        const roomId = dataFromClient.roomId
+        const messageType = dataFromClient.messageType
+
+        await roomMessagesController.addRoomMessage(
+            roomId, userId, content, date, avatar, messageType, username
+        )
+
         json.data = {content, username, avatar, date, userId};
     } else if (dataFromClient.type === typesDef.CREATE_REQUIREMENT) {
         const username = dataFromClient.username

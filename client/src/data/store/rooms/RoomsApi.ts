@@ -24,7 +24,7 @@ export const RoomsApi = createApi({
             },
         }), getRoom: build.mutation<GetRoomResponse, string>({
             query: (roomId) => ({
-                url: `/get/${roomId}`, method: "GET",
+                url: `/get/${roomId}`, method: "GET", params: {roomId: roomId}
             }),
             transformResponse: (response: GetRoomResponse) => response,
             transformErrorResponse(meta: unknown, arg: unknown): string {
