@@ -8,17 +8,25 @@ import useWebSocket from "react-use-websocket";
 import {IROBRoutes} from "../../../../routes/IROBRoutes";
 import {isLogged} from "../../../../domain/checkers/Checkers";
 import {useRemoveUserMutation} from "../../../../data/store/rooms/RoomUsersApi";
+import {RequirementState} from "./RequirementState";
+import {isUserEvent, RoomWebSocketTypes} from "../../domain/HandleEventTypes";
+import {profileSlice} from "../../../../data/slices/ProfileSlice";
 
 export const WS_URL = 'ws://127.0.0.1:8000';
 
 export default function RoomViewModel() {
 
     const roomReducer = useSelector((state: RootState) => state.room)
+    const profileReducer = useSelector((state: RootState) => state.profile)
+
 
     const [isDeleteDialogVisible, setIsDeleteDialogVisible] = useState(false)
     const [isContentVisible, setIsContentVisible] = useState(false)
     const [isSettingsDialogVisible, setIsSettingsDialogVisible] = useState(false)
-    const [isRequirementsDialogVisible, setIsRequirementsDialogVisible] = useState(false)
+    const [isMakeDealDialogVisible, setIsMakeDealDialogVisible] = useState(false)
+    const [isRequirementVisible, setIsRequirementVisible] = useState<RequirementState>({
+        isVisible: false, requirement: null
+    })
 
     const navigate = useNavigate();
     const dispatch = useDispatch();
@@ -27,7 +35,7 @@ export default function RoomViewModel() {
     const [deleteRoomMutation] = useDeleteRoomMutation()
     const [leaveUserMutation] = useRemoveUserMutation()
 
-    useWebSocket(WS_URL, {
+    const {sendJsonMessage} = useWebSocket(WS_URL, {
         onOpen: () => {
             console.log('WebSocket connection established.');
         }, share: true, filter: () => false, retryOnError: true, shouldReconnect: () => true
@@ -41,6 +49,7 @@ export default function RoomViewModel() {
                 if (roomId !== roomReducer.roomId) {
                     updateRoomId(window.location.href)
                 }
+
                 return await roomMutation(roomId).unwrap()
             } else {
                 navigate(IROBRoutes.nonAuthPage)
@@ -83,11 +92,13 @@ export default function RoomViewModel() {
         setIsDeleteDialogVisible,
         isDeleteDialogVisible,
         handleDeleteRoomClick,
-        isRequirementsDialogVisible,
-        setIsRequirementsDialogVisible,
         isContentVisible,
         isSettingsDialogVisible,
         setIsSettingsDialogVisible,
+        isMakeDealDialogVisible,
+        setIsMakeDealDialogVisible,
+        isRequirementVisible,
+        setIsRequirementVisible,
         onBackClick
     }
 

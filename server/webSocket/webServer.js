@@ -6,8 +6,8 @@ const uuidv4 = require('uuid').v4;
 const server = http.createServer();
 const wsServer = new WebSocketServer({server});
 const port = 8000;
-server.listen(port, () => {
-    console.log(`WebSocket server is running on port ${port}`);
+server.listen(port,  () => {
+    console.log(`WebSocket server is running on port http://:${port}`);
 });
 
 const roomController = require("../controllers/RoomControllers")
@@ -19,9 +19,6 @@ const clients = {};
 // I'm maintaining all active users in this object
 const users = {};
 
-// User activity history.
-let userActivity = [];
-
 // Event types
 const typesDef = {
     USER_JOINED: 'userJoined',
@@ -29,97 +26,116 @@ const typesDef = {
     SEND_MESSAGE: 'sendMessage',
     CREATE_REQUIREMENT: 'createRequirement',
     APPLY_REQUIREMENT: 'applyRequirement',
-    DECLINE_REQUIREMENT: 'declineRequirement'
+    DECLINE_REQUIREMENT: 'declineRequirement',
+    ADD_ADMIN: 'addAdmin',
+    HANDLE_AGREEMENT: 'handleAgreement'
 }
 
 function broadcastMessage(json) {
-    // We are sending the current data to all connected clients
     const data = JSON.stringify(json);
+    const roomId = json.data.roomId
     for (let userId in clients) {
-        let client = clients[userId];
-        if (client.readyState === WebSocket.OPEN) {
-            client.send(data);
+        let client = clients[userId]
+        let user = users[userId]
+        if(user.roomId === roomId){
+            if (client.readyState === WebSocket.OPEN) {
+                client.send(data);
+            }
         }
     }
 }
 
 async function handleMessage(message, userId) {
-    const dataFromClient = JSON.parse(message.toString());
-    const datetime = new Date();
-    const json = {type: dataFromClient.type};
-    console.log("type: " + dataFromClient.type)
-    if (dataFromClient.type === typesDef.USER_JOINED) {
-
-        users[userId] = dataFromClient;
-        console.log(`${dataFromClient.username} joined to edit the document`)
-        userActivity.push();
-
-        const username = dataFromClient.username
-        const id = dataFromClient.userId
+    try {
+        const dataFromClient = JSON.parse(message.toString());
+        const datetime = new Date();
+        const json = {type: dataFromClient.type};
         const roomId = dataFromClient.roomId
+        if (dataFromClient.type === typesDef.USER_JOINED) {
 
-        const isAdmin = await roomController.isRoomAdmin(id, roomId)
-        const hasUserInRoom = await roomUserController.hasUserWithId(id, roomId)
-        if (!hasUserInRoom) {
-            await roomUserController.joinUser(Number(id), roomId)
+            users[userId] = dataFromClient;
+
+            const username = dataFromClient.username
+            const id = dataFromClient.userId
+            const avatar = dataFromClient.avatar
+
+            const isAdmin = await roomController.isRoomAdmin(id, roomId)
+            const hasUserInRoom = await roomUserController.hasUserWithId(id, roomId)
+            if (!hasUserInRoom) {
+                await roomUserController.joinUser(id, roomId)
+            }
+
+            json.data = {username, id, roomId, avatar, isAdmin};
+
+        } else if (dataFromClient.type === typesDef.SEND_MESSAGE) {
+
+            const content = dataFromClient.content
+            const username = dataFromClient.username
+            const avatar = dataFromClient.avatar
+            const date = datetime.toISOString().slice(0, 10) + " " + datetime.toISOString().slice(12, 19)
+            const userId = dataFromClient.userId
+            const messageType = dataFromClient.messageType
+
+            await roomMessagesController.addRoomMessage(
+                roomId, userId, content, date, avatar, messageType, username
+            )
+
+            json.data = {content, username, avatar, date, userId};
+        } else if (dataFromClient.type === typesDef.CREATE_REQUIREMENT) {
+            const username = dataFromClient.username
+            const requirementId = dataFromClient.requirementId
+            const userId = dataFromClient.userId
+            json.data = {username, userId, requirementId}
+        } else if (dataFromClient.type === typesDef.APPLY_REQUIREMENT) {
+            const requirementId = dataFromClient.requirementId
+            json.data = {requirementId}
+        } else if (dataFromClient.type === typesDef.DECLINE_REQUIREMENT) {
+            const requirementId = dataFromClient.requirementId
+            json.data = {requirementId}
+        } else if(dataFromClient.type === typesDef.ADD_ADMIN) {
+
+        } else if(dataFromClient.type === typesDef.HANDLE_AGREEMENT){
+
         }
-
-        json.data = {username, id, isAdmin};
-
-    } else if (dataFromClient.type === typesDef.SEND_MESSAGE) {
-
-        const content = dataFromClient.content
-        const username = dataFromClient.username
-        const avatar = dataFromClient.avatar
-        const date = datetime.toISOString().slice(0, 10) + " " + datetime.toISOString().slice(12, 19)
-        const userId = dataFromClient.userId
-        const roomId = dataFromClient.roomId
-        const messageType = dataFromClient.messageType
-
-        await roomMessagesController.addRoomMessage(
-            roomId, userId, content, date, avatar, messageType, username
-        )
-
-        json.data = {content, username, avatar, date, userId};
-    } else if (dataFromClient.type === typesDef.CREATE_REQUIREMENT) {
-        const username = dataFromClient.username
-        const requirementId = dataFromClient.requirementId
-        json.data = {username, requirementId}
-    } else if (dataFromClient.type === typesDef.APPLY_REQUIREMENT) {
-        const requirementId = dataFromClient.requirementId
-        json.data = {requirementId}
-    } else if (dataFromClient.type === typesDef.DECLINE_REQUIREMENT) {
-        const requirementId = dataFromClient.requirementId
-        json.data = {requirementId}
+        broadcastMessage(json);
+    } catch (e) {
+        console.log("handle message error: " + e.message)
     }
-    broadcastMessage(json);
 }
 
 async function handleDisconnect(userId) {
-    console.log(`${userId} disconnected.`);
-    const json = {type: typesDef.USER_LEAVED};
-    const user = users[userId]
-    if (user !== undefined) {
-        userActivity.push(`${user.username} left the document`);
-        const id = user.userId
-        json.data = {id, userActivity};
-        delete clients[userId];
-        delete users[userId];
-        broadcastMessage(json);
-        await roomUserController.deleteUser(id, user.roomId);
+    try {
+        console.log(`${userId} disconnected.`);
+        const json = {type: typesDef.USER_LEAVED};
+        const user = users[userId]
+        if (user !== undefined) {
+            const id = user.userId
+            const roomId = user.roomId
+            json.data = {roomId, id};
+            await roomUserController.deleteUser(id, user.roomId);
+            delete clients[userId];
+            delete users[userId];
+            broadcastMessage(json);
+        } else {
+            console.log("no user to disconnect")
+        }
+    } catch (e) {
+        console.log("error in discronect: " + e.message)
     }
 }
 
 // A new client connection request received
-wsServer.on('connection', function (connection) {
+wsServer.on('connection', function (connection, request) {
     // Generate a unique code for every user
     const userId = uuidv4();
     console.log('Recieved a new connection');
-
+    console.log("cnnection: " + request.headers.host)
     // Store the new connection and handle messages
     clients[userId] = connection;
     console.log(`${userId} connected.`);
     connection.on('message', (message) => handleMessage(message, userId));
     // User disconnected
-    connection.on('close', () => handleDisconnect(userId));
+    connection.on('close', () => {
+        handleDisconnect(userId)
+    });
 });

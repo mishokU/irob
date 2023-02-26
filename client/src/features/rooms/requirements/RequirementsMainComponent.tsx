@@ -3,20 +3,25 @@ import {ReactComponent as ApplyRequirementsIcon} from "../asserts/check_request.
 import createRequirementImg from "../asserts/create_48px.png"
 import useViewModel from "./RequirementsViewModel"
 import {RequirementTabs} from "./RequirementTabs";
-import {Dispatch} from "react";
+import {CreateRequirementsProps} from "../main/dialogs/createRequirement/CreateRequirementsDialog";
 
-export interface RequirementsMainProps {
-    isVisible: boolean,
-    setIsVisible: Dispatch<boolean>
-}
-
-export function RequirementsMainComponent({isVisible, setIsVisible}: RequirementsMainProps) {
-    const {requirements, onRequirementClick, onApplyRequirementClick, onDeclineRequirementClick, menu, setMenu} = useViewModel()
+export function RequirementsMainComponent({setIsVisibleState}: CreateRequirementsProps) {
+    const {
+        requirements,
+        onApplyRequirementClick,
+        onDeclineRequirementClick,
+        menu,
+        onRequirementClick,
+        setMenu
+    } = useViewModel(setIsVisibleState)
     return <div className="w-[300px] min-w-[300px] -mt-2">
         <div className="flex justify-between items-end">
             <div className="text-white text-2xl">Requirements</div>
             <div className="cursor-pointer" onClick={() => {
-                setIsVisible(!isVisible)
+                console.log("requirement create: " + setIsVisibleState)
+                setIsVisibleState({
+                    isVisible: true, requirement: null
+                })
             }}>
                 <img className="w-10 h-10" src={createRequirementImg} />
             </div>
@@ -28,12 +33,17 @@ export function RequirementsMainComponent({isVisible, setIsVisible}: Requirement
             {requirements.length === 0 && <div className="text-white text-xl select-none">
                 No requirements
             </div>}
-            {requirements.map((requirement) => (<div
-                key={requirement.requirementId}
-                className="p-2 h-max text-2xl rounded-lg text-white flex hover:bg-gray-800 p-2 cursor-pointer
+            {requirements.map((requirement, index) => (<div
+                key={index}
+                className="relative p-2 h-max text-2xl rounded-lg text-white flex hover:bg-gray-800 p-2 cursor-pointer
                 select-none justify-between items-center"
-                onClick={onRequirementClick}
             >
+                <div
+                    className="absolute w-3/5 h-full"
+                    onClick={() => {
+                        onRequirementClick(requirement)
+                    }}
+                />
                 <h1>{requirement.username}</h1>
                 <div className="flex space-x-2">
                     {requirement.isApplyButtonVisible && <div

@@ -4,8 +4,10 @@ import {RoomUserResponse} from "../../rooms/users/RoomUserResponse";
 
 export const RoomUsersApi = createApi({
     reducerPath: "irob/api/rooms/users", baseQuery: fetchBaseQuery({
-        baseUrl: "http://localhost:5000/room/users", headers: {
-            token: localStorage.getItem("jwtToken") || "",
+        baseUrl: "http://localhost:5000/room/users",
+        prepareHeaders: (headers, { getState }) => {
+            headers.set('token', localStorage.getItem("jwtToken") || "")
+            return headers
         },
     }), endpoints: (build) => ({
         getRoomUsers: build.mutation<RoomUserResponse[], string>({

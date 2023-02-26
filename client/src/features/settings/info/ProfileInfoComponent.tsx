@@ -17,21 +17,24 @@ export function ProfileInfoComponent() {
         handleUpdateProfile,
         handleUndoProfileData,
         setName,
-        setSurname,
-        uploadAvatarClick
+        imagePath,
+        uploadImagesResult,
+        setSurname
     } = useViewModel()
     return <div className="border-[#29303A] -mt-4 rounded-2xl p-4 text-white">
         <h1 className="text-3xl">{SettingsStrings.PublicProfile}</h1>
         <p>Your profile will be able to see the specified information</p>
         <p className="mt-4">Photo</p>
         <div className="flex items-center">
-            <img className="rounded-full bg-white w-[75px] h-[75px]" />
+            <img
+                id="profile_image"
+                src={imagePath} className="object-cover rounded-full bg-white w-[75px] h-[75px]" />
             <label
                 htmlFor="image_uploads"
                 className="rounded-full ml-6 bg-[#4a5058] pt-2 pl-4 pr-4 pb-2 cursor-pointer">Choose</label>
             <input
                 type="file"
-                onClick={uploadAvatarClick}
+                onChange={uploadImagesResult}
                 id="image_uploads"
                 name="image_uploads"
                 className="invisible"

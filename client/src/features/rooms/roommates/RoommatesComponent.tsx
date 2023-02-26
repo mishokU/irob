@@ -14,7 +14,7 @@ export function RoommatesComponent() {
                 className="text-start text-2xl rounded-lg truncate">
                 <div className="flex items-center cursor-pointer hover:bg-gray-800 p-2 justify-between">
                     <div className="flex space-x-4">
-                        <img className="rounded-full bg-white w-8 h-8" />
+                        <img src={user.avatar} className="object-cover rounded-full bg-white w-8 h-8" />
                         <h1 className="select-none overflow-hidden">{user.fullName}</h1>
                     </div>
                     {user.isAdmin && <img src={starImg} className="w-6 h-6" />}

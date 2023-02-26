@@ -1,5 +1,9 @@
 export interface GetRoomResponse {
     roomName: string,
     isAdmin: boolean,
-    roomId: string
+    roomId: string,
+    ownerId: number,
+    firstAgreement: boolean,
+    userId: number,
+    secondAgreement: boolean
 }

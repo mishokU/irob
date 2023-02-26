@@ -3,9 +3,9 @@ import {Listbox, Transition} from '@headlessui/react'
 import {CheckIcon, ChevronUpDownIcon} from '@heroicons/react/20/solid'
 
 const people = [
-    {id: 1, name: 'Film', unavailable: false},
-    {id: 2, name: 'Serial', unavailable: false},
-    {id: 3, name: 'Sport', unavailable: false},
+    {profileId: 1, name: 'Film', unavailable: false},
+    {profileId: 2, name: 'Serial', unavailable: false},
+    {profileId: 3, name: 'Sport', unavailable: false},
 ]
 
 export function ContentTypeDropDown() {

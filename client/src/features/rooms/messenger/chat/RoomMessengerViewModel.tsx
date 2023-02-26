@@ -1,16 +1,16 @@
 import {useEffect, useRef, useState} from "react";
 import useWebSocket from "react-use-websocket";
-import {WS_URL} from "../main/page/RoomViewModel";
+import {WS_URL} from "../../main/page/RoomViewModel";
 import {
     getEventType, getMessage, getRequirementMessage, isSendMessageEvent, RoomWebSocketTypes
-} from "../domain/HandleEventTypes";
-import {MessageModel} from "../domain/MessageModel";
+} from "../../domain/HandleEventTypes";
+import {MessageModel} from "../../domain/MessageModel";
 import {useSelector} from "react-redux";
-import {RootState} from "../../../data/store";
-import {MessagesUiConverter} from "./uiConverters/MessagesUiConverter";
-import {MessageUiModel} from "./models/MessageUiModel";
-import {useGetRoomMessagesMutation} from "../../../data/store/rooms/RoomMessengerApi";
-import {RoomMessageResponse} from "../../../data/rooms/messenger/RoomMessagesResponse";
+import {RootState} from "../../../../data/store";
+import {MessagesUiConverter} from "../uiConverters/MessagesUiConverter";
+import {MessageUiModel} from "../models/MessageUiModel";
+import {useGetRoomMessagesMutation} from "../../../../data/store/rooms/RoomMessengerApi";
+import {RoomMessageResponse} from "../../../../data/rooms/messenger/RoomMessagesResponse";
 
 export enum ScrollType {
     TOP, BOTTOM
@@ -20,6 +20,7 @@ export default function RoomMessengerViewModel() {
 
     const profileReducer = useSelector((state: RootState) => state.profile)
     const roomReducer = useSelector((state: RootState) => state.room)
+    const [isButtonVisible] = useState(roomReducer.isAdmin)
 
     const [messageList, setMessages] = useState<MessageUiModel[]>([]);
     const [offset, setOffset] = useState(0)
@@ -82,7 +83,7 @@ export default function RoomMessengerViewModel() {
             .then((data: any) => {
                 setLimit(data.limit)
                 return data.messages.map((message: RoomMessageResponse) => {
-                    return messagesUiConverter.convertServerModel(profileReducer.id, message)
+                    return messagesUiConverter.convertServerModel(profileReducer.profileId, message)
                 })
             })
             .then((uiMessages: MessageUiModel[]) => {
@@ -107,7 +108,7 @@ export default function RoomMessengerViewModel() {
                 message = getRequirementMessage(lastMessage)
             }
             if (message !== null) {
-                const uiMessage = messagesUiConverter.convert(profileReducer.id, message)
+                const uiMessage = messagesUiConverter.convert(profileReducer.profileId, message)
                 setMessages((prev) => prev.concat(uiMessage))
             }
             messagesEndRef?.current?.removeEventListener('DOMNodeInserted', scrollTopElement)
@@ -117,7 +118,7 @@ export default function RoomMessengerViewModel() {
     }, [lastMessage]);
 
     return {
-        messageList, messagesEndRef, onScroll
+        messageList, messagesEndRef, onScroll, isButtonVisible
     }
 
 }

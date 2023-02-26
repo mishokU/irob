@@ -5,6 +5,7 @@ import {MessageModel, MessageType} from "./MessageModel";
 export enum RoomWebSocketTypes {
     sendMessage = 'sendMessage',
     userJoined = 'userJoined',
+    createRoom = 'createRoom',
     userDisconnected = 'userDisconnected',
     createRequirement = 'createRequirement',
     applyRequirement = 'applyRequirement',
@@ -13,7 +14,7 @@ export enum RoomWebSocketTypes {
 
 export function getUserFromServer(user: any) {
     const newUser: RoomUserResponse = {
-        id: user.id, fullName: user.name + " " + user.surname, isAdmin: false
+        id: user.profileId, fullName: user.fullName, avatar: user.avatar, isAdmin: user.isAdmin
     }
     return newUser
 }
@@ -26,7 +27,7 @@ export function getEventType(lastMessage: any) {
 export function getUser(lastMessage: any) {
     let json = JSON.parse(lastMessage.data)
     const user: RoomUserResponse = {
-        id: json.data.id, fullName: json.data.username, isAdmin: json.data.isAdmin
+        id: json.data.id, fullName: json.data.username, isAdmin: json.data.isAdmin, avatar: json.data.avatar
     }
     return user
 }
@@ -53,10 +54,13 @@ function createMessageModel(data: any, type: MessageType): MessageModel {
     }
 }
 
-export function getRequirement(lastMessage: any): RoomRequirementModel {
+export function getRequirement(lastMessage: any, userId: number): RoomRequirementModel {
     let data = JSON.parse(lastMessage.data).data
     return {
-        username: data.username, requirementId: data.requirementId, isApplyButtonVisible: true
+        username: data.username,
+        requirementId: data.requirementId,
+        isApplyButtonVisible: data.userId !== userId,
+        isAlive: true
     }
 }
 
@@ -67,7 +71,7 @@ export function isSendMessageEvent(message: any) {
 
 export function isUserEvent(message: any) {
     let event = JSON.parse(message.data);
-    return event.type === RoomWebSocketTypes.userJoined || event.type === RoomWebSocketTypes.userDisconnected;
+    return event.type === RoomWebSocketTypes.userJoined || event.type === RoomWebSocketTypes.userDisconnected || event.type === RoomWebSocketTypes.createRoom;
 }
 
 export function isRequirementEvent(message: any) {

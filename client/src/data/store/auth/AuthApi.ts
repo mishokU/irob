@@ -3,16 +3,17 @@ import {RegistrationRequest} from "../../../features/auth/domain/models/Registra
 import {LoginRequest} from "../../../features/auth/domain/models/LoginRequest";
 import {AuthResponse} from "../../models/AuthResponse";
 import {LicensesResponse} from "../../models/LicensesResponse";
+import {ProfileResponse} from "../../models/ProfileResponse";
 
 export const AuthApi = createApi({
     reducerPath: 'irob/api/auth', baseQuery: fetchBaseQuery({
         baseUrl: 'http://localhost:5000/auth'
     }), endpoints: build => ({
-        registration: build.mutation<string, RegistrationRequest>({
+        registration: build.mutation<AuthResponse, RegistrationRequest>({
             query: (body) => ({
                 url: `/registration`, method: `POST`, body
             }),
-            transformResponse: (response: AuthResponse) => response.token,
+            transformResponse: (response: AuthResponse) => response,
             transformErrorResponse(baseQueryReturnValue: unknown, meta: unknown, arg: unknown): string {
                 console.log(`response: ${baseQueryReturnValue}`)
                 return baseQueryReturnValue as string
@@ -28,16 +29,11 @@ export const AuthApi = createApi({
                 return baseQueryReturnValue as string
             }
         }),
-        getUser: build.mutation<string, void>({
+        getUserByCredentials: build.mutation<ProfileResponse, void>({
             query: (body) => ({
-                url: `profile`, method: `POST`, body
+                url: `/search`, method: `POST`, body
             })
         }),
-        getUserLicenses: build.mutation<any, LicensesResponse>({
-            query: (type: string) => ({
-                url: `profile/licenses/${type}`, method: `GET`
-            })
-        })
     })
 })
 

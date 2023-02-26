@@ -20,25 +20,35 @@ module.exports = {
         }
     },
     getRoomRequirements: async function (roomId) {
-        const data = await db.query(`
-            SELECT * from ${ROOM_REQUIREMENTS_TABLE_NAME}
-            WHERE room_id= $1`, [roomId]
-        )
-        return await Promise.map(data.rows, async (requirement) => {
-            const user = await userController.getUserById(requirement.user_id)
-            const fullName = user.name + " " + user.surname
-            return {
-                username: fullName,
-                requirementId: requirement.id
+        try {
+            const data = await db.query(`
+                SELECT * from ${ROOM_REQUIREMENTS_TABLE_NAME}
+                WHERE room_id= $1`, [roomId]
+            )
+            if(data.rows.length === 0){
+                return {}
+            } else {
+                return await Promise.map(data.rows, async (requirement) => {
+                    const user = await userController.getUserById(requirement.user_id)
+                    const fullName = user.name + " " + user.surname
+                    return {
+                        username: fullName,
+                        isAlive: requirement.is_alive,
+                        userId: user.id,
+                        requirementId: requirement.id
+                    }
+                }, {concurrency: 2})
             }
-        }, {concurrency: data.rows.length})
+        } catch (e){
+            console.log("load room requirements: " + e.message)
+        }
     },
     getRequirement: async function (requirementId) {
         const data = await db.query(`
             SELECT * from ${ROOM_REQUIREMENTS_TABLE_NAME}
             WHERE id= $1`, [requirementId]
         )
-        return data.rows
+        return data.rows[0]
     },
     applyRequirement: async function (requirementId) {
         await db.query(`
@@ -51,5 +61,8 @@ module.exports = {
             DELETE FROM ${ROOM_REQUIREMENTS_TABLE_NAME} WHERE id= $1`, [requirementId]
         )
     },
+    getRequiredRequirements: async function (roomId){
+
+    }
 
 }

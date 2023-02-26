@@ -5,8 +5,10 @@ import {UpdateProfile} from "../../../features/settings/domain/models/UpdateProf
 
 export const ProfileApi = createApi({
     reducerPath: "irob/api/profile", baseQuery: fetchBaseQuery({
-        baseUrl: "http://localhost:5000/profile", headers: {
-            token: localStorage.getItem("jwtToken") || "",
+        baseUrl: "http://localhost:5000/profile",
+        prepareHeaders: (headers, { getState }) => {
+            headers.set('token', localStorage.getItem("jwtToken") || "")
+            return headers
         },
     }), endpoints: (build) => ({
         getProfile: build.mutation<ProfileResponse, void>({

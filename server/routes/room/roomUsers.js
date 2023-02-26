@@ -1,6 +1,7 @@
 const {Router} = require("express");
 const roomUserController = require("../../controllers/RoomUsersController");
 const userController = require("../../controllers/UserController");
+const roomController = require("../../controllers/RoomControllers")
 var Promise = require('bluebird');
 
 const roomUsersRouter = new Router()
@@ -25,13 +26,17 @@ async function getUsers(request, result) {
         const token = request.get('token')
         const roomId = request.params.roomId;
         const roomUsers = await roomUserController.getRoomUsers(token, roomId)
-        console.log("room users ids: " + roomUsers)
+        const room = await roomController.getRoom(roomId)
         const userModels = await Promise.map(roomUsers, async (roomUser) => {
-            return userController.getUserById(roomUser.user_id)
-                .catch(e => console.log(e));
+            const user = await userController.getUserById(roomUser.user_id).catch(e => console.log(e));
+            return {
+                profileId: user.id,
+                fullName: user.name + " " + user.surname,
+                avatar: user.avatar,
+                isAdmin: user.id === room.owner_id || user.id === room.user_id
+            }
         }, {concurrency: 1});
 
-        console.log("users: " + userModels)
         result.status(200).json({
             success: true,
             users: userModels

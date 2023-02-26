@@ -43,7 +43,8 @@ export default function RoommatesViewModel() {
             type: RoomWebSocketTypes.userJoined,
             username: profileReducer.fullName,
             roomId: roomReducer.roomId,
-            userId: profileReducer.id
+            avatar: profileReducer.avatar,
+            userId: profileReducer.profileId
         });
     }, [])
 
@@ -63,7 +64,6 @@ export default function RoommatesViewModel() {
     }
 
     function removeUser(user: RoomUserResponse) {
-        console.log("user id: " + user.id)
         const newUsers = users.filter((item: RoomUserResponse) => item.id !== user.id)
         addUser(newUsers);
     }

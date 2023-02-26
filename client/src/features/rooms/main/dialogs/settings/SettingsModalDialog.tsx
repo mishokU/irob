@@ -4,10 +4,13 @@ import {SettingsProps} from "./SettingsProps";
 import {ReactComponent as CloseModal} from "../../../asserts/close_black_24dp.svg";
 import {buttonTheme, inputStyle} from "../../../../../themes/Themes";
 import useViewModel from "./SettingsViewModel"
+import {UserSettingsModel} from "./UserSettingsModel";
 
 export function SettingsModalDialog({isVisible, setIsVisible}: SettingsProps) {
-    const {title, setTitle, updateRoomClick} = useViewModel({isVisible, setIsVisible})
-
+    const {title, setTitle, search, setSearch, users, onUserClick, updateRoomClick} = useViewModel({
+        isVisible,
+        setIsVisible
+    })
     function onClose() {
         setIsVisible(false)
     }
@@ -48,13 +51,33 @@ export function SettingsModalDialog({isVisible, setIsVisible}: SettingsProps) {
                                         <CloseModal />
                                     </button>
                                 </div>
-                                <div>
-                                    <input
-                                        className={inputStyle + " bg-transparent w-full w-full flex"}
-                                        placeholder="Room title"
-                                        value={title}
-                                        onChange={(titleField) => setTitle(titleField.target.value)}
-                                    />
+                                <div className="space-y-6">
+                                    <div className="space-y-2">
+                                        <h1>Room title</h1>
+                                        <input
+                                            className={inputStyle + " bg-transparent w-full w-full flex"}
+                                            placeholder="title"
+                                            value={title}
+                                            onChange={(titleField) => setTitle(titleField.target.value)}
+                                        />
+                                    </div>
+                                    <div className="space-y-2">
+                                        <h1>Room privacy</h1>
+                                        <h2>Find second person who will be second side of a deal, full email</h2>
+                                        <input
+                                            className={inputStyle + " bg-transparent w-full w-full flex"}
+                                            placeholder="Search by email"
+                                            value={search}
+                                            onChange={(searchField) => setSearch(searchField.target.value)}
+                                        />
+                                        <ul className="list-none w-full max-h-[200px] bg-black">
+                                            {users?.map((user: UserSettingsModel) => (<li
+                                                key={user.userId}
+                                                onClick={() => onUserClick(user)}
+                                                className="pt-2 pl-4 pr-4 pb-2 border-[#29303A] border-2 rounded-lg cursor-pointer"
+                                            >{user.username}</li>))}
+                                        </ul>
+                                    </div>
                                 </div>
                                 <button className={buttonTheme + " w-full"} onClick={updateRoomClick}>Update</button>
                             </div>

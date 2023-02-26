@@ -23,7 +23,6 @@ async function getRoomMessages(request, result){
         const limit = await roomMessagesController.getRoomMessagesCount(roomId)
         const data = await roomMessagesController.getRoomMessages(roomId, 15, offset)
 
-        console.log("limit: " + limit)
         const newOffset = Number(offset) + 15
 
         result.status(200).json({

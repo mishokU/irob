@@ -1,6 +1,7 @@
 const {Router} = require("express");
 
 const roomRequirementsController = require("../../controllers/RoomRequirementsController")
+
 const roomRequirementsRouter = new Router()
 
 // export our router to be mounted by the parent application
@@ -14,12 +15,20 @@ roomRequirementsRouter.post('/decline', (request, result) => {
     return deleteRequirement(request, result)
 })
 
-roomRequirementsRouter.get('/getAll/:roomId', (request, result) => {
+roomRequirementsRouter.get('/getAll', (request, result) => {
     return getRoomRequirements(request, result)
 })
 
 roomRequirementsRouter.post('/create', (request, result) => {
     return createRoomRequirement(request, result)
+})
+
+roomRequirementsRouter.get('/get', (request, result) => {
+    return getRoomRequirement(request, result)
+})
+
+roomRequirementsRouter.get('/getRequiredRequirementCount', (request, result) => {
+    return getRequiredRequirementCount(request, result)
 })
 
 async function createRoomRequirement(request, result) {
@@ -36,6 +45,22 @@ async function createRoomRequirement(request, result) {
         result.status(500).json({
             success: false,
             message: "Error in create room requirements: " + e.message
+        })
+    }
+}
+
+async function getRoomRequirement(request, result) {
+    try {
+        const requirementId = request.query.requirementId;
+        const requirement = await roomRequirementsController.getRequirement(requirementId)
+        result.status(200).json({
+            requirement: requirement
+        })
+    } catch (e) {
+        console.log(e)
+        result.status(500).json({
+            success: false,
+            message: "Error in getting room requirements: " + e.message
         })
     }
 }
@@ -84,6 +109,19 @@ async function deleteRequirement(request, result) {
         result.status(500).json({
             success: false,
             message: "Error in apply room requirement: " + e.message
+        })
+    }
+}
+
+async function getRequiredRequirementCount(request, result){
+    try {
+        const {roomId} = request.body
+        const requiredCount = await roomRequirementsController.getRequiredRequirements(roomId)
+    } catch (e){
+        console.log(e)
+        result.status(500).json({
+            success: false,
+            message: "Error in get room requirement count: " + e.message
         })
     }
 }

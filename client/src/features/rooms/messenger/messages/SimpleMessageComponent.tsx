@@ -6,17 +6,19 @@ export function SimpleMessageComponent({message}: MessageProps) {
     return <div
         className={message.isMyMessage ? myMessageStyle : otherMessageStyle}>
         <div className="flex space-x-4">
-            {message.isMyMessage && <img className="min-w-[36px] w-[36px] h-[36px] bg-white rounded-full" />}
+            {message.isMyMessage && <img
+                src={message.avatar}
+                className="min-w-[36px] object-cover w-[36px] h-[36px] bg-white rounded-full" />}
             <div>
-                <div className="flex space-x-2 items-center">
+                <div className={message.isMyMessage ? "flex space-x-2 items-center" : "flex space-x-2 items-center justify-end text-end"}>
                     <h2 className="text-yellow-300">{message.username}</h2>
                     <p className="text-sm text-gray-400">{message.date}</p>
                 </div>
                 <p className={message.isMyMessage ? "" : "text-end"}>{message.content}</p>
             </div>
             {!message.isMyMessage && <img
-                className="min-w-[36px] w-[36px] h-[36px] bg-white rounded-full"
                 src={message.avatar}
+                className="min-w-[36px] w-[36px] h-[36px] object-cover bg-white rounded-full"
             />}
         </div>
     </div>

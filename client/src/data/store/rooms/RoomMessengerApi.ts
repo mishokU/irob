@@ -4,8 +4,10 @@ import {GetRoomMessagesRequest} from "../../../features/rooms/domain/GetRoomMess
 
 export const RoomMessengerApi = createApi({
     reducerPath: "irob/api/room/messages", baseQuery: fetchBaseQuery({
-        baseUrl: "http://localhost:5000/room/messages", headers: {
-            token: localStorage.getItem("jwtToken") || "",
+        baseUrl: "http://localhost:5000/room/messages",
+        prepareHeaders: (headers, { getState }) => {
+            headers.set('token', localStorage.getItem("jwtToken") || "")
+            return headers
         },
     }), endpoints: (build) => ({
         getRoomMessages: build.mutation<RoomMessagesPagingResponse, GetRoomMessagesRequest>({

@@ -1,13 +1,18 @@
-import {RoomMessengerProps} from "../../../messenger/RoomMessengerProps";
-import {Fragment} from "react";
+import {Dispatch, Fragment} from "react";
 import {Dialog, Transition} from "@headlessui/react";
 import {CreateRequirementFormPage} from "./CreateRequirementFormPage";
+import {RequirementState} from "../../page/RequirementState";
 
-export function CreateRequirementsDialog({isVisible, setIsVisible}: RoomMessengerProps) {
+export interface CreateRequirementsProps {
+    isVisibleState: RequirementState
+    setIsVisibleState: Dispatch<RequirementState>
+}
+
+export function CreateRequirementsDialog({isVisibleState, setIsVisibleState}: CreateRequirementsProps) {
     return <div>
-        <Transition appear show={isVisible} as={Fragment}>
+        <Transition appear show={isVisibleState.isVisible} as={Fragment}>
             <Dialog as="div" className="relative z-10" onClose={() => {
-                setIsVisible(false)
+                setIsVisibleState({isVisible: false, requirement: null})
             }}>
                 <Transition.Child
                     as={Fragment}
@@ -33,8 +38,10 @@ export function CreateRequirementsDialog({isVisible, setIsVisible}: RoomMessenge
                         >
                             <Dialog.Panel className="border-2 border-[#29303A] transform overflow-hidden rounded-2xl
                             bg-[#0E1420] p-6 w-[800px] text-left align-middle shadow-xl transition-all">
-                                <h1 className="text-3xl font-bold">Requirements creation</h1>
-                                <CreateRequirementFormPage setIsVisible={setIsVisible}/>
+                                <CreateRequirementFormPage
+                                    isVisibleState={isVisibleState}
+                                    setIsVisibleState={setIsVisibleState}
+                                />
                             </Dialog.Panel>
                         </Transition.Child>
                     </div>

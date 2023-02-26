@@ -1,4 +1,9 @@
 export interface RoomResponse {
-    room_id: string,
-    owner_id: string
+    roomId: string
+    isActive: boolean
+    title: string
+    ownerName: string
+    lastMessage: string
+    lastMessageDate: string
+    requirements: string
 }

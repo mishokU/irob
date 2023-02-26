@@ -1,8 +1,8 @@
-const db = require('../db');
+const db = require('../../db');
 const {Router} = require("express");
 
 const userRouter = new Router()
-const userController = require("../controllers/UserController");
+const userController = require("../../controllers/UserController");
 
 // export our router to be mounted by the parent application
 module.exports = userRouter
@@ -28,6 +28,7 @@ async function updateUser(request, result) {
         const website = request.body.website
         const location = request.body.location
         const languages = request.body.languages
+        const avatar = request.body.avatar
         await userController.updateUser(
             name,
             surname,
@@ -35,6 +36,7 @@ async function updateUser(request, result) {
             website,
             location,
             languages,
+            avatar,
             token
         )
         result.status(200).json({
@@ -44,7 +46,7 @@ async function updateUser(request, result) {
         console.log(e)
         result.status(500).json({
             success: false,
-            message: "Error in get user profile"
+            message: "Error in get user profile: " + e.message
         })
     }
 }

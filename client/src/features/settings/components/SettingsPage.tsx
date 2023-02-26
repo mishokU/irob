@@ -2,14 +2,19 @@ import {ProfileInfoComponent} from "../info/ProfileInfoComponent";
 import {MenuDelegateHandler} from "../delegates/MenuDelegateHandler";
 import {SettingsMenu} from "../delegates/SettingsMenu";
 import {SettingsStrings} from "../strings/SettingsStrings";
+import backImg from "../../../ui/assets/left_24px.png";
 import {AccountManagementComponent} from "../accountManagement/AccountManagementComponent";
 
 export function SettingsPage() {
-    const {activeMenu, setActiveMenu} = MenuDelegateHandler()
+    const {activeMenu, setActiveMenu, onBackClick} = MenuDelegateHandler()
     const menuStyle = "p-3 hover:border-[#4a5058] hover:text-white rounded-xl border-2 border-transparent"
     const menuStyleActive = "p-3 bg-[#1E252F] text-white rounded-xl border-[#29303A] border-2"
     return <div className="flex ml-12 mt-8 mt-24">
         <div className="w-[16em] text-white min-w-[14em]">
+            <div className="flex space-x-2 pb-4" onClick={onBackClick}>
+                <img src={backImg} />
+                <p className="text-xl text-white underline cursor-pointer">Back to profile</p>
+            </div>
             <div className="text-base text-gray-400 space-y-3 cursor-pointer">
                 <div className={activeMenu === SettingsMenu.PROFILE ? menuStyleActive : menuStyle} onClick={() => {
                     setActiveMenu(SettingsMenu.PROFILE)

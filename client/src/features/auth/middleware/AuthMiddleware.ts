@@ -5,6 +5,7 @@ function AuthMiddleware() {
     }
 
     function saveToken(token: string) {
+        console.log("new token: " + token)
         localStorage.setItem("jwtToken", token)
     }
 

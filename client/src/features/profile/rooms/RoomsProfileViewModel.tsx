@@ -8,7 +8,7 @@ import {updateRoomId} from "../../../data/slices/RoomSlice";
 
 export default function RoomsProfileViewModel() {
 
-    const [rooms, setRooms] = useState<string[]>([]);
+    const [rooms, setRooms] = useState<RoomResponse[]>([]);
 
     const [getRoomsMutation] = useGetRoomsMutation()
 
@@ -19,12 +19,11 @@ export default function RoomsProfileViewModel() {
         async function fetchData() {
             return await getRoomsMutation().unwrap()
         }
-
         fetchData()
             .catch(e => console.log("load rooms error: " + e))
             .then(data => {
                 if (data !== undefined) {
-                    data.map((room: RoomResponse) => setRooms((prev) => prev.concat(room.room_id)))
+                    data.map((room: RoomResponse) => setRooms((prev) => prev.concat(room)))
                 }
             });
     }, [getRoomsMutation])

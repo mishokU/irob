@@ -10,13 +10,15 @@ import {WS_URL} from "../main/page/RoomViewModel";
 import {getEventType, getRequirement, isRequirementEvent, RoomWebSocketTypes} from "../domain/HandleEventTypes";
 import {RequirementMenuHandlerDelegate} from "./RequirementMenuHandlerDelegate";
 import {RequirementsMenu} from "./RequirementsMenu";
+import {RequirementState} from "../main/page/RequirementState";
 
-export default function RequirementsViewModel() {
+export default function RequirementsViewModel(setIsVisibleState: (value: RequirementState) => void) {
 
     const [requirements, setRequirements] = useState<RoomRequirementModel[]>([])
     const [fullRequirements, setFullRequirements] = useState<RoomRequirementModel[]>([])
 
     const roomReducer = useSelector((state: RootState) => state.room)
+    const profileReducer = useSelector((state: RootState) => state.profile)
 
     const [getRequirementsMutation] = useGetRequirementsMutation()
     const [applyRequirementMutation] = useApplyRequirementMutation()
@@ -43,41 +45,41 @@ export default function RequirementsViewModel() {
                 const requirements = data.requirements.map((requirement: any) => {
                     return {
                         username: requirement.username,
-                        isApplyButtonVisible: requirement.is_alive,
-                        requirementId: requirement.requirementId
+                        isApplyButtonVisible: requirement.isAlive && requirement.userId !== profileReducer.profileId,
+                        requirementId: requirement.requirementId,
+                        isAlive: requirement.isAlive
                     }
                 })
                 updateRequirements(requirements)
-                filterRequirements()
             })
-    }, [getRequirementsMutation, roomReducer.roomId])
+    }, [])
 
     useEffect(() => {
         if (lastMessage !== null) {
             const type = getEventType(lastMessage)
             if (type === RoomWebSocketTypes.createRequirement) {
-                const requirement = getRequirement(lastMessage)
+                const requirement = getRequirement(lastMessage, profileReducer.profileId)
                 setRequirements((prev) => prev.concat(requirement));
                 setFullRequirements((prev) => prev.concat(requirement));
             } else if (type === RoomWebSocketTypes.applyRequirement) {
-                const requirementId = getRequirement(lastMessage).requirementId
+                const requirementId = getRequirement(lastMessage, profileReducer.profileId).requirementId
                 updateRequirements(requirements.map((requirement) => {
-                    if(requirementId === requirement.requirementId){
-                        requirement.isApplyButtonVisible = false
+                    if (requirementId === requirement.requirementId) {
+                        requirement.isAlive = false
                     }
                     return requirement
                 }))
             } else if (type === RoomWebSocketTypes.declineRequirement) {
-                removeRequirement(getRequirement(lastMessage).requirementId)
+                removeRequirement(getRequirement(lastMessage, profileReducer.profileId).requirementId)
             }
         }
     }, [lastMessage])
 
-    function filterRequirements(){
+    function filterRequirements() {
         if (menu === RequirementsMenu.APPLIED) {
-            setRequirements(fullRequirements.filter((requirement) => !requirement.isApplyButtonVisible))
+            setRequirements(fullRequirements.filter((requirement) => !requirement.isAlive))
         } else {
-            setRequirements(fullRequirements.filter((requirement) => requirement.isApplyButtonVisible))
+            setRequirements(fullRequirements.filter((requirement) => requirement.isAlive))
         }
     }
 
@@ -87,13 +89,17 @@ export default function RequirementsViewModel() {
         setFullRequirements(filteredRequirements)
     }
 
-    function updateRequirements(requirements: RoomRequirementModel[]){
-        setRequirements(requirements)
+    function updateRequirements(requirements: RoomRequirementModel[]) {
         setFullRequirements(requirements)
+        if(menu === RequirementsMenu.APPLIED){
+            setRequirements(requirements.filter((requirement) => !requirement.isAlive))
+        } else {
+            setRequirements(requirements.filter((requirement) => requirement.isAlive))
+        }
     }
 
-    const onRequirementClick = () => {
-
+    function onRequirementClick(requirement: RoomRequirementModel) {
+        setIsVisibleState({isVisible: true, requirement: requirement})
     }
 
     const onApplyRequirementClick = async (id: number) => {

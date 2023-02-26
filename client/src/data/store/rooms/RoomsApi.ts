@@ -7,11 +7,16 @@ import {GetRoomsResponse} from "../../rooms/room/GetRoomsResponse";
 import {RoomResponse} from "../../rooms/room/RoomResponse";
 import {UpdateRoomRequest} from "../../../features/rooms/domain/UpdateRoomRequest";
 import {UpdateRoomResult} from "../../rooms/room/UpdateRoomResult";
+import {HandleAgreementRequest} from "../../../features/rooms/domain/HandleAgreementRequest";
+import {MakeDealResponse} from "../../rooms/users/MakeDealResponse";
+import {GetRoomRequest} from "../../../features/rooms/domain/GetRoomRequest";
 
 export const RoomsApi = createApi({
     reducerPath: "irob/api/rooms", baseQuery: fetchBaseQuery({
-        baseUrl: "http://localhost:5000/rooms", headers: {
-            token: localStorage.getItem("jwtToken") || "",
+        baseUrl: "http://localhost:5000/rooms",
+        prepareHeaders: (headers, { getState }) => {
+            headers.set('token', localStorage.getItem("jwtToken") || "")
+            return headers
         },
     }), endpoints: (build) => ({
         createRoom: build.mutation<string, CreateRoomRequest>({
@@ -24,7 +29,9 @@ export const RoomsApi = createApi({
             },
         }), getRoom: build.mutation<GetRoomResponse, string>({
             query: (roomId) => ({
-                url: `/get/${roomId}`, method: "GET", params: {roomId: roomId}
+                url: `/get/${roomId}`,
+                method: "GET",
+                params: {roomId: roomId}
             }),
             transformResponse: (response: GetRoomResponse) => response,
             transformErrorResponse(meta: unknown, arg: unknown): string {
@@ -51,13 +58,26 @@ export const RoomsApi = createApi({
                 url: "/update", method: `POST`, body
             }),
             transformResponse: (response: UpdateRoomResult) => response,
-            transformErrorResponse(baseQueryReturnValue: unknown, meta: unknown, arg: unknown): boolean {
-                return false;
-            },
+            transformErrorResponse(baseQueryReturnValue: unknown, meta: unknown, arg: unknown): string {
+                return "Error while updating room";
+            }
+        }), handleAgreement: build.mutation<MakeDealResponse, HandleAgreementRequest>({
+            query: (body) => ({
+                url: "/agreement", method: `POST`, body
+            }),
+            transformResponse: (response: MakeDealResponse) => response,
+            transformErrorResponse(baseQueryReturnValue: unknown, meta: unknown, arg: unknown): string {
+                return "Error while updating room";
+            }
         }),
     }),
 });
 
 export const {
-    useCreateRoomMutation, useDeleteRoomMutation, useGetRoomMutation, useGetRoomsMutation, useUpdateRoomMutation
+    useCreateRoomMutation,
+    useDeleteRoomMutation,
+    useGetRoomMutation,
+    useGetRoomsMutation,
+    useUpdateRoomMutation,
+    useHandleAgreementMutation
 } = RoomsApi;

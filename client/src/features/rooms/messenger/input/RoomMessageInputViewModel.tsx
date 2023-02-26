@@ -24,7 +24,7 @@ export default function RoomMessageInputViewModel() {
                     type: RoomWebSocketTypes.sendMessage,
                     username: profileReducer.name + " " + profileReducer.surname,
                     avatar: profileReducer.avatar,
-                    userId: profileReducer.id,
+                    userId: profileReducer.profileId,
                     roomId: roomReducer.roomId,
                     messageType: MessageType.CONTENT,
                     content: singleMessage

@@ -13,50 +13,55 @@ const generatePassword = (
 
 module.exports = {
     getUser: async function (token) {
-        const data = await db.query(`SELECT * FROM users WHERE token= $1;`, [token])
-        return data.rows[0]
+        try {
+            const data = await db.query(`SELECT * FROM users WHERE token= $1;`, [token])
+            return data.rows[0]
+        } catch (e) {
+            console.log("get user error: " + e.message)
+            console.log("token: " + token)
+        }
     },
-    getUserById: async function (userId){
+    getUserById: async function (userId) {
         const data = await db.query(`SELECT * FROM users WHERE id= $1;`, [userId])
         return data.rows[0]
     },
+    searchUsers: async function (query) {
+        const users = await db.query(`SELECT * from users WHERE name= $1 OR surname= $1 OR email= $1`, [query])
+        return users.rows
+    },
     updatePassword: function (token, newPassword) {
-        bcrypt.hash(newPassword, 10, (error, hash) => {
-            db.query(`UPDATE users SET password = $2 WHERE token= $1;`, [token, hash])
+        bcrypt.hash(newPassword, 10, async (error, hash) => {
+            await db.query(`UPDATE users SET password = $2 WHERE token= $1;`, [token, hash])
         })
     },
     updateToken: async function (token, email) {
         await db.query(`UPDATE users SET token= $1 WHERE email= $2;`, [token, email])
     },
-    updateUser: async function (name, surname, description, website, location, languages, token) {
+    updateUser: async function (name, surname, description, website, location, languages, avatar, token) {
         await db.query(`UPDATE users SET 
             name = $2,
             surname = $3,
             description = $4,
             website = $5,
             location = $6,
-            languages = $7
-        WHERE token = $1;`, [token, name, surname, description, website, location, languages]);
+            languages = $7,
+            avatar = $8
+        WHERE token = $1;`, [token, name, surname, description, website, location, languages, avatar]);
         return "Данные обновлены"
     },
     isUserExists: async function (email) {
         const user = await db.query(`SELECT * FROM users WHERE email= $1`, [email])
         return user.rows.length !== 0
     },
-    createUser: async function (fullName, email) {
-        const password = generatePassword()
-        const age = "0"
-        const weight = "0"
-        const height = "0"
-        const username = fullName.split(" ").at(0)
-        const surname = fullName.split(" ").at(1)
-        const token = "0"
-        bcrypt.hash(password, 10, (error, hash) => {
-            db.query(`
-                        INSERT INTO users (email, password, username, age, weight, height, surname, token)
-                        VALUES ('${email}', '${hash}', '${username}','${age}', '${weight}', '${height}','${surname}', '${token}')
-                    `)
-        })
-        return password
+    createUser: async function (hash, email, token) {
+        const userId = await db.query(
+            `
+                INSERT INTO users
+                (name, surname, avatar, description, website, nickname, password, email, token, location, languages, followers)
+                VALUES ('','', '', '', '', '', '${hash}', '${email}', '${token}', '', '', '${0}')
+                RETURNING id
+             `
+        )
+        return await this.getUserById(userId.rows[0].id)
     }
 }

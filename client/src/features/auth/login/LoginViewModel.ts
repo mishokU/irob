@@ -29,8 +29,6 @@ export default function LoginViewModel(errorState: (value: string) => void) {
         try {
             if (isEmailAndPasswordValid(email, password)) {
                 const payload = await login({email, password}).unwrap()
-                console.log("new token: " + payload.token)
-
                 authMiddleware.saveToken(payload.token)
                 dispatch(updateProfile({
                     user: payload.user
