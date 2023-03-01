@@ -7,23 +7,18 @@ import {CreateRequirementsProps} from "../main/dialogs/createRequirement/CreateR
 
 export function RequirementsMainComponent({setIsVisibleState}: CreateRequirementsProps) {
     const {
-        requirements,
-        onApplyRequirementClick,
-        onDeclineRequirementClick,
-        menu,
-        onRequirementClick,
-        setMenu
+        requirements, onApplyRequirementClick, onDeclineRequirementClick, menu, onRequirementClick, setMenu, roomReducer
     } = useViewModel(setIsVisibleState)
-    return <div className="w-[300px] min-w-[300px] -mt-2">
+    return <div className={!roomReducer.isFinished ? "w-[300px] min-w-[300px] -mt-2" : "w-[300px] min-w-[300px]"}>
         <div className="flex justify-between items-end">
             <div className="text-white text-2xl">Requirements</div>
-            <div className="cursor-pointer" onClick={() => {
-                console.log("requirement create: " + setIsVisibleState)
-                setIsVisibleState({
-                    isVisible: true, requirement: null
-                })
-            }}>
-                <img className="w-10 h-10" src={createRequirementImg} />
+            <div className={roomReducer.isFinished ? "pointer-events-none cursor-none select-none" : "cursor-pointer"}
+                 onClick={() => {
+                     setIsVisibleState({
+                         isVisible: true, requirement: null
+                     })
+                 }}>
+                {!roomReducer.isFinished && <img className="w-10 h-10" src={createRequirementImg}  alt="photo"/>}
             </div>
         </div>
         <RequirementTabs menu={menu} setMenu={setMenu} />
@@ -33,35 +28,37 @@ export function RequirementsMainComponent({setIsVisibleState}: CreateRequirement
             {requirements.length === 0 && <div className="text-white text-xl select-none">
                 No requirements
             </div>}
-            {requirements.map((requirement, index) => (<div
+            {requirements.length > 0 && requirements.map((requirement, index) => (<div
                 key={index}
                 className="relative p-2 h-max text-2xl rounded-lg text-white flex hover:bg-gray-800 p-2 cursor-pointer
                 select-none justify-between items-center"
             >
                 <div
-                    className="absolute w-3/5 h-full"
+                    className={!roomReducer.isFinished ? "absolute w-3/5 h-full" : "absolute w-full h-full"}
                     onClick={() => {
                         onRequirementClick(requirement)
                     }}
                 />
                 <h1>{requirement.username}</h1>
-                <div className="flex space-x-2">
-                    {requirement.isApplyButtonVisible && <div
-                        className="border rounded bg-green-600 hover:bg-green-500"
-                        onClick={() => {
-                            onApplyRequirementClick(requirement.requirementId)
-                        }}>
-                        <ApplyRequirementsIcon />
-                    </div>}
-                    <div
-                        className="border rounded bg-red-600 hover:bg-red-500"
-                        onClick={() => {
-                            onDeclineRequirementClick(requirement.requirementId)
-                        }}
-                    >
-                        <DeleteRequirementsIcon />
+                {
+                    !roomReducer.isFinished && <div className="flex space-x-2">
+                        {requirement.isApplyButtonVisible && <div
+                            className="border rounded bg-green-600 hover:bg-green-500"
+                            onClick={() => {
+                                onApplyRequirementClick(requirement.requirementId)
+                            }}>
+                            <ApplyRequirementsIcon />
+                        </div>}
+                        <div
+                            className="border rounded bg-green-600 hover:bg-green-500"
+                            onClick={() => {
+                                onDeclineRequirementClick(requirement.requirementId)
+                            }}
+                        >
+                            <DeleteRequirementsIcon />
+                        </div>
                     </div>
-                </div>
+                }
             </div>))}
         </div>
     </div>

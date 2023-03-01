@@ -7,7 +7,8 @@ const initialState = {
     ownerId: 0,
     userId: 0,
     firstAgreement: false,
-    secondAgreement: false
+    secondAgreement: false,
+    isFinished: false
 }
 
 export const roomSlice = createSlice({
@@ -21,6 +22,7 @@ export const roomSlice = createSlice({
                 state.userId = action.payload.userId
                 state.firstAgreement = action.payload.firstAgreement
                 state.secondAgreement = action.payload.secondAgreement
+                state.isFinished = state.firstAgreement === true && state.secondAgreement === true
             }
         }, updateRoomId: (state, action) => {
             state.roomId = action.payload

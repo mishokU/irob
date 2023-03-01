@@ -20,7 +20,6 @@ export default function RoomMessengerViewModel() {
 
     const profileReducer = useSelector((state: RootState) => state.profile)
     const roomReducer = useSelector((state: RootState) => state.room)
-    const [isButtonVisible] = useState(roomReducer.isAdmin)
 
     const [messageList, setMessages] = useState<MessageUiModel[]>([]);
     const [offset, setOffset] = useState(0)
@@ -118,7 +117,7 @@ export default function RoomMessengerViewModel() {
     }, [lastMessage]);
 
     return {
-        messageList, messagesEndRef, onScroll, isButtonVisible
+        messageList, messagesEndRef, onScroll
     }
 
 }

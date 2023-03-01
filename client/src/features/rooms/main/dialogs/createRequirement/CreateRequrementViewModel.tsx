@@ -10,7 +10,6 @@ import {useSelector} from "react-redux";
 import {RootState} from "../../../../../data/store";
 import {CreateRequirementResult} from "../../../../../data/rooms/requirements/CreateRequirementResult";
 import {RequirementState} from "../../page/RequirementState";
-import {UpdateRequirementRequest} from "../../../../../data/rooms/requirements/UpdateRequirementRequest";
 import {GetRequirementResponse} from "../../../../../data/rooms/requirements/GetRequirementResponse";
 
 export default function CreateRequirementViewModel(isVisibleState: RequirementState, setIsVisibleState: (value: RequirementState) => void) {
@@ -40,7 +39,6 @@ export default function CreateRequirementViewModel(isVisibleState: RequirementSt
         }
 
         const requirement = isVisibleState.requirement
-        console.log("req: " + requirement)
         if (requirement !== null) {
             setIsProgress(true)
             loadRequirement(requirement.requirementId)
@@ -87,6 +85,7 @@ export default function CreateRequirementViewModel(isVisibleState: RequirementSt
                 type: RoomWebSocketTypes.createRequirement,
                 username: requirement.username,
                 userId: profileReducer.profileId,
+                roomId: roomReducer.roomId,
                 requirementId: requirement.requirementId
             })
             setIsVisibleState({isVisible: false, requirement: null})
@@ -134,6 +133,7 @@ export default function CreateRequirementViewModel(isVisibleState: RequirementSt
         setDescription,
         onActionClick,
         isProgress,
+        roomReducer,
         requirementId
     }
 

@@ -42,15 +42,17 @@ export default function RequirementsViewModel(setIsVisibleState: (value: Require
         loadRoomRequirements()
             .catch((e) => console.log(e))
             .then((data: any) => {
-                const requirements = data.requirements.map((requirement: any) => {
-                    return {
-                        username: requirement.username,
-                        isApplyButtonVisible: requirement.isAlive && requirement.userId !== profileReducer.profileId,
-                        requirementId: requirement.requirementId,
-                        isAlive: requirement.isAlive
-                    }
-                })
-                updateRequirements(requirements)
+                if(data.requirements.length > 0){
+                    const requirements = data.requirements.map((requirement: any) => {
+                        return {
+                            username: requirement.username,
+                            isApplyButtonVisible: requirement.isAlive && requirement.userId !== profileReducer.profileId,
+                            requirementId: requirement.requirementId,
+                            isAlive: requirement.isAlive
+                        }
+                    })
+                    updateRequirements(requirements)
+                }
             })
     }, [])
 
@@ -107,7 +109,10 @@ export default function RequirementsViewModel(setIsVisibleState: (value: Require
             const payload = await applyRequirementMutation({requirementId: id}).unwrap()
             if (payload.success === true) {
                 sendJsonMessage({
-                    type: RoomWebSocketTypes.applyRequirement, requirementId: id
+                    type: RoomWebSocketTypes.applyRequirement,
+                    requirementId: id,
+                    userId: profileReducer.profileId,
+                    roomId: roomReducer.roomId
                 })
             }
         } catch (e) {
@@ -120,7 +125,10 @@ export default function RequirementsViewModel(setIsVisibleState: (value: Require
             const payload = await declineRequirementMutation({requirementId: id}).unwrap()
             if (payload.success === true) {
                 sendJsonMessage({
-                    type: RoomWebSocketTypes.declineRequirement, requirementId: id
+                    type: RoomWebSocketTypes.declineRequirement,
+                    requirementId: id,
+                    userId: profileReducer.profileId,
+                    roomId: roomReducer.roomId
                 })
             }
         } catch (e) {
@@ -135,6 +143,7 @@ export default function RequirementsViewModel(setIsVisibleState: (value: Require
         setMenu,
         onRequirementClick,
         onApplyRequirementClick,
+        roomReducer,
         onDeclineRequirementClick
     }
 

@@ -24,7 +24,8 @@ export function CreateRequirementFormPage({isVisibleState, setIsVisibleState}: C
         setCustomType,
         onActionClick,
         requirementId,
-        isProgress
+        isProgress,
+        roomReducer
     } = useViewModel(isVisibleState, setIsVisibleState)
 
     const maxTitleLength = 30
@@ -45,6 +46,7 @@ export function CreateRequirementFormPage({isVisibleState, setIsVisibleState}: C
                         <input
                             maxLength={maxTitleLength}
                             value={title}
+                            readOnly={!!roomReducer.isFinished}
                             placeholder="For example: Contract duration"
                             onChange={(titleField) => {
                                 setTitle(titleField.target.value)
@@ -63,6 +65,7 @@ export function CreateRequirementFormPage({isVisibleState, setIsVisibleState}: C
                         maxLength={maxValueLength}
                         value={value}
                         placeholder="0"
+                        readOnly={!!roomReducer.isFinished}
                         pattern="[0-9]*"
                         onChange={(valueField) => {
                             setValue((value) => valueField.target.validity.valid ? Number(valueField.target.value) : value)
@@ -75,6 +78,7 @@ export function CreateRequirementFormPage({isVisibleState, setIsVisibleState}: C
                 <textarea
                     maxLength={40}
                     value={customType}
+                    readOnly={!!roomReducer.isFinished}
                     placeholder="Write there your custom requirement type with numeric meaning"
                     onChange={(customTypeField) => {
                         setCustomType(customTypeField.target.value)
@@ -88,6 +92,7 @@ export function CreateRequirementFormPage({isVisibleState, setIsVisibleState}: C
                 <textarea
                     maxLength={maxDescriptionLength}
                     value={description}
+                    readOnly={!!roomReducer.isFinished}
                     placeholder="Some words about your requirement to current situation"
                     onChange={(descriptionField) => {
                         setDescription(descriptionField.target.value)
@@ -98,11 +103,13 @@ export function CreateRequirementFormPage({isVisibleState, setIsVisibleState}: C
                 </div>
             </div>
             <div className="flex justify-between space-x-2">
-                <button
-                    className={buttonTheme + " mt-4 w-full"}
-                    onClick={onActionClick}>
-                    {requirementId === null ? "Save" : "Update"}
-                </button>
+                {
+                    !roomReducer.isFinished && <button
+                        className={buttonTheme + " mt-4 w-full"}
+                        onClick={onActionClick}>
+                        {requirementId === null ? "Save" : "Update"}
+                    </button>
+                }
                 <button className={buttonTheme + " mt-4 w-full"} onClick={() => {
                     setIsVisibleState({isVisible: false, requirement: null})
                 }}>Cancel

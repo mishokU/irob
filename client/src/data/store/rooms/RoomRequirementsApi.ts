@@ -10,6 +10,7 @@ import {ApplyRequirementResponse} from "../../rooms/requirements/ApplyRequiremen
 import {DeclineRequirementResponse} from "../../rooms/requirements/DeclineRequirementResponse";
 import {GetRequirementResponse} from "../../rooms/requirements/GetRequirementResponse";
 import {UpdateRequirementRequest} from "../../rooms/requirements/UpdateRequirementRequest";
+import {GetRequiredRequiremensCountResponse} from "../../rooms/requirements/GetRequiredRequiremensCountResponse";
 
 export const RoomRequirementsApi = createApi({
     reducerPath: 'irob/api/room/requirements', baseQuery: fetchBaseQuery({
@@ -68,11 +69,12 @@ export const RoomRequirementsApi = createApi({
                 return "Error while creating room, try later."
             }
         }),
-        getRequiredRequirementsCount: build.mutation<number, string>({
-            query: (body) => ({
-                url: `/getRequiredRequirementCount`, method: `POST`, body
+        getRequiredRequirementsCount: build.mutation<GetRequiredRequiremensCountResponse, string>({
+            query: (roomId) => ({
+                url: `/getRequiredRequirementCount`, method: `GET`,
+                params: {roomId: roomId}
             }),
-            transformResponse: (response: number) => response,
+            transformResponse: (response: GetRequiredRequiremensCountResponse) => response,
             transformErrorResponse(meta: unknown, arg: unknown): string {
                 return "Error while creating room, try later."
             }

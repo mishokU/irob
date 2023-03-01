@@ -92,6 +92,7 @@ export function RoomComponent() {
                         roomName={roomReducer.roomName}
                         setIsVisible={setIsMakeDealDialogVisible}
                         isVisible={isMakeDealDialogVisible}
+                        isDealButtonVisible={roomReducer.isAdmin && !roomReducer.isFinished}
                     />
                     <RequirementsMainComponent
                         isVisibleState={isRequirementVisible}

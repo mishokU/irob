@@ -80,18 +80,18 @@ async function handleMessage(message, userId) {
                 roomId, userId, content, date, avatar, messageType, username
             )
 
-            json.data = {content, username, avatar, date, userId};
+            json.data = {content, username, avatar, roomId, date, userId};
         } else if (dataFromClient.type === typesDef.CREATE_REQUIREMENT) {
             const username = dataFromClient.username
             const requirementId = dataFromClient.requirementId
             const userId = dataFromClient.userId
-            json.data = {username, userId, requirementId}
+            json.data = {username, userId, roomId, requirementId}
         } else if (dataFromClient.type === typesDef.APPLY_REQUIREMENT) {
             const requirementId = dataFromClient.requirementId
-            json.data = {requirementId}
+            json.data = {requirementId, roomId}
         } else if (dataFromClient.type === typesDef.DECLINE_REQUIREMENT) {
             const requirementId = dataFromClient.requirementId
-            json.data = {requirementId}
+            json.data = {requirementId, roomId}
         } else if(dataFromClient.type === typesDef.ADD_ADMIN) {
 
         } else if(dataFromClient.type === typesDef.HANDLE_AGREEMENT){

@@ -25,8 +25,8 @@ module.exports = {
                 SELECT * from ${ROOM_REQUIREMENTS_TABLE_NAME}
                 WHERE room_id= $1`, [roomId]
             )
-            if(data.rows.length === 0){
-                return {}
+            if(data.rows.length === 0) {
+                return []
             } else {
                 return await Promise.map(data.rows, async (requirement) => {
                     const user = await userController.getUserById(requirement.user_id)
@@ -62,7 +62,15 @@ module.exports = {
         )
     },
     getRequiredRequirements: async function (roomId){
-
+        try {
+            const data = await db.query(
+                `SELECT * FROM ${ROOM_REQUIREMENTS_TABLE_NAME} WHERE (room_id= $1 AND 
+                 (type='Duration days' OR type='Hold deposit' OR type='Cost') AND is_alive=false)`, [roomId]
+            )
+            return data.rowCount
+        } catch (e){
+            console.log("error in get required requirements count error: " + e.message)
+        }
     }
 
 }

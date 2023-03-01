@@ -113,10 +113,22 @@ async function deleteRequirement(request, result) {
     }
 }
 
+/*
+    There is three required requirement to make a deal
+    Cost - current cost to buy this contract
+    Hold deposit - cost to return if seller reject your license
+    Duration days - how many days this license alive
+ */
+
 async function getRequiredRequirementCount(request, result){
     try {
-        const {roomId} = request.body
+        const roomId = request.query.roomId
         const requiredCount = await roomRequirementsController.getRequiredRequirements(roomId)
+        result.status(200).json({
+            success: true,
+            count: requiredCount,
+            fullCount: 3
+        })
     } catch (e){
         console.log(e)
         result.status(500).json({

@@ -1,12 +1,12 @@
 import {MakeDealDialogProps} from "./MakeDealDialogProps";
 import {Dialog, Transition} from "@headlessui/react";
 import {ReactComponent as CloseModal} from "../../../asserts/close_black_24dp.svg";
-import {buttonTheme} from "../../../../../themes/Themes";
+import {buttonTheme, buttonThemeDisabled} from "../../../../../themes/Themes";
 import useViewModel from "./MakeDealViewModel"
 import {Fragment} from "react";
 
 export function MakeDealDialog({isVisible, setIsVisible}: MakeDealDialogProps) {
-    const {onAgreementClick, agreementCount} = useViewModel()
+    const {onAgreementClick, agreementCount, applyRequirementsCount, fullApplyRequirementsCount} = useViewModel()
     return <div>
         <Transition appear show={isVisible} as={Fragment}>
             <Dialog as="div" className="relative z-10" onClose={() => {
@@ -51,10 +51,14 @@ export function MakeDealDialog({isVisible, setIsVisible}: MakeDealDialogProps) {
                                         upon conclusion, you will
                                         have a record in your personal account on both sides, and you will also have
                                         access to the tab with payment for this room</h1>
-                                    <h2>Necessarily requirements count 0 / 4</h2>
-
+                                    <h2>Necessarily requirements count {applyRequirementsCount} / {fullApplyRequirementsCount}</h2>
+                                    {
+                                        applyRequirementsCount !== fullApplyRequirementsCount && <div>
+                                            <p className="text-red-600">You must get all of the required requirements such as: Cost, Hold deposit, Duration days</p>
+                                        </div>
+                                    }
                                     <button
-                                        className={buttonTheme + " w-full text-xl"}
+                                        className={applyRequirementsCount !== fullApplyRequirementsCount ? buttonThemeDisabled  : buttonTheme + " w-full text-xl"}
                                         onClick={onAgreementClick}
                                     >Agreements {agreementCount}/2
                                     </button>

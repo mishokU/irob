@@ -7,8 +7,8 @@ import makeDealImg from "../../asserts/battle_48px.png";
 import useViewModel from "./RoomMessengerViewModel";
 import {RoomChatProps} from "./RoomChatProps";
 
-export function RoomChatComponent({isVisible, setIsVisible}: RoomChatProps) {
-    const {messageList, messagesEndRef, onScroll, isButtonVisible} = useViewModel()
+export function RoomChatComponent({isVisible, setIsVisible, isDealButtonVisible}: RoomChatProps) {
+    const {messageList, messagesEndRef, onScroll } = useViewModel()
     return <>
         <div
             onScroll={onScroll}
@@ -25,7 +25,7 @@ export function RoomChatComponent({isVisible, setIsVisible}: RoomChatProps) {
         <div className="flex w-full items-center mt-4 justify-center">
             <RoomMessageInputComponent />
             {
-                isButtonVisible && <div
+                isDealButtonVisible && <div
                     className="border-2 ml-2 rounded-lg h-[50px] w-[50px] m-auto block cursor-pointer"
                     onClick={() => setIsVisible(!isVisible)}>
                     <img src={makeDealImg} />

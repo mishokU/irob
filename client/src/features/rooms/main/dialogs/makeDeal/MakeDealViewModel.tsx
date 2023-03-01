@@ -15,6 +15,9 @@ export default function MakeDealViewModel() {
 
     const [agreementCount, setAgreementCount] = useState(getAgreementCount())
 
+    const [applyRequirementsCount, setApplyRequirementCount] = useState(0)
+    const [fullApplyRequirementsCount, setFullApplyRequirementsCount] = useState(0)
+
     const dispatch = useDispatch();
 
     useEffect(() => {
@@ -24,8 +27,9 @@ export default function MakeDealViewModel() {
 
         loadDeal()
             .catch((e) => console.log(e))
-            .then((count) => {
-
+            .then((data: any) => {
+                setApplyRequirementCount(data.count)
+                setFullApplyRequirementsCount(data.fullCount)
             })
     }, [])
 
@@ -73,7 +77,7 @@ export default function MakeDealViewModel() {
     }
 
     return {
-        onAgreementClick, agreementCount
+        onAgreementClick, agreementCount, applyRequirementsCount, fullApplyRequirementsCount
     }
 
 }

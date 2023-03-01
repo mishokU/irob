@@ -5,7 +5,7 @@ import {CenterMenu} from "./CenterMenu";
 import {RoomPaymentComponent} from "../payment/RoomPaymentComponent";
 import {RoomMessengerTabs} from "./RoomMessengerTabs";
 
-export function RoomSmartMessengerMainComponent({isVisible, setIsVisible, roomName}: RoomMessengerProps) {
+export function RoomSmartMessengerMainComponent({isVisible, setIsVisible, isDealButtonVisible, roomName}: RoomMessengerProps) {
     const {menu, setChat, setPayment, isAgreed} = useViewModel()
 
     return <div className="w-full">
@@ -17,7 +17,11 @@ export function RoomSmartMessengerMainComponent({isVisible, setIsVisible, roomNa
                 </div>
             }
         </div>
-        {menu === CenterMenu.CHAT && <RoomChatComponent isVisible={isVisible} setIsVisible={setIsVisible} />}
+        {menu === CenterMenu.CHAT && <RoomChatComponent
+            isVisible={isVisible}
+            setIsVisible={setIsVisible}
+            isDealButtonVisible={isDealButtonVisible}
+        />}
         {menu === CenterMenu.PAYMENT && <RoomPaymentComponent />}
     </div>
 }
