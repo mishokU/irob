@@ -1,6 +1,6 @@
 import {MessageModel, MessageType} from "../../domain/MessageModel";
 import {MessageUiModel} from "../models/MessageUiModel";
-import {RoomMessageResponse} from "../../../../data/rooms/messenger/RoomMessagesResponse";
+import {RoomMessageResponse} from "../../../../data/models/rooms/messenger/RoomMessagesResponse";
 
 export class MessagesUiConverter {
 

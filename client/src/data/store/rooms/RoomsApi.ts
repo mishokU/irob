@@ -1,14 +1,14 @@
 import {createApi, fetchBaseQuery} from "@reduxjs/toolkit/dist/query/react";
-import {CreateRoomResponse} from "../../rooms/room/CreateRoomResponse";
-import {DeleteRoomResponse} from "../../rooms/room/DeleteRoomResponse";
+import {CreateRoomResponse} from "../../models/rooms/room/CreateRoomResponse";
+import {DeleteRoomResponse} from "../../models/rooms/room/DeleteRoomResponse";
 import {CreateRoomRequest} from "../../../features/rooms/domain/CreateRoomRequest";
-import {GetRoomResponse} from "../../rooms/room/GetRoomResponse";
-import {GetRoomsResponse} from "../../rooms/room/GetRoomsResponse";
-import {RoomResponse} from "../../rooms/room/RoomResponse";
+import {GetRoomResponse} from "../../models/rooms/room/GetRoomResponse";
+import {GetRoomsResponse} from "../../models/rooms/room/GetRoomsResponse";
+import {RoomResponse} from "../../models/rooms/room/RoomResponse";
 import {UpdateRoomRequest} from "../../../features/rooms/domain/UpdateRoomRequest";
-import {UpdateRoomResult} from "../../rooms/room/UpdateRoomResult";
+import {UpdateRoomResult} from "../../models/rooms/room/UpdateRoomResult";
 import {HandleAgreementRequest} from "../../../features/rooms/domain/HandleAgreementRequest";
-import {MakeDealResponse} from "../../rooms/users/MakeDealResponse";
+import {MakeDealResponse} from "../../models/rooms/users/MakeDealResponse";
 import {GetRoomRequest} from "../../../features/rooms/domain/GetRoomRequest";
 
 export const RoomsApi = createApi({

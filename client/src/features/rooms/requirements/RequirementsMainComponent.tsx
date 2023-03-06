@@ -50,7 +50,7 @@ export function RequirementsMainComponent({setIsVisibleState}: CreateRequirement
                             <ApplyRequirementsIcon />
                         </div>}
                         <div
-                            className="border rounded bg-green-600 hover:bg-green-500"
+                            className="border rounded bg-red-600 hover:bg-red-500"
                             onClick={() => {
                                 onDeclineRequirementClick(requirement.requirementId)
                             }}

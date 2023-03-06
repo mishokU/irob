@@ -1,6 +1,6 @@
 import {createApi, fetchBaseQuery} from "@reduxjs/toolkit/dist/query/react";
-import {GetRoomUsersResponse} from "../../rooms/users/GetRoomUsersResponse";
-import {RoomUserResponse} from "../../rooms/users/RoomUserResponse";
+import {GetRoomUsersResponse} from "../../models/rooms/users/GetRoomUsersResponse";
+import {RoomUserResponse} from "../../models/rooms/users/RoomUserResponse";
 
 export const RoomUsersApi = createApi({
     reducerPath: "irob/api/rooms/users", baseQuery: fetchBaseQuery({

@@ -35,6 +35,8 @@ module.exports = {
                         username: fullName,
                         isAlive: requirement.is_alive,
                         userId: user.id,
+                        type: requirement.type,
+                        value: requirement.value,
                         requirementId: requirement.id
                     }
                 }, {concurrency: 2})

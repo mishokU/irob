@@ -2,7 +2,7 @@ import useViewModel from "./RoomMessengerMainViewModel";
 import {RoomMessengerProps} from "./RoomMessengerProps";
 import {RoomChatComponent} from "../chat/RoomChatComponent";
 import {CenterMenu} from "./CenterMenu";
-import {RoomPaymentComponent} from "../payment/RoomPaymentComponent";
+import {RoomPaymentComponent} from "../../payment/RoomPaymentComponent";
 import {RoomMessengerTabs} from "./RoomMessengerTabs";
 
 export function RoomSmartMessengerMainComponent({isVisible, setIsVisible, isDealButtonVisible, roomName}: RoomMessengerProps) {

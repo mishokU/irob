@@ -1,16 +1,16 @@
 import {createApi, fetchBaseQuery} from "@reduxjs/toolkit/dist/query/react";
-import {CreateRoomResponse} from "../../rooms/room/CreateRoomResponse";
+import {CreateRoomResponse} from "../../models/rooms/room/CreateRoomResponse";
 import {CreateRoomRequest} from "../../../features/rooms/domain/CreateRoomRequest";
 import {CreateRequirementRequest} from "../../../features/rooms/domain/CreateRequirementRequest";
-import {CreateRequirementResult} from "../../rooms/requirements/CreateRequirementResult";
-import {GetRequirementsResponse} from "../../rooms/requirements/GetRequrementsResponse";
+import {CreateRequirementResult} from "../../models/rooms/requirements/CreateRequirementResult";
+import {GetRequirementsResponse} from "../../models/rooms/requirements/GetRequrementsResponse";
 import {ApplyRequirementRequest} from "../../../features/rooms/domain/ApplyRequirementRequest";
 import {DeclineRequirementRequest} from "../../../features/rooms/domain/DeclineRequirementRequest";
-import {ApplyRequirementResponse} from "../../rooms/requirements/ApplyRequirementResponse";
-import {DeclineRequirementResponse} from "../../rooms/requirements/DeclineRequirementResponse";
-import {GetRequirementResponse} from "../../rooms/requirements/GetRequirementResponse";
-import {UpdateRequirementRequest} from "../../rooms/requirements/UpdateRequirementRequest";
-import {GetRequiredRequiremensCountResponse} from "../../rooms/requirements/GetRequiredRequiremensCountResponse";
+import {ApplyRequirementResponse} from "../../models/rooms/requirements/ApplyRequirementResponse";
+import {DeclineRequirementResponse} from "../../models/rooms/requirements/DeclineRequirementResponse";
+import {GetRequirementResponse} from "../../models/rooms/requirements/GetRequirementResponse";
+import {UpdateRequirementRequest} from "../../models/rooms/requirements/UpdateRequirementRequest";
+import {GetRequiredRequiremensCountResponse} from "../../models/rooms/requirements/GetRequiredRequiremensCountResponse";
 
 export const RoomRequirementsApi = createApi({
     reducerPath: 'irob/api/room/requirements', baseQuery: fetchBaseQuery({

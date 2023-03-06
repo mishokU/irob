@@ -8,9 +8,9 @@ import {WS_URL} from "../../page/RoomViewModel";
 import {isRequirementEvent, RoomWebSocketTypes} from "../../../domain/HandleEventTypes";
 import {useSelector} from "react-redux";
 import {RootState} from "../../../../../data/store";
-import {CreateRequirementResult} from "../../../../../data/rooms/requirements/CreateRequirementResult";
+import {CreateRequirementResult} from "../../../../../data/models/rooms/requirements/CreateRequirementResult";
 import {RequirementState} from "../../page/RequirementState";
-import {GetRequirementResponse} from "../../../../../data/rooms/requirements/GetRequirementResponse";
+import {GetRequirementResponse} from "../../../../../data/models/rooms/requirements/GetRequirementResponse";
 
 export default function CreateRequirementViewModel(isVisibleState: RequirementState, setIsVisibleState: (value: RequirementState) => void) {
 

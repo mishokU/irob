@@ -14,6 +14,7 @@ import {persistReducer, persistStore} from "redux-persist";
 import thunk from "redux-thunk";
 import {RoomMessengerApi} from "./rooms/RoomMessengerApi";
 import {SearchApi} from "./search/SearchApi";
+import {RoomPaymentApi} from "./payment/RoomPaymentApi";
 
 const persistConfig = {
     key: "root", storage,
@@ -26,6 +27,7 @@ const rootReducer = combineReducers({
     [RoomUsersApi.reducerPath]: RoomUsersApi.reducer,
     [RoomRequirementsApi.reducerPath]: RoomRequirementsApi.reducer,
     [RoomMessengerApi.reducerPath]: RoomMessengerApi.reducer,
+    [RoomPaymentApi.reducerPath]: RoomPaymentApi.reducer,
     [SearchApi.reducerPath]: SearchApi.reducer,
     room: roomReducer,
     profile: userReducer,
@@ -46,6 +48,7 @@ export const store = configureStore({
         RoomMessengerApi.middleware,
         RoomUsersApi.middleware,
         RoomRequirementsApi.middleware,
+        RoomPaymentApi.middleware,
         SearchApi.middleware
     )
 });

@@ -1,6 +1,6 @@
 import {createApi, fetchBaseQuery} from "@reduxjs/toolkit/dist/query/react";
-import {LicensesResponse} from "../../models/LicensesResponse";
-import {ProfileResponse} from "../../models/ProfileResponse";
+import {LicensesResponse} from "../../models/common/LicensesResponse";
+import {ProfileResponse} from "../../models/common/ProfileResponse";
 import {UpdateProfile} from "../../../features/settings/domain/models/UpdateProfile";
 
 export const ProfileApi = createApi({

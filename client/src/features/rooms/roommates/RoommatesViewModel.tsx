@@ -6,7 +6,7 @@ import {
 import {useEffect, useState} from "react";
 import {useSelector} from "react-redux";
 import {RootState} from "../../../data/store";
-import {RoomUserResponse} from "../../../data/rooms/users/RoomUserResponse";
+import {RoomUserResponse} from "../../../data/models/rooms/users/RoomUserResponse";
 import {useGetRoomUsersMutation} from "../../../data/store/rooms/RoomUsersApi";
 
 export default function RoommatesViewModel() {

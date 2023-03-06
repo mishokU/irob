@@ -1,4 +1,4 @@
-import {RoomUserResponse} from "../../../data/rooms/users/RoomUserResponse";
+import {RoomUserResponse} from "../../../data/models/rooms/users/RoomUserResponse";
 import {RoomRequirementModel} from "../../../domain/rooms/RoomRequirementModel";
 import {MessageModel, MessageType} from "./MessageModel";
 

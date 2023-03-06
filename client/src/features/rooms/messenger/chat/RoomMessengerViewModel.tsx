@@ -10,7 +10,7 @@ import {RootState} from "../../../../data/store";
 import {MessagesUiConverter} from "../uiConverters/MessagesUiConverter";
 import {MessageUiModel} from "../models/MessageUiModel";
 import {useGetRoomMessagesMutation} from "../../../../data/store/rooms/RoomMessengerApi";
-import {RoomMessageResponse} from "../../../../data/rooms/messenger/RoomMessagesResponse";
+import {RoomMessageResponse} from "../../../../data/models/rooms/messenger/RoomMessagesResponse";
 
 export enum ScrollType {
     TOP, BOTTOM
@@ -72,7 +72,7 @@ export default function RoomMessengerViewModel() {
 
     function loadMessages(scrollType: ScrollType) {
         async function getPagedMessages() {
-            return getRoomMessagesMutation({
+            return await getRoomMessagesMutation({
                 roomId: roomReducer.roomId, offset: offset
             }).unwrap()
         }
