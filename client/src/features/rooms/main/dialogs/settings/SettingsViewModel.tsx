@@ -5,7 +5,7 @@ import {useUpdateRoomMutation} from "../../../../../data/store/rooms/RoomsApi";
 import {updateRoomName} from "../../../../../data/slices/RoomSlice";
 import {SettingsProps} from "./SettingsProps";
 import {useSearchUsersByCredentialsMutation} from "../../../../../data/store/search/SearchApi";
-import {ProfileResponse} from "../../../../../data/models/common/ProfileResponse";
+import {ProfileResponse} from "../../../../../data/models/profile/ProfileResponse";
 import {debounce} from "@mui/material";
 import {UserSettingsModel} from "./UserSettingsModel";
 

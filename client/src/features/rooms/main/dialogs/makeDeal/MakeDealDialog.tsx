@@ -58,7 +58,7 @@ export function MakeDealDialog({isVisible, setIsVisible}: MakeDealDialogProps) {
                                         </div>
                                     }
                                     <button
-                                        className={applyRequirementsCount !== fullApplyRequirementsCount ? buttonThemeDisabled  : buttonTheme + " w-full text-xl"}
+                                        className={applyRequirementsCount < fullApplyRequirementsCount ? buttonThemeDisabled  : buttonTheme + " w-full text-xl"}
                                         onClick={onAgreementClick}
                                     >Agreements {agreementCount}/2
                                     </button>

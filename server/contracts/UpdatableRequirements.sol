@@ -3,7 +3,7 @@ pragma solidity ^0.8.9;
 
 import "hardhat/console.sol";
 
-contract Requirements {
+contract UpdatableRequirements {
 
     //Means the main wallet
     address payable private buyer;
@@ -44,6 +44,10 @@ contract Requirements {
         } else {
             sendDeposit();
         }
+    }
+
+    function getRequirementsSize() public view returns (uint) {
+        return requirementNames.length;
     }
 
     function getCurrentProgress() public view returns (uint) {

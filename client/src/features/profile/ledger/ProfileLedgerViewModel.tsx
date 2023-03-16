@@ -1,32 +1,47 @@
 import {useMetaMask} from "metamask-react";
 import {useEffect, useState} from "react";
-
-export type WindowInstanceWithEthereum = Window & typeof globalThis & { ethereum?: any };
+import {
+    useUpdateLedgerAccountMutation
+} from "../../../data/store/profile/ProfileApi";
 
 export default function ProfileLedgerViewModel() {
 
     const {status, connect, account } = useMetaMask();
+
     const [balance, setBalance] = useState(0)
+    const [isLedgerConnected, setIsLedgerConnected] = useState(status === "connected")
+
+    const [updateAccountLedgerMutation] = useUpdateLedgerAccountMutation()
 
     useEffect(() => {
         async function getBalance() {
-            const ethereum = (window as WindowInstanceWithEthereum).ethereum
-            const balance = await ethereum.request({method: 'eth_getBalance', params: [account, 'latest']})
-            // // Returns a hex value of Wei
-            const wei = parseInt(balance, 16)
-            const eth = (wei / Math.pow(10, 18))// parse to ETH
-            setBalance(eth)
+            if(account !== null){
+                const response = await updateAccountLedgerMutation({account: account}).unwrap()
+                const balance = response.balance.toFixed(2)
+                setBalance(Number(balance))
+                setIsLedgerConnected(status === "connected")
+            }
         }
 
         getBalance().catch((e) => console.log(e))
-    }, [])
+    }, [status])
+
+
 
     function onForgetAccountClick() {
 
     }
 
+    function onReceiveClick() {
+
+    }
+
+    function onSendClick() {
+
+    }
+
     return {
-        account, status, balance, onForgetAccountClick, connect
+        isLedgerConnected, status, balance, onForgetAccountClick, connect, onReceiveClick, onSendClick
     }
 
 }

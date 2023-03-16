@@ -63,5 +63,20 @@ module.exports = {
              `
         )
         return await this.getUserById(userId.rows[0].id)
+    },
+    updateAccountLedger: async function(token, account) {
+        try {
+            await db.query(`UPDATE users SET account =$2 WHERE token =$1;`, [token, account]);
+        } catch (e){
+            console.log("Error in update account ledger: " + e.message)
+        }
+    },
+    getAccount: async function(userId) {
+        try {
+            const data = await db.query(`SELECT account FROM users WHERE id= $1`, [userId])
+            return data.rows[0].account
+        } catch (e){
+            console.log("Error in get account: " + e.message)
+        }
     }
 }

@@ -2,8 +2,7 @@ import {createApi, fetchBaseQuery} from "@reduxjs/toolkit/query/react";
 import {RegistrationRequest} from "../../../features/auth/domain/models/RegistrationRequest";
 import {LoginRequest} from "../../../features/auth/domain/models/LoginRequest";
 import {AuthResponse} from "../../models/common/AuthResponse";
-import {LicensesResponse} from "../../models/common/LicensesResponse";
-import {ProfileResponse} from "../../models/common/ProfileResponse";
+import {ProfileResponse} from "../../models/profile/ProfileResponse";
 
 export const AuthApi = createApi({
     reducerPath: 'irob/api/auth', baseQuery: fetchBaseQuery({

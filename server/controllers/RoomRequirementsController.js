@@ -25,7 +25,7 @@ module.exports = {
                 SELECT * from ${ROOM_REQUIREMENTS_TABLE_NAME}
                 WHERE room_id= $1`, [roomId]
             )
-            if(data.rows.length === 0) {
+            if (data.rows.length === 0) {
                 return []
             } else {
                 return await Promise.map(data.rows, async (requirement) => {
@@ -41,7 +41,7 @@ module.exports = {
                     }
                 }, {concurrency: 2})
             }
-        } catch (e){
+        } catch (e) {
             console.log("load room requirements: " + e.message)
         }
     },
@@ -63,16 +63,35 @@ module.exports = {
             DELETE FROM ${ROOM_REQUIREMENTS_TABLE_NAME} WHERE id= $1`, [requirementId]
         )
     },
-    getRequiredRequirements: async function (roomId){
+    getRequiredRequirements: async function (roomId) {
         try {
             const data = await db.query(
                 `SELECT * FROM ${ROOM_REQUIREMENTS_TABLE_NAME} WHERE (room_id= $1 AND 
                  (type='Duration days' OR type='Hold deposit' OR type='Cost') AND is_alive=false)`, [roomId]
             )
             return data.rowCount
-        } catch (e){
+        } catch (e) {
             console.log("error in get required requirements count error: " + e.message)
         }
+    },
+    getRoomRequirementsByLicenseId: async function (licenseId) {
+        try {
+            const requirements = await db.query(
+                `SELECT * from ${ROOM_REQUIREMENTS_TABLE_NAME} WHERE license_id=$1`, [licenseId]
+            )
+            return requirements.rows
+        } catch (e) {
+            console.log("Error in getting room requirements by license id: " + e.message)
+        }
+    },
+    updateRequirements: async function (licenseId, roomId) {
+        try {
+            await db.query(`
+                UPDATE ${ROOM_REQUIREMENTS_TABLE_NAME} 
+                SET license_id=$2 WHERE room_id=$1`, [roomId, licenseId]
+            )
+        } catch (e) {
+            console.log("Error in adding license id to room requirements: " + e.message)
+        }
     }
-
 }

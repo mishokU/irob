@@ -1,8 +1,9 @@
 const db = require('../../db');
+const userController = require("../../controllers/UserController");
+const getBalance = require("../../scripts/getBalance")
 const {Router} = require("express");
 
 const userRouter = new Router()
-const userController = require("../../controllers/UserController");
 
 // export our router to be mounted by the parent application
 module.exports = userRouter
@@ -17,6 +18,10 @@ userRouter.get('/get', (request, result) => {
 
 userRouter.post('/update', (request, result) => {
     return updateUser(request, result)
+})
+
+userRouter.post('/updateAccountLedger', (request, result) => {
+    return updateAccountLedger(request, result)
 })
 
 async function updateUser(request, result) {
@@ -82,4 +87,26 @@ async function getAllUsers(request, result, next) {
         .catch(function (err) {
             return next(err);
         });
+}
+
+async function updateAccountLedger(request, result) {
+    try {
+        const token = request.get('token')
+        const account = request.body.account
+
+        await userController.updateAccountLedger(token, account)
+
+        const balance = await getBalance(account)
+
+        result.status(200).json({
+            success: true,
+            balance: balance
+        })
+    } catch (e){
+        console.log(e)
+        result.status(500).json({
+            success: false,
+            message: "Error in updating account balance"
+        })
+    }
 }

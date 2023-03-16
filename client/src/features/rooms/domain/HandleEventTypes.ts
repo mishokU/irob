@@ -1,4 +1,6 @@
-import {RoomUserResponse} from "../../../data/models/rooms/users/RoomUserResponse";
+import {
+    RoomUserResponse
+} from "../../../data/models/rooms/users/RoomUserResponse";
 import {RoomRequirementModel} from "../../../domain/rooms/RoomRequirementModel";
 import {MessageModel, MessageType} from "./MessageModel";
 
@@ -9,7 +11,8 @@ export enum RoomWebSocketTypes {
     userDisconnected = 'userDisconnected',
     createRequirement = 'createRequirement',
     applyRequirement = 'applyRequirement',
-    declineRequirement = 'declineRequirement'
+    declineRequirement = 'declineRequirement',
+    handleAgreement = 'handleAgreement'
 }
 
 export function getUserFromServer(user: any) {
@@ -64,6 +67,10 @@ export function getRequirement(lastMessage: any, userId: number): RoomRequiremen
     }
 }
 
+export function getHandleAgreement(lastMessage: any): any {
+    return JSON.parse(lastMessage.data).data
+}
+
 export function isSendMessageEvent(message: any) {
     let event = JSON.parse(message.data);
     return event.type === RoomWebSocketTypes.sendMessage || event.type === RoomWebSocketTypes.createRequirement;
@@ -77,4 +84,9 @@ export function isUserEvent(message: any) {
 export function isRequirementEvent(message: any) {
     let event = JSON.parse(message.data);
     return event.type === RoomWebSocketTypes.createRequirement || event.type === RoomWebSocketTypes.applyRequirement || event.type === RoomWebSocketTypes.declineRequirement
+}
+
+export function isHandleAgreementEvent(message: any){
+    const event = JSON.parse(message.data)
+    return event.type === RoomWebSocketTypes.handleAgreement
 }

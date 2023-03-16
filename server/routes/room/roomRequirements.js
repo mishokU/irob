@@ -124,6 +124,7 @@ async function getRequiredRequirementCount(request, result){
     try {
         const roomId = request.query.roomId
         const requiredCount = await roomRequirementsController.getRequiredRequirements(roomId)
+        console.log(requiredCount)
         result.status(200).json({
             success: true,
             count: requiredCount,

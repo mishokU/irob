@@ -33,15 +33,19 @@ const typesDef = {
 
 function broadcastMessage(json) {
     const data = JSON.stringify(json);
-    const roomId = json.data.roomId
-    for (let userId in clients) {
-        let client = clients[userId]
-        let user = users[userId]
-        if(user.roomId === roomId){
-            if (client.readyState === WebSocket.OPEN) {
-                client.send(data);
+    try {
+        const roomId = json.data.roomId
+        for (let userId in clients) {
+            let client = clients[userId]
+            let user = users[userId]
+            if(user.roomId === roomId){
+                if (client.readyState === WebSocket.OPEN) {
+                    client.send(data);
+                }
             }
         }
+    } catch (e){
+        console.log("Broadcast message error: " + e.message + " type: " + data.type)
     }
 }
 
@@ -53,6 +57,7 @@ async function handleMessage(message, userId) {
         const roomId = dataFromClient.roomId
         if (dataFromClient.type === typesDef.USER_JOINED) {
 
+            console.log(dataFromClient)
             users[userId] = dataFromClient;
 
             const username = dataFromClient.username
@@ -95,7 +100,16 @@ async function handleMessage(message, userId) {
         } else if(dataFromClient.type === typesDef.ADD_ADMIN) {
 
         } else if(dataFromClient.type === typesDef.HANDLE_AGREEMENT){
+            const isOwner = dataFromClient.isOwner
+            const isAgreed = !dataFromClient.isAgreed
 
+            if(isOwner){
+                await roomController.updateFirstAgreement(roomId, isAgreed)
+            } else {
+                await roomController.updateSecondAgreement(roomId, isAgreed)
+            }
+
+            json.data = { isOwner, isAgreed, roomId }
         }
         broadcastMessage(json);
     } catch (e) {

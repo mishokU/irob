@@ -1,24 +1,37 @@
-import {useHandleAgreementMutation} from "../../../../../data/store/rooms/RoomsApi";
 import {useDispatch, useSelector} from "react-redux";
 import {RootState} from "../../../../../data/store";
 import {useEffect, useState} from "react";
-import {updateFirstAgreement, updateSecondAgreement} from "../../../../../data/slices/RoomSlice";
-import {useGetRequiredRequirementsCountMutation} from "../../../../../data/store/rooms/RoomRequirementsApi";
+import {
+    updateFirstAgreement,
+    updateSecondAgreement
+} from "../../../../../data/slices/RoomSlice";
+import {
+    useGetRequiredRequirementsCountMutation
+} from "../../../../../data/store/rooms/RoomRequirementsApi";
+import useWebSocket from "react-use-websocket";
+import {WS_URL} from "../../page/RoomViewModel";
+import {
+    getHandleAgreement, isHandleAgreementEvent, RoomWebSocketTypes
+} from "../../../domain/HandleEventTypes";
 
 export default function MakeDealViewModel() {
 
     const roomReducer = useSelector((state: RootState) => state.room)
     const profileReducer = useSelector((state: RootState) => state.profile)
 
-    const [agreementMutation] = useHandleAgreementMutation()
     const [requiredRequirementCountMutation] = useGetRequiredRequirementsCountMutation()
 
     const [agreementCount, setAgreementCount] = useState(getAgreementCount())
 
     const [applyRequirementsCount, setApplyRequirementCount] = useState(0)
-    const [fullApplyRequirementsCount, setFullApplyRequirementsCount] = useState(0)
+    const [fullApplyRequirementsCount, setFullApplyRequirementsCount] = useState(
+        0)
 
     const dispatch = useDispatch();
+
+    const {sendJsonMessage, lastMessage} = useWebSocket(WS_URL, {
+        share: true, filter: isHandleAgreementEvent
+    });
 
     useEffect(() => {
         async function loadDeal() {
@@ -33,13 +46,27 @@ export default function MakeDealViewModel() {
             })
     }, [])
 
+    useEffect(() => {
+        if (lastMessage !== null) {
+            const data = getHandleAgreement(lastMessage)
+            updateAgreementCount(data.isAgreed)
+            if (data.isOwner) {
+                dispatch(updateFirstAgreement(data.isAgreed))
+            } else {
+                dispatch(updateSecondAgreement(data.isAgreed))
+            }
+        }
+    }, [lastMessage])
+
     const onAgreementClick = async () => {
         try {
             const isAgreed = getAgreement()
-            const payload: any = await agreementMutation({
-                roomId: roomReducer.roomId, userId: profileReducer.profileId, isAgreed: isAgreed
-            }).unwrap()
-            updateAgreementCount(payload.isAgreed)
+            sendJsonMessage({
+                type: RoomWebSocketTypes.handleAgreement,
+                roomId: roomReducer.roomId,
+                isOwner: roomReducer.ownerId === profileReducer.profileId,
+                isAgreed: isAgreed
+            })
         } catch (e) {
             console.log(e)
         }
@@ -49,10 +76,8 @@ export default function MakeDealViewModel() {
         let isAgreed = false
         if (roomReducer.ownerId === profileReducer.profileId) {
             isAgreed = roomReducer.firstAgreement
-            dispatch(updateFirstAgreement(!roomReducer.firstAgreement))
         } else if (roomReducer.userId === profileReducer.profileId) {
             isAgreed = roomReducer.secondAgreement
-            dispatch(updateSecondAgreement(!roomReducer.secondAgreement))
         }
         return isAgreed
     }
@@ -77,7 +102,10 @@ export default function MakeDealViewModel() {
     }
 
     return {
-        onAgreementClick, agreementCount, applyRequirementsCount, fullApplyRequirementsCount
+        onAgreementClick,
+        agreementCount,
+        applyRequirementsCount,
+        fullApplyRequirementsCount
     }
 
 }

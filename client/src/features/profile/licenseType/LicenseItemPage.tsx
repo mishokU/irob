@@ -7,17 +7,22 @@ export interface LicenseTypePage {
 }
 
 export function LicenseItemPage({type}: LicenseTypePage) {
-    const {loadItems} = LicenseItemViewModel()
+    const {
+        licenseItems,
+        onMessagesClick,
+        onDeleteClick,
+        onLicenseClick
+    } = LicenseItemViewModel()
+
     return <div className="gap-4">
         <div className="mt-4 space-y-4">
-            {loadItems(type)
-                .map(license => (
-                    LicenseElement()
-                    // <CatalogueItemComponent type={license.name} key={license.name}
-                    //                                      description={license.shortDescription}
-                    //                                      contentAuthor={license.contentAuthor}
-                    //                                      creationDate={license.creationDate} />
-                ))}
+            {licenseItems.map(license => (
+                LicenseElement(license, onMessagesClick, onDeleteClick, onLicenseClick)))}
+            {
+                licenseItems.length === 0 && <div className="ml-2 text-xl">
+                    You do not have any licenses
+                </div>
+            }
         </div>
     </div>
 }

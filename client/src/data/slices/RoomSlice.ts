@@ -36,10 +36,13 @@ export const roomSlice = createSlice({
             state.secondAgreement = false
             state.ownerId = 0
             state.userId = 0
+            state.isFinished = false
         }, updateFirstAgreement: (state, action) => {
             state.firstAgreement = action.payload
+            state.isFinished = state.firstAgreement === true && state.secondAgreement === true
         }, updateSecondAgreement: (state, action) => {
             state.secondAgreement = action.payload
+            state.isFinished = state.firstAgreement === true && state.secondAgreement === true
         }
     }
 })

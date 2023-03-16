@@ -39,15 +39,3 @@ async function getRoomMessages(request, result){
         })
     }
 }
-
-async function createRoomMessage(request, result){
-    try {
-
-    } catch (e){
-        console.log(e)
-        result.status(500).json({
-            success: false,
-            message: "Create room message error: " + e.message
-        })
-    }
-}

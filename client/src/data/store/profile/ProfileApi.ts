@@ -1,7 +1,10 @@
 import {createApi, fetchBaseQuery} from "@reduxjs/toolkit/dist/query/react";
-import {LicensesResponse} from "../../models/common/LicensesResponse";
-import {ProfileResponse} from "../../models/common/ProfileResponse";
+import {ProfileResponse} from "../../models/profile/ProfileResponse";
 import {UpdateProfile} from "../../../features/settings/domain/models/UpdateProfile";
+import {UpdateAccountLedgerResponse} from "../../models/profile/UpdateAccountLedgerResponse";
+import {
+    UpdateProfileLedger
+} from "../../../features/profile/domain/UpdateProfileLedger";
 
 export const ProfileApi = createApi({
     reducerPath: "irob/api/profile", baseQuery: fetchBaseQuery({
@@ -23,12 +26,17 @@ export const ProfileApi = createApi({
             query: () => ({
                 url: `/update`, method: `POST`,
             }),
-        }), getUserLicenses: build.mutation<any, LicensesResponse>({
-            query: (type: string) => ({
-                url: `/licenses/${type}`, method: `GET`,
-            }),
         }),
+        updateLedgerAccount: build.mutation<UpdateAccountLedgerResponse, UpdateProfileLedger>({
+            query: (body) => ({
+                url: `/updateAccountLedger`, method: `POST`, body
+            }),
+            transformResponse: (response: UpdateAccountLedgerResponse) => response,
+            transformErrorResponse(meta: unknown, arg: unknown): string {
+                return "Error while updateLedgerAccount, try later."
+            }
+        })
     }),
 });
 
-export const {useUpdateProfileMutation, useGetProfileMutation} = ProfileApi;
+export const {useUpdateProfileMutation, useGetProfileMutation, useUpdateLedgerAccountMutation} = ProfileApi;

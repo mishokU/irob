@@ -1,6 +1,9 @@
 const {Router} = require("express");
 const roomRequirementsController = require("../../controllers/RoomRequirementsController")
 const smartContractDeployment = require("../../scripts/deploy");
+const userController = require("../../controllers/UserController");
+const licensesController = require("../../controllers/LicensesController")
+const roomResultController = require("../../controllers/RoomResultController")
 
 const roomPaymentRouter = new Router()
 
@@ -11,54 +14,93 @@ roomPaymentRouter.get('/cost', (request, result) => {
     return getRoomRequirementsCost(request, result)
 })
 
+roomPaymentRouter.get('/result', (request, result) => {
+    return getRoomResult(request, result)
+})
+
 roomPaymentRouter.post('/create', (request, result) => {
     return createSmartContract(request, result)
 })
 
+async function getRoomResult(request, result) {
+    try {
+
+        const roomId = request.query.roomId
+
+        const roomResult = await roomResultController.getRoomResult(roomId)
+
+        if(roomResult !== undefined) {
+
+            const license = await licensesController.getLicenseByRoomId(roomId)
+
+            const commissionCost = calculateCommissionCost(
+                roomResult.requirements,
+                roomResult.gas,
+                roomResult.deposit
+            )
+
+            const total = calculateTotalCost(roomResult.requirements, roomResult.gas, roomResult.deposit, commissionCost)
+
+            result.status(200).json({
+                success: true,
+                licenseStatus: license.status,
+                roomPrices: {
+                    requirementsCost: roomResult.requirements,
+                    gasCost: roomResult.gas,
+                    depositCost: roomResult.deposit,
+                    commissionCost: commissionCost,
+                    total: total
+                }
+            })
+        } else {
+            result.status(200).json({
+                success: true,
+                roomPrices: null
+            })
+        }
+    } catch (e) {
+        console.log("Error in getting room result: " + e.message)
+        result.status(500).json({
+            success: false,
+            message: "Error in get room result: " + e.message
+        })
+    }
+}
+
 async function getRoomRequirementsCost(request, result) {
     try {
         const roomId = request.query.roomId
+        const secondSideUserId = request.query.userId
         if (roomId !== undefined) {
-            const requirements = await roomRequirementsController.getRoomRequirements(roomId)
 
-            let requirementsCost = 0
-            let gasCost = 0
-            let depositCost = 0
-            let commissionCost = 0
+            const {
+                requirementsCost,
+                depositCost,
+                gasCost,
+                commissionCost
+            } = await getCosts(roomId)
 
-            /*
-                If requirement applied by second side
-            */
-            requirements.forEach((requirement) => {
-                if (requirement.isAlive === false) {
-                    if (requirement.type === "Hold deposit") {
-                        depositCost = Number(requirement.value)
-                    } else {
-                        requirementsCost += requirement.value
-                    }
-                }
-            })
-
-            if (requirementsCost === 0 || depositCost === 0) {
+            if (requirementsCost === 0 || depositCost === 0 || gasCost === 0 || commissionCost === 0) {
                 result.status(400).json({
                     success: false,
-                    message: "Requirements or deposit cost is zero"
+                    message: "Requirements or deposit cost or gas cost is zero"
                 })
             } else {
 
-                gasCost = await getGasCostFromApi();
-                requirementsCost = await getRequirementsCostFromTestNet(requirements)
+                const secondAccount = await userController.getAccount(secondSideUserId)
 
-                commissionCost = ((Number(requirementsCost) + Number(gasCost) + Number(depositCost / 10)) * 0.1).toFixed(4)
-                const total = (Number(requirementsCost) + Number(gasCost) + Number(depositCost) + Number(commissionCost)).toFixed(1)
+                const total = calculateTotalCost(requirementsCost, gasCost, depositCost, commissionCost)
 
                 result.status(200).json({
                     success: true,
-                    requirementsCost: requirementsCost,
-                    gasCost: gasCost,
-                    depositCost: depositCost,
-                    commissionCost: commissionCost,
-                    total: total
+                    secondAccount: secondAccount,
+                    roomPrices: {
+                        requirementsCost: requirementsCost,
+                        gasCost: gasCost,
+                        depositCost: depositCost,
+                        commissionCost: commissionCost,
+                        total: total
+                    }
                 })
             }
         } else {
@@ -81,7 +123,6 @@ async function getGasCostFromApi() {
         const key = 'H1N4HV9WRA87N6VS8DB51HZBMXCVWI6I32';
         const res = await fetch(`https://api.etherscan.io/api?module=gastracker&action=gasoracle&apikey=${key}`);
         const data = await res.json();
-        console.log(data.result)
         return Number(data.result.suggestBaseFee / 1000).toFixed(3);
     } catch (e) {
         console.log(e)
@@ -94,19 +135,75 @@ async function getGasCostFromApi() {
     The end of current process will be final price of contract cost
  */
 
-async function getRequirementsCostFromTestNet(requirements) {
+async function getRequirementsCostFromTestNet(requirements, depositCost) {
     try {
-        const testAddress = "0x265346D6f42b517BC18E90C150caABdFD010107C"
-        const price = await smartContractDeployment(requirements, testAddress)
+        const testAddress = process.env.TEST_ADDRESS
+        const price = await smartContractDeployment.deployTestContract(requirements, testAddress, depositCost)
         return Number(price).toFixed(3)
     } catch (e) {
         console.log(e)
     }
 }
 
+/*
+    So first step is calculate smart contract price
+    Send whole price to deposit ledger and create a smart contract from deposit ledger
+    Or push contract from buyer and buyer create this contract with deposit cost
+    This deposit cost send to deposit ledger on another account
+ */
+
 async function createSmartContract(request, result) {
     try {
+        const token = request.get('token')
+        const {ownerId, userId, roomId} = request.body
 
+        const roomResult = await roomResultController.getRoomResult(roomId)
+
+        if(roomResult !== undefined){
+            throw new Error("Contract already created!")
+        }
+
+        const data = await resolveBuyerAndSeller(token, ownerId, userId)
+
+        if (data.buyer.account !== data.seller.account) {
+            const {
+                requirementsCost,
+                depositCost,
+                gasCost,
+                requirements
+            } = await getCosts(roomId)
+            if (requirementsCost === 0 || depositCost === 0 || gasCost === 0) {
+                result.status(400).json({
+                    success: false,
+                    message: "Requirements or deposit cost or gas cost is zero"
+                })
+            } else {
+
+                const contractData = await smartContractDeployment.deployContract(data.seller.account, requirements, depositCost)
+
+                const licenseId = await licensesController.createLicense(
+                    roomId,
+                    "test",
+                    "test",
+                    data.buyer.id,
+                    contractData.requirementsContractAddress
+                )
+
+                await roomRequirementsController.updateRequirements(licenseId, roomId)
+                await roomResultController.createRoomResult(roomId, requirementsCost, gasCost, depositCost)
+
+                result.status(200).json({
+                    success: true,
+                    title: "Congratulations with your deal!",
+                    description: "Now you can check your license at the profile page"
+                })
+            }
+        } else {
+            result.status(400).json({
+                success: false,
+                message: "Error buyer and seller addresses can not be equal"
+            })
+        }
     } catch (e) {
         console.log(e)
         result.status(500).json({
@@ -114,4 +211,76 @@ async function createSmartContract(request, result) {
             message: "Error in creating smart contract: " + e.message
         })
     }
+}
+
+async function getCosts(roomId) {
+    try {
+
+        const requirements = await roomRequirementsController.getRoomRequirements(roomId)
+
+        let requirementsCost = 0
+        let gasCost = 0
+        let depositCost = 0
+        let commissionCost = 0
+
+        /*
+            If requirement applied by second side
+        */
+        requirements.forEach((requirement) => {
+            if (requirement.isAlive === false) {
+                if (requirement.type === "Hold deposit") {
+                    depositCost = Number(requirement.value)
+                } else {
+                    requirementsCost += requirement.value
+                }
+            }
+        })
+
+        gasCost = await getGasCostFromApi()
+        requirementsCost = await getRequirementsCostFromTestNet(requirements, depositCost)
+
+        commissionCost = calculateCommissionCost(requirementsCost, gasCost, depositCost)
+
+        return {
+            requirementsCost: requirementsCost,
+            gasCost: gasCost,
+            commissionCost: commissionCost,
+            depositCost: depositCost,
+            requirements: requirements
+        }
+
+    } catch (e) {
+        console.log("Error in getting room cost: " + e.message)
+    }
+}
+
+async function resolveBuyerAndSeller(token, ownerId, userId) {
+
+    const user = await userController.getUser(token)
+    const ownerUser = await userController.getUserById(ownerId)
+    const secondUser = await userController.getUserById(userId)
+
+    let buyer
+    let seller
+
+    if (user.id === ownerUser.id) {
+        buyer = user
+        seller = secondUser
+    } else if (user.id === secondUser.id) {
+        buyer = secondUser
+        seller = user
+    }
+
+    return {
+        buyer,
+        seller
+    }
+}
+
+function calculateCommissionCost(requirementsCost, gasCost, depositCost) {
+    return ((Number(requirementsCost) + Number(gasCost) + Number(depositCost / 10)) * 0.1).toFixed(4)
+}
+
+function calculateTotalCost(requirementsCost, gasCost, depositCost, commissionCost) {
+    return (Number(requirementsCost) + Number(gasCost) + Number(depositCost) + Number(commissionCost)).toFixed(3)
 }

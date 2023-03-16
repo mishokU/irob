@@ -1,5 +1,16 @@
 import {createApi, fetchBaseQuery} from "@reduxjs/toolkit/dist/query/react";
-import {GetRoomRequirementsCostResponse} from "../../models/rooms/payment/GetRoomRequirementsCostResponse";
+import {
+    GetRoomRequirementsCostResponse
+} from "../../models/rooms/payment/GetRoomRequirementsCostResponse";
+import {
+    RoomPaymentRequest
+} from "../../../features/rooms/domain/RoomPaymentRequest";
+import {
+    CreateLicenseRequest
+} from "../../../features/rooms/domain/CreateLicenseRequest";
+import {CreateLicenseResult} from "../../models/payment/CreateLicenseResult";
+import {RoomPrices} from "../../models/rooms/payment/RoomPrices";
+import {GetRoomResult} from "../../models/rooms/payment/GetRoomResult";
 
 export const RoomPaymentApi = createApi({
     reducerPath: "irob/api/room/payment", baseQuery: fetchBaseQuery({
@@ -9,20 +20,42 @@ export const RoomPaymentApi = createApi({
             return headers
         },
     }), endpoints: (builder) => ({
-        getRoomRequirementsCost: builder.mutation<GetRoomRequirementsCostResponse, string>({
-            query: (body) => ({
-                url: `/cost`,
-                method: `GET`,
-                params: {
-                    roomId: body
+        getRoomRequirementsCost: builder.mutation<GetRoomRequirementsCostResponse, RoomPaymentRequest>(
+            {
+                query: (body) => ({
+                    url: `/cost`, method: `GET`, params: {
+                        roomId: body.roomId, userId: body.userId
+                    }
+                }),
+                transformResponse: (response: GetRoomRequirementsCostResponse) => response,
+                transformErrorResponse(meta: unknown, arg: unknown): string {
+                    return "Error while getRoomRequirementsCost, try later."
                 }
             }),
-            transformResponse: (response: GetRoomRequirementsCostResponse) => response,
+        createLicense: builder.mutation<CreateLicenseResult, CreateLicenseRequest>(
+            {
+                query: (body) => ({
+                    url: `/create`, method: `POST`, body
+                }),
+                transformResponse: (response: CreateLicenseResult) => response,
+                transformErrorResponse(meta: unknown, arg: unknown): string {
+                    return "Error while getRoomRequirementsCost, try later."
+                }
+            }),
+        getRoomResult: builder.mutation<GetRoomResult, string>({
+            query: (roomId) => ({
+                url: `/result`, method: `GET`, params: {
+                    roomId: roomId
+                }
+            }),
+            transformResponse: (response: GetRoomResult) => response,
             transformErrorResponse(meta: unknown, arg: unknown): string {
-                return "Error while get room messages, try later."
+                return "Error while getRoomRequirementsCost, try later."
             }
-        }),
+        })
     }),
 });
 
-export const {useGetRoomRequirementsCostMutation} = RoomPaymentApi;
+export const {
+    useGetRoomRequirementsCostMutation, useCreateLicenseMutation, useGetRoomResultMutation
+} = RoomPaymentApi;

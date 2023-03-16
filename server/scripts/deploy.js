@@ -1,54 +1,80 @@
-// We require the Hardhat Runtime Environment explicitly here. This is optional
-// but useful for running the script in a standalone fashion through `node <script>`.
-//
-// You can also run a script with `npx hardhat run <script>`. If you do that, Hardhat
-// will compile your contracts, add the Hardhat Runtime Environment's members to the
-// global scope, and execute the script.
-const hre = require("hardhat");
-const {lazyObject} = require("hardhat/plugins");
-const {createProvider} = require("hardhat/internal/core/providers/construction");
+const hre = require("./config")
 
-module.exports = deployTestContract
-
-const networkName = "localganache"
-
-const networkConfig = {
-    url: "HTTP://127.0.0.1:7545",
-    accounts: [`0x49553634723498641e25e2a077eb5db3c6e3df0e50f84641bcd96d2480128c0e`]
+module.exports = {
+    deployTestContract,
+    deployContract
 }
 
-const provider = lazyObject(() => {
-    return createProvider(
-        networkName,
-        networkConfig,
-        hre.config.paths,
-        hre.artifacts
-    );
-});
-
-async function deployTestContract(listRequirements, sellerAddress) {
+async function deployTestContract(listRequirements, sellerAddress, depositCost) {
     try {
 
-        hre.network = {
-            name: networkName,
-            config: networkConfig,
-            provider,
-        };
+        const Lib = await hre.ethers.getContractFactory("StringUtils");
+        const lib = await Lib.deploy();
+        await lib.deployed();
 
-        const Requirements = await hre.ethers.getContractFactory("Requirements");
-        const requirements = await Requirements.deploy(sellerAddress);
+        const Requirements = await hre.ethers.getContractFactory("RequirementsStorage", {
+            libraries: {
+                StringUtils: lib.address
+            }
+        });
+
+        const requirements = await Requirements.deploy(sellerAddress, depositCost);
         await requirements.deployed();
+        let fullEther = 0.0;
+
         for (const requirement of listRequirements) {
-            //const data = await requirements.addRequirement(requirement.type, requirement.value);
-            //console.log("data cost: " + data.toString())
+            const data = await requirements.addRequirement(requirement.type, requirement.value);
+            fullEther += Number(hre.ethers.utils.formatEther(data.gasLimit * 1000000000))
         }
-        return hre.ethers.utils.formatEther(requirements.deployTransaction.gasLimit * 1000000000);
+        fullEther += Number(hre.ethers.utils.formatEther(requirements.deployTransaction.gasLimit * 1000000000))
+        return fullEther
     } catch (e) {
         console.log(e)
         return 0;
     }
 }
 
-async function deployContract() {
+async function deployContract(sellerAddress, listRequirements, depositCost) {
+    try {
+        const Lib = await hre.ethers.getContractFactory("StringUtils");
+        const lib = await Lib.deploy();
+        await lib.deployed();
 
+        const Requirements = await hre.ethers.getContractFactory("RequirementsStorage", {
+            libraries: {
+                StringUtils: lib.address
+            }
+        });
+
+        /*
+            Creating smart contract with requirements
+        */
+
+        const requirements = await Requirements.deploy(sellerAddress, depositCost);
+        await requirements.deployed();
+        let fullEther = 0.0;
+        for (const requirement of listRequirements) {
+            const data = await requirements.addRequirement(requirement.type, requirement.value);
+            fullEther += Number(hre.ethers.utils.formatEther(data.gasLimit * 1000000000))
+        }
+
+        /*
+            Transfer eth deposit from buyer account to deposit account
+        */
+
+        const [owner,  feeCollector, operator] = await hre.ethers.getSigners();
+
+        const data = await owner.sendTransaction({
+            to: process.env.DEPOSIT_ADDRESS,
+            value: hre.ethers.utils.parseEther(depositCost.toString())
+        });
+
+        return {
+            requirementsContractAddress: requirements.address,
+            depositTransferData: data
+        }
+
+    } catch (e){
+        console.log("Deploy real contract error: " + e.message)
+    }
 }
