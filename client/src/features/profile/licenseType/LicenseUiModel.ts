@@ -1,6 +1,7 @@
 export interface LicenseUiModel {
     status: LicenseStatus
     name: string
+    type: string
     owner: string
     date: string
     progress: number

@@ -4,6 +4,7 @@ const smartContractDeployment = require("../../scripts/deploy");
 const userController = require("../../controllers/UserController");
 const licensesController = require("../../controllers/LicensesController")
 const roomResultController = require("../../controllers/RoomResultController")
+const Web3 = require("web3");
 
 const roomPaymentRouter = new Router()
 
@@ -22,6 +23,40 @@ roomPaymentRouter.post('/create', (request, result) => {
     return createSmartContract(request, result)
 })
 
+roomPaymentRouter.get('/contractData', (request, result) => {
+    return getContractData(request, result)
+})
+
+async function getContractData(request, result) {
+    try {
+
+        const token = request.get('token')
+
+        const ownerId = request.query.ownerId
+        const userId = request.query.userId
+        const roomId = request.query.roomId
+
+        const data = await resolveBuyerAndSeller(token, ownerId, userId)
+
+        const {depositCost} = await getCosts(roomId)
+
+        const contractData = await smartContractDeployment.getContractData(data.seller.account, data.buyer.account, depositCost)
+
+        result.status(200).json({
+            success: true,
+            address: data.buyer.account,
+            data: contractData
+        })
+    } catch (e) {
+        const message = "Error in getting contract data: " + e.message
+        console.log(message)
+        result.status(200).json({
+            success: false,
+            message: message
+        })
+    }
+}
+
 async function getRoomResult(request, result) {
     try {
 
@@ -29,7 +64,7 @@ async function getRoomResult(request, result) {
 
         const roomResult = await roomResultController.getRoomResult(roomId)
 
-        if(roomResult !== undefined) {
+        if (roomResult !== undefined) {
 
             const license = await licensesController.getLicenseByRoomId(roomId)
 
@@ -120,12 +155,12 @@ async function getRoomRequirementsCost(request, result) {
 
 async function getGasCostFromApi() {
     try {
-        const key = 'H1N4HV9WRA87N6VS8DB51HZBMXCVWI6I32';
+        const key = process.env.ETHERSCAN_API_KEY;
         const res = await fetch(`https://api.etherscan.io/api?module=gastracker&action=gasoracle&apikey=${key}`);
         const data = await res.json();
         return Number(data.result.suggestBaseFee / 1000).toFixed(3);
     } catch (e) {
-        console.log(e)
+        console.log("getGasCostFromApi: " + e.message)
         return 0;
     }
 }
@@ -133,7 +168,7 @@ async function getGasCostFromApi() {
 /*
     Call bash script that compile and run solidity contracts
     The end of current process will be final price of contract cost
- */
+*/
 
 async function getRequirementsCostFromTestNet(requirements, depositCost) {
     try {
@@ -141,7 +176,7 @@ async function getRequirementsCostFromTestNet(requirements, depositCost) {
         const price = await smartContractDeployment.deployTestContract(requirements, testAddress, depositCost)
         return Number(price).toFixed(3)
     } catch (e) {
-        console.log(e)
+        console.log("getRequirementsCostFromTestNet: " + e.message)
     }
 }
 
@@ -155,49 +190,41 @@ async function getRequirementsCostFromTestNet(requirements, depositCost) {
 async function createSmartContract(request, result) {
     try {
         const token = request.get('token')
-        const {ownerId, userId, roomId} = request.body
+        const {ownerId, userId, roomId, contractAddress} = request.body
 
         const roomResult = await roomResultController.getRoomResult(roomId)
 
-        if(roomResult !== undefined){
-            throw new Error("Contract already created!")
+        if (roomResult !== undefined) {
+            throw Error("Contract already created!")
         }
 
         const data = await resolveBuyerAndSeller(token, ownerId, userId)
 
         if (data.buyer.account !== data.seller.account) {
+
             const {
                 requirementsCost,
                 depositCost,
-                gasCost,
-                requirements
+                gasCost
             } = await getCosts(roomId)
-            if (requirementsCost === 0 || depositCost === 0 || gasCost === 0) {
-                result.status(400).json({
-                    success: false,
-                    message: "Requirements or deposit cost or gas cost is zero"
-                })
-            } else {
 
-                const contractData = await smartContractDeployment.deployContract(data.seller.account, requirements, depositCost)
+            const checkSummedAddress = Web3.utils.toChecksumAddress(contractAddress)
 
-                const licenseId = await licensesController.createLicense(
-                    roomId,
-                    "test",
-                    "test",
-                    data.buyer.id,
-                    contractData.requirementsContractAddress
-                )
+            const licenseId = await licensesController.createLicense(
+                roomId,
+                data.buyer.id,
+                checkSummedAddress
+            )
 
-                await roomRequirementsController.updateRequirements(licenseId, roomId)
-                await roomResultController.createRoomResult(roomId, requirementsCost, gasCost, depositCost)
+            await roomRequirementsController.updateRequirements(licenseId, roomId)
+            await roomResultController.createRoomResult(roomId, requirementsCost, gasCost, depositCost, data.buyer.id)
 
-                result.status(200).json({
-                    success: true,
-                    title: "Congratulations with your deal!",
-                    description: "Now you can check your license at the profile page"
-                })
-            }
+            result.status(200).json({
+                success: true,
+                title: "Congratulations with your deal!",
+                description: "Now you can check your license at the profile page"
+            })
+
         } else {
             result.status(400).json({
                 success: false,

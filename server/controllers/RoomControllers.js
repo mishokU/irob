@@ -7,6 +7,10 @@ module.exports = {
         const data = await db.query(`SELECT * FROM rooms WHERE room_id= $1;`, [roomId])
         return data.rows[0]
     },
+    getRooms: async function () {
+        const data = await db.query(`SELECT * FROM rooms`)
+        return data.rows
+    },
     updateFirstAgreement: async function(roomId, isAgree){
         await db.query(`
             UPDATE rooms SET first_agreement = $1 WHERE room_id= $2;`, [isAgree, roomId]
@@ -28,10 +32,10 @@ module.exports = {
             console.log("is room admin error: " + e.message)
         }
     },
-    updateRoom: async function (roomId, newName, userId) {
+    updateRoom: async function (roomId, newName, type, owner, userId) {
         await db.query(`
-            UPDATE rooms SET name = $1, user_id = $3 
-            WHERE room_id= $2;`, [newName, roomId, Number(userId)]
+            UPDATE rooms SET name = $1, user_id = $3, type=$4, owner=$5
+            WHERE room_id= $2;`, [newName, roomId, Number(userId), type, owner]
         )
     }
 }

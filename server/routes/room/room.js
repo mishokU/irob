@@ -78,9 +78,9 @@ async function agreementRoom(request, result){
 
 async function updateRoom(request, result) {
     try {
-        const {roomId, name, ownerId, userId } = request.body
+        const {roomId, name, ownerId, owner, type, userId } = request.body
         if(ownerId !== userId){
-            await roomController.updateRoom(roomId, name, userId)
+            await roomController.updateRoom(roomId, name, type, owner, userId)
             result.status(200).json({
                 success: true,
                 name: name,
@@ -165,6 +165,8 @@ async function getRoom(request, result) {
             isAdmin: isAdmin,
             ownerId: room.owner_id,
             firstAgreement: room.first_agreement,
+            type: room.type,
+            owner: room.owner,
             secondAgreement: room.second_agreement,
             userId: room.user_id,
             roomName: room.name

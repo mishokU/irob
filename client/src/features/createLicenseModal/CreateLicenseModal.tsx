@@ -1,7 +1,6 @@
 import {Dialog, Transition} from "@headlessui/react";
 import {Fragment} from "react";
 import {buttonTheme} from "../../themes/Themes";
-import CreateLicenseStepper from "./CreateLicenseStepper";
 import {FormPage} from "./FormPage";
 
 export interface CreateLicenseModalProps {

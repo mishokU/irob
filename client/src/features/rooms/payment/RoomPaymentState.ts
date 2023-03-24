@@ -25,10 +25,10 @@ export interface RoomPaymentState {
 
 export function initialRoomPaymentState(isLedgerConnected: boolean): RoomPaymentState {
     return {
-        isLedgerConnected: isLedgerConnected, balance: 0, leftPanel: {
+        isLedgerConnected: isLedgerConnected, balance: -1, leftPanel: {
             isLoading: true, isError: null, data: {
                 requirementsCost: 0,
-                gasCost: 0,
+                gasCost: -1,
                 depositCost: 0,
                 commission: 0,
                 total: 0,

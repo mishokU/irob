@@ -1,19 +1,25 @@
 import {useEffect, useState} from "react";
 import {
     useDeleteLicenseMutation,
+    useGetFavouriteLicensesMutation,
     useGetProfileLicensesMutation,
+    useGetSoldLicensesMutation,
     useHandleFavouriteMutation
 } from "../../../data/store/licenses/LicensesApi";
 import {LicenseResponse} from "../../../data/models/common/LicensesResponse";
 import {ClickType, getLicenseStatus, LicenseUiModel} from "./LicenseUiModel";
 import {useNavigate} from "react-router-dom";
 import {IROBRoutes} from "../../../routes/IROBRoutes";
+import {LicenseMenu} from "../delegates/LicenseMenu";
 
-export function LicenseItemViewModel() {
+export function LicenseItemViewModel(type: LicenseMenu) {
 
     const [licenseItems, setLicenseItems] = useState<LicenseUiModel[]>([])
 
     const [getAllLicensesMutation] = useGetProfileLicensesMutation()
+    const [getSoldLicensesMutation] = useGetSoldLicensesMutation()
+    const [getFavouriteLicensesMutation] = useGetFavouriteLicensesMutation()
+
     const [deleteLicenseMutation] = useDeleteLicenseMutation()
     const [handleFavouriteMutation] = useHandleFavouriteMutation()
 
@@ -22,8 +28,16 @@ export function LicenseItemViewModel() {
     useEffect(() => {
 
         async function loadLicenses() {
-            const data = getAllLicensesMutation()
-            return data.unwrap()
+            if (type === LicenseMenu.MY_LICENSES) {
+                const data = getAllLicensesMutation()
+                return data.unwrap()
+            } else if (type === LicenseMenu.SOLD) {
+                const data = getSoldLicensesMutation()
+                return data.unwrap()
+            } else if (type === LicenseMenu.FAVOURITE) {
+                const data = getFavouriteLicensesMutation()
+                return data.unwrap()
+            }
         }
 
         loadLicenses()
@@ -35,6 +49,7 @@ export function LicenseItemViewModel() {
                         name: license.name,
                         date: license.date,
                         owner: license.owner,
+                        type: license.type,
                         uid: license.uid,
                         id: license.id,
                         roomId: license.roomId,
@@ -57,7 +72,6 @@ export function LicenseItemViewModel() {
     }
 
     const onLicenseClick = async (type: ClickType, licenseId: number) => {
-        console.log(type)
         if (type === ClickType.updateVisibility) {
             await updateUidVisibility(licenseId)
         } else {
@@ -65,18 +79,18 @@ export function LicenseItemViewModel() {
         }
     }
 
-    async function onFavouriteClick(licenseId: number) {
-        const result = await handleFavouriteMutation(licenseId)
+    const onFavouriteClick = async (licenseId: number) => {
+        const result = await handleFavouriteMutation(licenseId).unwrap()
         const newLicenseItems = [...licenseItems];
         newLicenseItems.forEach((license) => {
             if (license.id === licenseId) {
-                license.isFavourite = !license.isFavourite
+                license.isFavourite = result.isFavourite
             }
         })
         setLicenseItems(newLicenseItems)
     }
 
-    async function updateUidVisibility(licenseId: number) {
+    const updateUidVisibility = async (licenseId: number) => {
         const newLicenseItems = [...licenseItems];
         newLicenseItems.forEach((license) => {
             if (license.id === licenseId) {
@@ -87,11 +101,7 @@ export function LicenseItemViewModel() {
     }
 
     return {
-        licenseItems,
-        onFavouriteClick,
-        onDeleteClick,
-        onMessagesClick,
-        onLicenseClick
+        licenseItems, onDeleteClick, onMessagesClick, onLicenseClick
     }
 
 }

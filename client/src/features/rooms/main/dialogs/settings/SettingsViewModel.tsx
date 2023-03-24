@@ -4,8 +4,12 @@ import {RootState} from "../../../../../data/store";
 import {useUpdateRoomMutation} from "../../../../../data/store/rooms/RoomsApi";
 import {updateRoomName} from "../../../../../data/slices/RoomSlice";
 import {SettingsProps} from "./SettingsProps";
-import {useSearchUsersByCredentialsMutation} from "../../../../../data/store/search/SearchApi";
-import {ProfileResponse} from "../../../../../data/models/profile/ProfileResponse";
+import {
+    useSearchUsersByCredentialsMutation
+} from "../../../../../data/store/search/SearchApi";
+import {
+    ProfileResponse
+} from "../../../../../data/models/profile/ProfileResponse";
 import {debounce} from "@mui/material";
 import {UserSettingsModel} from "./UserSettingsModel";
 
@@ -16,8 +20,10 @@ export default function SettingsViewModel({setIsVisible}: SettingsProps) {
 
     const dispatch = useDispatch()
 
-    const [title, setTitle] = useState(roomReducer.roomName)
-    const [search, setSearch] = useState("")
+    const [title, setTitle] = useState<string>(roomReducer.roomName)
+    const [type, setType] = useState<string>(roomReducer.type)
+    const [owner, setOwner] = useState<string>(roomReducer.owner)
+    const [search, setSearch] = useState<string>("")
     const [users, setUsers] = useState<UserSettingsModel[]>([])
     const [isDropdownVisible, setDropdown] = useState(false)
     const [userId, setUserId] = useState(0)
@@ -31,6 +37,8 @@ export default function SettingsViewModel({setIsVisible}: SettingsProps) {
                 roomId: roomReducer.roomId,
                 name: title,
                 userId: userId,
+                owner: owner,
+                type: type,
                 ownerId: profileReducer.profileId
             }).unwrap()
             dispatch(updateRoomName(payload))
@@ -56,7 +64,8 @@ export default function SettingsViewModel({setIsVisible}: SettingsProps) {
             .then((data: any) => {
                 const users = data.users.map((user: ProfileResponse) => {
                     return {
-                        username: user.name + " " + user.surname, userId: user.id
+                        username: user.name + " " + user.surname,
+                        userId: user.id
                     }
                 })
                 setUsers(users)
@@ -73,7 +82,18 @@ export default function SettingsViewModel({setIsVisible}: SettingsProps) {
     }
 
     return {
-        title, setTitle, updateRoomClick, search, setSearch, isDropdownVisible, users, onUserClick
+        title,
+        setTitle,
+        updateRoomClick,
+        search,
+        setSearch,
+        isDropdownVisible,
+        users,
+        onUserClick,
+        type,
+        setType,
+        owner,
+        setOwner
     }
 
 }

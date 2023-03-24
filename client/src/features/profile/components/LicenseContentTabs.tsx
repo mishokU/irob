@@ -18,15 +18,15 @@ export function LicenseContentTabs({menu, setMenu}: LicenseTabProps) {
                 </button>
             </li>
             <li role="presentation">
-                <button className={menu === LicenseMenu.FAVOURITE ? menuStyleActive : menuStyle} onClick={() => {
-                    setMenu(LicenseMenu.FAVOURITE)
-                }}>Favourite
+                <button className={menu === LicenseMenu.SOLD ? menuStyleActive : menuStyle} onClick={() => {
+                    setMenu(LicenseMenu.SOLD)
+                }}>Sold Licenses
                 </button>
             </li>
             <li role="presentation">
-                <button className={menu === LicenseMenu.REQUESTS ? menuStyleActive : menuStyle} onClick={() => {
-                    setMenu(LicenseMenu.REQUESTS)
-                }}>Requests
+                <button className={menu === LicenseMenu.FAVOURITE ? menuStyleActive : menuStyle} onClick={() => {
+                    setMenu(LicenseMenu.FAVOURITE)
+                }}>Favourite Licenses
                 </button>
             </li>
             <li>

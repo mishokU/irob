@@ -9,40 +9,36 @@ import {
     CreateLicenseRequest
 } from "../../../features/rooms/domain/CreateLicenseRequest";
 import {CreateLicenseResult} from "../../models/payment/CreateLicenseResult";
-import {RoomPrices} from "../../models/rooms/payment/RoomPrices";
 import {GetRoomResult} from "../../models/rooms/payment/GetRoomResult";
+import {GetContractDataResult} from "../../models/payment/GetContractDataResult";
+import {GetContractDataRequest} from "../../../features/rooms/domain/GetContractDataRequest";
 
 export const RoomPaymentApi = createApi({
     reducerPath: "irob/api/room/payment", baseQuery: fetchBaseQuery({
-        baseUrl: "http://localhost:5000/room/payment",
-        prepareHeaders: (headers) => {
+        baseUrl: "http://localhost:5000/room/payment", prepareHeaders: (headers) => {
             headers.set('token', localStorage.getItem("jwtToken") || "")
             return headers
         },
     }), endpoints: (builder) => ({
-        getRoomRequirementsCost: builder.mutation<GetRoomRequirementsCostResponse, RoomPaymentRequest>(
-            {
-                query: (body) => ({
-                    url: `/cost`, method: `GET`, params: {
-                        roomId: body.roomId, userId: body.userId
-                    }
-                }),
-                transformResponse: (response: GetRoomRequirementsCostResponse) => response,
-                transformErrorResponse(meta: unknown, arg: unknown): string {
-                    return "Error while getRoomRequirementsCost, try later."
+        getRoomRequirementsCost: builder.mutation<GetRoomRequirementsCostResponse, RoomPaymentRequest>({
+            query: (body) => ({
+                url: `/cost`, method: `GET`, params: {
+                    roomId: body.roomId, userId: body.userId
                 }
             }),
-        createLicense: builder.mutation<CreateLicenseResult, CreateLicenseRequest>(
-            {
-                query: (body) => ({
-                    url: `/create`, method: `POST`, body
-                }),
-                transformResponse: (response: CreateLicenseResult) => response,
-                transformErrorResponse(meta: unknown, arg: unknown): string {
-                    return "Error while getRoomRequirementsCost, try later."
-                }
+            transformResponse: (response: GetRoomRequirementsCostResponse) => response,
+            transformErrorResponse(meta: unknown, arg: unknown): string {
+                return "Error while getRoomRequirementsCost, try later."
+            }
+        }), createLicense: builder.mutation<CreateLicenseResult, CreateLicenseRequest>({
+            query: (body) => ({
+                url: `/create`, method: `POST`, body
             }),
-        getRoomResult: builder.mutation<GetRoomResult, string>({
+            transformResponse: (response: CreateLicenseResult) => response,
+            transformErrorResponse(meta: unknown, arg: unknown): string {
+                return "Error while getRoomRequirementsCost, try later."
+            }
+        }), getRoomResult: builder.mutation<GetRoomResult, string>({
             query: (roomId) => ({
                 url: `/result`, method: `GET`, params: {
                     roomId: roomId
@@ -52,10 +48,20 @@ export const RoomPaymentApi = createApi({
             transformErrorResponse(meta: unknown, arg: unknown): string {
                 return "Error while getRoomRequirementsCost, try later."
             }
+        }), getContractData: builder.mutation<GetContractDataResult, GetContractDataRequest>({
+            query: (body) => ({
+                url: `/contractData`, method: `GET`, params: {
+                    roomId: body.roomId, ownerId: body.ownerId, userId: body.userId
+                }
+            }),
+            transformResponse: (response: GetContractDataResult) => response,
+            transformErrorResponse(meta: unknown, arg: unknown): string {
+                return "Error while getRoomRequirementsCost, try later."
+            }
         })
     }),
 });
 
 export const {
-    useGetRoomRequirementsCostMutation, useCreateLicenseMutation, useGetRoomResultMutation
+    useGetRoomRequirementsCostMutation, useCreateLicenseMutation, useGetRoomResultMutation, useGetContractDataMutation
 } = RoomPaymentApi;

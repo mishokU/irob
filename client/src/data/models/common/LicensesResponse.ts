@@ -7,6 +7,7 @@ export interface LicenseResponse {
     status: string,
     uid: string,
     name: string,
+    type: string,
     owner: string,
     date: string,
     isFavourite: boolean,

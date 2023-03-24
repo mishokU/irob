@@ -1,5 +1,6 @@
 export interface CreateLicenseResult {
     success: boolean,
     title: string,
-    description: string
+    description: string,
+    message: string | null
 }

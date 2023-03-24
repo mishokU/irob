@@ -13,8 +13,7 @@ export function ProfilePage() {
     const {menu, setMenu} = ProfileMenuHandlerDelegate()
     const [isCreateNewLicenseModalVisible, setIsCreateNewLicenseModalVisible] = useState(false)
     return <div className="ml-16 mt-16 pb-8">
-        <CreateLicenseModal isVisible={isCreateNewLicenseModalVisible}
-                            setIsVisible={setIsCreateNewLicenseModalVisible} />
+        <CreateLicenseModal isVisible={isCreateNewLicenseModalVisible} setIsVisible={setIsCreateNewLicenseModalVisible} />
         <div className="flex text-white">
             <div>
                 <ProfileCard />

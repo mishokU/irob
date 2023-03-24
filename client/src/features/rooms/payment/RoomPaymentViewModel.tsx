@@ -1,9 +1,7 @@
 import {useMetaMask} from "metamask-react";
 import {useEffect, useState} from "react";
 import {
-    useCreateLicenseMutation,
-    useGetRoomRequirementsCostMutation,
-    useGetRoomResultMutation
+    useCreateLicenseMutation, useGetContractDataMutation, useGetRoomRequirementsCostMutation, useGetRoomResultMutation
 } from "../../../data/store/payment/RoomPaymentApi";
 import {useSelector} from "react-redux";
 import {RootState} from "../../../data/store";
@@ -19,19 +17,21 @@ import {
 import {
     getLicenseStatus, LicenseStatus
 } from "../../profile/licenseType/LicenseUiModel";
+import {isMetamaskAvailable} from "../../../domain/web3/isMetamaskAvailable";
+import {signTransaction} from "../../../domain/web3/signTransaction";
 
 export default function RoomPaymentViewModel() {
 
     const roomReducer = useSelector((state: RootState) => state.room)
 
-    const {status, connect, account} = useMetaMask();
+    const {status, connect, account } = useMetaMask();
 
-    const [screenState, setScreenState] = useState<RoomPaymentState>(
-        initialRoomPaymentState(status === "connected"))
+    const [screenState, setScreenState] = useState<RoomPaymentState>(initialRoomPaymentState(status === "connected"))
 
     const [getCost, {isLoading: isUpdating}] = useGetRoomRequirementsCostMutation()
     const [updateAccountLedgerMutation] = useUpdateLedgerAccountMutation()
     const [createLicenseMutation] = useCreateLicenseMutation()
+    const [getContractData] = useGetContractDataMutation()
     const [getRoomResult] = useGetRoomResultMutation()
 
     useEffect(() => {
@@ -47,19 +47,16 @@ export default function RoomPaymentViewModel() {
                         roomId: roomReducer.roomId, userId: roomReducer.userId
                     }).unwrap()
 
-                    updateScreenState(
-                        response.balance,
+                    updateScreenState(response.balance,
                         prices.roomPrices,
-                        resolveButtonType(response.balance, prices), null
-                    )
+                        resolveButtonType(response.balance, prices),
+                        null)
 
                 } else {
-                    updateScreenState(
-                        response.balance,
+                    updateScreenState(response.balance,
                         roomResult.roomPrices,
                         ButtonType.Executed,
-                        getLicenseStatus(roomResult.licenseStatus)
-                    )
+                        getLicenseStatus(roomResult.licenseStatus))
                 }
             }
         }
@@ -67,15 +64,19 @@ export default function RoomPaymentViewModel() {
         if (screenState.isLedgerConnected) {
             getBalance().catch((e) => console.log(e))
         }
+
     }, [screenState.isLedgerConnected])
 
     useEffect(() => {
         setScreenState({
-            ...screenState, isLedgerConnected: status === "connected"
+            ...screenState, isLedgerConnected: status === "connected",leftPanel: {
+                ...screenState.leftPanel, isLoading: true
+            }
         })
     }, [status])
 
     useEffect(() => {
+        console.log(isUpdating)
         setScreenState({
             ...screenState, leftPanel: {
                 ...screenState.leftPanel, isLoading: isUpdating
@@ -85,52 +86,80 @@ export default function RoomPaymentViewModel() {
 
     const handleTransaction = async () => {
         try {
+            loading()
+            if (isMetamaskAvailable()) {
+                const result = await getContractData({
+                    roomId: roomReducer.roomId, ownerId: roomReducer.ownerId, userId: roomReducer.userId
+                }).unwrap()
 
-            setScreenState({
-                ...screenState,
-                leftPanel: {
-                    ...screenState.leftPanel,
-                    data: {
-                        ...screenState.leftPanel.data,
-                        canPay: false
+                if (result.success === false) {
+                    error(result.message)
+                } else {
+
+                    const contractAddress = await signTransaction(result.address, result.data)
+
+                    const createLicenseResponse = await createLicenseMutation({
+                        roomId: roomReducer.roomId,
+                        ownerId: roomReducer.ownerId,
+                        userId: roomReducer.userId,
+                        contractAddress: contractAddress
+                    }).unwrap()
+
+                    if (createLicenseResponse.success === false) {
+                        error(createLicenseResponse.message)
+                    } else {
+                        successCreation(createLicenseResponse.title, createLicenseResponse.description)
                     }
-                },
-                rightPanel: {
-                    ...screenState.rightPanel, isLoading: true,
+
                 }
-            })
+            }
 
-            const result = await createLicenseMutation({
-                roomId: roomReducer.roomId,
-                ownerId: roomReducer.ownerId,
-                userId: roomReducer.userId
-            }).unwrap()
-
-            setScreenState({
-                ...screenState,
-                leftPanel: {
-                    ...screenState.leftPanel,
-                    data: {
-                        ...screenState.leftPanel.data,
-                        canPay: false,
-                        buttonText: getButtonText(ButtonType.Executed)
-                    }
-                },
-                rightPanel: {
-                    isLoading: false,
-                    showIcon: true,
-                    title: result.title,
-                    description: result.description
-                }
-            })
-
-        } catch (e) {
+        } catch (e: any) {
             console.log(e)
+            error(e.message)
         }
     }
 
-    function updateScreenState(balance: number, prices: RoomPrices,
-        buttonType: ButtonType, licenseStatus: LicenseStatus | null) {
+    function loading() {
+        setScreenState({
+            ...screenState, leftPanel: {
+                ...screenState.leftPanel, data: {
+                    ...screenState.leftPanel.data, canPay: false
+                }
+            }, rightPanel: {
+                ...screenState.rightPanel, isLoading: true,
+            }
+        })
+    }
+
+    function error(message: string | null) {
+        setScreenState({
+            ...screenState, leftPanel: {
+                ...screenState.leftPanel, data: {
+                    ...screenState.leftPanel.data,
+                    canPay: true,
+                    buttonText: getButtonText(ButtonType.ExecuteTransaction)
+                }
+            }, rightPanel: {
+                isLoading: false, showIcon: false, title: message, description: ""
+            }
+        })
+    }
+
+    function successCreation(title: string, description: string) {
+        setScreenState({
+            ...screenState, leftPanel: {
+                ...screenState.leftPanel, data: {
+                    ...screenState.leftPanel.data, canPay: false, buttonText: getButtonText(ButtonType.Executed)
+                }
+            }, rightPanel: {
+                isLoading: false, showIcon: true, title: title, description: description
+            }
+        })
+    }
+
+    function updateScreenState(balance: number, prices: RoomPrices, buttonType: ButtonType,
+        licenseStatus: LicenseStatus | null) {
         setScreenState({
             ...screenState, balance: balance, leftPanel: {
                 ...screenState.leftPanel, isLoading: false, data: {
@@ -146,8 +175,7 @@ export default function RoomPaymentViewModel() {
         })
     }
 
-    function resolveButtonType(balance: number,
-        response: GetRoomRequirementsCostResponse) {
+    function resolveButtonType(balance: number, response: GetRoomRequirementsCostResponse) {
         if (balance < response.roomPrices.total) {
             return ButtonType.NotEnoughMoney
         } else if (response.secondAccount === null) {
@@ -179,18 +207,15 @@ export default function RoomPaymentViewModel() {
             }
         } else {
             return {
-                showIcon: false,
-                isLoading: false,
-                title: "Payment result will be here",
-                description: null
+                showIcon: false, isLoading: false, title: "Payment result will be here", description: null
             }
         }
     }
 
-    function resolveDescription(licenseStatus: LicenseStatus | null){
-        if(licenseStatus === LicenseStatus.running){
+    function resolveDescription(licenseStatus: LicenseStatus | null) {
+        if (licenseStatus === LicenseStatus.running) {
             return "Now you can check your license at the profile page"
-        } else if(licenseStatus === LicenseStatus.success){
+        } else if (licenseStatus === LicenseStatus.success) {
             return "License ends with success! Congratulations!"
         } else {
             return "Oooops, your license end with failure"

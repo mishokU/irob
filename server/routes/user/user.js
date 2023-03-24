@@ -2,6 +2,7 @@ const db = require('../../db');
 const userController = require("../../controllers/UserController");
 const getBalance = require("../../scripts/getBalance")
 const {Router} = require("express");
+const Web3 = require("web3")
 
 const userRouter = new Router()
 
@@ -94,7 +95,9 @@ async function updateAccountLedger(request, result) {
         const token = request.get('token')
         const account = request.body.account
 
-        await userController.updateAccountLedger(token, account)
+        const checkSummedAddress = Web3.utils.toChecksumAddress(account)
+
+        await userController.updateAccountLedger(token, checkSummedAddress)
 
         const balance = await getBalance(account)
 
