@@ -35,12 +35,12 @@ export function RegistrationComponent(auth: IAuth) {
             </div>
             <div className="flex-col pt-8 text-xs text-center ">
                 <span className="text-[#8fadc0]">By clicking the button, you agree to our
-                    <a className="text-[#ffb81c] ml-2 cursor-pointer">Privacy Policy</a>
+                    <a href="#" className="text-[#ffb81c] ml-2 cursor-pointer">Privacy Policy</a>
                 </span>
                 <br />
                 <br />
                 <span className="text-[#8fadc0] text-center">Already have an account?
-                    <a className="text-[#ffb81c] ml-2 cursor-pointer" onClick={() => {
+                    <a href="#" className="text-[#ffb81c] ml-2 cursor-pointer" onClick={() => {
                         auth.state(Auth.LOGIN)
                     }}>Sign in here</a>
                 </span>

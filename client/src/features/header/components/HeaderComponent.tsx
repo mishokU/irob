@@ -32,7 +32,7 @@ export function HeaderComponent() {
     })
 
     return (<div className={`z-20 sticky absolute ${visible ? 'top-0 bg-[#0E1420] ' : ''} `}>
-            {location.pathname !== IROBRoutes.auth && !isUserLogged && <NonAuthHeader />}
-            {location.pathname !== IROBRoutes.auth && isUserLogged && <AuthHeader />}
-        </div>)
+        {location.pathname !== IROBRoutes.auth && !isUserLogged && <NonAuthHeader />}
+        {location.pathname !== IROBRoutes.auth && isUserLogged && <AuthHeader />}
+    </div>)
 }

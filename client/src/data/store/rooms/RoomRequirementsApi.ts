@@ -1,6 +1,4 @@
 import {createApi, fetchBaseQuery} from "@reduxjs/toolkit/dist/query/react";
-import {CreateRoomResponse} from "../../models/rooms/room/CreateRoomResponse";
-import {CreateRoomRequest} from "../../../features/rooms/domain/CreateRoomRequest";
 import {CreateRequirementRequest} from "../../../features/rooms/domain/CreateRequirementRequest";
 import {CreateRequirementResult} from "../../models/rooms/requirements/CreateRequirementResult";
 import {GetRequirementsResponse} from "../../models/rooms/requirements/GetRequrementsResponse";

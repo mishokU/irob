@@ -9,13 +9,13 @@ export function Footer() {
             <div className="space-y-4">
                 <h1>SOCIAL'S</h1>
                 <div className="flex space-x-4">
-                    <img src={whatsupLogo} className="w-[40px] h-[40px] cursor-pointer" />
+                    <img alt={"What's app link"} src={whatsupLogo} className="w-[40px] h-[40px] cursor-pointer" />
                     <img src={vkIcon}
                          className="w-[40px] h-[40px] bg-white cursor-pointer rounded-full border-2"
                          onClick={() => {
                              window.open('https://vk.com/mishkaky', 'width=400, height=400')
-                         }} />
-                    <img src={telegramLogo} className="w-[40px] h-[40px] rounded-full cursor-pointer border-4" />
+                         }} alt={"Vk link"} />
+                    <img alt={"Telegram link"} src={telegramLogo} className="w-[40px] h-[40px] rounded-full cursor-pointer border-4" />
                 </div>
             </div>
             <div className="space-y-4">

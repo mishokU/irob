@@ -8,7 +8,7 @@ const authRouter = new Router();
 
 const USERS_TABLE_NAME = "users";
 const userController = require("../../controllers/UserController");
-const secretKey = config.get("secretKey");
+const secretKey = "80FB4C119C46C9B0596E244B07D20C67D5B7B70BFE886AA97FC17F75A9C1174F";
 
 // export our router to be mounted by the parent application
 module.exports = authRouter;

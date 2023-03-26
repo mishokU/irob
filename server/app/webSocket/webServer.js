@@ -5,8 +5,8 @@ const uuidv4 = require('uuid').v4;
 // Spinning the http server and the WebSocket server.
 const server = http.createServer();
 const wsServer = new WebSocketServer({server});
-const port = 8000;
-server.listen(port,  () => {
+const port = process.env.WEB_SOCKET_PORT;
+server.listen(port, () => {
     console.log(`WebSocket server is running on port http://:${port}`);
 });
 
@@ -38,13 +38,13 @@ function broadcastMessage(json) {
         for (let userId in clients) {
             let client = clients[userId]
             let user = users[userId]
-            if(user.roomId === roomId){
+            if (user.roomId === roomId) {
                 if (client.readyState === WebSocket.OPEN) {
                     client.send(data);
                 }
             }
         }
-    } catch (e){
+    } catch (e) {
         console.log("Broadcast message error: " + e.message + " type: " + data.type)
     }
 }
@@ -97,19 +97,19 @@ async function handleMessage(message, userId) {
         } else if (dataFromClient.type === typesDef.DECLINE_REQUIREMENT) {
             const requirementId = dataFromClient.requirementId
             json.data = {requirementId, roomId}
-        } else if(dataFromClient.type === typesDef.ADD_ADMIN) {
+        } else if (dataFromClient.type === typesDef.ADD_ADMIN) {
 
-        } else if(dataFromClient.type === typesDef.HANDLE_AGREEMENT){
+        } else if (dataFromClient.type === typesDef.HANDLE_AGREEMENT) {
             const isOwner = dataFromClient.isOwner
             const isAgreed = !dataFromClient.isAgreed
 
-            if(isOwner){
+            if (isOwner) {
                 await roomController.updateFirstAgreement(roomId, isAgreed)
             } else {
                 await roomController.updateSecondAgreement(roomId, isAgreed)
             }
 
-            json.data = { isOwner, isAgreed, roomId }
+            json.data = {isOwner, isAgreed, roomId}
         }
         broadcastMessage(json);
     } catch (e) {

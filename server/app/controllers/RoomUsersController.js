@@ -1,6 +1,6 @@
 const db = require("../db");
 
-const userController = require("../controllers/UserController");
+const userController = require("./UserController");
 
 const ROOM_USERS_TABLE_NAME = "room_users"
 

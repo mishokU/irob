@@ -3,9 +3,9 @@ const uuidv4 = require('uuid').v4;
 
 const LICENSES_TABLE_NAME = "licenses"
 
-const userController = require("../controllers/UserController");
-const roomRequirementsController = require("../controllers/RoomRequirementsController")
-const roomController = require("../controllers/RoomControllers")
+const userController = require("./UserController");
+const roomRequirementsController = require("./RoomRequirementsController")
+const roomController = require("./RoomControllers")
 
 module.exports = {
     getAllUserLicenses: async function (token) {

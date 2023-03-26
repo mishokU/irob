@@ -1,10 +1,6 @@
-import useViewModel from "../CatalogueViewModel"
-import {useNavigate} from "react-router-dom";
 import React from "react";
 
 export function CataloguePage() {
-    let navigate = useNavigate();
-    //const { name, price, onChange, saveProduct } = useViewModel();
     return (<div className="h-screen w-screen">
         <div className="pt-8 pl-12 ml-36">
             <div>

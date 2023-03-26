@@ -9,7 +9,6 @@ import {UpdateRoomRequest} from "../../../features/rooms/domain/UpdateRoomReques
 import {UpdateRoomResult} from "../../models/rooms/room/UpdateRoomResult";
 import {HandleAgreementRequest} from "../../../features/rooms/domain/HandleAgreementRequest";
 import {MakeDealResponse} from "../../models/rooms/users/MakeDealResponse";
-import {GetRoomRequest} from "../../../features/rooms/domain/GetRoomRequest";
 
 export const RoomsApi = createApi({
     reducerPath: "irob/api/rooms", baseQuery: fetchBaseQuery({

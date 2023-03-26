@@ -3,7 +3,7 @@ import {ethers} from "ethers";
 
 function verifyMessage(message: any, address: any, signature: any) {
     try {
-        const signerAddr = ethers.utils.verifyMessage(message, signature);
+        const signerAddr = ethers.verifyMessage(message, signature);
         return signerAddr === address;
     } catch (err) {
         console.log(err);
@@ -15,8 +15,8 @@ export async function signTransaction(address: string, data: string) {
 
     const metaMaskProvider = ethereum.providers.find((provider: any) => provider.isMetaMask);
     await metaMaskProvider.request({method: 'eth_requestAccounts'});
-    const provider = new ethers.providers.Web3Provider(ethereum);
-    const signer = provider.getSigner();
+    const provider = new ethers.BrowserProvider(ethereum);
+    const signer = await provider.getSigner();
     const signature = await signer.signMessage(data);
 
     if (verifyMessage(data, address, signature)) {
