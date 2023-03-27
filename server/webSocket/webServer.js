@@ -2,17 +2,24 @@ const {WebSocket, WebSocketServer} = require('ws');
 const http = require('http');
 const uuidv4 = require('uuid').v4;
 
+const {
+    isUserAdmin,
+    hasUserWithId,
+    joinUser,
+    deleteUser,
+    createMessage,
+    updateSecondAgreement,
+    updateFirstAgreement
+} = require('./irobApi')
+
 // Spinning the http server and the WebSocket server.
 const server = http.createServer();
 const wsServer = new WebSocketServer({server});
-const port = process.env.WEB_SOCKET_PORT;
-server.listen(port, () => {
-    console.log(`WebSocket server is running on port http://:${port}`);
-});
 
-const roomController = require("../controllers/RoomControllers")
-const roomUserController = require("../controllers/RoomUsersController");
-const roomMessagesController = require("../controllers/RoomMessagesController")
+const port = 8080;
+server.listen(port, () => {
+    console.log(`WebSocket server is running on port http://localhost:${port}`);
+});
 
 // I'm maintaining all active connections in this object
 const clients = {};
@@ -55,19 +62,25 @@ async function handleMessage(message, userId) {
         const datetime = new Date();
         const json = {type: dataFromClient.type};
         const roomId = dataFromClient.roomId
+
+        console.log(dataFromClient)
+
         if (dataFromClient.type === typesDef.USER_JOINED) {
 
-            console.log(dataFromClient)
             users[userId] = dataFromClient;
 
             const username = dataFromClient.username
             const id = dataFromClient.userId
             const avatar = dataFromClient.avatar
 
-            const isAdmin = await roomController.isRoomAdmin(id, roomId)
-            const hasUserInRoom = await roomUserController.hasUserWithId(id, roomId)
+            console.log(id)
+            console.log(avatar)
+            console.log(username)
+
+            const isAdmin = await isUserAdmin(id, roomId)
+            const hasUserInRoom = await hasUserWithId(id, roomId)
             if (!hasUserInRoom) {
-                await roomUserController.joinUser(id, roomId)
+                await joinUser(id, roomId)
             }
 
             json.data = {username, id, roomId, avatar, isAdmin};
@@ -81,7 +94,7 @@ async function handleMessage(message, userId) {
             const userId = dataFromClient.userId
             const messageType = dataFromClient.messageType
 
-            await roomMessagesController.addRoomMessage(
+            await createMessage(
                 roomId, userId, content, date, avatar, messageType, username
             )
 
@@ -104,9 +117,9 @@ async function handleMessage(message, userId) {
             const isAgreed = !dataFromClient.isAgreed
 
             if (isOwner) {
-                await roomController.updateFirstAgreement(roomId, isAgreed)
+                await updateFirstAgreement(roomId, isAgreed)
             } else {
-                await roomController.updateSecondAgreement(roomId, isAgreed)
+                await updateSecondAgreement(roomId, isAgreed)
             }
 
             json.data = {isOwner, isAgreed, roomId}
@@ -126,7 +139,7 @@ async function handleDisconnect(userId) {
             const id = user.userId
             const roomId = user.roomId
             json.data = {roomId, id};
-            await roomUserController.deleteUser(id, user.roomId);
+            await deleteUser(id, user.roomId);
             delete clients[userId];
             delete users[userId];
             broadcastMessage(json);
@@ -143,7 +156,7 @@ wsServer.on('connection', function (connection, request) {
     // Generate a unique code for every user
     const userId = uuidv4();
     console.log('Recieved a new connection');
-    console.log("cnnection: " + request.headers.host)
+    console.log("connection: " + request.headers.host)
     // Store the new connection and handle messages
     clients[userId] = connection;
     console.log(`${userId} connected.`);

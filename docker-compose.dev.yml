@@ -8,6 +8,8 @@ services:
       context: ./client
       dockerfile: Dockerfile.dev
     container_name: client
+    env_file:
+      - .env
     working_dir: /opt/client
     ports:
       - "3000:3000"
@@ -19,7 +21,6 @@ services:
   app:
     build:
       context: ./server/app
-      target: dev
     tty: true
     working_dir: /opt/server
     volumes:
@@ -32,6 +33,20 @@ services:
     depends_on:
       - db
 
+  ws:
+    container_name: ws_server
+    restart: always
+    working_dir: /opt/ws
+    build:
+      context: server/webSocket
+      dockerfile: Dockerfile
+    env_file:
+      - .env
+    volumes:
+      - ./server/webSocket:/opt/ws
+    ports:
+      - "8080:8080"
+
   # Контейнер с базой данных
   db:
     image: postgres:12-alpine
@@ -42,8 +57,6 @@ services:
       - POSTGRES_PASSWORD=1234
       - POSTGRES_DB=IROB
       - POSTGRES_NAME=IROB
-#    volumes:
-#      - ./postgres:/var/lib/postgresql/data
     restart: always
 
   # Контейнер с nginx
@@ -54,6 +67,7 @@ services:
       - db
       - pgadmin
       - client
+      - ws
     image: nginx:latest
     build:
       dockerfile: Dockerfile.dev

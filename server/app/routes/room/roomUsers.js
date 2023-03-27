@@ -2,11 +2,10 @@ const {Router} = require("express");
 const roomUserController = require("../../controllers/RoomUsersController");
 const userController = require("../../controllers/UserController");
 const roomController = require("../../controllers/RoomControllers")
-var Promise = require('bluebird');
+const Promise = require('bluebird');
 
 const roomUsersRouter = new Router()
 
-// export our router to be mounted by the parent application
 module.exports = roomUsersRouter
 
 roomUsersRouter.post('/join', (request, result) => {
@@ -20,6 +19,33 @@ roomUsersRouter.delete('/leave', (request, result) => {
 roomUsersRouter.get('/getUsers/:roomId', (request, result) => {
     return getUsers(request, result)
 })
+
+roomUsersRouter.get('/hasUser', (request, result) => {
+    return hasUser(request, result)
+})
+
+async function hasUser(request, result) {
+    try {
+
+        const roomId = request.query.roomId;
+        const userId = request.query.userId;
+
+        const hasUser = await roomUserController.hasUserWithId(userId, roomId)
+
+        result.status(200).json({
+            hasUser: hasUser,
+            success: true
+        })
+    } catch (e) {
+        const message = "Error in hasUser: " + e.message
+        console.log(message)
+        result.status(200).json({
+            hasUser: hasUser,
+            message: message,
+            success: true
+        })
+    }
+}
 
 async function getUsers(request, result) {
     try {
@@ -36,6 +62,8 @@ async function getUsers(request, result) {
                 isAdmin: user.id === room.owner_id || user.id === room.user_id
             }
         }, {concurrency: 1});
+
+        console.log(userModels)
 
         result.status(200).json({
             success: true,

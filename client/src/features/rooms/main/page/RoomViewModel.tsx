@@ -10,7 +10,7 @@ import {isLogged} from "../../../../domain/checkers/Checkers";
 import {useRemoveUserMutation} from "../../../../data/store/rooms/RoomUsersApi";
 import {RequirementState} from "./RequirementState";
 
-export const WS_URL = 'ws://127.0.0.1:8000';
+export const WS_URL = process.env.WS_URL || 'ws://localhost:8080';
 
 export default function RoomViewModel() {
 
@@ -32,6 +32,9 @@ export default function RoomViewModel() {
     const [leaveUserMutation] = useRemoveUserMutation()
 
     useWebSocket(WS_URL, {
+        onError: (error) => {
+            console.log(error)
+        },
         onOpen: () => {
             console.log('WebSocket connection established.');
         }, share: true, filter: () => false, retryOnError: true, shouldReconnect: () => true

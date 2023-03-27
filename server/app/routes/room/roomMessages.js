@@ -3,7 +3,6 @@ const {Router} = require("express");
 const roomMessagesController = require("../../controllers/RoomMessagesController")
 const roomMessagesRouter = new Router()
 
-// export our router to be mounted by the parent application
 module.exports = roomMessagesRouter
 
 roomMessagesRouter.get('/getMessages', (request, result) => {
@@ -11,10 +10,37 @@ roomMessagesRouter.get('/getMessages', (request, result) => {
 })
 
 roomMessagesRouter.post('/create', (request, result) => {
-    return getRoomMessages(request, result)
+    return createMessage(request, result)
 })
 
-async function getRoomMessages(request, result){
+async function createMessage(request, result) {
+    try {
+        const {
+            roomId, userId, content,
+            date, avatar, messageType, username
+        } = request.body
+        await roomMessagesController.addRoomMessage(
+            roomId,
+            userId,
+            content,
+            date,
+            avatar,
+            messageType,
+            username
+        )
+        result.status(200).json({
+            success: true
+        })
+    } catch (e) {
+        const message = "Error in create message: " + e.message
+        result.status(500).json({
+            success: false,
+            message: message
+        })
+    }
+}
+
+async function getRoomMessages(request, result) {
     try {
 
         const roomId = request.query.roomId
@@ -31,7 +57,7 @@ async function getRoomMessages(request, result){
             limit: limit,
             offset: newOffset
         })
-    } catch (e){
+    } catch (e) {
         console.log(e)
         result.status(500).json({
             success: false,

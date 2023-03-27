@@ -5,7 +5,6 @@ const roomController = require("../../controllers/RoomControllers")
 const roomMessagesController = require("../../controllers/RoomMessagesController")
 const roomRequirementsController = require("../../controllers/RoomRequirementsController")
 
-const webServer = require("../../webSocket/webServer");
 const Promise = require("bluebird");
 
 const roomRouter = new Router()
@@ -37,24 +36,97 @@ roomRouter.post('/agreement', (request, result) => {
     return agreementRoom(request, result)
 })
 
+roomRouter.get('/isRoomAdmin', (request, result) => {
+    return isRoomAdmin(request, result)
+})
+
+roomRouter.post('/updateFirstAgreement', (request, result) => {
+    return updateFirstAgreement(request, result)
+})
+
+roomRouter.post('/updateSecondAgreement', (request, result) => {
+    return updateSecondAgreement(request, result)
+})
+
+async function updateSecondAgreement(request, result) {
+    try {
+
+        const {roomId, isAgreed} = request.body
+
+        await roomController.updateSecondAgreement(roomId, isAgreed)
+
+        result.status(200)
+
+    } catch (e) {
+        const message = "Error in update second agreement: " + e.message
+        console.log(message)
+        result.status(500).json({
+            success: false,
+            message: message
+        })
+    }
+}
+
+async function updateFirstAgreement(request, result) {
+    try {
+
+        const {roomId, isAgreed} = request.body
+
+        await roomController.updateFirstAgreement(roomId, isAgreed)
+
+        result.status(200)
+
+    } catch (e) {
+        const message = "Error in update first agreement: " + e.message
+        console.log(message)
+        result.status(500).json({
+            success: false,
+            message: message
+        })
+    }
+}
+
+async function isRoomAdmin(request, result) {
+    try {
+
+        const roomId = request.query.roomId;
+        const id = request.query.id;
+
+        const isAdmin = await roomController.isRoomAdmin(id, roomId)
+
+        result.status(200).json({
+            success: true,
+            isAdmin: isAdmin
+        })
+
+    } catch (e) {
+        const message = "Error in is room admin: " + e.message
+        console.log(message)
+        result.status(500).json({
+            success: false,
+            message: message
+        })
+    }
+}
+
 /*
    Type 0 - first agreement means owner of the room
    Type 1 - second side user
 */
 
-async function agreementRoom(request, result){
+async function agreementRoom(request, result) {
     try {
-        const {roomId, userId, isAgreed } = request.body
+        const {roomId, userId, isAgreed} = request.body
         const room = await roomController.getRoom(roomId)
         let newAgreed = !isAgreed
-        if(room.owner_id === userId){
+        if (room.owner_id === userId) {
             await roomController.updateFirstAgreement(roomId, newAgreed)
             result.status(200).json({
                 success: true,
                 type: 0,
                 isAgreed: newAgreed
             })
-        } else if(room.user_id === userId) {
+        } else if (room.user_id === userId) {
             await roomController.updateSecondAgreement(roomId, newAgreed)
             result.status(200).json({
                 success: true,
@@ -67,7 +139,7 @@ async function agreementRoom(request, result){
                 message: "Make agreement can only admins"
             })
         }
-    } catch (e){
+    } catch (e) {
         console.log(e)
         result.status(500).json({
             success: false,
@@ -78,8 +150,8 @@ async function agreementRoom(request, result){
 
 async function updateRoom(request, result) {
     try {
-        const {roomId, name, ownerId, owner, type, userId } = request.body
-        if(ownerId !== userId){
+        const {roomId, name, ownerId, owner, type, userId} = request.body
+        if (ownerId !== userId) {
             await roomController.updateRoom(roomId, name, type, owner, userId)
             result.status(200).json({
                 success: true,
@@ -91,7 +163,7 @@ async function updateRoom(request, result) {
                 success: false
             })
         }
-    } catch (e){
+    } catch (e) {
         console.log(e)
         result.status(500).json({
             success: false,
@@ -103,12 +175,12 @@ async function updateRoom(request, result) {
 async function createRoom(request, result) {
     try {
         const token = request.get('token')
-        const { roomId, title } = request.body;
+        const {roomId, title} = request.body;
         const user = await userController.getUser(token)
         await db.query(`
-                INSERT INTO rooms 
-                (room_id, owner_id, name, first_agreement, second_agreement, user_id) 
-                VALUES ('${roomId}', '${user.id}', '${title}', false, false, null)
+            INSERT INTO rooms
+                (room_id, owner_id, name, first_agreement, second_agreement, user_id)
+            VALUES ('${roomId}', '${user.id}', '${title}', false, false, null)
         `)
         result.status(200).json({
             success: true,
@@ -129,12 +201,20 @@ async function deleteRoom(request, result) {
         const token = request.get('token')
         const roomId = request.query.roomId;
         const user = await userController.getUser(token)
-        const roomRes = await db.query(`SELECT * FROM rooms WHERE room_id= $1;`, [roomId])
+        const roomRes = await db.query(`SELECT *
+                                        FROM rooms
+                                        WHERE room_id = $1;`, [roomId])
         const room = roomRes.rows[0]
         if (room.owner_id === user.id) {
-            await db.query(`DELETE FROM rooms WHERE room_id= $1;`, [roomId])
-            await db.query(`DELETE FROM room_requirements WHERE room_id= $1;`, [roomId])
-            await db.query(`DELETE FROM room_messages WHERE room_id= $1;`, [roomId])
+            await db.query(`DELETE
+                            FROM rooms
+                            WHERE room_id = $1;`, [roomId])
+            await db.query(`DELETE
+                            FROM room_requirements
+                            WHERE room_id = $1;`, [roomId])
+            await db.query(`DELETE
+                            FROM room_messages
+                            WHERE room_id = $1;`, [roomId])
             result.status(200).json({
                 success: true,
                 message: "Room deleted"
@@ -157,7 +237,7 @@ async function getRoom(request, result) {
         const token = request.get('token')
         const roomId = request.params.roomId;
         const user = await userController.getUser(token)
-        const roomRes = await db.query(`SELECT * FROM rooms WHERE room_id= $1;`, [roomId])
+        const roomRes = await db.query(`SELECT * FROM rooms WHERE room_id = $1;`, [roomId])
         const room = roomRes.rows[0]
         const isAdmin = room.owner_id === user.id || room.user_id === user.id
         result.status(200).json({
@@ -184,7 +264,10 @@ async function getRooms(request, result) {
         const token = request.get('token')
         const user = await userController.getUser(token)
 
-        const rooms = await db.query(`SELECT * FROM rooms WHERE owner_id= $1 OR user_id= $1`, [user.id])
+        const rooms = await db.query(`SELECT *
+                                      FROM rooms
+                                      WHERE owner_id = $1
+                                         OR user_id = $1`, [user.id])
         const fullRooms = await Promise.map(rooms.rows, async (room) => {
             const ownerUser = await userController.getUserById(room.owner_id)
             const fullName = ownerUser.name + " " + ownerUser.surname
