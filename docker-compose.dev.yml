@@ -16,6 +16,8 @@ services:
     volumes:
       - ./client:/opt/client
       - ./static:/opt/static
+    command:
+      - "npm run start"
 
   # Контейнер с Node.js
   app:
@@ -30,6 +32,8 @@ services:
       - .env
     ports:
       - "5000:5000"
+    command:
+      - "npm run server"
     depends_on:
       - db
 
@@ -46,6 +50,8 @@ services:
       - ./server/webSocket:/opt/ws
     ports:
       - "8080:8080"
+    command:
+      - "npm run start"
 
   # Контейнер с базой данных
   db:
