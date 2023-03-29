@@ -52,6 +52,9 @@ services:
     image: postgres:12-alpine
     ports:
       - "5432:5432"
+    build:
+      context: database
+      dockerfile: Dockerfile
     environment:
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=1234
@@ -88,3 +91,20 @@ services:
     expose:
       - '80'
     restart: always
+
+  ganache:
+    image: trufflesuite/ganache-cli:latest
+    ports:
+      - "8545:8545"
+    entrypoint:
+      - node
+      - /app/ganache-core.docker.cli.js
+      - --deterministic
+      - --db=/ganache_data
+      - --mnemonic
+      - 'minimum symptom minute gloom tragic situate silver mechanic salad amused elite beef'
+      - --networkId
+      - '5777'
+      - --hostname
+      - '0.0.0.0'
+      - --debug
