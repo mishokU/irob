@@ -23,10 +23,13 @@ export function RoomsProfilePage() {
                         <h1 className="min-w-fit">Requirements: {item.requirements}</h1>
                     </div>
                     <div className="flex">
-                        <img className="w-8 h-8" src={rightArrow} />
+                        <img alt="right arrow" className="w-8 h-8" src={rightArrow} />
                     </div>
                 </div>
             </div>))}
         </div>
+        {rooms.length === 0 && <div className="ml-2 text-xl">
+            You do not have any rooms
+        </div>}
     </div>
 }

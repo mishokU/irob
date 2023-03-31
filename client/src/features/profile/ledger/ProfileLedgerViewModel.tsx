@@ -15,18 +15,20 @@ export default function ProfileLedgerViewModel() {
 
     useEffect(() => {
         async function getBalance() {
+            console.log(account)
             if(account !== null){
                 const response = await updateAccountLedgerMutation({account: account}).unwrap()
+                console.log(response)
                 const balance = response.balance.toFixed(2)
                 setBalance(Number(balance))
                 setIsLedgerConnected(status === "connected")
+            } else {
+                setIsLedgerConnected(false)
             }
         }
 
         getBalance().catch((e) => console.log(e))
     }, [status])
-
-
 
     function onForgetAccountClick() {
 

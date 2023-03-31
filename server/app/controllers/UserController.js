@@ -1,44 +1,64 @@
 const db = require("../db");
-const bcrypt = require("bcrypt");
-
-const crypto = require('crypto');
-
-const generatePassword = (
-    length = 8,
-    wishlist = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz~!@-#$'
-) =>
-    Array.from(crypto.randomFillSync(new Uint32Array(length)))
-        .map((x) => wishlist[x % wishlist.length])
-        .join('')
+const bcrypt = require("bcryptjs");
 
 module.exports = {
-    getUser: async function (token) {
-        try {
-            const data = await db.query(`SELECT * FROM users WHERE token= $1;`, [token])
-            return data.rows[0]
-        } catch (e) {
-            console.log("get user error: " + e.message)
-            console.log("token: " + token)
-        }
-    },
-    getUserById: async function (userId) {
-        const data = await db.query(`SELECT * FROM users WHERE id= $1;`, [userId])
+    getUser,
+    getUserById,
+    searchUsers,
+    getUserByEmail,
+    updateToken,
+    updateUser,
+    updatePassword,
+    updateAccountLedger,
+    getAccount,
+    createUser,
+    isUserExists
+}
+
+async function getUser(token) {
+    try {
+        const data = await db.query(`SELECT * FROM users WHERE token= $1;`, [token])
         return data.rows[0]
-    },
-    searchUsers: async function (query) {
-        const users = await db.query(`SELECT * from users WHERE name= $1 OR surname= $1 OR email= $1`, [query])
-        return users.rows
-    },
-    updatePassword: function (token, newPassword) {
-        bcrypt.hash(newPassword, 10, async (error, hash) => {
-            await db.query(`UPDATE users SET password = $2 WHERE token= $1;`, [token, hash])
-        })
-    },
-    updateToken: async function (token, email) {
-        await db.query(`UPDATE users SET token= $1 WHERE email= $2;`, [token, email])
-    },
-    updateUser: async function (name, surname, description, website, location, languages, avatar, token) {
-        await db.query(`UPDATE users SET 
+    } catch (e) {
+        console.log("get user error: " + e.message)
+        console.log("token: " + token)
+    }
+}
+
+
+async function getUserById(userId) {
+    const data = await db.query(`SELECT * FROM users WHERE id= $1;`, [userId])
+    return data.rows[0]
+}
+
+async function searchUsers(query) {
+    const users = await db.query(`SELECT * from users WHERE name= $1 OR surname= $1 OR email= $1`, [query])
+    return users.rows
+}
+
+async function getUserByEmail(email) {
+    try {
+        const data = await db.query(`SELECT * FROM users WHERE email= $1;`, [
+            email,
+        ]);
+        return data.rows[0];
+    } catch (e) {
+        console.log("Error in get user by email: " + e.message)
+    }
+}
+
+async function updatePassword(token, newPassword) {
+    bcrypt.hash(newPassword, 10, async (error, hash) => {
+        await db.query(`UPDATE users SET password = $2 WHERE token= $1;`, [token, hash])
+    })
+}
+
+async function updateToken(token, email) {
+    await db.query(`UPDATE users SET token= $1 WHERE email= $2;`, [token, email])
+}
+
+async function updateUser(name, surname, description, website, location, languages, avatar, token) {
+    await db.query(`UPDATE users SET 
             name = $2,
             surname = $3,
             description = $4,
@@ -47,36 +67,39 @@ module.exports = {
             languages = $7,
             avatar = $8
         WHERE token = $1;`, [token, name, surname, description, website, location, languages, avatar]);
-        return "Данные обновлены"
-    },
-    isUserExists: async function (email) {
-        const user = await db.query(`SELECT * FROM users WHERE email= $1`, [email])
-        return user.rows.length !== 0
-    },
-    createUser: async function (hash, email, token) {
-        const userId = await db.query(
-            `
+    return "Данные обновлены"
+}
+
+async function isUserExists(email) {
+    const user = await db.query(`SELECT * FROM users WHERE email= $1`, [email])
+    return user.rows.length !== 0
+}
+
+async function createUser(hash, email, token) {
+    const userId = await db.query(
+        `
                 INSERT INTO users
                 (name, surname, avatar, description, website, nickname, password, email, token, location, languages, followers)
                 VALUES ('','', '', '', '', '', '${hash}', '${email}', '${token}', '', '', '${0}')
                 RETURNING id
              `
-        )
-        return await this.getUserById(userId.rows[0].id)
-    },
-    updateAccountLedger: async function(token, account) {
-        try {
-            await db.query(`UPDATE users SET account =$2 WHERE token =$1;`, [token, account]);
-        } catch (e){
-            console.log("Error in update account ledger: " + e.message)
-        }
-    },
-    getAccount: async function(userId) {
-        try {
-            const data = await db.query(`SELECT account FROM users WHERE id= $1`, [userId])
-            return data.rows[0].account
-        } catch (e){
-            console.log("Error in get account: " + e.message)
-        }
+    )
+    return await this.getUserById(userId.rows[0].id)
+}
+
+async function updateAccountLedger(token, account) {
+    try {
+        await db.query(`UPDATE users SET account =$2 WHERE token =$1;`, [token, account]);
+    } catch (e) {
+        console.log("Error in update account ledger: " + e.message)
+    }
+}
+
+async function getAccount(userId) {
+    try {
+        const data = await db.query(`SELECT account FROM users WHERE id= $1`, [userId])
+        return data.rows[0].account
+    } catch (e) {
+        console.log("Error in get account: " + e.message)
     }
 }

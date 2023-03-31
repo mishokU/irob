@@ -1,16 +1,12 @@
-const db = require("../../db");
-const bcrypt = require("bcrypt");
+const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const {Router} = require("express");
-const config = require("config");
 
 const authRouter = new Router();
-
-const USERS_TABLE_NAME = "users";
 const userController = require("../../controllers/UserController");
-const secretKey = "80FB4C119C46C9B0596E244B07D20C67D5B7B70BFE886AA97FC17F75A9C1174F";
 
-// export our router to be mounted by the parent application
+const secretKey = process.env.JWT_SECRET_KEY
+
 module.exports = authRouter;
 
 authRouter.post("/registration", (request, result) => {
@@ -21,22 +17,17 @@ authRouter.post("/login", (request, result) => {
     return loginWithEmailPassword(request, result);
 });
 
-//Login Function
 async function loginWithEmailPassword(request, result) {
     const {email, password} = request.body;
     try {
-        const data = await db.query(`SELECT * FROM users WHERE email= $1;`, [
-            email,
-        ]); //Verifying if the user exists in the database
-        const user = data.rows;
-        if (user.length === 0) {
+        const user = await userController.getUserByEmail(email)
+        console.log(user)
+        if (user === undefined) {
             result.status(400).json({
                 error: `User with email ${email} is not registered, Sign Up first`,
             });
         } else {
-            let currentUser = user[0];
-            bcrypt.compare(password, currentUser.password, async (err, hashResult) => {
-                //Comparing the hashed password
+            bcrypt.compare(password, user.password, async (err, hashResult) => {
                 if (err) {
                     result.status(400).json({
                         error: `Incorrect password`,
@@ -46,7 +37,7 @@ async function loginWithEmailPassword(request, result) {
                     await userController.updateToken(token, email)
                     result.status(200).json({
                         message: "User signed in!",
-                        user: currentUser,
+                        user: user,
                         token: token,
                     });
                 } else {
@@ -67,11 +58,8 @@ async function loginWithEmailPassword(request, result) {
 async function registrationWithEmailPassword(request, result) {
     const {email, password} = request.body;
     try {
-        const data = await db.query(`SELECT * FROM users WHERE email= $1;`, [
-            email,
-        ]); //Checking if user already exists
-        const users = data.rows;
-        if (users.length !== 0) {
+        const user = await userController.getUserByEmail(email)
+        if (user !== undefined) {
             return result.status(400).json({
                 code: 1,
                 error: `Email ${email} already there, No need to register again.`,
@@ -102,7 +90,7 @@ async function registrationWithEmailPassword(request, result) {
     } catch (exception) {
         console.log(exception);
         result.status(500).json({
-            error: "Database error while registring user!",
+            error: "Database error while user registration!",
         });
     }
 }

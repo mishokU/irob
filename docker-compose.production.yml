@@ -5,7 +5,6 @@ services:
   app:
     build:
       context: server/app
-      target: production
     tty: true
     working_dir: /opt/server
     volumes:

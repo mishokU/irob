@@ -1,4 +1,5 @@
 FROM node:16.10.0-alpine as builder
+RUN apk --no-cache add --virtual .builds-deps build-base python3
 WORKDIR /app
 COPY ./package.json ./
 RUN npm i

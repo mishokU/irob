@@ -1,22 +1,12 @@
 # dev
 FROM node:16.10.0-alpine AS dev
+RUN apk --no-cache add --virtual .builds-deps build-base python3
 RUN apk add --no-cache tzdata
-ENV TZ Europe/Moscow
-ENV NODE_PATH /opt/server/node_modules
 
 WORKDIR /opt/server/
-
-CMD [ "node", "npm run server" ]
-
-# production
-FROM node:16.10.0-alpine AS production
-RUN apk add --no-cache tzdata
-ENV TZ Europe/Moscow
-ENV NODE_PATH /opt/server/node_modules
-
-WORKDIR /opt/server/
-
-COPY /*.json ./
+COPY ./package.json ./
+RUN npm cache clean --force && rm -rf node_modules
+RUN npm install --lts
 RUN npm i
-
-CMD ["sh", "-c", "npm run server"]
+COPY . .
+CMD [ "npm", "run", "server" ]

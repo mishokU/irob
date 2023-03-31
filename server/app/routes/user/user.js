@@ -92,6 +92,7 @@ async function getAllUsers(request, result, next) {
 
 async function updateAccountLedger(request, result) {
     try {
+
         const token = request.get('token')
         const account = request.body.account
 
@@ -106,10 +107,11 @@ async function updateAccountLedger(request, result) {
             balance: balance
         })
     } catch (e){
-        console.log(e)
+        const message = "Error in updating account balance: " + e.message
+        console.log(message)
         result.status(500).json({
             success: false,
-            message: "Error in updating account balance"
+            message: message
         })
     }
 }
