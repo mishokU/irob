@@ -25,7 +25,8 @@ export function CreateRequirementFormPage({isVisibleState, setIsVisibleState}: C
         onActionClick,
         requirementId,
         isProgress,
-        roomReducer
+        roomReducer,
+        error
     } = useViewModel(isVisibleState, setIsVisibleState)
 
     const maxTitleLength = 30
@@ -34,8 +35,8 @@ export function CreateRequirementFormPage({isVisibleState, setIsVisibleState}: C
     const maxDescriptionLength = 300
 
     return <div className="relative">
-        {isProgress && <IROBProgressBar />}
-        <div className={isProgress ? "invisible" : ""}>
+        {isProgress && error === "" && <IROBProgressBar />}
+        <div className={(isProgress || error !== "") ? "invisible" : ""}>
             <h1 className="text-3xl font-bold">
                 {requirementId === null ? "Requirement creation" : "Requirement updating"}
             </h1>
@@ -116,5 +117,10 @@ export function CreateRequirementFormPage({isVisibleState, setIsVisibleState}: C
                 </button>
             </div>
         </div>
+        {
+            error !== "" && <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
+                <h1>{error}</h1>
+            </div>
+        }
     </div>
 }

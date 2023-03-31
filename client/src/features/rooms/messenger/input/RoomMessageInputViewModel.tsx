@@ -1,5 +1,5 @@
-import {isSendMessageEvent, RoomWebSocketTypes} from "../../domain/HandleEventTypes";
-import {MessageType} from "../../domain/MessageModel";
+import {isSendMessageEvent, RoomWebSocketTypes} from "../../domain/requests/HandleEventTypes";
+import {MessageType} from "../../domain/requests/MessageModel";
 import {useState} from "react";
 import useWebSocket from "react-use-websocket";
 import {WS_URL} from "../../main/page/RoomViewModel";

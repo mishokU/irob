@@ -12,7 +12,7 @@ import useWebSocket from "react-use-websocket";
 import {WS_URL} from "../../page/RoomViewModel";
 import {
     getHandleAgreement, isHandleAgreementEvent, RoomWebSocketTypes
-} from "../../../domain/HandleEventTypes";
+} from "../../../domain/requests/HandleEventTypes";
 
 export default function MakeDealViewModel() {
 

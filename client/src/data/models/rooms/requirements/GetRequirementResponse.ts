@@ -3,4 +3,6 @@ export interface GetRequirementResponse {
     requirementId: number
     userId: number
     isAlive: boolean
+    success: boolean
+    message: string | null
 }

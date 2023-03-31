@@ -46,11 +46,15 @@ module.exports = {
         }
     },
     getRequirement: async function (requirementId) {
-        const data = await db.query(`
+        try {
+            const data = await db.query(`
             SELECT * from ${ROOM_REQUIREMENTS_TABLE_NAME}
             WHERE id= $1`, [requirementId]
-        )
-        return data.rows[0]
+            )
+            return data.rows[0]
+        } catch (e){
+            console.log("Error get requirement: " + e.message)
+        }
     },
     applyRequirement: async function (requirementId) {
         await db.query(`

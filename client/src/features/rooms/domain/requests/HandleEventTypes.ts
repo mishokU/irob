@@ -1,7 +1,7 @@
 import {
     RoomUserResponse
-} from "../../../data/models/rooms/users/RoomUserResponse";
-import {RoomRequirementModel} from "../../../domain/rooms/RoomRequirementModel";
+} from "../../../../data/models/rooms/users/RoomUserResponse";
+import {RoomRequirementModel} from "../../../../domain/rooms/RoomRequirementModel";
 import {MessageModel, MessageType} from "./MessageModel";
 
 export enum RoomWebSocketTypes {
@@ -63,7 +63,8 @@ export function getRequirement(lastMessage: any, userId: number): RoomRequiremen
         username: data.username,
         requirementId: data.requirementId,
         isApplyButtonVisible: data.userId !== userId,
-        isAlive: true
+        isAlive: true,
+        type: data.type
     }
 }
 

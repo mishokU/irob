@@ -5,7 +5,7 @@ import {
 } from "../../../../../data/store/rooms/RoomRequirementsApi";
 import useWebSocket from "react-use-websocket";
 import {WS_URL} from "../../page/RoomViewModel";
-import {isRequirementEvent, RoomWebSocketTypes} from "../../../domain/HandleEventTypes";
+import {isRequirementEvent, RoomWebSocketTypes} from "../../../domain/requests/HandleEventTypes";
 import {useSelector} from "react-redux";
 import {RootState} from "../../../../../data/store";
 import {CreateRequirementResult} from "../../../../../data/models/rooms/requirements/CreateRequirementResult";
@@ -24,6 +24,7 @@ export default function CreateRequirementViewModel(isVisibleState: RequirementSt
     const [customType, setCustomType] = useState("")
     const [requirementId, setRequirementId] = useState(null)
     const [isProgress, setIsProgress] = useState(false)
+    const [error, setError] = useState("")
 
     const [createRequirementMutation] = useCreateRequirementMutation()
     const [getRequirementMutation] = useGetRequirementMutation()
@@ -44,12 +45,16 @@ export default function CreateRequirementViewModel(isVisibleState: RequirementSt
             loadRequirement(requirement.requirementId)
                 .catch((e) => console.log(e))
                 .then((data: any) => {
-                    setTitle(data.requirement.title)
-                    setDescription(data.requirement.description)
-                    setValue(data.requirement.value)
-                    setType(getContentType(data.requirement.type))
-                    setRequirementId(data.requirement.id)
-                    setIsProgress(false)
+                    if(data.success === true){
+                        setTitle(data.requirement.title)
+                        setDescription(data.requirement.description)
+                        setValue(data.requirement.value)
+                        setType(getContentType(data.requirement.type))
+                        setRequirementId(data.requirement.id)
+                        setIsProgress(false)
+                    } else {
+                        setError(data.message)
+                    }
                 })
         }
     }, [])
@@ -98,14 +103,13 @@ export default function CreateRequirementViewModel(isVisibleState: RequirementSt
         try {
             const type = getType()
             const roomId = roomReducer.roomId
-            const payload: GetRequirementResponse = await updateRequirementMutation({
+            await updateRequirementMutation({
                 roomId,
                 title,
                 type,
                 description,
                 value
-            }).unwrap()
-
+            }).unwrap();
             setIsVisibleState({isVisible: false, requirement: null})
         } catch (e) {
             console.log(e)
@@ -134,7 +138,8 @@ export default function CreateRequirementViewModel(isVisibleState: RequirementSt
         onActionClick,
         isProgress,
         roomReducer,
-        requirementId
+        requirementId,
+        error
     }
 
 }

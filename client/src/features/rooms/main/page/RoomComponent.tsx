@@ -37,7 +37,7 @@ export function RoomComponent() {
         onBackClick
     } = useViewModel()
 
-    return <div>
+    return <div className="h-screen overflow-y-hidden">
             {isDeleteDialogVisible && <DeleteEntityDialog
                 isDeleteDialogVisible={isDeleteDialogVisible}
                 setIsDeleteDialogVisible={setIsDeleteDialogVisible}
@@ -56,7 +56,7 @@ export function RoomComponent() {
                 isVisible={isMakeDealDialogVisible}
                 setIsVisible={setIsMakeDealDialogVisible}
             />}
-            {isContentVisible && <div>
+            {isContentVisible && <div className="h-full">
                 <button
                     type="button"
                     onClick={onBackClick}
@@ -86,7 +86,7 @@ export function RoomComponent() {
                     <img src={settingsImg} />
                     <span className="sr-only">Icon description</span>
                 </button>}
-                <div className="flex justify-between ml-16 mr-16 mb-16 space-x-4 pt-16">
+                <div className="flex justify-between ml-16 mr-16 mb-16 space-x-4 h-full pt-16">
                     <RoommatesComponent />
                     <RoomSmartMessengerMainComponent
                         roomName={roomReducer.roomName}

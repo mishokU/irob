@@ -18,11 +18,11 @@ export function RequirementsMainComponent({setIsVisibleState}: CreateRequirement
                          isVisible: true, requirement: null
                      })
                  }}>
-                {!roomReducer.isFinished && <img className="w-10 h-10" src={createRequirementImg}  alt="photo"/>}
+                {!roomReducer.isFinished && <img alt="photo" className="w-10 h-10" src={createRequirementImg}/>}
             </div>
         </div>
         <RequirementTabs menu={menu} setMenu={setMenu} />
-        <div className="mt-2 border-2 border-[#29303A] p-4 space-y-4 h-fit rounded-lg overflow-y-scroll max-h-[700px]
+        <div className="mt-2 border-2 border-[#29303A] p-4 space-y-4 h-fit rounded-lg overflow-y-scroll max-h-[calc(100vh-280px)]
             scrollbar-thin scrollbar-thumb-gray-800 scrollbar-track-gray-100
         ">
             {requirements.length === 0 && <div className="text-white text-xl select-none">
@@ -39,21 +39,20 @@ export function RequirementsMainComponent({setIsVisibleState}: CreateRequirement
                         onRequirementClick(requirement)
                     }}
                 />
-                <h1>{requirement.username}</h1>
+                <div>
+                    <h1 className="text-2xl">{requirement.username}</h1>
+                    <h2 className="text-sm">{requirement.type}</h2>
+                </div>
                 {
                     !roomReducer.isFinished && <div className="flex space-x-2">
                         {requirement.isApplyButtonVisible && <div
                             className="border rounded bg-green-600 hover:bg-green-500"
-                            onClick={() => {
-                                onApplyRequirementClick(requirement.requirementId)
-                            }}>
+                            onClick={() => onApplyRequirementClick(requirement.requirementId)}>
                             <ApplyRequirementsIcon />
                         </div>}
                         <div
                             className="border rounded bg-red-600 hover:bg-red-500"
-                            onClick={() => {
-                                onDeclineRequirementClick(requirement.requirementId)
-                            }}
+                            onClick={() => onDeclineRequirementClick(requirement.requirementId)}
                         >
                             <DeleteRequirementsIcon />
                         </div>

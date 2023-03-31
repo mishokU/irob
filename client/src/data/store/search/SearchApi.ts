@@ -1,6 +1,6 @@
 import {createApi, fetchBaseQuery} from "@reduxjs/toolkit/query/react";
 import {SearchUsersResponse} from "../../models/common/SearchUsersResponse";
-import {SearchUsersRequest} from "../../../features/rooms/domain/SearchUsersRequest";
+import {SearchUsersRequest} from "../../../features/rooms/domain/requests/SearchUsersRequest";
 
 export const SearchApi = createApi({
     reducerPath: 'irob/api/search', baseQuery: fetchBaseQuery({

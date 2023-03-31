@@ -7,10 +7,11 @@ import {useSelector} from "react-redux";
 import {RootState} from "../../../data/store";
 import useWebSocket from "react-use-websocket";
 import {WS_URL} from "../main/page/RoomViewModel";
-import {getEventType, getRequirement, isRequirementEvent, RoomWebSocketTypes} from "../domain/HandleEventTypes";
+import {getEventType, getRequirement, isRequirementEvent, RoomWebSocketTypes} from "../domain/requests/HandleEventTypes";
 import {RequirementMenuHandlerDelegate} from "./RequirementMenuHandlerDelegate";
 import {RequirementsMenu} from "./RequirementsMenu";
 import {RequirementState} from "../main/page/RequirementState";
+import {requirementsFakeData} from "../domain/fake/RommateUsersFakeData";
 
 export default function RequirementsViewModel(setIsVisibleState: (value: RequirementState) => void) {
 
@@ -42,13 +43,15 @@ export default function RequirementsViewModel(setIsVisibleState: (value: Require
         loadRoomRequirements()
             .catch((e) => console.log(e))
             .then((data: any) => {
+                updateRequirements(requirementsFakeData)
                 if(data.requirements.length > 0){
                     const requirements = data.requirements.map((requirement: any) => {
                         return {
                             username: requirement.username,
                             isApplyButtonVisible: requirement.isAlive && requirement.userId !== profileReducer.profileId,
                             requirementId: requirement.requirementId,
-                            isAlive: requirement.isAlive
+                            isAlive: requirement.isAlive,
+                            type: requirement.type
                         }
                     })
                     updateRequirements(requirements)

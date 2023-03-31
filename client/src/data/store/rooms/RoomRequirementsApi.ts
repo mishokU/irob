@@ -1,9 +1,9 @@
 import {createApi, fetchBaseQuery} from "@reduxjs/toolkit/dist/query/react";
-import {CreateRequirementRequest} from "../../../features/rooms/domain/CreateRequirementRequest";
+import {CreateRequirementRequest} from "../../../features/rooms/domain/requests/CreateRequirementRequest";
 import {CreateRequirementResult} from "../../models/rooms/requirements/CreateRequirementResult";
 import {GetRequirementsResponse} from "../../models/rooms/requirements/GetRequrementsResponse";
-import {ApplyRequirementRequest} from "../../../features/rooms/domain/ApplyRequirementRequest";
-import {DeclineRequirementRequest} from "../../../features/rooms/domain/DeclineRequirementRequest";
+import {ApplyRequirementRequest} from "../../../features/rooms/domain/requests/ApplyRequirementRequest";
+import {DeclineRequirementRequest} from "../../../features/rooms/domain/requests/DeclineRequirementRequest";
 import {ApplyRequirementResponse} from "../../models/rooms/requirements/ApplyRequirementResponse";
 import {DeclineRequirementResponse} from "../../models/rooms/requirements/DeclineRequirementResponse";
 import {GetRequirementResponse} from "../../models/rooms/requirements/GetRequirementResponse";
@@ -35,7 +35,7 @@ export const RoomRequirementsApi = createApi({
             }),
             transformResponse: (response: GetRequirementResponse) => response,
             transformErrorResponse(meta: unknown, arg: unknown): string {
-                return "Error while creating room, try later."
+                return "Error while get requirement, try later."
             }
         }),
         getRequirements: build.mutation<GetRequirementsResponse, string>({

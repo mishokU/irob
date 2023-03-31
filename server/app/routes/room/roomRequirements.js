@@ -53,9 +53,17 @@ async function getRoomRequirement(request, result) {
     try {
         const requirementId = request.query.requirementId;
         const requirement = await roomRequirementsController.getRequirement(requirementId)
-        result.status(200).json({
-            requirement: requirement
-        })
+        if(requirement !== undefined){
+            result.status(200).json({
+                success: true,
+                requirement: requirement
+            })
+        } else {
+            result.status(200).json({
+                success: false,
+                message: "There is no such requirement"
+            })
+        }
     } catch (e) {
         console.log(e)
         result.status(500).json({

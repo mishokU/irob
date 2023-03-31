@@ -4,14 +4,14 @@ import {
 } from "../../models/rooms/payment/GetRoomRequirementsCostResponse";
 import {
     RoomPaymentRequest
-} from "../../../features/rooms/domain/RoomPaymentRequest";
+} from "../../../features/rooms/domain/requests/RoomPaymentRequest";
 import {
     CreateLicenseRequest
-} from "../../../features/rooms/domain/CreateLicenseRequest";
+} from "../../../features/rooms/domain/requests/CreateLicenseRequest";
 import {CreateLicenseResult} from "../../models/payment/CreateLicenseResult";
 import {GetRoomResult} from "../../models/rooms/payment/GetRoomResult";
 import {GetContractDataResult} from "../../models/payment/GetContractDataResult";
-import {GetContractDataRequest} from "../../../features/rooms/domain/GetContractDataRequest";
+import {GetContractDataRequest} from "../../../features/rooms/domain/requests/GetContractDataRequest";
 
 export const RoomPaymentApi = createApi({
     reducerPath: "irob/api/room/payment", baseQuery: fetchBaseQuery({

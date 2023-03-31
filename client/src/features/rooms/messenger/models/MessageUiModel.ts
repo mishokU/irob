@@ -1,4 +1,4 @@
-import {MessageType} from "../../domain/MessageModel";
+import {MessageType} from "../../domain/requests/MessageModel";
 
 export interface MessageUiModel {
     isMyMessage: boolean

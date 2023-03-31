@@ -2,7 +2,7 @@ import useWebSocket from "react-use-websocket";
 import {WS_URL} from "../main/page/RoomViewModel";
 import {
     getUser, getEventType, getUserFromServer, isUserEvent, RoomWebSocketTypes
-} from "../domain/HandleEventTypes";
+} from "../domain/requests/HandleEventTypes";
 import {useEffect, useState} from "react";
 import {useSelector} from "react-redux";
 import {RootState} from "../../../data/store";
@@ -32,7 +32,9 @@ export default function RoommatesViewModel() {
             return error
         }).then(data => {
             if (data.length > 0) {
-                data.map((user: any) => joinUser(getUserFromServer(user)))
+                data.map((user: any) => {
+                    joinUser(getUserFromServer(user))
+                })
             }
         });
 

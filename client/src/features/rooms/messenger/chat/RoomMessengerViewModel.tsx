@@ -3,8 +3,8 @@ import useWebSocket from "react-use-websocket";
 import {WS_URL} from "../../main/page/RoomViewModel";
 import {
     getEventType, getMessage, getRequirementMessage, isSendMessageEvent, RoomWebSocketTypes
-} from "../../domain/HandleEventTypes";
-import {MessageModel} from "../../domain/MessageModel";
+} from "../../domain/requests/HandleEventTypes";
+import {MessageModel} from "../../domain/requests/MessageModel";
 import {useSelector} from "react-redux";
 import {RootState} from "../../../../data/store";
 import {MessagesUiConverter} from "../uiConverters/MessagesUiConverter";
