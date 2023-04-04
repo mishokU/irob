@@ -6,21 +6,26 @@ import {SettingsPage} from "../../settings/components/SettingsPage";
 import {IROBRoutes} from "../../../routes/IROBRoutes";
 import {ProfilePage} from "../../profile/components/ProfilePage";
 import {HeaderComponent} from "../../header/components/HeaderComponent";
-import {useModalsContext} from "../ModalsProvider";
+import {useModalsContext} from "../contexts/ModalsProvider";
 import {LicenseFullCardComponent} from "../../licenseFullCard/LicenseFullCardComponent";
 import {AboutUsComponent} from "../../abousUs/components/AboutUsComponent";
 import {RoomComponent} from "../../rooms/main/page/RoomComponent";
 import {CreateRoomModal} from "../../rooms/main/dialogs/createRoom/CreateRoomModal";
-import {useCreateRoomModalContext} from "../CreateRoomModalProvider";
+import {useCreateRoomModalContext} from "../contexts/CreateRoomModalProvider";
 import {NonAuthPage} from "../../noAuth/NonAuthPage";
+import {useState} from "react";
+import {NotificationMainComponent} from "../../notifications/NotificationMainComponent";
+import {useNotificationContext} from "../contexts/NotificationModelProvider";
 
 export function MainContainer() {
     const modalsContext = useModalsContext()
     const createRoomModalContext = useCreateRoomModalContext()
+    const notificationContext = useNotificationContext()
     const location = useLocation();
     return <>
         {createRoomModalContext?.isVisible && <CreateRoomModal />}
         {modalsContext?.isVisible && <LicenseFullCardComponent />}
+        {notificationContext?.isVisible && <NotificationMainComponent/>}
         {!location.pathname.toString().includes(IROBRoutes.rooms) && <HeaderComponent />}
         <Routes>
             <Route index element={<StartPage />} />

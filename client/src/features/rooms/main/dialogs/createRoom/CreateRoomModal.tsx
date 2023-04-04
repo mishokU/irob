@@ -1,6 +1,6 @@
 import {Dialog, Transition} from "@headlessui/react";
 import {Fragment} from "react";
-import {useCreateRoomModalContext} from "../../../../main/CreateRoomModalProvider";
+import {useCreateRoomModalContext} from "../../../../main/contexts/CreateRoomModalProvider";
 import {ReactComponent as CloseModal} from "../../../asserts/close_black_24dp.svg";
 import {ReactComponent as CopyIcon} from "../../../asserts/content_copy_white_24dp.svg";
 import useViewModel from "./CreateRoomViewModel";

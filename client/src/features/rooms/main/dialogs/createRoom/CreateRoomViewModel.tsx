@@ -1,6 +1,6 @@
 import {useState} from "react";
 import {IROBRoutes} from "../../../../../routes/IROBRoutes";
-import {useCreateRoomModalContext} from "../../../../main/CreateRoomModalProvider";
+import {useCreateRoomModalContext} from "../../../../main/contexts/CreateRoomModalProvider";
 import {useNavigate} from "react-router-dom";
 import {useCreateRoomMutation} from "../../../../../data/store/rooms/RoomsApi";
 import {useDispatch} from "react-redux";

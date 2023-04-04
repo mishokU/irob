@@ -1,6 +1,6 @@
 import {ICatalogueFields} from "./ICatalogueFields";
 import image from "../../assets/text_img.jpg"
-import {useModalsContext} from "../../../features/main/ModalsProvider";
+import {useModalsContext} from "../../../features/main/contexts/ModalsProvider";
 
 export function CatalogueItemComponent({type, description, contentAuthor, creationDate}: ICatalogueFields) {
     const cardContext = useModalsContext()

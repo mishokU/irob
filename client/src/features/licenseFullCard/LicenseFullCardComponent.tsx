@@ -2,7 +2,7 @@ import {Dialog, Transition} from '@headlessui/react'
 import {Fragment} from "react";
 import {ProfileInfoComponent} from "./components/ProfileInfoComponent";
 import {CardInfoComponent} from "./components/CardInfoComponent";
-import {useModalsContext} from "../main/ModalsProvider";
+import {useModalsContext} from "../main/contexts/ModalsProvider";
 
 export function LicenseFullCardComponent() {
     const modalContext = useModalsContext()

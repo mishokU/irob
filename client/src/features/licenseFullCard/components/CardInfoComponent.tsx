@@ -3,7 +3,7 @@ import {fakeContent} from "../FakeData";
 import {BookmarkOutFilledIcon} from "../../../ui/common/icons/BookmarkOutFilledIcon";
 import {ComplaintIcon} from "../../../ui/common/icons/ComplaintIcon";
 import {nonRoundedButtonTheme} from "../../../themes/Themes";
-import {useModalsContext} from "../../main/ModalsProvider";
+import {useModalsContext} from "../../main/contexts/ModalsProvider";
 
 export function CardInfoComponent() {
     const cardContext = useModalsContext()
