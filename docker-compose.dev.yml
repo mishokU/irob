@@ -21,6 +21,7 @@ services:
   app:
     build:
       context: ./server/app
+      dockerfile: Dockerfile
     tty: true
     working_dir: /opt/server
     volumes:
@@ -53,7 +54,7 @@ services:
     ports:
       - "5432:5432"
     build:
-      context: database
+      context: ./database
       dockerfile: Dockerfile
     environment:
       - POSTGRES_USER=postgres
@@ -93,9 +94,9 @@ services:
     restart: always
 
   ganache:
-    image: trufflesuite/ganache-cli:latest
     ports:
       - "8545:8545"
+    image: trufflesuite/ganache-cli:latest
     entrypoint:
       - node
       - /app/ganache-core.docker.cli.js
@@ -106,5 +107,5 @@ services:
       - --networkId
       - '5777'
       - --hostname
+      - --acctKeys
       - '0.0.0.0'
-      - --debug

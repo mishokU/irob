@@ -7,4 +7,5 @@ export interface ProfileResponse {
     avatar: string
     website: string
     id: number
+    email: string
 }

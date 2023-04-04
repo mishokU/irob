@@ -2,8 +2,17 @@ export {}
 export const secondaryColor = '#ffb81c'
 export const paragraphColor = '#8fadc0'
 export const buttonTheme = `bg-[#ffb81c] hover:bg-blue-700 hover:text-white text-black text-sm font-bold py-3 px-8 rounded-lg`
-export const buttonThemeDisabled = ` bg-gray-600 text-xl pointer-events-none w-full text-black text-sm font-bold py-3 px-8 rounded-lg`
+export const buttonThemeDisabled = `bg-gray-600 text-xl pointer-events-none w-full text-black text-sm font-bold py-3 px-8 rounded-lg`
 export const nonRoundedButtonTheme = `bg-[#ffb81c] hover:bg-blue-700 hover:text-white text-black text-sm font-bold py-3 px-8`
+
+export const leftMakeDealButtonTheme = `bg-[#ffb81c] hover:bg-blue-700 hover:text-white text-black text-sm font-bold py-3 px-8 rounded-l-lg w-full text-xl`
+export const leftMakeDealButtonThemeActive = `bg-green-600 text-white text-sm font-bold py-3 px-8 rounded-l-lg w-full text-xl`
+
+export const rightMakeDealButtonTheme = `bg-[#ffb81c] hover:bg-blue-700 hover:text-white text-black text-sm font-bold py-3 px-8 rounded-r-lg w-full text-xl`
+export const rightDisabled = `bg-gray-600 text-xl pointer-events-none w-full text-black text-sm font-bold py-3 px-8 rounded-r-lg`
+export const rightMakeDealButtonThemeActive = `bg-green-600 text-white text-sm font-bold py-3 px-8 rounded-r-lg w-full text-xl`
+
+export const leftDisabled = `bg-gray-600 text-xl pointer-events-none w-full text-black text-sm font-bold py-3 px-8 rounded-l-lg`
 
 export const paragraphStyle = `text-[${paragraphColor}] m-8`
 export const h2Style = ` text-[${secondaryColor}]`

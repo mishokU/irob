@@ -1,6 +1,6 @@
 export enum SettingsStrings {
     PublicProfile = "Public Profile",
-    PersonalData = "Personal data",
+    PersonalData = "Personal Information",
     Licenses = "Licenses",
     AccountManagement = "Account Management",
     Notifications = "Notifications",

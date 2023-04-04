@@ -2,3 +2,11 @@
 /server/node_modules/
 /server/postgres
 /server/app/package-lock.json
+/server/app/artifacts
+/server/app/cache
+
+/client/node_modules
+/client/package-lock.json
+
+/server/webSocket/node_modules
+/server/webSocket/package-lock.json

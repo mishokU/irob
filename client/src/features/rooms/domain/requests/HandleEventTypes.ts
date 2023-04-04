@@ -12,14 +12,9 @@ export enum RoomWebSocketTypes {
     createRequirement = 'createRequirement',
     applyRequirement = 'applyRequirement',
     declineRequirement = 'declineRequirement',
-    handleAgreement = 'handleAgreement'
-}
-
-export function getUserFromServer(user: any) {
-    const newUser: RoomUserResponse = {
-        id: user.profileId, fullName: user.fullName, avatar: user.avatar, isAdmin: user.isAdmin
-    }
-    return newUser
+    handleAgreement = 'handleAgreement',
+    leftAgreement = "leftAgreement",
+    rightAgreement = "rightAgreement"
 }
 
 export function getEventType(lastMessage: any) {
@@ -27,10 +22,22 @@ export function getEventType(lastMessage: any) {
     return json.type
 }
 
+export function getUserFromServer(user: any) {
+    console.log(user)
+    const newUser: RoomUserResponse = {
+        id: user.profileId, fullName: user.fullName, avatar: user.avatar, isAdmin: user.isAdmin
+    }
+    return newUser
+}
+
 export function getUser(lastMessage: any) {
     let json = JSON.parse(lastMessage.data)
+    console.log(json)
     const user: RoomUserResponse = {
-        id: json.data.id, fullName: json.data.username, isAdmin: json.data.isAdmin, avatar: json.data.avatar
+        id: json.data.id,
+        fullName: json.data.username,
+        isAdmin: json.data.isAdmin,
+        avatar: json.data.avatar
     }
     return user
 }
@@ -47,6 +54,7 @@ export function getRequirementMessage(lastMessage: any): MessageModel {
 
 function createMessageModel(data: any, type: MessageType): MessageModel {
     return {
+        id: data.id,
         userId: data.userId,
         date: data.date,
         username: data.username,
@@ -59,12 +67,13 @@ function createMessageModel(data: any, type: MessageType): MessageModel {
 
 export function getRequirement(lastMessage: any, userId: number): RoomRequirementModel {
     let data = JSON.parse(lastMessage.data).data
+    console.log(data)
     return {
         username: data.username,
         requirementId: data.requirementId,
         isApplyButtonVisible: data.userId !== userId,
-        isAlive: true,
-        type: data.type
+        isAlive: data.isAlive,
+        type: data.requirementType
     }
 }
 
@@ -87,7 +96,17 @@ export function isRequirementEvent(message: any) {
     return event.type === RoomWebSocketTypes.createRequirement || event.type === RoomWebSocketTypes.applyRequirement || event.type === RoomWebSocketTypes.declineRequirement
 }
 
-export function isHandleAgreementEvent(message: any){
+export function isHandleAgreementEvent(message: any) {
     const event = JSON.parse(message.data)
     return event.type === RoomWebSocketTypes.handleAgreement
+}
+
+export function isLeftAgreementEvent(message: any) {
+    const event = JSON.parse(message.data)
+    return event.type === RoomWebSocketTypes.leftAgreement
+}
+
+export function isRightAgreementEvent(message: any) {
+    const event = JSON.parse(message.data)
+    return event.type === RoomWebSocketTypes.rightAgreement
 }

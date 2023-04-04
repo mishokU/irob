@@ -47,6 +47,7 @@ async function getContractData(request, result) {
             address: data.buyer.account,
             data: contractData
         })
+
     } catch (e) {
         const message = "Error in getting contract data: " + e.message
         console.log(message)

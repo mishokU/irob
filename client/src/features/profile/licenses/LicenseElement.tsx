@@ -37,8 +37,8 @@ export function LicenseElement({
             <div className="space-x-4 flex ml-6 justify-between items-center w-full mr-4">
                 <div className="flex space-x-4 items-center">
                     {license.status === LicenseStatus.running ? (
-                        <div className="bg-green-500 w-3 h-3 min-w-fit rounded rounded-full" />) : (
-                        <div className="bg-red-500 w-3 h-3 min-w-fit rounded rounded-full" />)}
+                        <div className="bg-green-500 w-3 h-3 min-w-[12px] rounded rounded-full" />) : (
+                        <div className="bg-red-500 w-3 h-3 min-w-[12px] rounded rounded-full" />)}
                     <h1 className="select-none">{license.type}</h1>
                     <h2 className="line-clamp-1 min-w-fit max-w-[150px] select-none">{license.name}</h2>
                     <h1 className="line-clamp-1 min-w-fit max-w-[150px] select-none">{license.owner}</h1>

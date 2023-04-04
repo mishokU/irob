@@ -7,6 +7,7 @@ const roomMessages = require('./room/roomMessages')
 const searchRouter = require('./search/search')
 const roomPayment = require('./room/roomPayment')
 const licenses = require('./licenses/licenses')
+const config = require('./config/config')
 
 module.exports = app => {
     app.use('/profile', users)
@@ -18,4 +19,5 @@ module.exports = app => {
     app.use('/room/payment', roomPayment)
     app.use('/search', searchRouter)
     app.use('/licenses', licenses)
+    app.use('/config', config)
 }

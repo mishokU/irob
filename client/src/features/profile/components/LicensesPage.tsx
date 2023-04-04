@@ -1,7 +1,7 @@
 import {LicenseContentTabs} from "./LicenseContentTabs";
 import {LicenseMenuHandlerDelegate} from "../delegates/LicenseMenuHandlerDelegate";
 import {LicenseMenu} from "../delegates/LicenseMenu";
-import {LicenseItemPage} from "../licenseType/LicenseItemPage";
+import {LicenseItemPage} from "../licenses/LicenseItemPage";
 import {ProfileSearchLicenses} from "../search/ProfileSearchLicenses";
 
 export function LicensesPage() {

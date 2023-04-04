@@ -57,9 +57,14 @@ export default function RoomViewModel() {
         fetchData()
             .catch((e) => console.log("load room error: " + e))
             .then(data => {
+                console.log(data)
                 dispatch(updateRoom(data))
             }).then(() => setIsContentVisible(true))
     }, [])
+
+    useEffect(() => {
+        setIsMakeDealDialogVisible(false)
+    }, [roomReducer.isFinished])
 
     const handleDeleteRoomClick = async () => {
         try {

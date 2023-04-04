@@ -5,5 +5,7 @@ ENV TZ Europe/Moscow
 ENV NODE_PATH /opt/ws/node_modules
 
 WORKDIR /opt/ws/
+COPY ./package.json ./
+RUN npm i
 
 CMD [ "npm", "run", "start" ]

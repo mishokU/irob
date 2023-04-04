@@ -40,7 +40,7 @@ export function SettingsModalDialog({isVisible, setIsVisible}: SettingsProps) {
                 leaveFrom="opacity-100"
                 leaveTo="opacity-0"
             >
-                <div className="fixed inset-0 bg-black bg-opacity-25" />
+                <div className="fixed inset-0 bg-black bg-opacity-25"/>
             </Transition.Child>
             <div className="fixed inset-0 overflow-y-auto">
                 <div className="flex min-h-full items-center justify-center p-4 text-center">
@@ -57,13 +57,12 @@ export function SettingsModalDialog({isVisible, setIsVisible}: SettingsProps) {
                             bg-[#0E1420] p-6 text-left align-middle shadow-xl w-[400px] transition-all">
                             <div className="space-y-3 text-white">
                                 <div className="flex items-center justify-between">
-                                    <h1 className="font-bold text-lg">Updating
-                                        room</h1>
+                                    <h1 className="font-bold text-2xl">Updating room</h1>
                                     <button onClick={() => {
                                         setIsVisible(false)
                                     }}
                                             className="bg-transparent hover:bg-black border-transparent p-2 rounded-none hover:rounded-full">
-                                        <CloseModal />
+                                        <CloseModal/>
                                     </button>
                                 </div>
                                 <div className="space-y-6">
@@ -113,8 +112,7 @@ export function SettingsModalDialog({isVisible, setIsVisible}: SettingsProps) {
                                             {users?.map((user: UserSettingsModel) => (
                                                 <li
                                                     key={user.userId}
-                                                    onClick={() => onUserClick(
-                                                        user)}
+                                                    onClick={() => onUserClick(user)}
                                                     className="pt-2 pl-4 pr-4 pb-2 border-[#29303A] border-2 rounded-lg cursor-pointer"
                                                 >{user.username}</li>))}
                                         </ul>

@@ -53,9 +53,14 @@ async function updateSecondAgreement(request, result) {
 
         const {roomId, isAgreed} = request.body
 
+        console.log("room id: " + roomId)
+        console.log("is agreed: " + isAgreed)
+
         await roomController.updateSecondAgreement(roomId, isAgreed)
 
-        result.status(200)
+        result.status(200).json({
+            success: true
+        })
 
     } catch (e) {
         const message = "Error in update second agreement: " + e.message
@@ -72,9 +77,14 @@ async function updateFirstAgreement(request, result) {
 
         const {roomId, isAgreed} = request.body
 
+        console.log("room id: " + roomId)
+        console.log("is agreed: " + isAgreed)
+
         await roomController.updateFirstAgreement(roomId, isAgreed)
 
-        result.status(200)
+        result.status(200).json({
+            success: true
+        })
 
     } catch (e) {
         const message = "Error in update first agreement: " + e.message
@@ -90,9 +100,9 @@ async function isRoomAdmin(request, result) {
     try {
 
         const roomId = request.query.roomId;
-        const id = request.query.id;
+        const userId = request.query.userId;
 
-        const isAdmin = await roomController.isRoomAdmin(id, roomId)
+        const isAdmin = await roomController.isRoomAdmin(userId, roomId)
 
         result.status(200).json({
             success: true,

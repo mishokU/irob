@@ -1,5 +1,6 @@
-import {ethereum} from "./isMetamaskAvailable";
+import {ethereum, localChain} from "./isMetamaskAvailable";
 import {ethers} from "ethers";
+import {getSigner} from "./getSigner";
 
 function verifyMessage(message: any, address: any, signature: any) {
     try {
@@ -11,17 +12,14 @@ function verifyMessage(message: any, address: any, signature: any) {
     }
 }
 
-export async function signTransaction(address: string, data: string) {
+export async function signAndSendTransaction(address: string, data: string) {
 
-    const metaMaskProvider = ethereum.providers.find((provider: any) => provider.isMetaMask);
-    await metaMaskProvider.request({method: 'eth_requestAccounts'});
-    const provider = new ethers.BrowserProvider(ethereum);
-    const signer = await provider.getSigner();
+    const signer = await getSigner()
     const signature = await signer.signMessage(data);
 
     if (verifyMessage(data, address, signature)) {
         const transactionParameters = {
-            from: address, data: data, chainId: '0x539'
+            from: address, data: data, chainId: localChain
         };
 
         // As with any RPC call, it may throw an error

@@ -8,12 +8,13 @@ import {ApplyRequirementResponse} from "../../models/rooms/requirements/ApplyReq
 import {DeclineRequirementResponse} from "../../models/rooms/requirements/DeclineRequirementResponse";
 import {GetRequirementResponse} from "../../models/rooms/requirements/GetRequirementResponse";
 import {UpdateRequirementRequest} from "../../models/rooms/requirements/UpdateRequirementRequest";
-import {GetRequiredRequiremensCountResponse} from "../../models/rooms/requirements/GetRequiredRequiremensCountResponse";
+import {GetMakeDealResponse} from "../../models/rooms/requirements/GetMakeDealResponse";
+import {GetMakeDealRequest} from "../../../features/rooms/domain/requests/GetMakeDealRequest";
 
 export const RoomRequirementsApi = createApi({
     reducerPath: 'irob/api/room/requirements', baseQuery: fetchBaseQuery({
         baseUrl: 'http://localhost:5000/room/requirements',
-        prepareHeaders: (headers, { getState }) => {
+        prepareHeaders: (headers, {getState}) => {
             headers.set('token', localStorage.getItem("jwtToken") || "")
             return headers
         },
@@ -67,12 +68,15 @@ export const RoomRequirementsApi = createApi({
                 return "Error while creating room, try later."
             }
         }),
-        getRequiredRequirementsCount: build.mutation<GetRequiredRequiremensCountResponse, string>({
-            query: (roomId) => ({
+        getMakeDeal: build.mutation<GetMakeDealResponse, GetMakeDealRequest>({
+            query: (request) => ({
                 url: `/getRequiredRequirementCount`, method: `GET`,
-                params: {roomId: roomId}
+                params: {
+                    roomId: request.roomId,
+                    userId: request.userId
+                }
             }),
-            transformResponse: (response: GetRequiredRequiremensCountResponse) => response,
+            transformResponse: (response: GetMakeDealResponse) => response,
             transformErrorResponse(meta: unknown, arg: unknown): string {
                 return "Error while creating room, try later."
             }
@@ -93,7 +97,7 @@ export const RoomRequirementsApi = createApi({
 export const {
     useCreateRequirementMutation,
     useGetRequirementMutation,
-    useGetRequiredRequirementsCountMutation,
+    useGetMakeDealMutation,
     useGetRequirementsMutation,
     useApplyRequirementMutation,
     useUpdateRequirementMutation,

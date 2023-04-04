@@ -16,15 +16,17 @@ import {
 } from "../../../data/models/rooms/payment/GetRoomRequirementsCostResponse";
 import {
     getLicenseStatus, LicenseStatus
-} from "../../profile/licenseType/LicenseUiModel";
+} from "../../profile/licenses/LicenseUiModel";
 import {isMetamaskAvailable} from "../../../domain/web3/isMetamaskAvailable";
-import {signTransaction} from "../../../domain/web3/signTransaction";
+import {signAndSendTransaction} from "../../../domain/web3/signAndSendTransaction";
+import {signAndSendDeposit} from "../../../domain/web3/signAndSendDeposit";
 
 export default function RoomPaymentViewModel() {
 
     const roomReducer = useSelector((state: RootState) => state.room)
+    const configReducer = useSelector((state: RootState) => state.config)
 
-    const {status, connect, account } = useMetaMask();
+    const {status, connect, account} = useMetaMask();
 
     const [screenState, setScreenState] = useState<RoomPaymentState>(initialRoomPaymentState(status === "connected"))
 
@@ -69,14 +71,13 @@ export default function RoomPaymentViewModel() {
 
     useEffect(() => {
         setScreenState({
-            ...screenState, isLedgerConnected: status === "connected",leftPanel: {
+            ...screenState, isLedgerConnected: status === "connected", leftPanel: {
                 ...screenState.leftPanel, isLoading: true
             }
         })
     }, [status])
 
     useEffect(() => {
-        console.log(isUpdating)
         setScreenState({
             ...screenState, leftPanel: {
                 ...screenState.leftPanel, isLoading: isUpdating
@@ -96,7 +97,14 @@ export default function RoomPaymentViewModel() {
                     error(result.message)
                 } else {
 
-                    const contractAddress = await signTransaction(result.address, result.data)
+                    const contractAddress = await signAndSendTransaction(result.address, result.data)
+
+                    const deposit = screenState.leftPanel.data.depositCost.toString()
+
+                    /*
+                        Need to save deposit result if something happens
+                    */
+                    const sendDepositResult = await signAndSendDeposit(configReducer.depositAddress, deposit)
 
                     const createLicenseResponse = await createLicenseMutation({
                         roomId: roomReducer.roomId,
@@ -159,7 +167,7 @@ export default function RoomPaymentViewModel() {
     }
 
     function updateScreenState(balance: number, prices: RoomPrices, buttonType: ButtonType,
-        licenseStatus: LicenseStatus | null) {
+                               licenseStatus: LicenseStatus | null) {
         setScreenState({
             ...screenState, balance: balance, leftPanel: {
                 ...screenState.leftPanel, isLoading: false, data: {
@@ -168,7 +176,7 @@ export default function RoomPaymentViewModel() {
                     depositCost: prices.depositCost,
                     commission: prices.commissionCost,
                     total: prices.total,
-                    canPay: balance > prices.total && account !== null && buttonType !== ButtonType.Executed,
+                    canPay: balance > prices.total && account !== null && buttonType === ButtonType.ExecuteTransaction,
                     buttonText: getButtonText(buttonType)
                 }
             }, rightPanel: resolveRightPanel(buttonType, licenseStatus)
@@ -189,7 +197,7 @@ export default function RoomPaymentViewModel() {
         if (buttonType === ButtonType.NotEnoughMoney) {
             return "Not enough money"
         } else if (buttonType === ButtonType.TheBuyerDidNotLinkTheWallet) {
-            return "The buyer did not link the wallet"
+            return "The seller did not link the wallet"
         } else if (buttonType === ButtonType.ExecuteTransaction) {
             return "Execute transaction"
         } else {

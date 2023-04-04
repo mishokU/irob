@@ -1,6 +1,7 @@
 const {Router} = require("express");
 
 const roomRequirementsController = require("../../controllers/RoomRequirementsController")
+const roomController = require("../../controllers/RoomControllers")
 
 const roomRequirementsRouter = new Router()
 
@@ -53,7 +54,7 @@ async function getRoomRequirement(request, result) {
     try {
         const requirementId = request.query.requirementId;
         const requirement = await roomRequirementsController.getRequirement(requirementId)
-        if(requirement !== undefined){
+        if (requirement !== undefined) {
             result.status(200).json({
                 success: true,
                 requirement: requirement
@@ -128,21 +129,32 @@ async function deleteRequirement(request, result) {
     Duration days - how many days this license alive
  */
 
-async function getRequiredRequirementCount(request, result){
+async function getRequiredRequirementCount(request, result) {
     try {
+
         const roomId = request.query.roomId
+        const userId = request.query.userId
+
         const requiredCount = await roomRequirementsController.getRequiredRequirements(roomId)
-        console.log(requiredCount)
+        const room = await roomController.getRoom(roomId)
+
+        const isOwner = Number(room.owner_id) === Number(userId)
+
         result.status(200).json({
             success: true,
             count: requiredCount,
-            fullCount: 3
+            fullCount: 3,
+            isOwner: isOwner,
+            firstAgreement: room.first_agreement,
+            secondAgreement: room.second_agreement
         })
-    } catch (e){
+
+    } catch (e) {
         console.log(e)
-        result.status(500).json({
+        result.status(200).json({
             success: false,
             message: "Error in get room requirement count: " + e.message
         })
     }
+
 }

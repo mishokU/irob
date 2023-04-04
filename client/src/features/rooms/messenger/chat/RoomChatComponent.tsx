@@ -17,9 +17,9 @@ export function RoomChatComponent({isVisible, setIsVisible, isDealButtonVisible}
             scrollbar-thin scrollbar-thumb-gray-800 scrollbar-track-gray-100 scroll-auto"
         >
             {messageList.map((item: MessageUiModel) => ((item.type === MessageType.CONTENT && <SimpleMessageComponent
-                key={(Math.random() + 1).toString(36).substring(7)}
+                key={item.id}
                 message={item}/>) || (item.type === MessageType.CREATE_REQUIREMENT && <RequirementMessageComponent
-                key={(Math.random() + 1).toString(36).substring(7)}
+                key={item.id}
                 message={item}/>)))}
         </div>
         <div className="flex w-full items-center mt-4 justify-center">
@@ -28,7 +28,7 @@ export function RoomChatComponent({isVisible, setIsVisible, isDealButtonVisible}
                 isDealButtonVisible && <div
                     className="border-2 ml-2 rounded-lg h-[50px] w-[50px] m-auto block cursor-pointer"
                     onClick={() => setIsVisible(!isVisible)}>
-                    <img src={makeDealImg}/>
+                    <img alt="deal" src={makeDealImg}/>
                 </div>
             }
         </div>

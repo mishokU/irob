@@ -1,34 +1,66 @@
 version: '3'
 
 services:
+
+  # Контейнер с React app
+  client:
+    build:
+      context: ./client
+      dockerfile: Dockerfile.dev
+    container_name: client
+    env_file:
+      - .env
+    working_dir: /opt/client
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./client:/opt/client
+      - ./static:/opt/static
+
   # Контейнер с Node.js
   app:
     build:
-      context: server/app
+      context: ./server/app
+      dockerfile: Dockerfile
     tty: true
     working_dir: /opt/server
     volumes:
       - ./server/app:/opt/server
       - ./static:/opt/static
-      - /opt/server/node_modules/
     env_file:
       - .env
-    expose:
-      - '5000'
+    ports:
+      - "5000:5000"
     depends_on:
       - db
-    command: npm run start
+
+  ws:
+    container_name: ws_server
+    restart: always
+    working_dir: /opt/ws
+    build:
+      context: server/webSocket
+      dockerfile: Dockerfile
+    env_file:
+      - .env
+    volumes:
+      - ./server/webSocket:/opt/ws
+    ports:
+      - "8080:8080"
 
   # Контейнер с базой данных
   db:
     image: postgres:12-alpine
+    ports:
+      - "5432:5432"
+    build:
+      context: ./database
+      dockerfile: Dockerfile
     environment:
-      - POSTGRES_USER=${DB_USER}
-      - POSTGRES_PASSWORD=${DB_PASSWORD}
-    volumes:
-      - ./postgres:/var/lib/postgresql/data
-    expose:
-      - '5432'
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=1234
+      - POSTGRES_DB=IROB
+      - POSTGRES_NAME=IROB
     restart: always
 
   # Контейнер с nginx
@@ -38,12 +70,14 @@ services:
       - app
       - db
       - pgadmin
+      - client
+      - ws
     image: nginx:latest
+    build:
+      dockerfile: Dockerfile.dev
+      context: ./nginx
     ports:
       - '80:80'
-    volumes:
-      - ./nginx:/etc/nginx/conf.d
-      - ./static:/var/www/static
     restart: always
 
   # Контейнер с pgadmin
@@ -58,3 +92,20 @@ services:
     expose:
       - '80'
     restart: always
+
+  ganache:
+    image: trufflesuite/ganache-cli:latest
+    ports:
+      - "8545:8545"
+    entrypoint:
+      - node
+      - /app/ganache-core.docker.cli.js
+      - --deterministic
+      - --db=/ganache_data
+      - --mnemonic
+      - 'minimum symptom minute gloom tragic situate silver mechanic salad amused elite beef'
+      - --networkId
+      - '5777'
+      - --hostname
+      - '0.0.0.0'
+      - --debug

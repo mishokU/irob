@@ -1,4 +1,4 @@
-import {LicenseStatus} from "../../profile/licenseType/LicenseUiModel";
+import {LicenseStatus} from "../../profile/licenses/LicenseUiModel";
 
 export interface RoomPaymentState {
     isLedgerConnected: boolean,

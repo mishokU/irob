@@ -4,6 +4,7 @@ export enum MessageType {
 }
 
 export interface MessageModel {
+    id: number
     userId: number
     username: string
     avatar: string

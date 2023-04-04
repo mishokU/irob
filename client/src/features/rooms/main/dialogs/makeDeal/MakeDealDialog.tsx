@@ -1,17 +1,16 @@
 import {MakeDealDialogProps} from "./MakeDealDialogProps";
 import {Dialog, Transition} from "@headlessui/react";
 import {ReactComponent as CloseModal} from "../../../asserts/close_black_24dp.svg";
-import {buttonTheme, buttonThemeDisabled} from "../../../../../themes/Themes";
 import useViewModel from "./MakeDealViewModel"
 import {Fragment} from "react";
+import {LeftButtonComponent} from "./leftButton/LeftButtonComponent";
+import {RightButtonComponent} from "./rightButton/RightButtonComponent";
 
 export function MakeDealDialog({isVisible, setIsVisible}: MakeDealDialogProps) {
-    const {onAgreementClick, agreementCount, applyRequirementsCount, fullApplyRequirementsCount} = useViewModel()
+    const {applyRequirementsCount, fullApplyRequirementsCount} = useViewModel()
     return <div>
         <Transition appear show={isVisible} as={Fragment}>
-            <Dialog as="div" className="relative z-10" onClose={() => {
-                setIsVisible(false)
-            }}>
+            <Dialog as="div" className="relative z-10" onClose={() => setIsVisible(false)}>
                 <Transition.Child
                     as={Fragment}
                     enter="ease-out duration-300"
@@ -21,7 +20,7 @@ export function MakeDealDialog({isVisible, setIsVisible}: MakeDealDialogProps) {
                     leaveFrom="opacity-100"
                     leaveTo="opacity-0"
                 >
-                    <div className="fixed inset-0 bg-black bg-opacity-25" />
+                    <div className="fixed inset-0 bg-black bg-opacity-25"/>
                 </Transition.Child>
                 <div className="fixed inset-0 overflow-y-auto">
                     <div className="flex min-h-full items-center justify-center text-center">
@@ -38,12 +37,11 @@ export function MakeDealDialog({isVisible, setIsVisible}: MakeDealDialogProps) {
                             bg-[#0E1420] p-6 text-left align-middle shadow-xl w-[700px] transition-all">
                                 <div className="space-y-3 text-white">
                                     <div className="flex items-center justify-between">
-                                        <h1 className="font-bold text-lg">Deal confirmation dialog</h1>
-                                        <button onClick={() => {
-                                            setIsVisible(false)
-                                        }}
-                                                className="bg-transparent hover:bg-black border-transparent p-2 rounded-none hover:rounded-full">
-                                            <CloseModal />
+                                        <h1 className="font-bold text-2xl">Deal confirmation dialog</h1>
+                                        <button
+                                            onClick={() => setIsVisible(false)}
+                                            className="bg-transparent hover:bg-black border-transparent p-2 rounded-none hover:rounded-full">
+                                            <CloseModal/>
                                         </button>
                                     </div>
                                     <h1> In this dialog box, you can monitor the readiness of your transaction, all your
@@ -51,17 +49,25 @@ export function MakeDealDialog({isVisible, setIsVisible}: MakeDealDialogProps) {
                                         upon conclusion, you will
                                         have a record in your personal account on both sides, and you will also have
                                         access to the tab with payment for this room</h1>
-                                    <h2>Necessarily requirements count {applyRequirementsCount} / {fullApplyRequirementsCount}</h2>
+                                    <h2>Necessarily requirements
+                                        count {applyRequirementsCount} / {fullApplyRequirementsCount}</h2>
                                     {
                                         applyRequirementsCount !== fullApplyRequirementsCount && <div>
-                                            <p className="text-red-600">You must get all of the required requirements such as: Cost, Hold deposit, Duration days</p>
+                                            <p className="text-red-600">You must get all of the required requirements such
+                                                as: Cost, Hold deposit, Duration days</p>
                                         </div>
                                     }
-                                    <button
-                                        className={applyRequirementsCount < fullApplyRequirementsCount ? buttonThemeDisabled  : buttonTheme + " w-full text-xl"}
-                                        onClick={onAgreementClick}
-                                    >Agreements {agreementCount}/2
-                                    </button>
+                                    {
+                                        fullApplyRequirementsCount !== 0 && <div className="flex">
+                                            <LeftButtonComponent
+                                                applyRequirementsCount={applyRequirementsCount}
+                                                fullApplyRequirementsCount={fullApplyRequirementsCount}/>
+                                            <div className="h-full w-1 bg-black"/>
+                                            <RightButtonComponent
+                                                applyRequirementsCount={applyRequirementsCount}
+                                                fullApplyRequirementsCount={fullApplyRequirementsCount}/>
+                                        </div>
+                                    }
                                 </div>
                             </Dialog.Panel>
                         </Transition.Child>

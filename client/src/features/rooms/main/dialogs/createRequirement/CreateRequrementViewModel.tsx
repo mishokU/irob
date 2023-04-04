@@ -10,7 +10,6 @@ import {useSelector} from "react-redux";
 import {RootState} from "../../../../../data/store";
 import {CreateRequirementResult} from "../../../../../data/models/rooms/requirements/CreateRequirementResult";
 import {RequirementState} from "../../page/RequirementState";
-import {GetRequirementResponse} from "../../../../../data/models/rooms/requirements/GetRequirementResponse";
 
 export default function CreateRequirementViewModel(isVisibleState: RequirementState, setIsVisibleState: (value: RequirementState) => void) {
 
@@ -91,7 +90,9 @@ export default function CreateRequirementViewModel(isVisibleState: RequirementSt
                 username: requirement.username,
                 userId: profileReducer.profileId,
                 roomId: roomReducer.roomId,
-                requirementId: requirement.requirementId
+                value: value,
+                requirementId: requirement.requirementId,
+                requirementType: type
             })
             setIsVisibleState({isVisible: false, requirement: null})
         } catch (e) {

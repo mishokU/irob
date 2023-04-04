@@ -4,6 +4,10 @@ import {SettingsMenu} from "../delegates/SettingsMenu";
 import {SettingsStrings} from "../strings/SettingsStrings";
 import backImg from "../../../ui/assets/left_24px.png";
 import {AccountManagementComponent} from "../accountManagement/AccountManagementComponent";
+import {PersonalDataComponent} from "../personalData/PersonalDataComponent";
+import {NotificationsComponent} from "../notifications/NotificationsComponent";
+import {ConfidentialComponent} from "../confidential/ConfidentialComponent";
+import {LedgerComponent} from "../ledger/LedgerComponent";
 
 export function SettingsPage() {
     const {activeMenu, setActiveMenu, onBackClick} = MenuDelegateHandler()
@@ -12,7 +16,7 @@ export function SettingsPage() {
     return <div className="flex ml-12 mt-8 mt-24">
         <div className="w-[16em] text-white min-w-[14em]">
             <div className="flex space-x-2 pb-4" onClick={onBackClick}>
-                <img src={backImg} />
+                <img src={backImg}/>
                 <p className="text-xl text-white underline cursor-pointer">Back to profile</p>
             </div>
             <div className="text-base text-gray-400 space-y-3 cursor-pointer">
@@ -58,10 +62,22 @@ export function SettingsPage() {
         </div>
         <div className="lg:ml-36 md:ml-16 sm:ml-8">
             {activeMenu === SettingsMenu.PROFILE && <div className="justify-center">
-                <ProfileInfoComponent />
+                <ProfileInfoComponent/>
             </div>}
             {activeMenu === SettingsMenu.ACCOUNT_MANAGEMENT && <div className="justify-center">
-                <AccountManagementComponent />
+                <AccountManagementComponent/>
+            </div>}
+            {activeMenu === SettingsMenu.PERSONAL_DATA && <div className="justify-center">
+                <PersonalDataComponent/>
+            </div>}
+            {activeMenu === SettingsMenu.NOTIFICATIONS && <div className="justify-center">
+                <NotificationsComponent/>
+            </div>}
+            {activeMenu === SettingsMenu.CONFIDENTIAL && <div className="justify-center">
+                <ConfidentialComponent/>
+            </div>}
+            {activeMenu === SettingsMenu.LEDGER && <div className="justify-center">
+                <LedgerComponent/>
             </div>}
         </div>
     </div>

@@ -11,6 +11,7 @@ const initialState = {
     fullName: "",
     location: "",
     nickname: "",
+    email: "",
     followersCount: 0,
     profileId: 0
 };
@@ -30,7 +31,13 @@ export const profileSlice = createSlice({
                 state.followersCount = action.payload.user.followersCount;
                 state.profileId = action.payload.user.id;
                 state.avatar = action.payload.user.avatar
-                state.fullName = state.name + " " + state.surname;
+                state.email = action.payload.user.email
+
+                if(state.name === "" || state.surname === ""){
+                    state.fullName = state.email
+                } else {
+                    state.fullName = state.name + " " + state.surname;
+                }
             }
         }, clearProfile: (state) => {
             state.name = "";
@@ -42,6 +49,7 @@ export const profileSlice = createSlice({
             state.nickname = "";
             state.followersCount = 0;
             state.fullName = "";
+            state.email = "";
             state.profileId = 0;
         },
     },

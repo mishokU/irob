@@ -8,6 +8,7 @@ import {useSelector} from "react-redux";
 import {RootState} from "../../../data/store";
 import {RoomUserResponse} from "../../../data/models/rooms/users/RoomUserResponse";
 import {useGetRoomUsersMutation} from "../../../data/store/rooms/RoomUsersApi";
+import {RoommatesConverter} from "./RoommatesConverter";
 
 export default function RoommatesViewModel() {
 
@@ -15,6 +16,8 @@ export default function RoommatesViewModel() {
     const profileReducer = useSelector((state: RootState) => state.profile)
 
     const [users, addUser] = useState<RoomUserResponse[]>([]);
+
+    const roommatesConverter = new RoommatesConverter()
 
     const [userRoomMutation] = useGetRoomUsersMutation()
 
@@ -32,9 +35,7 @@ export default function RoommatesViewModel() {
             return error
         }).then(data => {
             if (data.length > 0) {
-                data.map((user: any) => {
-                    joinUser(getUserFromServer(user))
-                })
+                data.map((user: any) => joinUser(roommatesConverter.getUserFromServer(user)))
             }
         });
 
@@ -54,8 +55,8 @@ export default function RoommatesViewModel() {
         if (lastMessage !== null) {
             const type = getEventType(lastMessage)
             if (type === RoomWebSocketTypes.userJoined) {
-                joinUser(getUser(lastMessage))
-            } else {
+                joinUser(roommatesConverter.getUser(lastMessage))
+            } else if(type === RoomWebSocketTypes.userDisconnected) {
                 removeUser(getUser(lastMessage))
             }
         }

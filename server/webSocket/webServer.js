@@ -35,7 +35,9 @@ const typesDef = {
     APPLY_REQUIREMENT: 'applyRequirement',
     DECLINE_REQUIREMENT: 'declineRequirement',
     ADD_ADMIN: 'addAdmin',
-    HANDLE_AGREEMENT: 'handleAgreement'
+    HANDLE_AGREEMENT: 'handleAgreement',
+    LEFT_AGREEMENT: 'leftAgreement',
+    RIGHT_AGREEMENT: 'rightAgreement'
 }
 
 function broadcastMessage(json) {
@@ -58,12 +60,12 @@ function broadcastMessage(json) {
 
 async function handleMessage(message, userId) {
     try {
+
         const dataFromClient = JSON.parse(message.toString());
         const datetime = new Date();
+
         const json = {type: dataFromClient.type};
         const roomId = dataFromClient.roomId
-
-        console.log(dataFromClient)
 
         if (dataFromClient.type === typesDef.USER_JOINED) {
 
@@ -72,10 +74,6 @@ async function handleMessage(message, userId) {
             const username = dataFromClient.username
             const id = dataFromClient.userId
             const avatar = dataFromClient.avatar
-
-            console.log(id)
-            console.log(avatar)
-            console.log(username)
 
             const isAdmin = await isUserAdmin(id, roomId)
             const hasUserInRoom = await hasUserWithId(id, roomId)
@@ -99,30 +97,49 @@ async function handleMessage(message, userId) {
             )
 
             json.data = {content, username, avatar, roomId, date, userId};
-        } else if (dataFromClient.type === typesDef.CREATE_REQUIREMENT) {
+
+        } else if (dataFromClient.type === typesDef.CREATE_REQUIREMENT || dataFromClient.type === typesDef.APPLY_REQUIREMENT) {
+
+            const value = dataFromClient.value
             const username = dataFromClient.username
             const requirementId = dataFromClient.requirementId
+            const requirementType = dataFromClient.requirementType
             const userId = dataFromClient.userId
-            json.data = {username, userId, roomId, requirementId}
-        } else if (dataFromClient.type === typesDef.APPLY_REQUIREMENT) {
-            const requirementId = dataFromClient.requirementId
-            json.data = {requirementId, roomId}
+            const isAlive = true
+
+            json.data = {username, userId, roomId, requirementId, requirementType, isAlive, value}
+
         } else if (dataFromClient.type === typesDef.DECLINE_REQUIREMENT) {
+
             const requirementId = dataFromClient.requirementId
             json.data = {requirementId, roomId}
+
         } else if (dataFromClient.type === typesDef.ADD_ADMIN) {
 
-        } else if (dataFromClient.type === typesDef.HANDLE_AGREEMENT) {
-            const isOwner = dataFromClient.isOwner
-            const isAgreed = !dataFromClient.isAgreed
+        } else if (dataFromClient.type === typesDef.LEFT_AGREEMENT) {
 
-            if (isOwner) {
-                await updateFirstAgreement(roomId, isAgreed)
-            } else {
-                await updateSecondAgreement(roomId, isAgreed)
-            }
+            const count = dataFromClient.count
+            const fullCount = dataFromClient.fullCount
+            const userId = dataFromClient.userId
 
-            json.data = {isOwner, isAgreed, roomId}
+            let firstAgreement = !dataFromClient.firstAgreement
+
+            await updateFirstAgreement(roomId, firstAgreement)
+
+            json.data = {firstAgreement, count, fullCount, userId, roomId}
+
+        } else if (dataFromClient.type === typesDef.RIGHT_AGREEMENT) {
+
+            const count = dataFromClient.count
+            const fullCount = dataFromClient.fullCount
+            const userId = dataFromClient.userId
+
+            let secondAgreement = !dataFromClient.secondAgreement
+
+            await updateSecondAgreement(roomId, secondAgreement)
+
+            json.data = {count, fullCount, userId, secondAgreement, roomId}
+
         }
         broadcastMessage(json);
     } catch (e) {
@@ -156,13 +173,10 @@ wsServer.on('connection', function (connection, request) {
     // Generate a unique code for every user
     const userId = uuidv4();
     console.log('Recieved a new connection');
-    console.log("connection: " + request.headers.host)
     // Store the new connection and handle messages
     clients[userId] = connection;
     console.log(`${userId} connected.`);
     connection.on('message', (message) => handleMessage(message, userId));
     // User disconnected
-    connection.on('close', () => {
-        handleDisconnect(userId)
-    });
+    connection.on('close', () => handleDisconnect(userId));
 });

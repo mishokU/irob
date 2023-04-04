@@ -25,7 +25,7 @@ export default function SettingsViewModel({setIsVisible}: SettingsProps) {
     const [owner, setOwner] = useState<string>(roomReducer.owner)
     const [search, setSearch] = useState<string>("")
     const [users, setUsers] = useState<UserSettingsModel[]>([])
-    const [isDropdownVisible, setDropdown] = useState(false)
+    const [isDropdownVisible, setDropdown] = useState<boolean>(false)
     const [userId, setUserId] = useState(0)
 
     const [updateRoomMutation] = useUpdateRoomMutation()
@@ -64,7 +64,7 @@ export default function SettingsViewModel({setIsVisible}: SettingsProps) {
             .then((data: any) => {
                 const users = data.users.map((user: ProfileResponse) => {
                     return {
-                        username: user.name + " " + user.surname,
+                        username: getUsername(user),
                         userId: user.id
                     }
                 })
@@ -79,6 +79,14 @@ export default function SettingsViewModel({setIsVisible}: SettingsProps) {
     const onUserClick = (user: UserSettingsModel) => {
         setSearch(user.username)
         setUserId(user.userId)
+    }
+
+    function getUsername(user: ProfileResponse){
+        if(user.name === "" || user.surname === ""){
+            return user.email
+        } else {
+            return user.name + " " + user.surname
+        }
     }
 
     return {

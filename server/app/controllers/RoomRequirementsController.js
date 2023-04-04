@@ -13,9 +13,14 @@ module.exports = {
               VALUES ('${roomId}', ${user.id}, '${title}','${description}', '${type}', '${value}', true)
               RETURNING id
         `)
-        const fullName = user.name + " " + user.surname
+        let username = ""
+        if(user.name === "" || user.surname === ""){
+            username = user.email
+        } else {
+            username = user.name + " " + user.surname
+        }
         return {
-            username: fullName,
+            username: username,
             requirementId: data.rows[0].id
         }
     },
@@ -30,9 +35,14 @@ module.exports = {
             } else {
                 return await Promise.map(data.rows, async (requirement) => {
                     const user = await userController.getUserById(requirement.user_id)
-                    const fullName = user.name + " " + user.surname
+                    let username = ""
+                    if(user.name === "" || user.surname === ""){
+                        username = user.email
+                    } else {
+                        username = user.name + " " + user.surname
+                    }
                     return {
-                        username: fullName,
+                        username: username,
                         isAlive: requirement.is_alive,
                         userId: user.id,
                         type: requirement.type,

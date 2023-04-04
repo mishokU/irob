@@ -15,9 +15,9 @@ const api = axios.create({
 });
 
 async function isUserAdmin(id, roomId) {
-    const data = {id: id, roomId: roomId}
-    return await api.get('/rooms/isRoomAdmin', data).then((result) => {
-        return result.isAdmin
+    const data = {userId: id, roomId: roomId}
+    return await api.get('/rooms/isRoomAdmin', {params: data}).then((result) => {
+        return result.data.isAdmin
     }).catch((err) => {
         console.error(err);
     });
@@ -25,8 +25,8 @@ async function isUserAdmin(id, roomId) {
 
 async function hasUserWithId(id, roomId) {
     const data = {userId: id, roomId: roomId}
-    return await api.get('/room/users/hasUser', data).then((result) => {
-        return result.hasUser
+    return await api.get('/room/users/hasUser', {params: data}).then((result) => {
+        return result.data.hasUser
     }).catch((err) => {
         console.error(err);
     });

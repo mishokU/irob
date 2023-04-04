@@ -5,6 +5,7 @@ import useViewModel from "./ProfileCardViewModel"
 import {useDispatch} from "react-redux";
 import {clearProfile} from "../../../data/slices/ProfileSlice";
 import AuthMiddleware from "../../auth/middleware/AuthMiddleware";
+import avatarPlaceholder from "../../../ui/assets/avatart_placeholder.png"
 
 export function ProfileCard() {
     const navigate = useNavigate()
@@ -15,13 +16,15 @@ export function ProfileCard() {
     return <div className="text-center w-[380px] border-[#4a5058] h-fit border-2 p-4 rounded-2xl top-0">
         <div className="flex justify-center">
             <img
+                placeholder={avatarPlaceholder}
+                alt="avatar"
                 src={profileReducer.avatar}
-                className="rounded-full bg-white object-cover content-center w-[120px] h-[120px]" />
+                className="rounded-full bg-white object-cover content-center w-[120px] h-[120px]"/>
         </div>
-        <h1 className="text-4xl mt-6">{profileReducer.fullName}</h1>
+        <h1 className="text-4xl mt-6 overflow-hidden">{profileReducer.fullName}</h1>
         <div className="space-y-2 mt-4">
             <p>{profileReducer.description}</p>
-            { profileReducer.followersCount === 0 && <p>{profileReducer.followersCount} subscriptions</p> }
+            {profileReducer.followersCount === 0 && <p>{profileReducer.followersCount} subscriptions</p>}
         </div>
         <div className="flex space-x-2">
             <button className={buttonTheme + " mt-6 w-full"} onClick={() => {

@@ -9,13 +9,15 @@ module.exports = {
     getContractData
 }
 
+/*
+
+*/
 
 async function getContractData(sellerAddress, buyerAddress, depositCost) {
 
     const DepositHolder = await hre.ethers.getContractFactory("DepositHolder");
 
     const depositAddress = process.env.DEPOSIT_ADDRESS
-
 
     return hexlify(concat([
         DepositHolder.bytecode,
@@ -45,11 +47,13 @@ async function deployTestContract(listRequirements, sellerAddress, depositCost) 
             const data = await requirements.addRequirement(requirement.type, requirement.value);
             fullEther += Number(hre.ethers.utils.formatEther(data.gasLimit * 1000000000))
         }
+
         fullEther += Number(hre.ethers.utils.formatEther(requirements.deployTransaction.gasLimit * 1000000000))
+
         return fullEther
+
     } catch (e) {
-        console.log("Error: ")
-        console.log(e)
+        console.log("Error in deployTestContract: " + e.message)
         return 0;
     }
 }
@@ -86,8 +90,6 @@ async function deployContract(buyerAddress, sellerAddress, listRequirements, dep
         */
 
         const [owner] = await hre.ethers.getSigners();
-
-        console.log(owner)
 
         const data = await owner.sendTransaction({
             to: process.env.DEPOSIT_ADDRESS,

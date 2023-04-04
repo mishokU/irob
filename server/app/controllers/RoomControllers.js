@@ -11,15 +11,23 @@ module.exports = {
         const data = await db.query(`SELECT * FROM rooms`)
         return data.rows
     },
-    updateFirstAgreement: async function(roomId, isAgree){
-        await db.query(`
-            UPDATE rooms SET first_agreement = $1 WHERE room_id= $2;`, [isAgree, roomId]
-        )
+    updateFirstAgreement: async function (roomId, isAgree) {
+        try {
+            await db.query(`
+                UPDATE rooms SET first_agreement = $1 WHERE room_id= $2;`, [isAgree, roomId]
+            )
+        } catch (e) {
+            console.log("Error in update first agreement: " + e.message)
+        }
     },
-    updateSecondAgreement: async function(roomId, isAgree){
-        await db.query(`
-            UPDATE rooms SET second_agreement = $1 WHERE room_id= $2;`, [isAgree, roomId]
-        )
+    updateSecondAgreement: async function (roomId, isAgree) {
+        try {
+            await db.query(`
+                UPDATE rooms SET second_agreement = $1 WHERE room_id= $2;`, [isAgree, roomId]
+            )
+        } catch (e) {
+            console.log("Error in updateSecondAgreement: " + e.message)
+        }
     },
     isRoomAdmin: async function (userId, roomId) {
         try {
@@ -28,7 +36,7 @@ module.exports = {
                     WHERE room_id= $1 AND (owner_id= $2 OR user_id= $2)`, [roomId, userId]
             )
             return data.rows[0] !== undefined
-        } catch (e){
+        } catch (e) {
             console.log("is room admin error: " + e.message)
         }
     },

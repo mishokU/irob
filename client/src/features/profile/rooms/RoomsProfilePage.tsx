@@ -16,7 +16,7 @@ export function RoomsProfilePage() {
                 <div className="space-x-4 flex ml-6 justify-between items-center w-full mr-4">
                     <div className="flex space-x-4 items-center w-full">
                         {item.isActive ? (<div className="bg-green-500 w-3 h-3 min-w-fit rounded rounded-full" />) : (
-                            <div className="bg-red-500 w-3 h-3 rounded rounded-full" />)}
+                            <div className="bg-red-500 w-3 h-3 min-w-fit rounded rounded-full" />)}
                         <h1 className="min-w-fit">{item.title}</h1>
                         <h2 className="line-clamp-1 min-w-fit w-max max-w-[170px]">{item.ownerName}</h2>
                         <h1 className="line-clamp-1 max-w-4xl">{item.lastMessage}</h1>
