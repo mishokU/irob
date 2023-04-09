@@ -1,6 +1,6 @@
 import {MakeDealDialogProps} from "./MakeDealDialogProps";
 import {Dialog, Transition} from "@headlessui/react";
-import {ReactComponent as CloseModal} from "../../../asserts/close_black_24dp.svg";
+import {ReactComponent as CloseModal} from "../../../../../ui/assets/close_black_24dp.svg";
 import useViewModel from "./MakeDealViewModel"
 import {Fragment} from "react";
 import {LeftButtonComponent} from "./leftButton/LeftButtonComponent";
@@ -52,7 +52,7 @@ export function MakeDealDialog({isVisible, setIsVisible}: MakeDealDialogProps) {
                                     <h2>Necessarily requirements
                                         count {applyRequirementsCount} / {fullApplyRequirementsCount}</h2>
                                     {
-                                        applyRequirementsCount !== fullApplyRequirementsCount && <div>
+                                        applyRequirementsCount < fullApplyRequirementsCount && <div>
                                             <p className="text-red-600">You must get all of the required requirements such
                                                 as: Cost, Hold deposit, Duration days</p>
                                         </div>

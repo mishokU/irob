@@ -4,6 +4,7 @@ export enum SettingsMenu {
     ACCOUNT_MANAGEMENT,
     NOTIFICATIONS,
     CONFIDENTIAL,
+    APPLICATIONS,
     PROGRAM,
     LEDGER
 }

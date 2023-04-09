@@ -21,6 +21,7 @@ export function CreateRequirementFormPage({isVisibleState, setIsVisibleState}: C
         contentType,
         setType,
         customType,
+        isPrimaryButtonInvisible,
         setCustomType,
         onActionClick,
         requirementId,
@@ -105,7 +106,7 @@ export function CreateRequirementFormPage({isVisibleState, setIsVisibleState}: C
             </div>
             <div className="flex justify-between space-x-2">
                 {
-                    !roomReducer.isFinished && <button
+                    !isPrimaryButtonInvisible && <button
                         className={buttonTheme + " mt-4 w-full"}
                         onClick={onActionClick}>
                         {requirementId === null ? "Save" : "Update"}

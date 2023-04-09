@@ -7,6 +7,12 @@ const roomMessages = require('./room/roomMessages')
 const searchRouter = require('./search/search')
 const roomPayment = require('./room/roomPayment')
 const licenses = require('./licenses/licenses')
+const external = require('./external/externalApi')
+const notifications = require('./notification/notifications')
+
+/*
+    In developing
+*/
 const config = require('./config/config')
 
 module.exports = app => {
@@ -19,5 +25,9 @@ module.exports = app => {
     app.use('/room/payment', roomPayment)
     app.use('/search', searchRouter)
     app.use('/licenses', licenses)
+    app.use('/notifications', notifications)
+
+    app.use('/api', external)
+
     app.use('/config', config)
 }

@@ -43,6 +43,7 @@
   "devDependencies": {
     "@ethersproject/bytes": "^5.7.0",
     "@nomicfoundation/hardhat-chai-matchers": "^1.0.6",
+    "@nomicfoundation/hardhat-network-helpers": "^1.0.8",
     "@nomicfoundation/hardhat-toolbox": "^2.0.2",
     "concurrently": "^7.5.0",
     "ethereumjs-tx": "^2.1.2",

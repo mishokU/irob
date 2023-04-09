@@ -10,10 +10,11 @@ import {GetRequirementResponse} from "../../models/rooms/requirements/GetRequire
 import {UpdateRequirementRequest} from "../../models/rooms/requirements/UpdateRequirementRequest";
 import {GetMakeDealResponse} from "../../models/rooms/requirements/GetMakeDealResponse";
 import {GetMakeDealRequest} from "../../../features/rooms/domain/requests/GetMakeDealRequest";
+import {ServerUrl} from "../../../constants/Constants";
 
 export const RoomRequirementsApi = createApi({
     reducerPath: 'irob/api/room/requirements', baseQuery: fetchBaseQuery({
-        baseUrl: 'http://localhost:5000/room/requirements',
+        baseUrl: `${ServerUrl}/room/requirements`,
         prepareHeaders: (headers, {getState}) => {
             headers.set('token', localStorage.getItem("jwtToken") || "")
             return headers

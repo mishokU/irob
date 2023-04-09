@@ -1,7 +1,7 @@
 const {Router} = require("express");
 
 const licensesController = require("../../controllers/LicensesController")
-
+const hreController = require("../../scripts/disableContract");
 const roomController = require("../../controllers/RoomControllers")
 
 const Promise = require("bluebird");
@@ -77,11 +77,15 @@ async function cancelLicense(request, result) {
 async function deleteLicense(request, result) {
     try {
         const licenseId = request.query.licenseId
-        if (licenseId !== undefined) {
+        const address = request.query.address
+        if (licenseId !== undefined && address !== undefined) {
+
+            await hreController.disableContract(address)
             await licensesController.deleteLicense(licenseId)
+
             result.status(200).json({
                 success: true,
-                licenseId: licenseId
+                licenseId: Number(licenseId)
             })
         }
     } catch (e) {
@@ -154,30 +158,50 @@ async function getLicenses(request, type) {
     const token = request.get('token')
     if(type === "all"){
         const licenses = await licensesController.getAllUserLicenses(token)
-        return await convertLicenses(licenses)
+        return await convertLicenses(licenses, true)
     } else if(type === "favourite"){
         const licenses = await licensesController.getFavouriteLicenses(token)
-        return await convertLicenses(licenses)
+        return await convertLicenses(licenses, false)
     } else {
         const licenses = await licensesController.getSoldLicenses(token)
-        return await convertLicenses(licenses)
+        return await convertLicenses(licenses, false)
     }
 }
 
-async function convertLicenses(licenses) {
+async function convertLicenses(licenses, isPrivateKeyButtonVisible) {
     return await Promise.map(licenses, async (license) => {
         const requirementsProgress = await licensesController.getLicenseRequirementsProgress(license.id)
         const room = await roomController.getRoom(license.room_id)
+
+        if(room === undefined){
+            return {
+                id: license.id,
+                status: license.status,
+                date: license.date,
+                name: "Room was deleted!",
+                isFavourite: license.is_favourite,
+                isPrivateKeyButtonVisible: isPrivateKeyButtonVisible,
+                uid: license.uid,
+                address: license.address,
+                roomId: null,
+                progress: requirementsProgress
+            }
+        }
+
         return {
             id: license.id,
             status: license.status,
             name: room.name,
             type: room.type,
             owner: room.owner,
+            address: license.address,
+            isPrivateKeyButtonVisible: isPrivateKeyButtonVisible,
             date: license.date,
+            roomId: room.room_id,
             isFavourite: license.is_favourite,
             uid: license.uid,
             progress: requirementsProgress
         }
+
     })
 }

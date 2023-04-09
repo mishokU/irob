@@ -1,9 +1,13 @@
 const db = require("../../db");
 const {Router} = require("express");
+
 const userController = require("../../controllers/UserController");
 const roomController = require("../../controllers/RoomControllers")
 const roomMessagesController = require("../../controllers/RoomMessagesController")
 const roomRequirementsController = require("../../controllers/RoomRequirementsController")
+const notificationsController = require("../../controllers/NotificationsController")
+
+const NotificationTypes = require("../notification/notificationTypes");
 
 const Promise = require("bluebird");
 
@@ -162,10 +166,18 @@ async function updateRoom(request, result) {
     try {
         const {roomId, name, ownerId, owner, type, userId} = request.body
         if (ownerId !== userId) {
-            await roomController.updateRoom(roomId, name, type, owner, userId)
+            if (userId !== -1) {
+                await roomController.updateRoomWithUser(roomId, name, type, owner, userId)
+                await notificationsController.createNotification(userId, roomId, NotificationTypes.ADMIN_ADDED)
+            } else {
+                await roomController.updateRoomWithoutUser(roomId, name, type, owner)
+            }
             result.status(200).json({
                 success: true,
                 name: name,
+                userId: userId,
+                owner: owner,
+                type: type,
                 message: "Room updated"
             })
         } else {

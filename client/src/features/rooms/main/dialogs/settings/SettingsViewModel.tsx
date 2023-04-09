@@ -26,7 +26,9 @@ export default function SettingsViewModel({setIsVisible}: SettingsProps) {
     const [search, setSearch] = useState<string>("")
     const [users, setUsers] = useState<UserSettingsModel[]>([])
     const [isDropdownVisible, setDropdown] = useState<boolean>(false)
-    const [userId, setUserId] = useState(0)
+    const [userId, setUserId] = useState(-1)
+
+    const [isSearchVisible] = useState(roomReducer.userId === profileReducer.profileId)
 
     const [updateRoomMutation] = useUpdateRoomMutation()
     const [searchUsersMutation] = useSearchUsersByCredentialsMutation()
@@ -100,6 +102,7 @@ export default function SettingsViewModel({setIsVisible}: SettingsProps) {
         onUserClick,
         type,
         setType,
+        isSearchVisible,
         owner,
         setOwner
     }

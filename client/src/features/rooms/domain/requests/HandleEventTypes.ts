@@ -69,6 +69,7 @@ export function getRequirement(lastMessage: any, userId: number): RoomRequiremen
     let data = JSON.parse(lastMessage.data).data
     console.log(data)
     return {
+        userId: data.userId,
         username: data.username,
         requirementId: data.requirementId,
         isApplyButtonVisible: data.userId !== userId,

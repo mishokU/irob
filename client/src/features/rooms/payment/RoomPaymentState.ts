@@ -1,4 +1,3 @@
-import {LicenseStatus} from "../../profile/licenses/LicenseUiModel";
 
 export interface RoomPaymentState {
     isLedgerConnected: boolean,
@@ -6,7 +5,7 @@ export interface RoomPaymentState {
     leftPanel: {
         isError: string | null, isLoading: boolean
         data: {
-            requirementsCost: number,
+            contractCost: number,
             gasCost: number,
             depositCost: number,
             commission: number,
@@ -27,7 +26,7 @@ export function initialRoomPaymentState(isLedgerConnected: boolean): RoomPayment
     return {
         isLedgerConnected: isLedgerConnected, balance: -1, leftPanel: {
             isLoading: true, isError: null, data: {
-                requirementsCost: 0,
+                contractCost: 0,
                 gasCost: -1,
                 depositCost: 0,
                 commission: 0,

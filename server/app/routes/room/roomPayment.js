@@ -36,15 +36,24 @@ async function getContractData(request, result) {
         const userId = request.query.userId
         const roomId = request.query.roomId
 
+        console.log(ownerId)
+        console.log(userId)
+        console.log(roomId)
+
         const data = await resolveBuyerAndSeller(token, ownerId, userId)
 
-        const {depositCost} = await getCosts(roomId)
+        console.log(data.buyer)
+        console.log(data.seller)
+
+        const {depositCost, contractCost} = await getCosts(roomId)
 
         const contractData = await smartContractDeployment.getContractData(data.seller.account, data.buyer.account, depositCost)
 
         result.status(200).json({
             success: true,
-            address: data.buyer.account,
+            buyerAddress: data.buyer.account,
+            sellerAddress: data.seller.account,
+            contractCost: contractCost,
             data: contractData
         })
 
@@ -72,16 +81,18 @@ async function getRoomResult(request, result) {
             const commissionCost = calculateCommissionCost(
                 roomResult.requirements,
                 roomResult.gas,
-                roomResult.deposit
+                roomResult.deposit,
+                roomResult.cost
             )
 
-            const total = calculateTotalCost(roomResult.requirements, roomResult.gas, roomResult.deposit, commissionCost)
+            const total = calculateTotalCost(roomResult.requirements, roomResult.gas, roomResult.deposit, commissionCost, roomResult.cost)
 
             result.status(200).json({
                 success: true,
                 licenseStatus: license.status,
                 roomPrices: {
                     requirementsCost: roomResult.requirements,
+                    contractCost: roomResult.cost,
                     gasCost: roomResult.gas,
                     depositCost: roomResult.deposit,
                     commissionCost: commissionCost,
@@ -113,7 +124,8 @@ async function getRoomRequirementsCost(request, result) {
                 requirementsCost,
                 depositCost,
                 gasCost,
-                commissionCost
+                commissionCost,
+                contractCost
             } = await getCosts(roomId)
 
             if (requirementsCost === 0 || depositCost === 0 || gasCost === 0 || commissionCost === 0) {
@@ -125,14 +137,14 @@ async function getRoomRequirementsCost(request, result) {
 
                 const secondAccount = await userController.getAccount(secondSideUserId)
 
-                const total = calculateTotalCost(requirementsCost, gasCost, depositCost, commissionCost)
+                const total = calculateTotalCost(requirementsCost, gasCost, depositCost, commissionCost, contractCost)
 
                 result.status(200).json({
                     success: true,
                     secondAccount: secondAccount,
                     roomPrices: {
-                        requirementsCost: requirementsCost,
                         gasCost: gasCost,
+                        contractCost: contractCost,
                         depositCost: depositCost,
                         commissionCost: commissionCost,
                         total: total
@@ -206,6 +218,7 @@ async function createSmartContract(request, result) {
             const {
                 requirementsCost,
                 depositCost,
+                contractCost,
                 gasCost
             } = await getCosts(roomId)
 
@@ -218,7 +231,7 @@ async function createSmartContract(request, result) {
             )
 
             await roomRequirementsController.updateRequirements(licenseId, roomId)
-            await roomResultController.createRoomResult(roomId, requirementsCost, gasCost, depositCost, data.buyer.id)
+            await roomResultController.createRoomResult(roomId, requirementsCost, gasCost, depositCost, data.buyer.id, contractCost)
 
             result.status(200).json({
                 success: true,
@@ -250,6 +263,7 @@ async function getCosts(roomId) {
         let gasCost = 0
         let depositCost = 0
         let commissionCost = 0
+        let contractCost = 0
 
         /*
             If requirement applied by second side
@@ -258,6 +272,8 @@ async function getCosts(roomId) {
             if (requirement.isAlive === false) {
                 if (requirement.type === "Hold deposit") {
                     depositCost = Number(requirement.value)
+                } else if(requirement.type === "Cost") {
+                    contractCost = Number(requirement.value)
                 } else {
                     requirementsCost += requirement.value
                 }
@@ -267,13 +283,14 @@ async function getCosts(roomId) {
         gasCost = await getGasCostFromApi()
         requirementsCost = await getRequirementsCostFromTestNet(requirements, depositCost)
 
-        commissionCost = calculateCommissionCost(requirementsCost, gasCost, depositCost)
+        commissionCost = calculateCommissionCost(requirementsCost, gasCost, depositCost, contractCost)
 
         return {
             requirementsCost: requirementsCost,
             gasCost: gasCost,
             commissionCost: commissionCost,
             depositCost: depositCost,
+            contractCost: contractCost,
             requirements: requirements
         }
 
@@ -287,6 +304,10 @@ async function resolveBuyerAndSeller(token, ownerId, userId) {
     const user = await userController.getUser(token)
     const ownerUser = await userController.getUserById(ownerId)
     const secondUser = await userController.getUserById(userId)
+
+    console.log("userL: " + user)
+    console.log("owner: " + ownerUser)
+    console.log("second: " + secondUser)
 
     let buyer
     let seller
@@ -305,10 +326,10 @@ async function resolveBuyerAndSeller(token, ownerId, userId) {
     }
 }
 
-function calculateCommissionCost(requirementsCost, gasCost, depositCost) {
-    return ((Number(requirementsCost) + Number(gasCost) + Number(depositCost / 10)) * 0.1).toFixed(4)
+function calculateCommissionCost(requirementsCost, gasCost, depositCost, contractCost) {
+    return ((Number(requirementsCost) + Number(gasCost) + Number(contractCost) + Number(depositCost / 10)) * 0.1).toFixed(4)
 }
 
-function calculateTotalCost(requirementsCost, gasCost, depositCost, commissionCost) {
-    return (Number(requirementsCost) + Number(gasCost) + Number(depositCost) + Number(commissionCost)).toFixed(3)
+function calculateTotalCost(requirementsCost, gasCost, depositCost, commissionCost, contractCost) {
+    return (Number(requirementsCost) + Number(gasCost) + Number(depositCost) + Number(commissionCost) + Number(contractCost)).toFixed(3)
 }

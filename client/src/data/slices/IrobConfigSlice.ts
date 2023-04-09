@@ -1,5 +1,8 @@
 import {createSlice} from "@reduxjs/toolkit";
 
+export const depositAddress = "0xd4039eB67CBB36429Ad9DD30187B94f6A5122215"
+export const testChain = '0x539'
+
 const initialState = {
     depositAddress: "0xd4039eB67CBB36429Ad9DD30187B94f6A5122215"
 };

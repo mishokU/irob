@@ -9,10 +9,11 @@ import {UpdateRoomRequest} from "../../../features/rooms/domain/requests/UpdateR
 import {UpdateRoomResult} from "../../models/rooms/room/UpdateRoomResult";
 import {HandleAgreementRequest} from "../../../features/rooms/domain/requests/HandleAgreementRequest";
 import {MakeDealResponse} from "../../models/rooms/users/MakeDealResponse";
+import {ServerUrl} from "../../../constants/Constants";
 
 export const RoomsApi = createApi({
     reducerPath: "irob/api/rooms", baseQuery: fetchBaseQuery({
-        baseUrl: "http://localhost:5000/rooms",
+        baseUrl: `${ServerUrl}/rooms`,
         prepareHeaders: (headers, { getState }) => {
             headers.set('token', localStorage.getItem("jwtToken") || "")
             return headers
@@ -77,6 +78,5 @@ export const {
     useDeleteRoomMutation,
     useGetRoomMutation,
     useGetRoomsMutation,
-    useUpdateRoomMutation,
-    useHandleAgreementMutation
+    useUpdateRoomMutation
 } = RoomsApi;

@@ -3,10 +3,11 @@ import {RegistrationRequest} from "../../../features/auth/domain/models/Registra
 import {LoginRequest} from "../../../features/auth/domain/models/LoginRequest";
 import {AuthResponse} from "../../models/common/AuthResponse";
 import {ProfileResponse} from "../../models/profile/ProfileResponse";
+import {ServerUrl} from "../../../constants/Constants";
 
 export const AuthApi = createApi({
     reducerPath: 'irob/api/auth', baseQuery: fetchBaseQuery({
-        baseUrl: 'http://localhost:5000/auth'
+        baseUrl: `${ServerUrl}/auth`
     }), endpoints: build => ({
         registration: build.mutation<AuthResponse, RegistrationRequest>({
             query: (body) => ({

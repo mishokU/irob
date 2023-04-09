@@ -34,10 +34,6 @@ export default function RightButtonViewModel(
     const dispatch = useDispatch();
 
     function getRightButtonTheme(isOwner: boolean, isAgree: boolean) {
-        console.log(applyRequirementsCount)
-        console.log(fullApplyRequirementsCount)
-        console.log(isAgree)
-        console.log(isOwner)
         if (isOwner) {
             if (applyRequirementsCount < fullApplyRequirementsCount || fullApplyRequirementsCount === 0) {
                 return rightDisabled
@@ -72,7 +68,6 @@ export default function RightButtonViewModel(
     useEffect(() => {
         if (lastMessage !== null) {
             const data = getHandleAgreement(lastMessage)
-            console.log(data)
             updateRightButton(data)
         }
     }, [lastMessage])

@@ -8,7 +8,7 @@ export function RoomPaymentComponent() {
     const {screenState, connect, handleTransaction} = useViewModel()
     const activeButtonStyle = buttonTheme + ' w-full mt-4 select-none'
     const disabledButtonStyle = buttonTheme + ' w-full mt-4 bg-gray-600 pointer-events-none select-none'
-    return <div className="border-2 border-[#29303A] rounded-lg mt-4 p-16 w-full h-[700px]">
+    return <div className="border-2 border-[#29303A] rounded-lg mt-4 p-16 w-full h-[calc(100vh-250px)]">
         <div className="flex justify-between items-center">
             <h1 className="text-2xl text-white pt-2 pb-2">Payment info form</h1>
             {screenState.isLedgerConnected && screenState.balance !== -1 &&
@@ -44,15 +44,15 @@ export function RoomPaymentComponent() {
                 </div>
             </div>}
         {screenState.isLedgerConnected &&
-            <div className="flex space-x-12 justify-between items-center mt-12">
-                <div className="w-[400px] relative">
+            <div className="flex justify-between items-center mt-12">
+                <div className="w-[300px] relative">
                     {screenState.leftPanel.isLoading && <IROBProgressBar />}
                     {!screenState.leftPanel.isLoading && screenState.leftPanel.data.gasCost !== -1 &&
-                        <div className="w-[400px]">
-                            <div className="w-full bg-gray-800 text-white p-4 space-y-4 rounded-md">
+                        <div className="w-[300px]">
+                            <div className="w-full bg-gray-800 text-white p-4 space-y-4 rounded-xl">
                                 <div className="flex justify-between">
-                                    <p>Requirements</p>
-                                    <p>{screenState.leftPanel.data.requirementsCost} eth</p>
+                                    <p>Cost</p>
+                                    <p>{screenState.leftPanel.data.contractCost} eth</p>
                                 </div>
                                 <div className="flex justify-between">
                                     <p>Gas</p>
@@ -79,10 +79,10 @@ export function RoomPaymentComponent() {
                             </button>
                         </div>}
                 </div>
-                <div>
+                <div className="ml-12 mr-12 items-center">
                     <img src={rightArrow} className="w-12 h-12" />
                 </div>
-                <div className="w-[400px] h-[300px] bg-gray-800 text-white p-4 rounded-xl overflow-hidden">
+                <div className="w-[350px] h-[300px] bg-gray-800 text-white p-4 rounded-xl overflow-hidden">
                     <div className="flex w-full h-full justify-center items-center relative">
                         { screenState.rightPanel.isLoading && <IROBProgressBar />}
                         {

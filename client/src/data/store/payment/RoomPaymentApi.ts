@@ -12,10 +12,11 @@ import {CreateLicenseResult} from "../../models/payment/CreateLicenseResult";
 import {GetRoomResult} from "../../models/rooms/payment/GetRoomResult";
 import {GetContractDataResult} from "../../models/payment/GetContractDataResult";
 import {GetContractDataRequest} from "../../../features/rooms/domain/requests/GetContractDataRequest";
+import {ServerUrl} from "../../../constants/Constants";
 
 export const RoomPaymentApi = createApi({
     reducerPath: "irob/api/room/payment", baseQuery: fetchBaseQuery({
-        baseUrl: "http://localhost:5000/room/payment", prepareHeaders: (headers) => {
+        baseUrl: `${ServerUrl}/room/payment`, prepareHeaders: (headers) => {
             headers.set('token', localStorage.getItem("jwtToken") || "")
             return headers
         },

@@ -46,6 +46,7 @@ export default function AppliedRequirementsViewModel(setIsVisibleState: (value: 
                             isApplyButtonVisible: requirement.isAlive && requirement.userId !== profileReducer.profileId,
                             requirementId: requirement.requirementId,
                             isAlive: false,
+                            userId: requirement.userId,
                             type: requirement.type
                         }
                     })

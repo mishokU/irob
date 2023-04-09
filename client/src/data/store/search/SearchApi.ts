@@ -1,10 +1,11 @@
 import {createApi, fetchBaseQuery} from "@reduxjs/toolkit/query/react";
 import {SearchUsersResponse} from "../../models/common/SearchUsersResponse";
 import {SearchUsersRequest} from "../../../features/rooms/domain/requests/SearchUsersRequest";
+import {ServerUrl} from "../../../constants/Constants";
 
 export const SearchApi = createApi({
     reducerPath: 'irob/api/search', baseQuery: fetchBaseQuery({
-        baseUrl: 'http://localhost:5000/search',
+        baseUrl: `${ServerUrl}/search`,
         prepareHeaders: (headers, { getState }) => {
             headers.set('token', localStorage.getItem("jwtToken") || "")
             return headers

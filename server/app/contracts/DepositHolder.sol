@@ -11,39 +11,33 @@ contract DepositHolder is Alive {
 
     uint depositCost = 0;
 
-    //Buyer called this contract
-    constructor(address payable _seller, address payable _buyer, address payable _deposit, uint8 _depositCost){
+    constructor(address payable _seller, address payable _buyer, address payable _deposit, uint8 _depositCost) payable {
         buyer = _buyer;
         deposit = _deposit;
         seller = _seller;
         depositCost = _depositCost;
     }
 
-    function takeDeposit() internal {
-        bool sent = deposit.send(depositCost);
-        require(sent, "Failed to send Ether");
-    }
-
-    // Think how to send
     function sendDeposit(uint progress) payable public {
         require(
-            msg.sender == buyer ||
-            msg.sender == deposit ||
-            msg.sender == seller, "Failure! Send deposit can only owner");
+            msg.sender == buyer || msg.sender == deposit || msg.sender == seller,
+            "Failure! Send deposit can only owner"
+        );
 
-        if (isContractAlive()) {
-            if (depositCost != 0) {
-                uint maxProgress = 100;
-                bool isSend = false;
-                if (progress >= maxProgress) {
-                    isSend = buyer.send(depositCost);
-                } else {
-                    isSend = seller.send(depositCost);
-                }
-                require(isSend, "Failure! Ether not send. Error: 1");
-                disableContract();
+        require(isContractAlive(), "Failure! Contract already executed!");
+
+        if (depositCost != 0) {
+            uint maxProgress = 100;
+            bool isSend = false;
+            if (progress >= maxProgress) {
+                isSend = buyer.send(depositCost);
+            } else {
+                isSend = seller.send(depositCost);
             }
+            require(isSend, "Failure! Ether not send. Error: 1");
+            disableContract();
         }
+
     }
 
 }

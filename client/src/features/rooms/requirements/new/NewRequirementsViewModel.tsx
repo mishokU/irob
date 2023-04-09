@@ -43,6 +43,7 @@ export default function NewRequirementsViewModel(setIsVisibleState: (value: Requ
                 if (data.requirements.length > 0) {
                     const requirements = data.requirements.filter((requirement: any) => requirement.isAlive).map((requirement: any) => {
                         return {
+                            userId: requirement.userId,
                             username: requirement.username,
                             isApplyButtonVisible: requirement.isAlive && requirement.userId !== profileReducer.profileId,
                             requirementId: requirement.requirementId,
@@ -83,6 +84,7 @@ export default function NewRequirementsViewModel(setIsVisibleState: (value: Requ
                 sendJsonMessage({
                     type: RoomWebSocketTypes.applyRequirement,
                     requirementId: requirement.requirementId,
+                    userCreatedId: requirement.userId,
                     userId: profileReducer.profileId,
                     roomId: roomReducer.roomId,
                     username: requirement.username,

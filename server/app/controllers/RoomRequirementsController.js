@@ -1,6 +1,7 @@
 const db = require("../db");
 const userController = require("./UserController");
 const Promise = require("bluebird");
+const {getUsername} = require("./Utils");
 
 const ROOM_REQUIREMENTS_TABLE_NAME = "room_requirements"
 
@@ -14,7 +15,7 @@ module.exports = {
               RETURNING id
         `)
         let username = ""
-        if(user.name === "" || user.surname === ""){
+        if (user.name === "" || user.surname === "") {
             username = user.email
         } else {
             username = user.name + " " + user.surname
@@ -35,14 +36,8 @@ module.exports = {
             } else {
                 return await Promise.map(data.rows, async (requirement) => {
                     const user = await userController.getUserById(requirement.user_id)
-                    let username = ""
-                    if(user.name === "" || user.surname === ""){
-                        username = user.email
-                    } else {
-                        username = user.name + " " + user.surname
-                    }
                     return {
-                        username: username,
+                        username: getUsername(user),
                         isAlive: requirement.is_alive,
                         userId: user.id,
                         type: requirement.type,
@@ -62,7 +57,7 @@ module.exports = {
             WHERE id= $1`, [requirementId]
             )
             return data.rows[0]
-        } catch (e){
+        } catch (e) {
             console.log("Error get requirement: " + e.message)
         }
     },
@@ -107,5 +102,25 @@ module.exports = {
         } catch (e) {
             console.log("Error in adding license id to room requirements: " + e.message)
         }
+    },
+    updateRequirementValue
+}
+
+async function updateRequirementValue(id, type) {
+    try {
+
+        const value = await db.query(`SELECT current_value FROM ${ROOM_REQUIREMENTS_TABLE_NAME} WHERE license_id=$1 AND type=$2`, [id, type])
+
+        if (value.rows[0] !== undefined) {
+            await db.query(`
+                UPDATE ${ROOM_REQUIREMENTS_TABLE_NAME} 
+                SET current_value = newValue WHERE license_id=$1 AND type=$2`, [id, type]
+            )
+        } else {
+            return "There is no available type in requirements!"
+        }
+
+    } catch (e) {
+        console.log("Error in update requirement value: " + e.message)
     }
 }

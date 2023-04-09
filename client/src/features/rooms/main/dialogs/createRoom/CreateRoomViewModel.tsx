@@ -5,8 +5,9 @@ import {useNavigate} from "react-router-dom";
 import {useCreateRoomMutation} from "../../../../../data/store/rooms/RoomsApi";
 import {useDispatch} from "react-redux";
 import {updateRoomId} from "../../../../../data/slices/RoomSlice";
+import {ServerUrl} from "../../../../../constants/Constants";
 
-export const roomsLink = "http://localhost:3000/rooms/"
+export const roomsLink = `${ServerUrl}/rooms/`
 
 export default function CreateRoomViewModel(errorState: (value: string) => void) {
 

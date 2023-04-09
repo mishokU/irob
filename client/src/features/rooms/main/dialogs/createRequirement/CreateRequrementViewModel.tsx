@@ -25,6 +25,8 @@ export default function CreateRequirementViewModel(isVisibleState: RequirementSt
     const [isProgress, setIsProgress] = useState(false)
     const [error, setError] = useState("")
 
+    const [isPrimaryButtonInvisible] = useState(roomReducer.isFinished || isVisibleState.requirement?.isAlive === false)
+
     const [createRequirementMutation] = useCreateRequirementMutation()
     const [getRequirementMutation] = useGetRequirementMutation()
     const [updateRequirementMutation] = useUpdateRequirementMutation()
@@ -140,6 +142,7 @@ export default function CreateRequirementViewModel(isVisibleState: RequirementSt
         isProgress,
         roomReducer,
         requirementId,
+        isPrimaryButtonInvisible,
         error
     }
 

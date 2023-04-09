@@ -5,10 +5,11 @@ import {UpdateAccountLedgerResponse} from "../../models/profile/UpdateAccountLed
 import {
     UpdateProfileLedger
 } from "../../../features/profile/domain/UpdateProfileLedger";
+import {ServerUrl} from "../../../constants/Constants";
 
 export const ProfileApi = createApi({
     reducerPath: "irob/api/profile", baseQuery: fetchBaseQuery({
-        baseUrl: "http://localhost:5000/profile",
+        baseUrl: `${ServerUrl}/profile`,
         prepareHeaders: (headers, { getState }) => {
             headers.set('token', localStorage.getItem("jwtToken") || "")
             return headers

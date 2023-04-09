@@ -4,10 +4,10 @@ import {DeleteDialogProms} from "./DeleteDialogProms";
 import {buttonTheme} from "../../../../../themes/Themes";
 
 export function DeleteEntityDialog({
-                                       isDeleteDialogVisible,
-                                       setIsDeleteDialogVisible,
-                                       handleDeleteRoomClick
-                                   }: DeleteDialogProms) {
+   isDeleteDialogVisible,
+   setIsDeleteDialogVisible,
+   handleDeleteRoomClick
+}: DeleteDialogProms) {
     function onClose() {
         setIsDeleteDialogVisible(false)
     }

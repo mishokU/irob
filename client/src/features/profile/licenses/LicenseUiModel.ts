@@ -5,11 +5,14 @@ export interface LicenseUiModel {
     owner: string
     date: string
     progress: number
+    address: string
     roomId: string
     id: number
     uid: string
     isFavourite: boolean
     isUidVisible: boolean
+    isPrivateKeyButtonVisible: boolean
+    isProgressVisible: boolean
 }
 
 export enum ClickType {

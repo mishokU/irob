@@ -1,4 +1,4 @@
-import {useEffect, useState} from "react";
+import {Dispatch, useEffect, useState} from "react";
 import {
     useDeleteLicenseMutation,
     useGetFavouriteLicensesMutation,
@@ -11,8 +11,10 @@ import {ClickType, getLicenseStatus, LicenseUiModel} from "./LicenseUiModel";
 import {useNavigate} from "react-router-dom";
 import {IROBRoutes} from "../../../routes/IROBRoutes";
 import {LicenseMenu} from "../delegates/LicenseMenu";
+import {signAndFinishContract} from "../../../domain/web3/signAndFinishContract";
+import {DeleteProps} from "./LicenseItemPage";
 
-export function LicenseItemViewModel(type: LicenseMenu) {
+export function LicenseItemViewModel(type: LicenseMenu, setIsVisible: Dispatch<DeleteProps>) {
 
     const [licenseItems, setLicenseItems] = useState<LicenseUiModel[]>([])
 
@@ -51,8 +53,10 @@ export function LicenseItemViewModel(type: LicenseMenu) {
                         owner: license.owner,
                         type: license.type,
                         uid: license.uid,
+                        address: license.address,
                         id: license.id,
                         roomId: license.roomId,
+                        isPrivateKeyButtonVisible: license.isPrivateKeyButtonVisible,
                         isFavourite: license.isFavourite,
                         progress: license.progress,
                         isUidVisible: false,
@@ -62,13 +66,33 @@ export function LicenseItemViewModel(type: LicenseMenu) {
             })
     }, [])
 
-    const onDeleteClick = async (licenseId: number) => {
-        const result = await deleteLicenseMutation(licenseId)
+    const onDeleteClick = async (license: LicenseUiModel | null) => {
+        if (license !== null) {
+
+            const licenseId = license.id
+            //const result = await deleteLicenseMutation({licenseId: licenseId, address: license.address}).unwrap()
+
+            const filteredLicenses = licenseItems.filter((license) => license.id !== licenseId)
+            setLicenseItems(filteredLicenses)
+
+            setIsVisible({isVisible: false, license: null})
+
+            // if (result.success) {
+            //     console.log(result.success)
+            //     const filteredLicenses = licenseItems.filter((license) => license.id !== licenseId)
+            //     setLicenseItems(filteredLicenses)
+            // }
+
+        }
 
     }
 
     const onMessagesClick = async (roomId: string) => {
-        navigate(IROBRoutes.rooms + "/" + roomId)
+        if (roomId === null) {
+
+        } else {
+            navigate(IROBRoutes.rooms + "/" + roomId)
+        }
     }
 
     const onLicenseClick = async (type: ClickType, licenseId: number) => {
@@ -100,8 +124,18 @@ export function LicenseItemViewModel(type: LicenseMenu) {
         setLicenseItems(newLicenseItems)
     }
 
+    const onShowProgressClick = (licenseId: number) => {
+        const newLicenseItems = [...licenseItems];
+        newLicenseItems.forEach((license) => {
+            if (license.id === licenseId) {
+                license.isProgressVisible = !license.isProgressVisible
+            }
+        })
+        setLicenseItems(newLicenseItems)
+    }
+
     return {
-        licenseItems, onDeleteClick, onMessagesClick, onLicenseClick
+        licenseItems, onDeleteClick, onMessagesClick, onLicenseClick, onShowProgressClick
     }
 
 }

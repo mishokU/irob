@@ -4,7 +4,7 @@ import {ProfileMenuHandlerDelegate} from "../delegates/ProfileMenuHandlerDelegat
 import {ProfileMenu} from "../delegates/ProfileMenu";
 import {LicensesPage} from "./LicensesPage";
 import {ProfileLedgerPage} from "../ledger/ProfileLedgerPage";
-import {DevelopersPage} from "./DevelopersPage";
+import {DevelopersPage} from "../developers/DevelopersPage";
 import {useState} from "react";
 import {CreateLicenseModal} from "../../createLicenseModal/CreateLicenseModal";
 import {RoomsProfilePage} from "../rooms/RoomsProfilePage";

@@ -9,8 +9,10 @@ const {
     deleteUser,
     createMessage,
     updateSecondAgreement,
-    updateFirstAgreement
+    updateFirstAgreement,
+    createNotification
 } = require('./irobApi')
+const NotificationTypes = require("./notificationTypes");
 
 // Spinning the http server and the WebSocket server.
 const server = http.createServer();
@@ -105,7 +107,12 @@ async function handleMessage(message, userId) {
             const requirementId = dataFromClient.requirementId
             const requirementType = dataFromClient.requirementType
             const userId = dataFromClient.userId
+            const userCreatedId = dataFromClient.userCreatedId
             const isAlive = true
+
+            if(dataFromClient.type === typesDef.APPLY_REQUIREMENT){
+                await createNotification(roomId, NotificationTypes.REQUIREMENT_ACCEPTED, userCreatedId)
+            }
 
             json.data = {username, userId, roomId, requirementId, requirementType, isAlive, value}
 

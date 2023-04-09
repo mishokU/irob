@@ -3,14 +3,16 @@ export interface LicensesResponse {
 }
 
 export interface LicenseResponse {
-    id: number,
-    status: string,
-    uid: string,
-    name: string,
-    type: string,
-    owner: string,
-    date: string,
-    isFavourite: boolean,
-    roomId: string,
+    id: number
+    status: string
+    uid: string
+    name: string
+    type: string
+    owner: string
+    date: string
+    address: string
+    isFavourite: boolean
+    isPrivateKeyButtonVisible: boolean,
+    roomId: string
     progress: number
 }

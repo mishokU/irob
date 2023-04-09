@@ -28,10 +28,6 @@ export default function LeftButtonViewModel({applyRequirementsCount, fullApplyRe
     });
 
     function getLeftButtonTheme(isOwner: boolean, isAgree: boolean): string {
-        console.log(applyRequirementsCount)
-        console.log(fullApplyRequirementsCount)
-        console.log(isAgree)
-        console.log(isOwner)
         if (isOwner) {
             if (applyRequirementsCount < fullApplyRequirementsCount || fullApplyRequirementsCount === 0) {
                 return leftDisabled
@@ -66,13 +62,11 @@ export default function LeftButtonViewModel({applyRequirementsCount, fullApplyRe
     useEffect(() => {
         if (lastMessage !== null) {
             const data = getHandleAgreement(lastMessage)
-            console.log("test: " + data)
             updateLeftButton(data)
         }
     }, [lastMessage])
 
     function updateLeftButton(data: any) {
-
         setLeftButtonTheme(getLeftButtonTheme(data.userId === profileReducer.profileId, data.firstAgreement))
         setLeftButtonText(getLeftButtonText(data.userId === profileReducer.profileId, data.firstAgreement))
         dispatch(updateFirstAgreement(data.firstAgreement))

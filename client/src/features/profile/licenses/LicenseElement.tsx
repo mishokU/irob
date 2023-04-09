@@ -5,6 +5,8 @@ import ic_delete from "../asserts/remove_24px.png";
 import {ClickType, LicenseStatus, LicenseUiModel} from "./LicenseUiModel";
 import {DeleteProps} from "./LicenseItemPage";
 import ic_show_secret from "../asserts/password_key_48px.png"
+import ic_progress from "../asserts/progress.png"
+
 
 /*
     Ячейка лицензии будет полностью горизонтальная и в ней будет содержаться такая информация
@@ -22,49 +24,53 @@ import ic_show_secret from "../asserts/password_key_48px.png"
 export interface LicenseElementProps {
     license: LicenseUiModel
     onMessagesClick: (roomId: string) => void
+    onShowProgressClick: (licenseId: number) => void
     onShowDeleteModalClick: (props: DeleteProps) => void
     onLicenseClick: (type: ClickType, licenseId: number) => void
 }
 
 export function LicenseElement({
-    license, onLicenseClick, onMessagesClick, onShowDeleteModalClick
-}: LicenseElementProps) {
+                                   license, onLicenseClick, onMessagesClick, onShowDeleteModalClick, onShowProgressClick
+                               }: LicenseElementProps) {
     return (<div key={license.id}>
         <div
             className="w-full h-[50px] cursor-pointer rounded rounded-xl border-[#4a5058]
             hover:text-white rounded-xl border-2 hover:border-gray-500 flex justify-start items-center"
         >
             <div className="space-x-4 flex ml-6 justify-between items-center w-full mr-4">
-                <div className="flex space-x-4 items-center">
+                <div className="flex w-fit space-x-4 items-center">
                     {license.status === LicenseStatus.running ? (
-                        <div className="bg-green-500 w-3 h-3 min-w-[12px] rounded rounded-full" />) : (
-                        <div className="bg-red-500 w-3 h-3 min-w-[12px] rounded rounded-full" />)}
-                    <h1 className="select-none">{license.type}</h1>
+                        <div className="bg-green-500 w-3 h-3 min-w-[12px] rounded rounded-full"/>) : (
+                        <div className="bg-red-500 w-3 h-3 min-w-[12px] rounded rounded-full"/>)}
+                    <h1 className="select-none min-w-fit">{license.type}</h1>
                     <h2 className="line-clamp-1 min-w-fit max-w-[150px] select-none">{license.name}</h2>
                     <h1 className="line-clamp-1 min-w-fit max-w-[150px] select-none">{license.owner}</h1>
                     <h1 className="min-w-fit line-clamp-1 select-none">{license.date}</h1>
                 </div>
-                <div className="w-3/5 bg-gray-200 rounded-full h-2.5 ml-4 dark:bg-gray-700">
-                    <div className="bg-blue-600 h-2.5 rounded-full" style={{width: `${license.progress}%`}}></div>
-                </div>
-                <div className="flex space-x-3">
-                    <div
-                        className="z-10"
-                        onClick={() => onLicenseClick(ClickType.updateVisibility, license.id)}>
-                        <img className="w-8 h-8" src={ic_show_secret} />
-                    </div>
+                <div className="flex w-fit space-x-3">
+                    {
+                        license.isPrivateKeyButtonVisible && <div
+                            className="z-10"
+                            onClick={() => onLicenseClick(ClickType.updateVisibility, license.id)}>
+                            <img className="w-8 h-8 min-w-fit" src={ic_show_secret}/>
+                        </div>
+                    }
                     <div
                         className="z-10"
                         onClick={() => onLicenseClick(ClickType.updateFavourite, license.id)}>
-                        <img className="w-8 h-8" src={license.isFavourite ? ic_bookmark_filled : ic_bookmark} />
+                        <img className="w-8 h-8 min-w-fit"
+                             src={license.isFavourite ? ic_bookmark_filled : ic_bookmark}/>
+                    </div>
+                    <div onClick={() => onShowProgressClick(license.id)}>
+                        <img className="w-8 h-8 min-w-fit" src={ic_progress}/>
                     </div>
                     <div onClick={() => onMessagesClick(license.roomId)}>
-                        <img className="w-8 h-8" src={ic_chat} />
+                        <img className="w-8 h-8 min-w-fit" src={ic_chat}/>
                     </div>
                     <div onClick={() => onShowDeleteModalClick({
-                        isVisible: true, licenseId: license.id
+                        isVisible: true, license: license
                     })}>
-                        <img className="w-8 h-8" src={ic_delete} />
+                        <img className="w-8 h-8 min-w-fit" src={ic_delete}/>
                     </div>
                 </div>
             </div>
@@ -75,5 +81,13 @@ export function LicenseElement({
                 {license.uid}
             </div>
         </div>}
+        {
+            license.isProgressVisible && <div className="mt-2 ml-6 mr-6">
+                <h1>Progress of your license</h1>
+                <div className="bg-gray-200 w-full inline-block rounded-full h-2.5 dark:bg-gray-700">
+                    <div className="bg-blue-600 h-2.5 w-full rounded-full" style={{width: `${license.progress}%`}}></div>
+                </div>
+            </div>
+        }
     </div>);
 }

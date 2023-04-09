@@ -1,6 +1,7 @@
 import {ethereum, localChain} from "./isMetamaskAvailable";
-import {ethers} from "ethers";
+import {ethers, parseEther} from "ethers";
 import {getSigner} from "./getSigner";
+import Web3 from "web3";
 
 function verifyMessage(message: any, address: any, signature: any) {
     try {
@@ -12,20 +13,29 @@ function verifyMessage(message: any, address: any, signature: any) {
     }
 }
 
-export async function signAndSendTransaction(address: string, data: string) {
+export async function signAndCreateContract(address: string, data: string, depositCost: string) {
 
     const signer = await getSigner()
     const signature = await signer.signMessage(data);
 
     if (verifyMessage(data, address, signature)) {
+
+        const ether = "0x" + Web3.utils.toBN(Web3.utils.toWei(depositCost, "ether")).toString(16)
+
         const transactionParameters = {
-            from: address, data: data, chainId: localChain
+            from: address,
+            data: data,
+            chainId: localChain,
+            gasLimit: 3000000,
+            value: ether
         };
 
         // As with any RPC call, it may throw an error
         const txHash = await ethereum.request({
             method: 'eth_sendTransaction', params: [transactionParameters],
         });
+
+        console.log(txHash)
 
         const transactionReceipt = await ethereum.request({
             method: 'eth_getTransactionReceipt', params: [txHash]

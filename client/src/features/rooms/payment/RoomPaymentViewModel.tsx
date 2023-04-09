@@ -18,8 +18,10 @@ import {
     getLicenseStatus, LicenseStatus
 } from "../../profile/licenses/LicenseUiModel";
 import {isMetamaskAvailable} from "../../../domain/web3/isMetamaskAvailable";
-import {signAndSendTransaction} from "../../../domain/web3/signAndSendTransaction";
+import {signAndCreateContract} from "../../../domain/web3/signAndCreateContract";
 import {signAndSendDeposit} from "../../../domain/web3/signAndSendDeposit";
+import Web3 from "web3";
+import {getAccountBalance} from "../../../domain/web3/getAccountBalance";
 
 export default function RoomPaymentViewModel() {
 
@@ -85,10 +87,17 @@ export default function RoomPaymentViewModel() {
         })
     }, [isUpdating])
 
+    /*
+        First sign and create contract with deposit
+        Then pay to seller
+    */
+
     const handleTransaction = async () => {
         try {
             loading()
             if (isMetamaskAvailable()) {
+
+
                 const result = await getContractData({
                     roomId: roomReducer.roomId, ownerId: roomReducer.ownerId, userId: roomReducer.userId
                 }).unwrap()
@@ -97,14 +106,19 @@ export default function RoomPaymentViewModel() {
                     error(result.message)
                 } else {
 
-                    const contractAddress = await signAndSendTransaction(result.address, result.data)
-
+                    const cost = screenState.leftPanel.data.contractCost.toString()
                     const deposit = screenState.leftPanel.data.depositCost.toString()
 
+                    console.log(result.buyerAddress)
+                    console.log(cost)
+                    console.log(deposit)
+
+                    const contractAddress = await signAndCreateContract(result.buyerAddress, result.data, deposit)
+
                     /*
-                        Need to save deposit result if something happens
+                        Need to save transfer cost
                     */
-                    const sendDepositResult = await signAndSendDeposit(configReducer.depositAddress, deposit)
+                    const sendDepositResult = await signAndSendDeposit(result.sellerAddress, cost)
 
                     const createLicenseResponse = await createLicenseMutation({
                         roomId: roomReducer.roomId,
@@ -113,10 +127,12 @@ export default function RoomPaymentViewModel() {
                         contractAddress: contractAddress
                     }).unwrap()
 
+                    const updatedBalance = Number(screenState.balance) - Number(deposit) - Number(cost)
+
                     if (createLicenseResponse.success === false) {
                         error(createLicenseResponse.message)
                     } else {
-                        successCreation(createLicenseResponse.title, createLicenseResponse.description)
+                        successCreation(createLicenseResponse.title, createLicenseResponse.description, updatedBalance)
                     }
 
                 }
@@ -154,9 +170,11 @@ export default function RoomPaymentViewModel() {
         })
     }
 
-    function successCreation(title: string, description: string) {
+    function successCreation(title: string, description: string, updatedBalance: number) {
         setScreenState({
-            ...screenState, leftPanel: {
+            ...screenState,
+            balance: updatedBalance,
+            leftPanel: {
                 ...screenState.leftPanel, data: {
                     ...screenState.leftPanel.data, canPay: false, buttonText: getButtonText(ButtonType.Executed)
                 }
@@ -171,7 +189,7 @@ export default function RoomPaymentViewModel() {
         setScreenState({
             ...screenState, balance: balance, leftPanel: {
                 ...screenState.leftPanel, isLoading: false, data: {
-                    requirementsCost: prices.requirementsCost,
+                    contractCost: prices.contractCost,
                     gasCost: prices.gasCost,
                     depositCost: prices.depositCost,
                     commission: prices.commissionCost,

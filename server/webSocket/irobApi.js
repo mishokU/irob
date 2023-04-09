@@ -7,7 +7,8 @@ module.exports = {
     deleteUser,
     createMessage,
     updateFirstAgreement,
-    updateSecondAgreement
+    updateSecondAgreement,
+    createNotification
 }
 
 const api = axios.create({
@@ -73,4 +74,11 @@ async function updateSecondAgreement(roomId, isAgreed) {
     await api.post('/rooms/updateSecondAgreement', data).catch((err) => {
         console.error(err);
     });
+}
+
+async function createNotification(roomId, type, userId){
+    const data = { roomId: roomId, type: type, userId: userId }
+    await api.post('/notifications/create', data).catch((error) => {
+        console.error(error);
+    })
 }

@@ -1,12 +1,15 @@
 import {createApi, fetchBaseQuery} from "@reduxjs/toolkit/dist/query/react";
-import {LicensesResponse} from "../../models/common/LicensesResponse";
+import {LicenseResponse, LicensesResponse} from "../../models/common/LicensesResponse";
 import {
     HandleFavouriteResponse
 } from "../../models/licenses/HandleFavouriteResponse";
+import {ServerUrl} from "../../../constants/Constants";
+import {DeleteLicenseRequest} from "../../../features/profile/domain/DeleteLicenseRequest";
+import {DeleteLicenseResult} from "../../models/licenses/DeleteLicenseResult";
 
 export const LicensesApi = createApi({
     reducerPath: "irob/api/licenses", baseQuery: fetchBaseQuery({
-        baseUrl: "http://localhost:5000/licenses",
+        baseUrl: `${ServerUrl}/licenses`,
         prepareHeaders: (headers) => {
             headers.set('token', localStorage.getItem("jwtToken") || "")
             return headers
@@ -20,10 +23,11 @@ export const LicensesApi = createApi({
             transformErrorResponse(meta: unknown, arg: unknown): string {
                 return "Error while getRoomRequirementsCost, try later."
             }
-        }), deleteLicense: builder.mutation<string, number>({
-            query: (licenseId) => ({
+        }), deleteLicense: builder.mutation<DeleteLicenseResult, DeleteLicenseRequest>({
+            query: (license) => ({
                 url: `/delete`, method: `DELETE`, params: {
-                    licenseId: licenseId
+                    licenseId: license.licenseId,
+                    address: license.address
                 }
             })
         }), handleFavourite: builder.mutation<HandleFavouriteResponse, number>({

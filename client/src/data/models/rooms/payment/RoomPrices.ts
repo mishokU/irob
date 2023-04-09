@@ -1,5 +1,5 @@
 export interface RoomPrices {
-    requirementsCost: number
+    contractCost: number
     gasCost: number
     depositCost: number
     commissionCost: number

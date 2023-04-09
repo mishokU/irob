@@ -3,5 +3,6 @@ export interface RoomRequirementModel {
     isApplyButtonVisible: boolean
     requirementId: number
     isAlive: boolean
+    userId: number
     type: string
 }

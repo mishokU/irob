@@ -1,10 +1,11 @@
 import {createApi, fetchBaseQuery} from "@reduxjs/toolkit/dist/query/react";
 import {GetRoomUsersResponse} from "../../models/rooms/users/GetRoomUsersResponse";
 import {RoomUserResponse} from "../../models/rooms/users/RoomUserResponse";
+import {ServerUrl} from "../../../constants/Constants";
 
 export const RoomUsersApi = createApi({
     reducerPath: "irob/api/rooms/users", baseQuery: fetchBaseQuery({
-        baseUrl: "http://localhost:5000/room/users",
+        baseUrl: `${ServerUrl}/room/users`,
         prepareHeaders: (headers, { getState }) => {
             headers.set('token', localStorage.getItem("jwtToken") || "")
             return headers

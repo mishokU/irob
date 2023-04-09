@@ -1,9 +1,10 @@
-import {useSelector} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import {RootState} from "../../../../../data/store";
 import {useEffect, useState} from "react";
 import {
     useGetMakeDealMutation
 } from "../../../../../data/store/rooms/RoomRequirementsApi";
+import {updateFirstAgreement, updateSecondAgreement} from "../../../../../data/slices/RoomSlice";
 
 export default function MakeDealViewModel() {
 
@@ -14,6 +15,8 @@ export default function MakeDealViewModel() {
 
     const [applyRequirementsCount, setApplyRequirementCount] = useState(0)
     const [fullApplyRequirementsCount, setFullApplyRequirementsCount] = useState(0)
+
+    const dispatch = useDispatch();
 
     useEffect(() => {
         async function loadDeal() {
@@ -28,6 +31,8 @@ export default function MakeDealViewModel() {
             .then((data: any) => {
                 setApplyRequirementCount(data.count)
                 setFullApplyRequirementsCount(data.fullCount)
+                dispatch(updateFirstAgreement(data.firstAgreement))
+                dispatch(updateSecondAgreement(data.secondAgreement))
             })
     }, [])
 

@@ -3,7 +3,6 @@ const userController = require("../../controllers/UserController");
 
 const searchRouter = new Router()
 
-// export our router to be mounted by the parent application
 module.exports = searchRouter
 
 searchRouter.post('/users', (request, result) => {
