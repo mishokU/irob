@@ -76,7 +76,7 @@ module.exports = {
         try {
             const data = await db.query(
                 `SELECT * FROM ${ROOM_REQUIREMENTS_TABLE_NAME} WHERE (room_id= $1 AND 
-                 (type='Duration days' OR type='Hold deposit' OR type='Cost') AND is_alive=false)`, [roomId]
+                 (type='Duration' OR type='Hold deposit' OR type='Cost') AND is_alive=false)`, [roomId]
             )
             return data.rowCount
         } catch (e) {

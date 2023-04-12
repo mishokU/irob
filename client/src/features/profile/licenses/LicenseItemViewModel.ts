@@ -70,18 +70,13 @@ export function LicenseItemViewModel(type: LicenseMenu, setIsVisible: Dispatch<D
         if (license !== null) {
 
             const licenseId = license.id
-            //const result = await deleteLicenseMutation({licenseId: licenseId, address: license.address}).unwrap()
+            const result = await deleteLicenseMutation({licenseId: licenseId, address: license.address}).unwrap()
 
-            const filteredLicenses = licenseItems.filter((license) => license.id !== licenseId)
-            setLicenseItems(filteredLicenses)
-
-            setIsVisible({isVisible: false, license: null})
-
-            // if (result.success) {
-            //     console.log(result.success)
-            //     const filteredLicenses = licenseItems.filter((license) => license.id !== licenseId)
-            //     setLicenseItems(filteredLicenses)
-            // }
+            if (result.success) {
+                const filteredLicenses = licenseItems.filter((license) => license.id !== licenseId)
+                setLicenseItems(filteredLicenses)
+                setIsVisible({isVisible: false, license: null})
+            }
 
         }
 

@@ -54,7 +54,7 @@ export function MakeDealDialog({isVisible, setIsVisible}: MakeDealDialogProps) {
                                     {
                                         applyRequirementsCount < fullApplyRequirementsCount && <div>
                                             <p className="text-red-600">You must get all of the required requirements such
-                                                as: Cost, Hold deposit, Duration days</p>
+                                                as: Cost, Hold deposit, Duration</p>
                                         </div>
                                     }
                                     {

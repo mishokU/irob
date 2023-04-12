@@ -3,7 +3,5 @@ export interface UpdateProfile {
     surname: string
     description: string
     website: string
-    languages: string,
-    location: string,
     avatar: string | null
 }

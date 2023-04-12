@@ -9,13 +9,29 @@ contract DepositHolder is Alive {
     address payable private buyer;
     address payable private seller;
 
-    uint depositCost = 0;
+    uint private depositCost = 0;
 
-    constructor(address payable _seller, address payable _buyer, address payable _deposit, uint8 _depositCost) payable {
+    constructor(address payable _seller, address payable _buyer, address payable _deposit, uint _depositCost) payable {
         buyer = _buyer;
         deposit = _deposit;
         seller = _seller;
         depositCost = _depositCost;
+    }
+
+    function getDepositAddress() public view returns (address value) {
+        return deposit;
+    }
+
+    function getBuyerAddress() public view returns (address value) {
+        return buyer;
+    }
+
+    function getSellerAddress() public view returns (address value) {
+        return seller;
+    }
+
+    function getDepositCost() public view returns (uint value) {
+        return depositCost;
     }
 
     function sendDeposit(uint progress) payable public {

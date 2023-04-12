@@ -7,13 +7,9 @@ export function ProfileInfoComponent() {
         name,
         surname,
         website,
-        location,
-        languages,
         description,
         setDescription,
-        setLanguages,
         setWebsite,
-        setLocation,
         handleUpdateProfile,
         handleUndoProfileData,
         setName,
@@ -28,7 +24,7 @@ export function ProfileInfoComponent() {
         <div className="flex items-center">
             <img
                 id="profile_image"
-                src={imagePath} className="object-cover rounded-full bg-white w-[75px] h-[75px]" />
+                src={imagePath} className="object-cover rounded-full bg-white w-[75px] h-[75px]"/>
             <label
                 htmlFor="image_uploads"
                 className="rounded-full ml-6 bg-[#4a5058] pt-2 pl-4 pr-4 pb-2 cursor-pointer">Choose</label>
@@ -39,7 +35,7 @@ export function ProfileInfoComponent() {
                 name="image_uploads"
                 className="invisible"
                 readOnly={true}
-                accept=".jpg, .jpeg, .png" />
+                accept=".jpg, .jpeg, .png"/>
         </div>
         <div className="flex">
             <div>
@@ -70,7 +66,7 @@ export function ProfileInfoComponent() {
                 onChange={(surnameField) => {
                     setDescription(surnameField.target.value)
                 }}
-                className="border-[#29303A] align-text-top border-2 rounded-2xl p-4 bg-transparent mt-2 w-full h-[100px]" />
+                className="border-[#29303A] align-text-top border-2 rounded-2xl p-4 bg-transparent mt-2 w-full h-[100px]"/>
         </div>
         <div>
             <p className="mt-4">Website</p>
@@ -79,25 +75,7 @@ export function ProfileInfoComponent() {
                 onChange={(surnameField) => {
                     setWebsite(surnameField.target.value)
                 }}
-                className="border-[#29303A] border-2 rounded-2xl p-4 bg-transparent mt-2 w-full" />
-        </div>
-        <div>
-            <p className="mt-4">Location</p>
-            <input
-                value={location}
-                onChange={(surnameField) => {
-                    setLocation(surnameField.target.value)
-                }}
-                className="border-[#29303A] border-2 rounded-2xl p-4 bg-transparent mt-2 w-full" />
-        </div>
-        <div>
-            <p className="mt-4">Languages</p>
-            <input
-                value={languages}
-                onChange={(surnameField) => {
-                    setLanguages(surnameField.target.value)
-                }}
-                className="border-[#29303A] border-2 rounded-2xl p-4 bg-transparent mt-2 w-full" />
+                className="border-[#29303A] border-2 rounded-2xl p-4 bg-transparent mt-2 w-full"/>
         </div>
         <div className="flex space-x-2">
             <button

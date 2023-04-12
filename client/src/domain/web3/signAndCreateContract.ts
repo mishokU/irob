@@ -15,6 +15,8 @@ function verifyMessage(message: any, address: any, signature: any) {
 
 export async function signAndCreateContract(address: string, data: string, depositCost: string) {
 
+    console.log(data)
+
     const signer = await getSigner()
     const signature = await signer.signMessage(data);
 
@@ -41,10 +43,14 @@ export async function signAndCreateContract(address: string, data: string, depos
             method: 'eth_getTransactionReceipt', params: [txHash]
         })
 
-        if(transactionReceipt === null){
+        console.log("contract")
+        console.log(transactionReceipt)
+
+        if(!transactionReceipt){
             throw Error("No contract address!")
         }
 
+        // @ts-ignore
         return transactionReceipt.contractAddress
 
     } else {

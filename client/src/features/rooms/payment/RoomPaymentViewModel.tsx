@@ -20,8 +20,6 @@ import {
 import {isMetamaskAvailable} from "../../../domain/web3/isMetamaskAvailable";
 import {signAndCreateContract} from "../../../domain/web3/signAndCreateContract";
 import {signAndSendDeposit} from "../../../domain/web3/signAndSendDeposit";
-import Web3 from "web3";
-import {getAccountBalance} from "../../../domain/web3/getAccountBalance";
 
 export default function RoomPaymentViewModel() {
 
@@ -96,7 +94,6 @@ export default function RoomPaymentViewModel() {
         try {
             loading()
             if (isMetamaskAvailable()) {
-
 
                 const result = await getContractData({
                     roomId: roomReducer.roomId, ownerId: roomReducer.ownerId, userId: roomReducer.userId

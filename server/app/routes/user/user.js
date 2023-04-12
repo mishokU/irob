@@ -21,6 +21,22 @@ userRouter.post('/update', (request, result) => {
     return updateUser(request, result)
 })
 
+userRouter.delete('/delete', (request, result) => {
+    return deleteAccount(request, result)
+})
+
+userRouter.post('/handleDisable', (request, result) => {
+    return handleDisableAccount(request, result)
+})
+
+userRouter.post('/updateLanguageAndLocation', (request, result) => {
+    return updateLanguageAndLocation(request, result)
+})
+
+userRouter.post('/updatePassword', (request, result) => {
+    return updatePassword(request, result)
+})
+
 userRouter.post('/updateAccountLedger', (request, result) => {
     return updateAccountLedger(request, result)
 })
@@ -33,7 +49,7 @@ async function updateUser(request, result) {
         const description = request.body.description
         const website = request.body.website
         const location = request.body.location
-        const languages = request.body.languages
+        const language = request.body.language
         const avatar = request.body.avatar
         await userController.updateUser(
             name,
@@ -41,7 +57,7 @@ async function updateUser(request, result) {
             description,
             website,
             location,
-            languages,
+            language,
             avatar,
             token
         )
@@ -108,6 +124,94 @@ async function updateAccountLedger(request, result) {
         })
     } catch (e){
         const message = "Error in updating account balance: " + e.message
+        console.log(message)
+        result.status(500).json({
+            success: false,
+            message: message
+        })
+    }
+}
+
+async function updateLanguageAndLocation(request, result){
+    try {
+
+        const token = request.get('token')
+        const {language, location} = request.body
+
+        await userController.updateLanguageAndLocation(token, language.trim(), location.trim())
+
+        result.status(200).json({
+            success: true,
+            language: language,
+            location: location
+        })
+
+    } catch (e){
+        const message = "Error in updating country and location: " + e.message
+        console.log(message)
+        result.status(500).json({
+            success: false,
+            message: message
+        })
+    }
+}
+
+async function handleDisableAccount(request, result){
+    try {
+
+        const token = request.get('token')
+
+        const isDisabled = await userController.handleDisableAccount(token)
+
+        result.status(200).json({
+            success: true,
+            isDisabled: isDisabled,
+            message: "Account successfully disabled!"
+        })
+
+    } catch (e){
+        const message = "Error in disabling account: " + e.message
+        console.log(message)
+        result.status(500).json({
+            success: false,
+            message: message
+        })
+    }
+}
+
+async function deleteAccount(request, result){
+    try {
+
+        const token = request.get('token')
+
+        await userController.deleteAccount(token)
+
+        result.status(200).json({
+            success: true,
+            message: "Account successfully deleted!"
+        })
+
+    } catch (e){
+        const message = "Error in deleting account: " + e.message
+        console.log(message)
+        result.status(500).json({
+            success: false,
+            message: message
+        })
+    }
+}
+
+async function updatePassword(request, result){
+    try {
+
+        const token = request.get('token')
+
+        const {password} = request.body
+
+        await userController.updatePassword(token, password)
+
+    } catch (e){
+        const message = "Error in updating password: " + e.message
         console.log(message)
         result.status(500).json({
             success: false,

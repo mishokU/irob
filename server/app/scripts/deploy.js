@@ -1,6 +1,6 @@
 const hre = require("./config")
-
 const {hexlify, concat} = require("@ethersproject/bytes");
+const Web3 = require("web3");
 
 module.exports = {
     deployTestContract,
@@ -13,13 +13,21 @@ async function getContractData(sellerAddress, buyerAddress, depositCost) {
 
     const depositAddress = process.env.DEPOSIT_ADDRESS
 
-    console.log("payment: seller: " + sellerAddress)
-    console.log("payment: buyer: " + buyerAddress)
-    console.log("payment: dep: " + depositAddress)
+    const seller = Web3.utils.toChecksumAddress(sellerAddress)
+    const buyer = Web3.utils.toChecksumAddress(buyerAddress)
+    const deposit = Web3.utils.toChecksumAddress(depositAddress)
+
+    /*
+        Need to convert depositCost from ether to wei
+    */
+
+    const depositCostInWei = Web3.utils.toWei(depositCost.toString(), 'ether');
+
+    const args = [seller, buyer, deposit, depositCostInWei]
 
     return hexlify(concat([
         DepositHolder.bytecode,
-        DepositHolder.interface.encodeDeploy([sellerAddress, buyerAddress, depositAddress, depositCost])
+        DepositHolder.interface.encodeDeploy(args)
     ]));
 
 }

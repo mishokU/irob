@@ -1,4 +1,4 @@
-
+import {ServerUrl} from "../../../constants/Constants";
 
 export function DevelopersPage() {
     const value = "{\n" +
@@ -15,7 +15,7 @@ export function DevelopersPage() {
         <h2>Returns the success and message</h2>
         <div className="bg-[#4a5058] w-[500px] rounded-lg p-2 mt-2 flex space-x-2">
             <h2>POST: </h2>
-            <p>http://localhost:5000/api/update</p>
+            <p>{ServerUrl}/api/update</p>
         </div>
         <p>With body</p>
         <div className="bg-[#4a5058] w-[500px] rounded-lg p-2 mt-2">

@@ -81,6 +81,7 @@ async function deleteLicense(request, result) {
         if (licenseId !== undefined && address !== undefined) {
 
             await hreController.disableContract(address)
+
             await licensesController.deleteLicense(licenseId)
 
             result.status(200).json({

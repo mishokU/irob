@@ -19,7 +19,7 @@ export function RoomsProfilePage() {
                             <div className="bg-red-500 w-3 h-3 min-w-fit rounded rounded-full" />)}
                         <h1 className="min-w-fit">{item.title}</h1>
                         <h2 className="line-clamp-1 min-w-fit w-max max-w-[170px]">{item.ownerName}</h2>
-                        <h1 className="line-clamp-1 max-w-4xl">{item.lastMessage}</h1>
+                        <h1 className="line-clamp-1 max-w-2xl">{item.lastMessage}</h1>
                         <h1 className="min-w-fit">Requirements: {item.requirements}</h1>
                     </div>
                     <div className="flex">

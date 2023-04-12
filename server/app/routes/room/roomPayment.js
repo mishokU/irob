@@ -87,9 +87,16 @@ async function getRoomResult(request, result) {
 
             const total = calculateTotalCost(roomResult.requirements, roomResult.gas, roomResult.deposit, commissionCost, roomResult.cost)
 
+            let status
+            if (license === undefined) {
+                status = "canceled"
+            } else {
+                status = license.status
+            }
+
             result.status(200).json({
                 success: true,
-                licenseStatus: license.status,
+                licenseStatus: status,
                 roomPrices: {
                     requirementsCost: roomResult.requirements,
                     contractCost: roomResult.cost,
@@ -272,7 +279,7 @@ async function getCosts(roomId) {
             if (requirement.isAlive === false) {
                 if (requirement.type === "Hold deposit") {
                     depositCost = Number(requirement.value)
-                } else if(requirement.type === "Cost") {
+                } else if (requirement.type === "Cost") {
                     contractCost = Number(requirement.value)
                 } else {
                     requirementsCost += requirement.value

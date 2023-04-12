@@ -10,7 +10,7 @@ export function NotificationsComponent() {
         <div className="mt-8">
             <h1 className="font-bold text-xl">In IROB</h1>
             <p>Choose which notifications to receive directly on IROB</p>
-
+            <p>Emails will be later!</p>
         </div>
         <div className="mt-8">
             <div className="flex items-center mb-4">

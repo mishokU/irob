@@ -3,7 +3,7 @@ export interface ProfileResponse {
     surname: string
     location: string
     nickname: string
-    languages: string
+    language: string
     avatar: string
     website: string
     id: number

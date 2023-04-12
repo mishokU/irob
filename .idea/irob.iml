@@ -11,5 +11,6 @@
     <orderEntry type="library" name="web3" level="application" />
     <orderEntry type="library" name="flowbite" level="application" />
     <orderEntry type="library" name="ethers-5.0.umd" level="application" />
+    <orderEntry type="library" name="ethers-5.2.umd" level="application" />
   </component>
 </module>

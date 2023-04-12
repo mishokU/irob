@@ -405,9 +405,10 @@ CREATE TABLE public.users (
     email text,
     token text,
     location text,
-    languages text,
+    language text,
     followers integer,
-    account text
+    account text,
+    disabled boolean DEFAULT false
 );
 
 
@@ -440,44 +441,6 @@ COPY public.licenses (id, uid, status, date, is_favourite, user_id, address, roo
 --
 
 COPY public.notifications (id, type, user_id, message, date, room_id, is_watched) FROM stdin;
-1	requirement_accepted	1	Your requirement was accepted in room:	2023-04-07	0bb8e	f
-2	requirement_accepted	1	Your requirement was accepted in room: 0bb8e	2023-04-07	0bb8e	f
-3	requirement_accepted	1	Your requirement was accepted in room: 0bb8e	2023-04-07	0bb8e	f
-4	requirement_accepted	1	Your requirement was accepted in room: 0bb8e	2023-04-07	0bb8e	f
-5	requirement_accepted	1	Your requirement was accepted in room: 0bb8e	2023-04-07	0bb8e	f
-6	requirement_accepted	1	Your requirement was accepted in room: fks2yg	2023-04-07	fks2yg	f
-7	requirement_accepted	1	Your requirement was accepted in room: fks2yg	2023-04-07	fks2yg	f
-8	requirement_accepted	1	Your requirement was accepted in room: fks2yg	2023-04-07	fks2yg	f
-9	requirement_accepted	1	Your requirement was accepted in room: i9rgn	2023-04-07	i9rgn	f
-10	requirement_accepted	1	Your requirement was accepted in room: i9rgn	2023-04-07	i9rgn	f
-11	requirement_accepted	1	Your requirement was accepted in room: i9rgn	2023-04-07	i9rgn	f
-12	admin_added	2	Congratulations, now you are the second admin in room: 5zcjk, make a deal!	2023-04-08	5zcjk	f
-13	requirement_accepted	1	Your requirement was accepted in room: 5zcjk	2023-04-08	5zcjk	f
-14	requirement_accepted	1	Your requirement was accepted in room: 5zcjk	2023-04-08	5zcjk	f
-15	requirement_accepted	1	Your requirement was accepted in room: 5zcjk	2023-04-08	5zcjk	f
-16	admin_added	2	Congratulations, now you are the second admin in room: qs2se, make a deal!	2023-04-08	qs2se	f
-17	requirement_accepted	1	Your requirement was accepted in room: qs2se	2023-04-08	qs2se	f
-18	requirement_accepted	1	Your requirement was accepted in room: qs2se	2023-04-08	qs2se	f
-19	requirement_accepted	1	Your requirement was accepted in room: qs2se	2023-04-08	qs2se	f
-20	admin_added	2	Congratulations, now you are the second admin in room: 002l6, make a deal!	2023-04-08	002l6	f
-21	requirement_accepted	1	Your requirement was accepted in room: 002l6	2023-04-08	002l6	f
-22	requirement_accepted	1	Your requirement was accepted in room: 002l6	2023-04-08	002l6	f
-23	requirement_accepted	1	Your requirement was accepted in room: 002l6	2023-04-08	002l6	f
-24	requirement_accepted	1	Your requirement was accepted in room: 002l6	2023-04-08	002l6	f
-25	admin_added	2	Congratulations, now you are the second admin in room: kgdl7, make a deal!	2023-04-09	kgdl7	f
-26	requirement_accepted	1	Your requirement was accepted in room: kgdl7	2023-04-09	kgdl7	f
-27	requirement_accepted	1	Your requirement was accepted in room: kgdl7	2023-04-09	kgdl7	f
-28	requirement_accepted	1	Your requirement was accepted in room: kgdl7	2023-04-09	kgdl7	f
-29	requirement_accepted	1	Your requirement was accepted in room: kgdl7	2023-04-09	kgdl7	f
-30	admin_added	2	Congratulations, now you are the second admin in room: 45986, make a deal!	2023-04-09	45986	f
-31	requirement_accepted	1	Your requirement was accepted in room: 45986	2023-04-09	45986	f
-32	requirement_accepted	1	Your requirement was accepted in room: 45986	2023-04-09	45986	f
-33	requirement_accepted	1	Your requirement was accepted in room: 45986	2023-04-09	45986	f
-34	admin_added	2	Congratulations, now you are the second admin in room: s4sl3, make a deal!	2023-04-09	s4sl3	f
-35	requirement_accepted	1	Your requirement was accepted in room: s4sl3	2023-04-09	s4sl3	f
-36	requirement_accepted	1	Your requirement was accepted in room: s4sl3	2023-04-09	s4sl3	f
-37	requirement_accepted	1	Your requirement was accepted in room: s4sl3	2023-04-09	s4sl3	f
-38	requirement_accepted	1	Your requirement was accepted in room: s4sl3	2023-04-09	s4sl3	f
 \.
 
 
@@ -488,6 +451,10 @@ COPY public.notifications (id, type, user_id, message, date, room_id, is_watched
 COPY public.room_messages (id, date, content, user_id, room_id, type) FROM stdin;
 22	2023-04-09 1:50:39	ацуауцацу	2	s4sl3	0
 23	2023-04-09 1:50:43	ацуацауцацау	1	s4sl3	0
+24	2023-04-09 3:54:05	efwfwe	1	fiecb	0
+25	2023-04-09 3:54:06	efwfe	1	fiecb	0
+26	2023-04-09 3:54:08	wfwfwefwefwfwfwefwefwefwe	1	fiecb	0
+27	2023-04-09 3:54:55	ацацуацуацуаццуцуа	2	fiecb	0
 \.
 
 
@@ -496,10 +463,14 @@ COPY public.room_messages (id, date, content, user_id, room_id, type) FROM stdin
 --
 
 COPY public.room_requirements (id, room_id, user_id, title, description, type, value, is_alive, license_id, current_value) FROM stdin;
-35	s4sl3	1	gergre	gererger	Duration days	30	f	14	0
-36	s4sl3	1	ergergre	gergeregrr	Hold deposit	2	f	14	0
-37	s4sl3	1	gergre	bbbberere	Views count	3000	f	14	0
-38	s4sl3	1	gergre	errgerger	Cost	2	f	14	0
+39	fiecb	1	wfwfwe	fwfwf	Duration days	30	f	18	0
+40	fiecb	1	fwfw	ewfwefew	Hold deposit	2	f	18	0
+41	fiecb	1	fwefw	vweefwefwe	Views count	1000	f	18	0
+42	fiecb	1	fwefwe	fewfewfwefew	Cost	3	f	18	0
+35	s4sl3	1	gergre	gererger	Duration days	30	f	19	0
+36	s4sl3	1	ergergre	gergeregrr	Hold deposit	2	f	19	0
+37	s4sl3	1	gergre	bbbberere	Views count	3000	f	19	0
+38	s4sl3	1	gergre	errgerger	Cost	2	f	19	0
 \.
 
 
@@ -508,7 +479,8 @@ COPY public.room_requirements (id, room_id, user_id, title, description, type, v
 --
 
 COPY public.room_result (id, room_id, requirements, gas, deposit, user_id, cost) FROM stdin;
-14	s4sl3	0.002	0.019	2	1	2
+26	o1qta	0.002	0.054	4	2	3
+27	n903hj	0.001	0.021	3	1	3
 \.
 
 
@@ -537,6 +509,16 @@ COPY public.room_users (id, user_id, room_id) FROM stdin;
 18	2	45986
 19	1	s4sl3
 20	2	s4sl3
+21	1	fiecb
+22	2	fiecb
+23	1	ln9wc
+24	2	ln9wc
+25	1	pe0sul
+26	2	pe0sul
+27	2	o1qta
+28	1	o1qta
+29	1	n903hj
+30	2	n903hj
 \.
 
 
@@ -545,7 +527,6 @@ COPY public.room_users (id, user_id, room_id) FROM stdin;
 --
 
 COPY public.rooms (room_id, owner_id, name, first_agreement, second_agreement, user_id, type, owner) FROM stdin;
-s4sl3	1	test 2	t	t	2	fewfewfe	ewffew
 \.
 
 
@@ -553,9 +534,9 @@ s4sl3	1	test 2	t	t	2	fewfewfe	ewffew
 -- Data for Name: users; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-COPY public.users (id, name, surname, avatar, description, website, nickname, password, email, token, location, languages, followers, account) FROM stdin;
-1	Misha	Uso	https://firebasestorage.googleapis.com/v0/b/irob-d735a.appspot.com/o/images%2F2023-02-01%2012.34.13.jpg?alt=media&token=4d17ba7d-1e94-4446-8673-19d64ac4197c				$2a$10$PXyx/J3c2YL8OV2z5P.mFuQ7HeYxA2pb0X0c42vWnxTd7LofnLECi	usov.misha@gmail.com	eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InVzb3YubWlzaGFAZ21haWwuY29tIiwiaWF0IjoxNjgwOTQxMDgwfQ.Jgq8-EkVm-MDrYVGXKRTJICbCwydIyg3bsOV-2BIX5o			0	0xa508dD875f10C33C52a8abb20E16fc68E981F186
-2	Алексей	У	\N				$2a$10$2S7n7x5u0EhX1xEUmLX2iuK/IXw2vyGDnG.j4L0igSnzGhoIg9Tgu	e@mail.ru	eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImVAbWFpbC5ydSIsImlhdCI6MTY4MDU1MTY1MH0.-NmLatsefGRH66Tz1oiK5lCCPE4fckvVI-s_dqmFnqo			0	0xd5cC383881D6d9A7dc1891A0235E11D03Cb992d3
+COPY public.users (id, name, surname, avatar, description, website, nickname, password, email, token, location, language, followers, account, disabled) FROM stdin;
+2	Алексей	У	\N				$2a$10$2S7n7x5u0EhX1xEUmLX2iuK/IXw2vyGDnG.j4L0igSnzGhoIg9Tgu	e@mail.ru	eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImVAbWFpbC5ydSIsImlhdCI6MTY4MTE2MTQ1Nn0._n2OK6ThQazJkg8yqqLIvGd906og1XHZboNyaj24IH8			0	0xd5cC383881D6d9A7dc1891A0235E11D03Cb992d3	f
+1	Misha	Uso	\N	refefwew	ewfwefwe		$2a$10$PXyx/J3c2YL8OV2z5P.mFuQ7HeYxA2pb0X0c42vWnxTd7LofnLECi	usov.misha@gmail.com	eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InVzb3YubWlzaGFAZ21haWwuY29tIiwiaWF0IjoxNjgwOTQxMDgwfQ.Jgq8-EkVm-MDrYVGXKRTJICbCwydIyg3bsOV-2BIX5o	Russia	English	0	0xa508dD875f10C33C52a8abb20E16fc68E981F186	f
 \.
 
 
@@ -563,42 +544,42 @@ COPY public.users (id, name, surname, avatar, description, website, nickname, pa
 -- Name: licenses_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.licenses_id_seq', 14, true);
+SELECT pg_catalog.setval('public.licenses_id_seq', 27, true);
 
 
 --
 -- Name: notifications_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.notifications_id_seq', 38, true);
+SELECT pg_catalog.setval('public.notifications_id_seq', 61, true);
 
 
 --
 -- Name: roomUsers_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public."roomUsers_id_seq"', 20, true);
+SELECT pg_catalog.setval('public."roomUsers_id_seq"', 30, true);
 
 
 --
 -- Name: room_messages_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.room_messages_id_seq', 23, true);
+SELECT pg_catalog.setval('public.room_messages_id_seq', 42, true);
 
 
 --
 -- Name: room_requirements_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.room_requirements_id_seq', 38, true);
+SELECT pg_catalog.setval('public.room_requirements_id_seq', 56, true);
 
 
 --
 -- Name: room_result_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.room_result_id_seq', 14, true);
+SELECT pg_catalog.setval('public.room_result_id_seq', 27, true);
 
 
 --

@@ -18,8 +18,6 @@ export default function ProfileInfoViewModel() {
     const [surname, setSurname] = useState(profileReducer.surname)
     const [description, setDescription] = useState(profileReducer.description)
     const [website, setWebsite] = useState(profileReducer.website)
-    const [location, setLocation] = useState(profileReducer.location)
-    const [languages, setLanguages] = useState(profileReducer.languages)
     const [imagePath, setImagePath] = useState(profileReducer.avatar)
 
     const [imageFile, setImageFile] = useState<File>()
@@ -57,22 +55,18 @@ export default function ProfileInfoViewModel() {
                 });
             })
         } else {
-            await updateWholeProfile(null)
+            await updateWholeProfile(profileReducer.avatar)
         }
     }
 
     async function updateWholeProfile(avatar: string | null){
-        const updatedProfile = await updateProfileMutation({
-            name, surname, description, website, languages, location, avatar
-        }).unwrap()
+        const updatedProfile = await updateProfileMutation({name, surname, description, website, avatar}).unwrap()
         dispatch(updateProfile({
             user: {
                 name: name,
                 surname: surname,
                 description: description,
                 website: website,
-                languages: languages,
-                location: location,
                 nickname: profileReducer.nickname,
                 followersCount: profileReducer.followersCount,
                 id: profileReducer.profileId,
@@ -106,17 +100,13 @@ export default function ProfileInfoViewModel() {
         name,
         surname,
         description,
-        languages,
         website,
-        location,
         imagePath,
-        setLocation,
         setName,
         setSurname,
         uploadImagesResult,
         setDescription,
-        setWebsite,
-        setLanguages
+        setWebsite
     }
 
 }

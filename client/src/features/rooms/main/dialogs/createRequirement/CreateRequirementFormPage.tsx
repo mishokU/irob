@@ -4,11 +4,13 @@ import useViewModel from "./CreateRequrementViewModel"
 import {IROBProgressBar} from "../../../../../ui/common/IROBProgressBar";
 import {CreateRequirementsProps} from "./CreateRequirementsDialog";
 
-export const contentTypes = [{id: 1, name: 'Duration days', unavailable: false}, {
-    id: 2, name: 'Hold deposit', unavailable: false
-}, {id: 3, name: 'Views count', unavailable: false}, {id: 4, name: 'Cost', unavailable: false}, {
-    id: 5, name: 'Else', unavailable: false
-}]
+export const contentTypes = [
+    {id: 1, name: 'Duration', value: "days"},
+    {id: 2, name: 'Hold deposit', value: "ETH"},
+    {id: 3, name: 'Views count', value: "number"},
+    {id: 4, name: 'Cost', value: "ETH"},
+    {id: 5, name: 'Else', value: "number"}
+]
 
 export function CreateRequirementFormPage({isVisibleState, setIsVisibleState}: CreateRequirementsProps) {
     const {
@@ -36,7 +38,7 @@ export function CreateRequirementFormPage({isVisibleState, setIsVisibleState}: C
     const maxDescriptionLength = 300
 
     return <div className="relative">
-        {isProgress && error === "" && <IROBProgressBar />}
+        {isProgress && error === "" && <IROBProgressBar/>}
         <div className={(isProgress || error !== "") ? "invisible" : ""}>
             <h1 className="text-3xl font-bold">
                 {requirementId === null ? "Requirement creation" : "Requirement updating"}
@@ -53,16 +55,19 @@ export function CreateRequirementFormPage({isVisibleState, setIsVisibleState}: C
                             onChange={(titleField) => {
                                 setTitle(titleField.target.value)
                             }}
-                            className={inputStyle} />
+                            className={inputStyle}/>
                         <p className="absolute right-4 bottom-2">{title.length} / {maxTitleLength} max</p>
                     </div>
                 </div>
                 <div>
                     <p className="mt-4">Content type</p>
-                    <ContentTypeDropDown type={contentType} setType={setType} />
+                    <ContentTypeDropDown type={contentType} setType={setType}/>
                 </div>
                 <div>
-                    <p className="mt-4">Value</p>
+                    <div className="mt-4 flex justify-between">
+                        <p>Value:</p>
+                        <p>{contentType.value}</p>
+                    </div>
                     <input
                         maxLength={maxValueLength}
                         value={value}
@@ -72,7 +77,7 @@ export function CreateRequirementFormPage({isVisibleState, setIsVisibleState}: C
                         onChange={(valueField) => {
                             setValue((value) => valueField.target.validity.valid ? Number(valueField.target.value) : value)
                         }}
-                        className={inputStyle} />
+                        className={inputStyle}/>
                 </div>
             </div>
             {contentType.id === customTypeNumber && <div>
