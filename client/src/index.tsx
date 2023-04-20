@@ -11,23 +11,26 @@ import {CreateRoomModalProvider} from "./features/main/contexts/CreateRoomModalP
 import {PersistGate} from "redux-persist/integration/react";
 import {MetaMaskProvider} from "metamask-react";
 import {CreateNotificationProvider} from "./features/main/contexts/NotificationModelProvider";
+import {ContentFullCardProvider} from "./features/main/contexts/ContentFullCardProvider";
 
 const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement);
 
 root.render(<ModalsProvider>
     <CreateRoomModalProvider>
-        <CreateNotificationProvider>
-            <Provider store={store}>
-                <PersistGate loading={null} persistor={persistor}>
-                    <BrowserRouter>
-                        <ModalState>
-                            <MetaMaskProvider>
-                                <App/>
-                            </MetaMaskProvider>
-                        </ModalState>
-                    </BrowserRouter>
-                </PersistGate>
-            </Provider>
-        </CreateNotificationProvider>
+        <ContentFullCardProvider>
+            <CreateNotificationProvider>
+                <Provider store={store}>
+                    <PersistGate loading={null} persistor={persistor}>
+                        <BrowserRouter>
+                            <ModalState>
+                                <MetaMaskProvider>
+                                    <App/>
+                                </MetaMaskProvider>
+                            </ModalState>
+                        </BrowserRouter>
+                    </PersistGate>
+                </Provider>
+            </CreateNotificationProvider>
+        </ContentFullCardProvider>
     </CreateRoomModalProvider>
 </ModalsProvider>)

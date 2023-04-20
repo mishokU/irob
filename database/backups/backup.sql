@@ -187,6 +187,43 @@ SET default_tablespace = '';
 SET default_table_access_method = heap;
 
 --
+-- Name: content; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.content (
+    id integer NOT NULL,
+    name text NOT NULL,
+    description text,
+    owner text,
+    type text,
+    director text,
+    country text,
+    actors text,
+    video_url text,
+    category text,
+    date text,
+    user_id integer,
+    video_preview text
+);
+
+
+ALTER TABLE public.content OWNER TO postgres;
+
+--
+-- Name: content_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+ALTER TABLE public.content ALTER COLUMN id ADD GENERATED ALWAYS AS IDENTITY (
+    SEQUENCE NAME public.content_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1
+);
+
+
+--
 -- Name: licenses; Type: TABLE; Schema: public; Owner: postgres
 --
 
@@ -429,6 +466,18 @@ ALTER TABLE public.users ALTER COLUMN id ADD GENERATED ALWAYS AS IDENTITY (
 
 
 --
+-- Data for Name: content; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.content (id, name, description, owner, type, director, country, actors, video_url, category, date, user_id, video_preview) FROM stdin;
+1	fwe	fwef			fwf	fweefw		blob:http://localhost:3000/f3c3bd1c-d8d9-49f3-a254-5ecae5ab044b		2023-04-19	1	\N
+2	уцауц	цуауц			ацуц	ацуацуауц		https://firebasestorage.googleapis.com/v0/b/irob-d735a.appspot.com/o/videos%2F%D0%B8%D0%B7%20%D1%83%D1%87%D0%B5%D1%82%D0%BD%D0%BE%D0%B8%CC%86%20%D0%B7%D0%B0%D0%BF%D0%B8%D0%BC%D0%B8.mp4?alt=media&token=daaf1ea9-61fb-43b0-b468-25c7ecb9e168		2023-04-19	1	\N
+3	gerer	gerger			ger	ger		https://firebasestorage.googleapis.com/v0/b/irob-d735a.appspot.com/o/videos%2F%D0%B8%D0%B7%20%D1%83%D1%87%D0%B5%D1%82%D0%BD%D0%BE%D0%B8%CC%86%20%D0%B7%D0%B0%D0%BF%D0%B8%D0%BC%D0%B8.mp4?alt=media&token=b0e33cf7-cc75-4ffb-a661-fdb58dae36ef		2023-04-20	1	\N
+4	fwewef	few			fw	fwefwfe		https://firebasestorage.googleapis.com/v0/b/irob-d735a.appspot.com/o/videos%2F%D0%B8%D0%B7%20%D1%83%D1%87%D0%B5%D1%82%D0%BD%D0%BE%D0%B8%CC%86%20%D0%B7%D0%B0%D0%BF%D0%B8%D0%BC%D0%B8.mp4?alt=media&token=19e76b0d-4f9e-4e67-a3be-cfd77465c9dc		2023-04-20	1	\N
+\.
+
+
+--
 -- Data for Name: licenses; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
@@ -441,6 +490,14 @@ COPY public.licenses (id, uid, status, date, is_favourite, user_id, address, roo
 --
 
 COPY public.notifications (id, type, user_id, message, date, room_id, is_watched) FROM stdin;
+62	admin_added	2	Congratulations, now you are the second admin in room: ww4ghf, make a deal!	2023-04-12	ww4ghf	f
+63	requirement_accepted	1	Your requirement was accepted in room: ww4ghf	2023-04-12	ww4ghf	f
+64	requirement_accepted	1	Your requirement was accepted in room: ww4ghf	2023-04-12	ww4ghf	f
+65	requirement_accepted	1	Your requirement was accepted in room: ww4ghf	2023-04-12	ww4ghf	f
+66	admin_added	2	Congratulations, now you are the second admin in room: sxm8x, make a deal!	2023-04-13	sxm8x	f
+67	requirement_accepted	1	Your requirement was accepted in room: sxm8x	2023-04-13	sxm8x	f
+68	requirement_accepted	1	Your requirement was accepted in room: sxm8x	2023-04-13	sxm8x	f
+69	requirement_accepted	1	Your requirement was accepted in room: sxm8x	2023-04-13	sxm8x	f
 \.
 
 
@@ -455,6 +512,12 @@ COPY public.room_messages (id, date, content, user_id, room_id, type) FROM stdin
 25	2023-04-09 3:54:06	efwfe	1	fiecb	0
 26	2023-04-09 3:54:08	wfwfwefwefwfwfwefwefwefwe	1	fiecb	0
 27	2023-04-09 3:54:55	ацацуацуацуаццуцуа	2	fiecb	0
+43	2023-04-12 1:41:12	ffwefwweewewew	1	ww4ghf	0
+44	2023-04-12 1:42:02	frfefer	1	ww4ghf	0
+45	2023-04-12 1:42:58	акаукауккау	2	ww4ghf	0
+46	2023-04-12 1:55:21	rgregerger	1	sxm8x	0
+47	2023-04-13 0:32:14	fewfwfweffwe	1	sxm8x	0
+48	2023-04-13 0:32:15	fwefjwofjw	1	sxm8x	0
 \.
 
 
@@ -463,6 +526,9 @@ COPY public.room_messages (id, date, content, user_id, room_id, type) FROM stdin
 --
 
 COPY public.room_requirements (id, room_id, user_id, title, description, type, value, is_alive, license_id, current_value) FROM stdin;
+60	sxm8x	1	Время	ацацацацу	Duration	30	f	29	0
+61	sxm8x	1	Депозит		Hold deposit	2	f	29	0
+62	sxm8x	1	Цена	пупкупкупкупук	Cost	3	f	29	0
 39	fiecb	1	wfwfwe	fwfwf	Duration days	30	f	18	0
 40	fiecb	1	fwfw	ewfwefew	Hold deposit	2	f	18	0
 41	fiecb	1	fwefw	vweefwefwe	Views count	1000	f	18	0
@@ -471,6 +537,9 @@ COPY public.room_requirements (id, room_id, user_id, title, description, type, v
 36	s4sl3	1	ergergre	gergeregrr	Hold deposit	2	f	19	0
 37	s4sl3	1	gergre	bbbberere	Views count	3000	f	19	0
 38	s4sl3	1	gergre	errgerger	Cost	2	f	19	0
+57	ww4ghf	1	eddedw	wedewdwe	Duration	30	f	28	0
+58	ww4ghf	1	eweefw	ewfw	Hold deposit	3	f	28	0
+59	ww4ghf	1	dwedwe		Cost	2	f	28	0
 \.
 
 
@@ -481,6 +550,8 @@ COPY public.room_requirements (id, room_id, user_id, title, description, type, v
 COPY public.room_result (id, room_id, requirements, gas, deposit, user_id, cost) FROM stdin;
 26	o1qta	0.002	0.054	4	2	3
 27	n903hj	0.001	0.021	3	1	3
+28	ww4ghf	0.001	0.020	3	1	2
+29	sxm8x	0.001	0.026	2	1	3
 \.
 
 
@@ -519,6 +590,10 @@ COPY public.room_users (id, user_id, room_id) FROM stdin;
 28	1	o1qta
 29	1	n903hj
 30	2	n903hj
+31	1	ww4ghf
+32	2	ww4ghf
+33	1	sxm8x
+34	2	sxm8x
 \.
 
 
@@ -527,6 +602,8 @@ COPY public.room_users (id, user_id, room_id) FROM stdin;
 --
 
 COPY public.rooms (room_id, owner_id, name, first_agreement, second_agreement, user_id, type, owner) FROM stdin;
+ww4ghf	1	fwefwe	t	t	2	ewefw	fwefe
+sxm8x	1	efwew	t	t	2	Фильм	Миша Усов
 \.
 
 
@@ -535,51 +612,58 @@ COPY public.rooms (room_id, owner_id, name, first_agreement, second_agreement, u
 --
 
 COPY public.users (id, name, surname, avatar, description, website, nickname, password, email, token, location, language, followers, account, disabled) FROM stdin;
+1	Misha	Uso	https://firebasestorage.googleapis.com/v0/b/irob-d735a.appspot.com/o/images%2F2023-02-01%2012.34.13.jpg?alt=media&token=fa495542-0bc8-4feb-9365-dac7fe3e5434	refeffefew	ewfwefwe		$2a$10$PXyx/J3c2YL8OV2z5P.mFuQ7HeYxA2pb0X0c42vWnxTd7LofnLECi	usov.misha@gmail.com	eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InVzb3YubWlzaGFAZ21haWwuY29tIiwiaWF0IjoxNjgwOTQxMDgwfQ.Jgq8-EkVm-MDrYVGXKRTJICbCwydIyg3bsOV-2BIX5o	dwdq	dqdwqdq	0	0xa508dD875f10C33C52a8abb20E16fc68E981F186	f
 2	Алексей	У	\N				$2a$10$2S7n7x5u0EhX1xEUmLX2iuK/IXw2vyGDnG.j4L0igSnzGhoIg9Tgu	e@mail.ru	eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImVAbWFpbC5ydSIsImlhdCI6MTY4MTE2MTQ1Nn0._n2OK6ThQazJkg8yqqLIvGd906og1XHZboNyaj24IH8			0	0xd5cC383881D6d9A7dc1891A0235E11D03Cb992d3	f
-1	Misha	Uso	\N	refefwew	ewfwefwe		$2a$10$PXyx/J3c2YL8OV2z5P.mFuQ7HeYxA2pb0X0c42vWnxTd7LofnLECi	usov.misha@gmail.com	eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InVzb3YubWlzaGFAZ21haWwuY29tIiwiaWF0IjoxNjgwOTQxMDgwfQ.Jgq8-EkVm-MDrYVGXKRTJICbCwydIyg3bsOV-2BIX5o	Russia	English	0	0xa508dD875f10C33C52a8abb20E16fc68E981F186	f
 \.
+
+
+--
+-- Name: content_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.content_id_seq', 4, true);
 
 
 --
 -- Name: licenses_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.licenses_id_seq', 27, true);
+SELECT pg_catalog.setval('public.licenses_id_seq', 29, true);
 
 
 --
 -- Name: notifications_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.notifications_id_seq', 61, true);
+SELECT pg_catalog.setval('public.notifications_id_seq', 69, true);
 
 
 --
 -- Name: roomUsers_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public."roomUsers_id_seq"', 30, true);
+SELECT pg_catalog.setval('public."roomUsers_id_seq"', 34, true);
 
 
 --
 -- Name: room_messages_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.room_messages_id_seq', 42, true);
+SELECT pg_catalog.setval('public.room_messages_id_seq', 48, true);
 
 
 --
 -- Name: room_requirements_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.room_requirements_id_seq', 56, true);
+SELECT pg_catalog.setval('public.room_requirements_id_seq', 62, true);
 
 
 --
 -- Name: room_result_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.room_result_id_seq', 27, true);
+SELECT pg_catalog.setval('public.room_result_id_seq', 29, true);
 
 
 --
@@ -587,6 +671,14 @@ SELECT pg_catalog.setval('public.room_result_id_seq', 27, true);
 --
 
 SELECT pg_catalog.setval('public.users_id_seq', 2, true);
+
+
+--
+-- Name: content content_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.content
+    ADD CONSTRAINT content_pkey PRIMARY KEY (id);
 
 
 --

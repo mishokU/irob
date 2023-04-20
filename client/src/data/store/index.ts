@@ -18,6 +18,7 @@ import {SearchApi} from "./search/SearchApi";
 import {RoomPaymentApi} from "./payment/RoomPaymentApi";
 import {LicensesApi} from "./licenses/LicensesApi";
 import {NotificationsApi} from "./notifications/NotificationsApi";
+import {ContentApi} from "./content/ContentApi";
 
 const persistConfig = {
     key: "root", storage,
@@ -34,6 +35,7 @@ const rootReducer = combineReducers({
     [SearchApi.reducerPath]: SearchApi.reducer,
     [LicensesApi.reducerPath]: LicensesApi.reducer,
     [NotificationsApi.reducerPath]: NotificationsApi.reducer,
+    [ContentApi.reducerPath]: ContentApi.reducer,
     room: roomReducer,
     profile: userReducer,
     config: configReducer
@@ -57,7 +59,8 @@ export const store = configureStore({
         RoomPaymentApi.middleware,
         SearchApi.middleware,
         LicensesApi.middleware,
-        NotificationsApi.middleware
+        NotificationsApi.middleware,
+        ContentApi.middleware
     )
 });
 

@@ -9,6 +9,7 @@ const roomPayment = require('./room/roomPayment')
 const licenses = require('./licenses/licenses')
 const external = require('./external/externalApi')
 const notifications = require('./notification/notifications')
+const content = require('./content/contentApi')
 
 /*
     In developing
@@ -26,6 +27,7 @@ module.exports = app => {
     app.use('/search', searchRouter)
     app.use('/licenses', licenses)
     app.use('/notifications', notifications)
+    app.use('/content', content)
 
     app.use('/api', external)
 

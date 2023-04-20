@@ -1,7 +1,7 @@
 import {nonRoundedButtonTheme} from "../../../themes/Themes";
 
 export function ProfileInfoComponent() {
-    return <div className="space-y-2 max-w-[300px]">
+    return <div className="space-y-2 max-w-[300px] text-white">
         <h1 className="text-3xl text-start font-bold">License Author</h1>
         <div className="flex mt-2 justify-start items-center">
             <img className="w-12 h-12 rounded-full bg-black" />
