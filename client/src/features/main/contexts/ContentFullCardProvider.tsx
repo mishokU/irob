@@ -4,6 +4,15 @@ import {createContext, ReactNode, useContext, useState} from "react";
 export interface ContentProps {
     isVisible: boolean
     contentId: number | null
+    fromCatalogue: boolean
+}
+
+export function initContentProps(): ContentProps {
+    return {
+        isVisible: false,
+        contentId: null,
+        fromCatalogue: true
+    }
 }
 
 interface IModalContext {
@@ -20,10 +29,7 @@ export interface IProps {
 }
 
 const ContentFullCardProvider = ({children}: IProps) => {
-    const [isVisibleProps, setVisibility] = useState<ContentProps>({
-        isVisible: false,
-        contentId: null
-    })
+    const [isVisibleProps, setVisibility] = useState<ContentProps>(initContentProps)
     return <ModalsContext.Provider value={{isVisibleProps, setVisibility}}>
         {children}
     </ModalsContext.Provider>

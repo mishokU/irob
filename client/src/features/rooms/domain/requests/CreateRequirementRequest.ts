@@ -2,6 +2,6 @@ export interface CreateRequirementRequest {
     roomId: string
     title: string
     type: string
-    value: number
+    value: string
     description: string
 }

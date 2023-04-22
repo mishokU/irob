@@ -9,6 +9,7 @@ import {CreateRequirementsDialog} from "../dialogs/createRequirement/CreateRequi
 import backImg from "../../../../ui/assets/left_24px.png";
 import {SettingsModalDialog} from "../dialogs/settings/SettingsModalDialog";
 import {MakeDealDialog} from "../dialogs/makeDeal/MakeDealDialog";
+import documentImg from "../../asserts/document.png"
 
 /*
     Комната с комнонентами
@@ -34,7 +35,8 @@ export function RoomComponent() {
         setIsRequirementVisible,
         isMakeDealDialogVisible,
         setIsMakeDealDialogVisible,
-        onBackClick
+        onBackClick,
+        onShowCardClick
     } = useViewModel()
 
     return <div className="h-screen overflow-y-hidden">
@@ -68,24 +70,35 @@ export function RoomComponent() {
                     <h1 className="text-yellow-300">Room:</h1>
                     <h2 className="text-white">{roomReducer.roomId}</h2>
                 </div>
-                {roomReducer.isAdmin && <button
-                    type="button"
-                    onClick={() => {
-                        setIsDeleteDialogVisible(!isDeleteDialogVisible)
-                    }}
-                    className="bg-red-600 z-10 absolute right-8 top-8 rounded-full w-14 h-14 p-4 text-center inline-flex">
-                    <img src={deleteImg} />
-                    <span className="sr-only">Icon description</span>
-                </button>}
-                {roomReducer.isAdmin && <button
-                    type="button"
-                    onClick={() => {
-                        setIsSettingsDialogVisible(!isSettingsDialogVisible)
-                    }}
-                    className="bg-[#ffb81c] z-10 absolute right-24 top-8 rounded-full w-14 h-14 p-4 text-center inline-flex">
-                    <img src={settingsImg} />
-                    <span className="sr-only">Icon description</span>
-                </button>}
+                <div className="z-10 absolute right-8 top-8">
+                    <div className="space-x-4">
+                        <button
+                            type="button"
+                            onClick={() => onShowCardClick()}
+                            className="bg-[#ffb81c] z-10 rounded-full w-14 h-14 p-4 text-center inline-flex">
+                            <img src={documentImg} />
+                            <span className="sr-only">Icon description</span>
+                        </button>
+                        {roomReducer.isAdmin && <button
+                            type="button"
+                            onClick={() => {
+                                setIsSettingsDialogVisible(!isSettingsDialogVisible)
+                            }}
+                            className="bg-[#ffb81c] z-10 rounded-full w-14 h-14 p-4 text-center inline-flex">
+                            <img src={settingsImg} />
+                            <span className="sr-only">Icon description</span>
+                        </button>}
+                        {roomReducer.isAdmin && <button
+                            type="button"
+                            onClick={() => {
+                                setIsDeleteDialogVisible(!isDeleteDialogVisible)
+                            }}
+                            className="bg-red-600 rounded-full w-14 h-14 p-4 text-center inline-flex">
+                            <img src={deleteImg} />
+                            <span className="sr-only">Icon description</span>
+                        </button>}
+                    </div>
+                </div>
                 <div className="flex justify-between ml-16 mr-16 mb-16 space-x-4 h-full pt-16">
                     <RoommatesComponent />
                     <RoomSmartMessengerMainComponent

@@ -203,7 +203,14 @@ CREATE TABLE public.content (
     category text,
     date text,
     user_id integer,
-    video_preview text
+    video_preview text,
+    cost text,
+    start_distr text,
+    end_distr text,
+    genres text,
+    year text,
+    trailer_url text,
+    duration text
 );
 
 
@@ -419,8 +426,7 @@ CREATE TABLE public.rooms (
     first_agreement boolean DEFAULT false,
     second_agreement boolean DEFAULT false,
     user_id integer,
-    type text,
-    owner text
+    content_id integer
 );
 
 
@@ -469,11 +475,9 @@ ALTER TABLE public.users ALTER COLUMN id ADD GENERATED ALWAYS AS IDENTITY (
 -- Data for Name: content; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-COPY public.content (id, name, description, owner, type, director, country, actors, video_url, category, date, user_id, video_preview) FROM stdin;
-1	fwe	fwef			fwf	fweefw		blob:http://localhost:3000/f3c3bd1c-d8d9-49f3-a254-5ecae5ab044b		2023-04-19	1	\N
-2	уцауц	цуауц			ацуц	ацуацуауц		https://firebasestorage.googleapis.com/v0/b/irob-d735a.appspot.com/o/videos%2F%D0%B8%D0%B7%20%D1%83%D1%87%D0%B5%D1%82%D0%BD%D0%BE%D0%B8%CC%86%20%D0%B7%D0%B0%D0%BF%D0%B8%D0%BC%D0%B8.mp4?alt=media&token=daaf1ea9-61fb-43b0-b468-25c7ecb9e168		2023-04-19	1	\N
-3	gerer	gerger			ger	ger		https://firebasestorage.googleapis.com/v0/b/irob-d735a.appspot.com/o/videos%2F%D0%B8%D0%B7%20%D1%83%D1%87%D0%B5%D1%82%D0%BD%D0%BE%D0%B8%CC%86%20%D0%B7%D0%B0%D0%BF%D0%B8%D0%BC%D0%B8.mp4?alt=media&token=b0e33cf7-cc75-4ffb-a661-fdb58dae36ef		2023-04-20	1	\N
-4	fwewef	few			fw	fwefwfe		https://firebasestorage.googleapis.com/v0/b/irob-d735a.appspot.com/o/videos%2F%D0%B8%D0%B7%20%D1%83%D1%87%D0%B5%D1%82%D0%BD%D0%BE%D0%B8%CC%86%20%D0%B7%D0%B0%D0%BF%D0%B8%D0%BC%D0%B8.mp4?alt=media&token=19e76b0d-4f9e-4e67-a3be-cfd77465c9dc		2023-04-20	1	\N
+COPY public.content (id, name, description, owner, type, director, country, actors, video_url, category, date, user_id, video_preview, cost, start_distr, end_distr, genres, year, trailer_url, duration) FROM stdin;
+12	John Wick	With the untimely death of his beloved wife still bitter in his mouth, John Wick, the expert former assassin, receives one final gift from her a precious keepsake to help John find a new meaning in life now that she is gone. But when the arrogant Russian mob prince, Iosef Tarasov, and his men pay Wick a rather unwelcome visit to rob him of his prized 1969 Mustang and his wifes present, the...	Summit Entertainment	Film	David Leitch, Chad Stahelski	China, United States	Michael Nyqvist, Keanu Reeves, Alfie Allen	https://firebasestorage.googleapis.com/v0/b/irob-d735a.appspot.com/o/videos%2F%D0%B8%D0%B7%20%D0%BF%D0%BE%D0%BA%D1%83%D0%BF%D0%BA%D0%B8%20%D0%BF%D0%BE%D0%B4%D0%BF%D0%B8%D1%81%D0%BA%D0%B8%20%D0%B2%20%D0%BD%D0%B0%D1%81%D1%82%D1%80%D0%BE%D0%B8%CC%86%D0%BA%D0%B0%D1%85.mp4?alt=media&token=b56086b8-a224-40e0-b1ea-eb42cafebbe0		2023-04-21	1	https://firebasestorage.googleapis.com/v0/b/irob-d735a.appspot.com/o/videoPreviews%2F%D0%B8%D0%B7%20%D0%BF%D0%BE%D0%BA%D1%83%D0%BF%D0%BA%D0%B8%20%D0%BF%D0%BE%D0%B4%D0%BF%D0%B8%D1%81%D0%BA%D0%B8%20%D0%B2%20%D0%BD%D0%B0%D1%81%D1%82%D1%80%D0%BE%D0%B8%CC%86%D0%BA%D0%B0%D1%85.mp4?alt=media&token=98b64079-34b4-49a5-a0d3-8ade7fd24c45	0.004	03.12.1999	03.12.1999	Action, Crime, Thriller / Suspense	2014	https://firebasestorage.googleapis.com/v0/b/irob-d735a.appspot.com/o/videoTrailers%2F%D0%B8%D0%B7%20%D1%83%D1%87%D0%B5%D1%82%D0%BD%D0%BE%D0%B8%CC%86%20%D0%B7%D0%B0%D0%BF%D0%B8%D0%BC%D0%B8.mp4?alt=media&token=a90fcabf-8d26-48d8-960a-69bf44eacbaf	undefined
+13	John Wick	With the untimely death of his beloved wife still bitter in his mouth, John Wick, the expert former assassin, receives one final gift from her a precious keepsake to help John find a new meaning in life now that she is gone. But when the arrogant Russian mob prince, Iosef Tarasov, and his men pay Wick a rather unwelcome visit to rob him of his prized 1969 Mustang and his wifes present, the...	Summit Entertainment	Film	David Leitch, Chad Stahelski	China, United States	Michael Nyqvist, Keanu Reeves, Alfie Allen	https://firebasestorage.googleapis.com/v0/b/irob-d735a.appspot.com/o/videos%2F%D0%B8%D0%B7%20%D0%BF%D0%BE%D0%BA%D1%83%D0%BF%D0%BA%D0%B8%20%D0%BF%D0%BE%D0%B4%D0%BF%D0%B8%D1%81%D0%BA%D0%B8%20%D0%B2%20%D0%BD%D0%B0%D1%81%D1%82%D1%80%D0%BE%D0%B8%CC%86%D0%BA%D0%B0%D1%85.mp4?alt=media&token=dc3983ab-fae7-4bcb-b64a-9ceb03a0a4fe		2023-04-21	3	https://firebasestorage.googleapis.com/v0/b/irob-d735a.appspot.com/o/videoPreviews%2F%D0%B8%D0%B7%20%D0%BF%D0%BE%D0%BA%D1%83%D0%BF%D0%BA%D0%B8%20%D0%BF%D0%BE%D0%B4%D0%BF%D0%B8%D1%81%D0%BA%D0%B8%20%D0%B2%20%D0%BD%D0%B0%D1%81%D1%82%D1%80%D0%BE%D0%B8%CC%86%D0%BA%D0%B0%D1%85.mp4?alt=media&token=eddef169-63d5-4cd1-9d9a-b0118d9f9d97	0.004	03.12.1999	03.12.1999	Action, Crime, Thriller / Suspense	2014	null	undefined
 \.
 
 
@@ -594,6 +598,15 @@ COPY public.room_users (id, user_id, room_id) FROM stdin;
 32	2	ww4ghf
 33	1	sxm8x
 34	2	sxm8x
+35	1	sulfr
+36	2	mwzvg
+37	1	v4b4p
+38	1	qwszq
+39	1	c9aos
+40	1	m9zmt
+41	1	93row
+42	1	ipabmh
+43	1	vgnpa
 \.
 
 
@@ -601,9 +614,10 @@ COPY public.room_users (id, user_id, room_id) FROM stdin;
 -- Data for Name: rooms; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-COPY public.rooms (room_id, owner_id, name, first_agreement, second_agreement, user_id, type, owner) FROM stdin;
-ww4ghf	1	fwefwe	t	t	2	ewefw	fwefe
-sxm8x	1	efwew	t	t	2	Фильм	Миша Усов
+COPY public.rooms (room_id, owner_id, name, first_agreement, second_agreement, user_id, content_id) FROM stdin;
+ww4ghf	1	fwefwe	t	t	2	\N
+sxm8x	1	efwew	t	t	2	\N
+sulfr	1	ffefw	f	f	\N	\N
 \.
 
 
@@ -612,8 +626,9 @@ sxm8x	1	efwew	t	t	2	Фильм	Миша Усов
 --
 
 COPY public.users (id, name, surname, avatar, description, website, nickname, password, email, token, location, language, followers, account, disabled) FROM stdin;
-1	Misha	Uso	https://firebasestorage.googleapis.com/v0/b/irob-d735a.appspot.com/o/images%2F2023-02-01%2012.34.13.jpg?alt=media&token=fa495542-0bc8-4feb-9365-dac7fe3e5434	refeffefew	ewfwefwe		$2a$10$PXyx/J3c2YL8OV2z5P.mFuQ7HeYxA2pb0X0c42vWnxTd7LofnLECi	usov.misha@gmail.com	eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InVzb3YubWlzaGFAZ21haWwuY29tIiwiaWF0IjoxNjgwOTQxMDgwfQ.Jgq8-EkVm-MDrYVGXKRTJICbCwydIyg3bsOV-2BIX5o	dwdq	dqdwqdq	0	0xa508dD875f10C33C52a8abb20E16fc68E981F186	f
+3							$2a$10$B8rAD1CzIpqZGii4jtBEi.Dzj2Ed0QRV.uSXIkZcC8apluDV1IcNy	ru@mail.ru	eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InJ1QG1haWwucnUiLCJpYXQiOjE2ODIxMDg0MzN9.HRfUE4TdewIp8dyr5QcvVUS2R9MTtpjBvLWb2xDihMY			0	\N	f
 2	Алексей	У	\N				$2a$10$2S7n7x5u0EhX1xEUmLX2iuK/IXw2vyGDnG.j4L0igSnzGhoIg9Tgu	e@mail.ru	eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImVAbWFpbC5ydSIsImlhdCI6MTY4MTE2MTQ1Nn0._n2OK6ThQazJkg8yqqLIvGd906og1XHZboNyaj24IH8			0	0xd5cC383881D6d9A7dc1891A0235E11D03Cb992d3	f
+1	Misha	Uso	https://firebasestorage.googleapis.com/v0/b/irob-d735a.appspot.com/o/images%2F2023-02-01%2012.34.13.jpg?alt=media&token=fa495542-0bc8-4feb-9365-dac7fe3e5434	With the untimely death of his beloved wife still bitter in his mouth, John Wick, the expert former assassin, receives one final gift from her a precious keepsake to help John find a new meaning in life now that she is gone. But when the arrogant Russian mob prince, Iosef Tarasov, an	ewfwefwe		$2a$10$PXyx/J3c2YL8OV2z5P.mFuQ7HeYxA2pb0X0c42vWnxTd7LofnLECi	usov.misha@gmail.com	eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InVzb3YubWlzaGFAZ21haWwuY29tIiwiaWF0IjoxNjgyMTEwMDkwfQ._y6YtTuBK-FTzrKcQlGBO3_b0KW4GIlvJMmzi7RIgz8	\N	\N	0	0xa508dD875f10C33C52a8abb20E16fc68E981F186	f
 \.
 
 
@@ -621,7 +636,7 @@ COPY public.users (id, name, surname, avatar, description, website, nickname, pa
 -- Name: content_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.content_id_seq', 4, true);
+SELECT pg_catalog.setval('public.content_id_seq', 13, true);
 
 
 --
@@ -642,7 +657,7 @@ SELECT pg_catalog.setval('public.notifications_id_seq', 69, true);
 -- Name: roomUsers_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public."roomUsers_id_seq"', 34, true);
+SELECT pg_catalog.setval('public."roomUsers_id_seq"', 43, true);
 
 
 --
@@ -670,7 +685,7 @@ SELECT pg_catalog.setval('public.room_result_id_seq', 29, true);
 -- Name: users_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.users_id_seq', 2, true);
+SELECT pg_catalog.setval('public.users_id_seq', 3, true);
 
 
 --

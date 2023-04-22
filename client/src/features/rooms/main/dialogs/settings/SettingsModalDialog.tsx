@@ -17,11 +17,7 @@ export function SettingsModalDialog({isVisible, setIsVisible}: SettingsProps) {
         users,
         onUserClick,
         updateRoomClick,
-        owner,
-        isSearchVisible,
-        setOwner,
-        type,
-        setType
+        isSearchVisible
     } = useViewModel({
         isVisible, setIsVisible
     })
@@ -74,26 +70,6 @@ export function SettingsModalDialog({isVisible, setIsVisible}: SettingsProps) {
                                             placeholder="title"
                                             value={title}
                                             onChange={(titleField) => setTitle(
-                                                titleField.target.value)}
-                                        />
-                                    </div>
-                                    <div className="space-y-2">
-                                        <h1>Content type</h1>
-                                        <input
-                                            className={inputStyle + " bg-transparent w-full w-full flex"}
-                                            placeholder="Movie"
-                                            value={type}
-                                            onChange={(titleField) => setType(
-                                                titleField.target.value)}
-                                        />
-                                    </div>
-                                    <div className="space-y-2">
-                                        <h1>Content owner</h1>
-                                        <input
-                                            className={inputStyle + " bg-transparent w-full w-full flex"}
-                                            placeholder="Lucas Films"
-                                            value={owner}
-                                            onChange={(titleField) => setOwner(
                                                 titleField.target.value)}
                                         />
                                     </div>

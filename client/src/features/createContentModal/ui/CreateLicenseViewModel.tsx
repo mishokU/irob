@@ -5,11 +5,17 @@ import {getDownloadURL, ref, uploadBytes} from "firebase/storage";
 import {storage} from "../../../firebaseConfig";
 import {getVideoCover} from "@rajesh896/video-thumbnails-generator";
 import {useModalsContext} from "../../main/contexts/ModalsProvider";
+import {Stepper} from "./CreateContentStepper";
 
 
 export default function CreateLicenseViewModel() {
 
     const [state, setState] = useState<CreateContentState>(initCreateContentState)
+
+    const [stepper, setStepper] = useState<Stepper>(Stepper.INFO)
+
+    const [leftButtonText, setLeftButtonText] = useState("Next")
+    const [rightButtonText, setRightButtonText] = useState("Reset")
 
     const [createContent] = useCreateContentMutation()
 
@@ -27,12 +33,28 @@ export default function CreateLicenseViewModel() {
         })
     }
 
+    const handleTrailerChanged = (event: any) => {
+        const file = event.target.files[0];
+        const url = URL.createObjectURL(file);
+        setState({
+            ...state, trailer: {
+                url: url,
+                file: file,
+                name: file.name
+            }
+        })
+    }
+
     const onNameChange = (name: string) => {
         setState({...state, name: name})
     }
 
     const onCountryChange = (country: string) => {
         setState({...state, country: country})
+    }
+
+    const onOwnerChanged = (owner: string) => {
+        setState({...state, owner: owner})
     }
 
     const onDescriptionChange = (description: string) => {
@@ -43,6 +65,14 @@ export default function CreateLicenseViewModel() {
         setState({...state, actors: actors})
     }
 
+    const onGenresChanged = (genres: string) => {
+        setState({...state, genres: genres})
+    }
+
+    const onYearChanged = (year: string) => {
+        setState({...state, year: year})
+    }
+
     const onContentTypeChange = (contentType: string) => {
         setState({...state, contentType: contentType})
     }
@@ -51,24 +81,68 @@ export default function CreateLicenseViewModel() {
         setState({...state, director: director})
     }
 
+    const onCostChanged = (cost: string) => {
+        setState({...state, cost: cost})
+    }
+
+    const onDistributionStartDateChanged = (date: string) => {
+        setState({...state, startDate: date})
+    }
+
+    const onDistributionEndDateChanged = (date: string) => {
+        setState({...state, endDate: date})
+    }
+
     const clearVideo = () => {
         setState({...state, video: null})
+    }
+
+    const clearTrailer = () => {
+        setState({...state, trailer: null})
     }
 
     const onResetClick = async () => {
         setState(initCreateContentState)
     }
 
-    const onCreateClick = async () => {
+    const onLeftButtonClick = async () => {
+        if (stepper === Stepper.INFO) {
+            setStepper(Stepper.ADDITIONAL)
+            setLeftButtonText("Next")
+            setRightButtonText("Back")
+        } else if (stepper === Stepper.ADDITIONAL) {
+            setStepper(Stepper.CONDITIONS)
+            setLeftButtonText("Create")
+            setRightButtonText("Back")
+        } else if (stepper === Stepper.CONDITIONS) {
+            await onCreateClick()
+        }
+    }
+
+    const onRightButtonClick = async () => {
+        if (stepper === Stepper.INFO) {
+            await onResetClick()
+            setRightButtonText("Reset")
+            setLeftButtonText("Next")
+        } else if (stepper === Stepper.ADDITIONAL) {
+            setStepper(Stepper.INFO)
+            setRightButtonText("Reset")
+            setLeftButtonText("Next")
+        } else if (stepper === Stepper.CONDITIONS) {
+            setStepper(Stepper.ADDITIONAL)
+            setLeftButtonText("Next")
+            setRightButtonText("Back")
+        }
+    }
+
+    async function onCreateClick() {
 
         if (state.video) {
 
             const mountainVideosRef = ref(storage, `videos/${state.video.name}`);
             const mountainVideoPreviewRef = ref(storage, `videoPreviews/${state.video.name}`);
 
-            const url = URL.createObjectURL(state.video.file)
-
-            console.log(url)
+            setState({...state, isLoading: true})
 
             getVideoCover(state.video.url, 1).then(async (thumbnail) => {
                 console.log(thumbnail)
@@ -77,12 +151,12 @@ export default function CreateLicenseViewModel() {
 
                     const res: Response = await fetch(dataUrl);
                     const blob: Blob = await res.blob();
-                    return new File([blob], "test", { type: 'image/png' });
+                    return new File([blob], "test", {type: 'image/png'});
                 }
 
                 const file = await dataUrlToFile(thumbnail)
 
-                if(state.video?.file){
+                if (state.video?.file) {
                     uploadBytes(mountainVideosRef, state.video.file).then(async (snapshot) => {
                         console.log('Uploaded a video file!');
                         getDownloadURL(snapshot.ref).then(async (videoUrl) => {
@@ -90,16 +164,27 @@ export default function CreateLicenseViewModel() {
                             uploadBytes(mountainVideoPreviewRef, file).then(async (snapshot) => {
                                 console.log('Uploaded a video preview file!');
                                 getDownloadURL(snapshot.ref).then(async (videoPreview) => {
-                                    await createContentWithVideoUrl(videoUrl, videoPreview)
+
+                                    if (state.trailer) {
+                                        const mountainVideoTrailerPreviewRef = ref(storage, `videoTrailers/${state.trailer.name}`);
+                                        uploadBytes(mountainVideoTrailerPreviewRef, file).then(async (snapshot) => {
+                                            console.log('Uploaded a video trailer file!');
+                                            getDownloadURL(snapshot.ref).then(async (videoTrailerPreview) => {
+                                                await createContentWithVideoUrl(videoUrl, videoPreview, videoTrailerPreview)
+                                            })
+                                        })
+                                    } else {
+                                        await createContentWithVideoUrl(videoUrl, videoPreview, null)
+                                    }
                                 })
                             })
-
                         })
                     })
 
                 }
 
             }).catch((err) => {
+                setState({...state, isLoading: false})
                 console.error(err);
             })
 
@@ -107,7 +192,7 @@ export default function CreateLicenseViewModel() {
 
     }
 
-    async function createContentWithVideoUrl(videoUrl: string, videoPreview: string) {
+    async function createContentWithVideoUrl(videoUrl: string, videoPreview: string, videoTrailerPreview: string | null) {
 
         const result = await createContent({
             name: state.name,
@@ -120,6 +205,12 @@ export default function CreateLicenseViewModel() {
             director: state.director,
             type: state.contentType,
             category: state.category,
+            genres: state.genres,
+            trailerUrl: videoTrailerPreview,
+            year: state.year,
+            startDate: state.startDate,
+            endDate: state.endDate,
+            cost: state.cost
         }).unwrap()
 
         if (result.success) {
@@ -135,12 +226,24 @@ export default function CreateLicenseViewModel() {
         clearVideo,
         onActorsChange,
         onCountryChange,
+        handleTrailerChanged,
         onNameChange,
         onDescriptionChange,
         onContentTypeChange,
         onDirectorChange,
-        onCreateClick,
-        onResetClick,
+        onYearChanged,
+        onOwnerChanged,
+        clearTrailer,
+        onGenresChanged,
+        onCostChanged,
+        onDistributionStartDateChanged,
+        onDistributionEndDateChanged,
+        onLeftButtonClick,
+        onRightButtonClick,
+        leftButtonText,
+        rightButtonText,
+        stepper,
+        setStepper,
         state,
     }
 

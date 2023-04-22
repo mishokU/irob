@@ -1,25 +1,40 @@
 import {Dialog, Transition} from "@headlessui/react";
 import {Fragment} from "react";
 import {buttonTheme} from "../../../themes/Themes";
-import {FormPage} from "./FormPage";
 import {ReactComponent as CloseModal} from "../../../ui/assets/close_black_24dp.svg";
-import {UploadVideoContentComponent} from "./UploadVideoContentComponent";
 import useViewModel from "./CreateLicenseViewModel"
 import {useModalsContext} from "../../main/contexts/ModalsProvider";
+import {CreateContentStepper, Stepper} from "./CreateContentStepper";
+import {FormPage} from "./FormPage";
+import {UploadVideoContentComponent} from "./UploadVideoContentComponent";
+import {AdditionalInfoComponent} from "./AdditionalInfoComponent";
+import {StartConditionsComponent} from "./StartConditionsComponent";
+import {IROBProgressBar} from "../../../ui/common/IROBProgressBar";
 
 export function CreateLicenseModal() {
     const {
         handleFileChange,
         state,
         clearVideo,
+        clearTrailer,
+        handleTrailerChanged,
         onDescriptionChange,
+        onCostChanged,
+        onDistributionStartDateChanged,
+        onDistributionEndDateChanged,
         onCountryChange,
         onActorsChange,
-        onResetClick,
+        onRightButtonClick,
         onNameChange,
-        onCreateClick,
+        onOwnerChanged,
+        onLeftButtonClick,
         onDirectorChange,
-        onContentTypeChange
+        onGenresChanged,
+        onYearChanged,
+        onContentTypeChange,
+        leftButtonText,
+        rightButtonText,
+        stepper
     } = useViewModel()
     const modalsContext = useModalsContext()
     return (<>
@@ -50,39 +65,74 @@ export function CreateLicenseModal() {
                             leaveTo="opacity-0 scale-95"
                         >
                             <Dialog.Panel
-                                className=" transform overflow-hidden border-2 border-[#29303A] w-3/5 rounded-2xl bg-[#0E1420]
-                                p-6 text-left align-middle shadow-xl transition-all">
-                                <div className="flex justify-between">
-                                    <h1 className="text-3xl font-bold">Content card creation</h1>
-                                    <button onClick={() => {
-                                        modalsContext?.setVisibility(false)
-                                    }}
-                                            className="bg-transparent hover:bg-black border-transparent p-2 rounded-none hover:rounded-full">
-                                        <CloseModal/>
-                                    </button>
-                                </div>
-                                <div className="flex mt-4 space-x-4">
-                                    <FormPage
-                                        state={state}
-                                        onNameChange={onNameChange}
-                                        onDescriptionChange={onDescriptionChange}
-                                        onActorsChange={onActorsChange}
-                                        onContentTypeChange={onContentTypeChange}
-                                        onCountryChange={onCountryChange}
-                                        onDirectorChange={onDirectorChange}
-                                    />
-                                    <UploadVideoContentComponent
-                                        state={state}
-                                        clearVideo={clearVideo}
-                                        handleFileChange={handleFileChange}/>
-                                </div>
-                                <div className="flex justify-between space-x-2">
-                                    <button className={buttonTheme + " mt-4 w-full"}
-                                            onClick={() => onCreateClick()}>Create
-                                    </button>
-                                    <button className={buttonTheme + " mt-4 w-full"}
-                                            onClick={() => onResetClick()}>Reset
-                                    </button>
+                                className=" transform overflow-hidden border-2 border-[#29303A] w-3/5 rounded-2xl bg-[#0E1420] text-left align-middle shadow-xl transition-all">
+                                {state.isLoading && <div className="absolute z-40 w-full h-full bg-black opacity-70"/>}
+                                {state.isLoading && <IROBProgressBar/>}
+                                <div className="p-6">
+                                    <div className="flex justify-between">
+                                        <h1 className="text-3xl font-bold">Content card creation</h1>
+                                        <button onClick={() => {
+                                            modalsContext?.setVisibility(false)
+                                        }}
+                                                className="bg-transparent hover:bg-black border-transparent p-2 rounded-none hover:rounded-full">
+                                            <CloseModal/>
+                                        </button>
+                                    </div>
+                                    <CreateContentStepper state={stepper}/>
+                                    <div className="mt-4 h-[550px]">
+                                        {
+                                            stepper === Stepper.INFO && <div className="flex space-x-4">
+                                                <FormPage
+                                                    state={state}
+                                                    onNameChange={onNameChange}
+                                                    onDescriptionChange={onDescriptionChange}
+                                                    onContentTypeChange={onContentTypeChange}
+                                                    onCountryChange={onCountryChange}
+                                                    onDirectorChange={onDirectorChange}
+                                                />
+                                                <UploadVideoContentComponent
+                                                    media={state.video}
+                                                    clearVideo={clearVideo}
+                                                    isTrailer={false}
+                                                    handleFileChange={handleFileChange}/>
+                                            </div>
+                                        }
+                                        {
+                                            stepper === Stepper.ADDITIONAL && <div className="flex space-x-4">
+                                                <AdditionalInfoComponent
+                                                    onCastChanged={onActorsChange}
+                                                    onGenresChanged={onGenresChanged}
+                                                    onYearChanged={onYearChanged}
+                                                    onOwnerChanged={onOwnerChanged}
+                                                    state={state}
+                                                />
+                                                <UploadVideoContentComponent
+                                                    media={state.trailer}
+                                                    clearVideo={clearTrailer}
+                                                    isTrailer={true}
+                                                    handleFileChange={handleTrailerChanged}/>
+                                            </div>
+                                        }
+                                        {
+                                            stepper === Stepper.CONDITIONS &&
+                                            <div className="flex justify-center items-center">
+                                                <StartConditionsComponent
+                                                    state={state}
+                                                    onCostChanged={onCostChanged}
+                                                    onDistributionEndDateChanged={onDistributionEndDateChanged}
+                                                    onDistributionStartDateChanged={onDistributionStartDateChanged}
+                                                />
+                                            </div>
+                                        }
+                                    </div>
+                                    <div className="flex justify-between space-x-2">
+                                        <button className={buttonTheme + " mt-4 w-full"}
+                                                onClick={() => onLeftButtonClick()}>{leftButtonText}
+                                        </button>
+                                        <button className={buttonTheme + " mt-4 w-full"}
+                                                onClick={() => onRightButtonClick()}>{rightButtonText}
+                                        </button>
+                                    </div>
                                 </div>
                             </Dialog.Panel>
                         </Transition.Child>

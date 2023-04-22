@@ -57,9 +57,6 @@ async function updateSecondAgreement(request, result) {
 
         const {roomId, isAgreed} = request.body
 
-        console.log("room id: " + roomId)
-        console.log("is agreed: " + isAgreed)
-
         await roomController.updateSecondAgreement(roomId, isAgreed)
 
         result.status(200).json({
@@ -80,9 +77,6 @@ async function updateFirstAgreement(request, result) {
     try {
 
         const {roomId, isAgreed} = request.body
-
-        console.log("room id: " + roomId)
-        console.log("is agreed: " + isAgreed)
 
         await roomController.updateFirstAgreement(roomId, isAgreed)
 
@@ -164,20 +158,18 @@ async function agreementRoom(request, result) {
 
 async function updateRoom(request, result) {
     try {
-        const {roomId, name, ownerId, owner, type, userId} = request.body
+        const {roomId, name, ownerId, userId} = request.body
         if (ownerId !== userId) {
             if (userId !== -1) {
-                await roomController.updateRoomWithUser(roomId, name, type, owner, userId)
+                await roomController.updateRoomWithUser(roomId, name, userId)
                 await notificationsController.createNotification(userId, roomId, NotificationTypes.ADMIN_ADDED)
             } else {
-                await roomController.updateRoomWithoutUser(roomId, name, type, owner)
+                await roomController.updateRoomWithoutUser(roomId, name)
             }
             result.status(200).json({
                 success: true,
                 name: name,
                 userId: userId,
-                owner: owner,
-                type: type,
                 message: "Room updated"
             })
         } else {
@@ -196,19 +188,19 @@ async function updateRoom(request, result) {
 
 async function createRoom(request, result) {
     try {
+
         const token = request.get('token')
-        const {roomId, title} = request.body;
-        const user = await userController.getUser(token)
-        await db.query(`
-            INSERT INTO rooms
-                (room_id, owner_id, name, first_agreement, second_agreement, user_id)
-            VALUES ('${roomId}', '${user.id}', '${title}', false, false, null)
-        `)
+        const {roomId, title, userId, contentId} = request.body;
+
+        await roomController.createRoom(roomId, title, userId, contentId, token)
+
         result.status(200).json({
             success: true,
             roomId: roomId,
-            roomName: title
+            roomName: title,
+
         })
+
     } catch (e) {
         console.log(e)
         result.status(500).json({
@@ -256,10 +248,13 @@ async function deleteRoom(request, result) {
 
 async function getRoom(request, result) {
     try {
+
         const token = request.get('token')
         const roomId = request.params.roomId;
+
         const user = await userController.getUser(token)
         const roomRes = await db.query(`SELECT * FROM rooms WHERE room_id = $1;`, [roomId])
+
         const room = roomRes.rows[0]
         const isAdmin = room.owner_id === user.id || room.user_id === user.id
         result.status(200).json({
@@ -269,6 +264,7 @@ async function getRoom(request, result) {
             firstAgreement: room.first_agreement,
             type: room.type,
             owner: room.owner,
+            contentId: room.content_id,
             secondAgreement: room.second_agreement,
             userId: room.user_id,
             roomName: room.name

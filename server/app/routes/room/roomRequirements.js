@@ -139,12 +139,14 @@ async function getRequiredRequirementCount(request, result) {
         const room = await roomController.getRoom(roomId)
 
         const isOwner = Number(room.owner_id) === Number(userId)
+        const isContentExists = room.content_id !== null
 
         result.status(200).json({
             success: true,
             count: requiredCount,
             fullCount: 3,
             isOwner: isOwner,
+            isContentExists: isContentExists,
             firstAgreement: room.first_agreement,
             secondAgreement: room.second_agreement
         })

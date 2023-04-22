@@ -1,24 +1,25 @@
-import {ChangeEventHandler, Dispatch} from "react";
+import {ChangeEventHandler} from "react";
 import {ReactComponent as CloseModal} from "../../../ui/assets/close_black_24dp.svg";
 import {buttonTheme} from "../../../themes/Themes";
 import {useRef} from "react";
 import ReactPlayer from "react-player";
-import {CreateContentState} from "./CreateContentState";
+import {Media} from "./CreateContentState";
 
 export interface UploadVideoProps {
     handleFileChange: ChangeEventHandler<HTMLInputElement>
     clearVideo: () => void
-    state: CreateContentState
+    media: Media | null
+    isTrailer: boolean
 }
 
-export function UploadVideoContentComponent({handleFileChange, state, clearVideo} : UploadVideoProps) {
+export function UploadVideoContentComponent({handleFileChange, media, clearVideo, isTrailer} : UploadVideoProps) {
     const inputRef = useRef<HTMLInputElement>(null);
-    return <div className="w-1/2">
-        <h1 className="text-2xl font-bold">Content upload</h1>
-        <p className="mt-4">Video</p>
+    return <div className={isTrailer ? ` mt-12 w-1/2` : ` mt-0 w-1/2`}>
+        {!isTrailer && <h1 className="text-2xl font-bold">Content upload</h1>}
+        <p className="mt-4">{isTrailer ? "Trailer (Optional)" : "Video"}</p>
         <div className="border-[#29303A] border-2 mt-2 w-[464px] h-[260px] rounded-xl justify-center items-center flex z-10">
             {
-                state.video === null && <div>
+                media === null && <div>
                     <input
                         ref={inputRef}
                         className="hidden"
@@ -34,7 +35,7 @@ export function UploadVideoContentComponent({handleFileChange, state, clearVideo
                 </div>
             }
             {
-                state.video !== null && <div className="relative w-full h-full rounded-xl flex justify-center overflow-hidden">
+                media !== null && <div className="relative w-full h-full rounded-xl flex justify-center overflow-hidden">
                     <div
                         onClick={() => clearVideo()}
                         className="absolute right-2 top-2 z-10">
@@ -45,7 +46,7 @@ export function UploadVideoContentComponent({handleFileChange, state, clearVideo
                         width='100%'
                         height='260px'
                         controls={true}
-                        url={state.video.url}/>
+                        url={media.url}/>
                 </div>
             }
         </div>

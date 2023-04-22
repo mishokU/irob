@@ -1,8 +1,10 @@
 const db = require("../db");
+const userController = require("./UserController");
 
 const ROOM_TABLE_NAME = "rooms"
 
 module.exports = {
+    createRoom,
     getRoom,
     getRooms,
     updateFirstAgreement,
@@ -10,6 +12,22 @@ module.exports = {
     isRoomAdmin,
     updateRoomWithUser,
     updateRoomWithoutUser
+}
+
+async function createRoom(roomId, title, userId, contentId, token) {
+    try {
+
+        const user = await userController.getUser(token)
+
+        await db.query(`
+            INSERT INTO rooms
+            (room_id, owner_id, name, first_agreement, second_agreement, user_id, content_id)
+            VALUES ('${roomId}', '${user.id}', '${title}', false, false, ${userId}, '${contentId}')
+        `)
+
+    } catch (e) {
+        console.log("Error in creating room: " + e.message)
+    }
 }
 
 async function getRooms() {
@@ -58,24 +76,18 @@ async function getRoom(roomId) {
     }
 }
 
-async function updateRoomWithUser(roomId, newName, type, owner, userId) {
+async function updateRoomWithUser(roomId, newName, userId) {
     try {
-        await db.query(`
-            UPDATE rooms SET name = $1, user_id = $3, type=$4, owner=$5
-            WHERE room_id= $2;`, [newName, roomId, Number(userId), type, owner]
-        )
+        await db.query(`UPDATE rooms SET name = $1, user_id = $3,WHERE room_id= $2;`, [newName, roomId, Number(userId)])
     } catch (e) {
-        console.log("Error in updating room: " + e.message)
+        console.log("Error in updating room with user: " + e.message)
     }
 }
 
-async function updateRoomWithoutUser(roomId, newName, type, owner) {
+async function updateRoomWithoutUser(roomId, newName) {
     try {
-        await db.query(`
-            UPDATE rooms SET name = $1, type=$3, owner=$4
-            WHERE room_id= $2;`, [newName, roomId, type, owner]
-        )
+        await db.query(`UPDATE rooms SET name=$1 WHERE room_id= $2;`, [newName, roomId])
     } catch (e) {
-        console.log("Error in updating room: " + e.message)
+        console.log("Error in updating room without user: " + e.message)
     }
 }

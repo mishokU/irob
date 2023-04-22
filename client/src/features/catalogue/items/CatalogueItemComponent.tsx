@@ -8,11 +8,12 @@ export interface CatalogueItemProps {
 export function CatalogueItemComponent({item}: CatalogueItemProps) {
     const useContext = useContentFullCardContext()
     return <div>
-        <div className="rounded-2xl border-sm border-2 border-gray-700 w-[16em] h-[10em] overflow-hidden"
+        <div className="rounded-xl border-sm border-2 border-gray-700 w-[16em] h-[10em] overflow-hidden"
              onClick={() => {
                  useContext?.setVisibility({
                      isVisible: true,
-                     contentId: item.contentId
+                     contentId: item.contentId,
+                     fromCatalogue: true
                  })
              }}>
             <img src={item.videoPreview} className="fill bg-black w-full h-full object-cover flex overflow-y-hidden"/>

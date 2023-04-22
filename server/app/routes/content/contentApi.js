@@ -1,7 +1,10 @@
 const {Router} = require("express");
 
 const contentController = require("../../controllers/ContentController")
+const userController = require("../../controllers/UserController");
+
 const Promise = require("bluebird");
+const {getUsername} = require("../../controllers/Utils");
 
 const contentRouter = new Router()
 
@@ -65,6 +68,41 @@ async function getPagingContent(request, result) {
 async function getContent(request, result) {
     try {
 
+        const contentId = request.query.contentId
+
+        const data = await contentController.getSingleContent(contentId)
+
+        const user = await userController.getUserById(data.user_id)
+
+        result.status(200).json({
+            success: true,
+            user: {
+                username: getUsername(user),
+                description: user.description,
+                avatar: user.avatar,
+                email: user.email,
+                userId: user.id
+            },
+            content: {
+                id: data.id,
+                name: data.name,
+                description: data.description,
+                actors: data.actors,
+                type: data.type,
+                category: data.category,
+                country: data.country,
+                owner: data.owner,
+                cost: data.cost,
+                startDate: data.start_distr,
+                endDate: data.end_distr,
+                date: data.date,
+                genres: data.genres,
+                trailerUrl: data.trailer_url,
+                year: data.year,
+                videoPreview: data.video_preview
+            }
+        })
+
     } catch (e) {
         const message = "Error in get content: " + e.message
         console.log(message)
@@ -117,10 +155,17 @@ async function createContent(request, result) {
             name,
             description,
             director,
+            duration,
             actors,
             owner,
             videoUrl,
             videoPreview,
+            trailerUrl,
+            cost,
+            startDate,
+            endDate,
+            genres,
+            year,
             country
         } = request.body
 
@@ -135,6 +180,13 @@ async function createContent(request, result) {
             videoUrl,
             videoPreview,
             country,
+            cost,
+            startDate,
+            endDate,
+            genres,
+            year,
+            duration,
+            trailerUrl,
             token
         )
 

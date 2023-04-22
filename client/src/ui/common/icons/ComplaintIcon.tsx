@@ -1,5 +1,5 @@
 export function ComplaintIcon() {
-    return <div className="hover:bg-gray-200 p-2 rounded">
+    return <div className="hover:bg-black p-2 rounded">
         <svg xmlns="http://www.w3.org/2000/svg"
              fill="none"
              viewBox="0 0 24 24"

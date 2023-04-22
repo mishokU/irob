@@ -25,7 +25,9 @@ export const ContentApi = createApi({
         }),
         getContent: builder.mutation<GetContentResponse, number>({
             query: (body) => ({
-                url: `/get`, method: `GET`
+                url: `/get`, method: `GET`, params: {
+                    contentId: body
+                }
             }),
             transformResponse: (response: GetContentResponse) => response,
             transformErrorResponse(meta: unknown, arg: unknown): string {

@@ -9,4 +9,10 @@ export interface CreateContentRequest {
     owner: string
     director: string
     videoUrl: string
+    startDate: string
+    trailerUrl: string | null
+    endDate: string
+    genres: string
+    year: string
+    cost : string
 }

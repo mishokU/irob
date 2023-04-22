@@ -29,10 +29,16 @@ export default function CreateRoomViewModel(errorState: (value: string) => void)
         return "" + fullLink.at(fullLink.length - 1);
     }
 
-    const createRoom = async () => {
+    const createRoom = async (contentId: number | null, userId: number | null) => {
         try {
+            console.log(contentId)
             const roomId = getRoomLink()
-            const payload = await createRoomMutation({roomId, title}).unwrap()
+            const payload = await createRoomMutation({
+                roomId: roomId,
+                title: title,
+                contentId: contentId,
+                userId: userId
+            }).unwrap()
             createRoomModalContext?.setVisibility(false)
             dispatch(updateRoomId(payload))
             navigate(IROBRoutes.rooms + "/" + payload, {state: {path: linkText}})

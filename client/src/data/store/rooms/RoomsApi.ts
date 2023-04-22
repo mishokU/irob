@@ -14,20 +14,21 @@ import {ServerUrl} from "../../../constants/Constants";
 export const RoomsApi = createApi({
     reducerPath: "irob/api/rooms", baseQuery: fetchBaseQuery({
         baseUrl: `${ServerUrl}/rooms`,
-        prepareHeaders: (headers, { getState }) => {
+        prepareHeaders: (headers, {getState}) => {
             headers.set('token', localStorage.getItem("jwtToken") || "")
             return headers
         },
     }), endpoints: (build) => ({
         createRoom: build.mutation<string, CreateRoomRequest>({
             query: (body) => ({
-                url: `/create`, method: `POST`, body,
+                url: `/create`, method: `POST`, body
             }),
             transformResponse: (response: CreateRoomResponse) => response.roomId,
             transformErrorResponse(meta: unknown, arg: unknown): string {
                 return "Error while creating room, try later.";
             },
-        }), getRoom: build.mutation<GetRoomResponse, string>({
+        }),
+        getRoom: build.mutation<GetRoomResponse, string>({
             query: (roomId) => ({
                 url: `/get/${roomId}`,
                 method: "GET",
@@ -37,7 +38,8 @@ export const RoomsApi = createApi({
             transformErrorResponse(meta: unknown, arg: unknown): string {
                 return "Error get room response";
             },
-        }), getRooms: build.mutation<RoomResponse[], void>({
+        }),
+        getRooms: build.mutation<RoomResponse[], void>({
             query: () => ({
                 url: `/getRooms`, method: "GET",
             }),
@@ -45,7 +47,8 @@ export const RoomsApi = createApi({
             transformErrorResponse(meta: unknown, arg: unknown): string {
                 return "Error get rooms response";
             },
-        }), deleteRoom: build.mutation<boolean, string>({
+        }),
+        deleteRoom: build.mutation<boolean, string>({
             query: (roomId) => ({
                 url: "/delete", method: `DELETE`, params: {roomId: roomId},
             }),
@@ -53,7 +56,8 @@ export const RoomsApi = createApi({
             transformErrorResponse(baseQueryReturnValue: unknown, meta: unknown, arg: unknown): boolean {
                 return false;
             },
-        }), updateRoom: build.mutation<UpdateRoomResult, UpdateRoomRequest>({
+        }),
+        updateRoom: build.mutation<UpdateRoomResult, UpdateRoomRequest>({
             query: (body) => ({
                 url: "/update", method: `POST`, body
             }),
@@ -61,7 +65,8 @@ export const RoomsApi = createApi({
             transformErrorResponse(baseQueryReturnValue: unknown, meta: unknown, arg: unknown): string {
                 return "Error while updating room";
             }
-        }), handleAgreement: build.mutation<MakeDealResponse, HandleAgreementRequest>({
+        }),
+        handleAgreement: build.mutation<MakeDealResponse, HandleAgreementRequest>({
             query: (body) => ({
                 url: "/agreement", method: `POST`, body
             }),

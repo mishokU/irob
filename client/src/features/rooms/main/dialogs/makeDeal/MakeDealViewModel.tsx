@@ -15,6 +15,7 @@ export default function MakeDealViewModel() {
 
     const [applyRequirementsCount, setApplyRequirementCount] = useState(0)
     const [fullApplyRequirementsCount, setFullApplyRequirementsCount] = useState(0)
+    const [isContentExist, setIsContentExists] = useState(false)
 
     const dispatch = useDispatch();
 
@@ -31,12 +32,14 @@ export default function MakeDealViewModel() {
             .then((data: any) => {
                 setApplyRequirementCount(data.count)
                 setFullApplyRequirementsCount(data.fullCount)
+                setIsContentExists(data.isContentExists)
                 dispatch(updateFirstAgreement(data.firstAgreement))
                 dispatch(updateSecondAgreement(data.secondAgreement))
             })
     }, [])
 
     return {
+        isContentExist,
         applyRequirementsCount,
         fullApplyRequirementsCount
     }

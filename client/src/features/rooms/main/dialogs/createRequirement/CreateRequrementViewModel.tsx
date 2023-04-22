@@ -18,7 +18,7 @@ export default function CreateRequirementViewModel(isVisibleState: RequirementSt
 
     const [contentType, setType] = useState(contentTypes[0])
     const [title, setTitle] = useState("")
-    const [value, setValue] = useState(0)
+    const [value, setValue] = useState("")
     const [description, setDescription] = useState("")
     const [customType, setCustomType] = useState("")
     const [requirementId, setRequirementId] = useState(null)

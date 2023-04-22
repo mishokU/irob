@@ -9,6 +9,8 @@ import {IROBRoutes} from "../../../../routes/IROBRoutes";
 import {isLogged} from "../../../../domain/checkers/Checkers";
 import {useRemoveUserMutation} from "../../../../data/store/rooms/RoomUsersApi";
 import {RequirementState} from "./RequirementState";
+import {useContentFullCardContext} from "../../../main/contexts/ContentFullCardProvider";
+import {useModalsContext} from "../../../main/contexts/ModalsProvider";
 
 export const WS_URL = process.env.WS_URL || 'ws://localhost:8080';
 
@@ -86,6 +88,21 @@ export default function RoomViewModel() {
         navigate(-1)
     }
 
+    const useCreateContent = useModalsContext()
+    const useFullCard = useContentFullCardContext()
+
+    const onShowCardClick = async () => {
+        if (roomReducer.contentId) {
+            useFullCard?.setVisibility({
+                isVisible: true,
+                contentId: roomReducer.contentId,
+                fromCatalogue: false
+            })
+        } else {
+            useCreateContent?.setVisibility(true)
+        }
+    }
+
     function removeUserFromRoom() {
         leaveUserMutation(roomReducer.roomId)
     }
@@ -101,6 +118,7 @@ export default function RoomViewModel() {
         isMakeDealDialogVisible,
         setIsMakeDealDialogVisible,
         isRequirementVisible,
+        onShowCardClick,
         setIsRequirementVisible,
         onBackClick
     }

@@ -8,7 +8,6 @@ export interface FormPageProps {
     onNameChange: (value: string) => void
     onCountryChange: (value: string) => void
     onDescriptionChange: (value: string) => void
-    onActorsChange: (value: string) => void
     onContentTypeChange: (value: string) => void
     onDirectorChange: (value: string) => void
 }
@@ -17,14 +16,13 @@ export function FormPage({
      state,
      onNameChange,
      onCountryChange,
-     onActorsChange,
      onDescriptionChange,
      onContentTypeChange,
      onDirectorChange
 }: FormPageProps) {
     return <div className="w-1/2">
         <h1 className="text-2xl font-bold">Filling out the form</h1>
-        <div>
+        <div className="relative">
             <p className="mt-4">Content Type</p>
             <ContentTypeDropDown onContentTypeChange={onContentTypeChange}/>
         </div>
@@ -57,10 +55,6 @@ export function FormPage({
                     }}
                     className={inputStyle}/>
             </div>
-            {/*<div>*/}
-            {/*    <p className="mt-4">Actors</p>*/}
-            {/*    <input className={inputStyle}/>*/}
-            {/*</div>*/}
             <div>
                 <p className="mt-4">Country</p>
                 <input

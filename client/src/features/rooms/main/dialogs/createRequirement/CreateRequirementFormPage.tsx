@@ -72,10 +72,10 @@ export function CreateRequirementFormPage({isVisibleState, setIsVisibleState}: C
                         maxLength={maxValueLength}
                         value={value}
                         placeholder="0"
+                        type="text"
                         readOnly={!!roomReducer.isFinished}
-                        pattern="[0-9]*"
                         onChange={(valueField) => {
-                            setValue((value) => valueField.target.validity.valid ? Number(valueField.target.value) : value)
+                            setValue(valueField.target.value)
                         }}
                         className={inputStyle}/>
                 </div>

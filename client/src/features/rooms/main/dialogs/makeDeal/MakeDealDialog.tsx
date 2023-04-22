@@ -7,7 +7,7 @@ import {LeftButtonComponent} from "./leftButton/LeftButtonComponent";
 import {RightButtonComponent} from "./rightButton/RightButtonComponent";
 
 export function MakeDealDialog({isVisible, setIsVisible}: MakeDealDialogProps) {
-    const {applyRequirementsCount, fullApplyRequirementsCount} = useViewModel()
+    const {applyRequirementsCount, fullApplyRequirementsCount, isContentExist} = useViewModel()
     return <div>
         <Transition appear show={isVisible} as={Fragment}>
             <Dialog as="div" className="relative z-10" onClose={() => setIsVisible(false)}>
@@ -55,6 +55,11 @@ export function MakeDealDialog({isVisible, setIsVisible}: MakeDealDialogProps) {
                                         applyRequirementsCount < fullApplyRequirementsCount && <div>
                                             <p className="text-red-600">You must get all of the required requirements such
                                                 as: Cost, Hold deposit, Duration</p>
+                                        </div>
+                                    }
+                                    {
+                                        isContentExist && <div>
+                                            <p className="text-red-600">There is no content to deal! Create it</p>
                                         </div>
                                     }
                                     {

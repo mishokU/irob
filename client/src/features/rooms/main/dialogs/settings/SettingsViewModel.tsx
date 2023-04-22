@@ -21,8 +21,6 @@ export default function SettingsViewModel({setIsVisible}: SettingsProps) {
     const dispatch = useDispatch()
 
     const [title, setTitle] = useState<string>(roomReducer.roomName)
-    const [type, setType] = useState<string>(roomReducer.type)
-    const [owner, setOwner] = useState<string>(roomReducer.owner)
     const [search, setSearch] = useState<string>("")
     const [users, setUsers] = useState<UserSettingsModel[]>([])
     const [isDropdownVisible, setDropdown] = useState<boolean>(false)
@@ -39,8 +37,6 @@ export default function SettingsViewModel({setIsVisible}: SettingsProps) {
                 roomId: roomReducer.roomId,
                 name: title,
                 userId: userId,
-                owner: owner,
-                type: type,
                 ownerId: profileReducer.profileId
             }).unwrap()
             dispatch(updateRoomName(payload))
@@ -100,11 +96,7 @@ export default function SettingsViewModel({setIsVisible}: SettingsProps) {
         isDropdownVisible,
         users,
         onUserClick,
-        type,
-        setType,
         isSearchVisible,
-        owner,
-        setOwner
     }
 
 }
