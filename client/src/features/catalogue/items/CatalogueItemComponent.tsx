@@ -1,20 +1,17 @@
 import {CatalogueUi} from "./CatalogueUi";
-import {useContentFullCardContext} from "../../main/contexts/ContentFullCardProvider";
+import {useNavigate} from "react-router-dom";
+import {IROBRoutes} from "../../../routes/IROBRoutes";
 
 export interface CatalogueItemProps {
     item: CatalogueUi
 }
 
 export function CatalogueItemComponent({item}: CatalogueItemProps) {
-    const useContext = useContentFullCardContext()
+    const navigate = useNavigate()
     return <div>
         <div className="rounded-xl border-sm border-2 border-gray-700 w-[16em] h-[10em] overflow-hidden"
              onClick={() => {
-                 useContext?.setVisibility({
-                     isVisible: true,
-                     contentId: item.contentId,
-                     fromCatalogue: true
-                 })
+                 navigate(IROBRoutes.card, {state: {contentId: item.contentId, fromCatalogue: true}})
              }}>
             <img src={item.videoPreview} className="fill bg-black w-full h-full object-cover flex overflow-y-hidden"/>
         </div>

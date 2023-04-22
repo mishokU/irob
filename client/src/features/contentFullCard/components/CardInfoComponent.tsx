@@ -1,4 +1,3 @@
-import {Dialog} from "@headlessui/react";
 import {BookmarkOutFilledIcon} from "../../../ui/common/icons/BookmarkOutFilledIcon";
 import {ComplaintIcon} from "../../../ui/common/icons/ComplaintIcon";
 import {buttonTheme} from "../../../themes/Themes";
@@ -6,28 +5,23 @@ import {initContentProps, useContentFullCardContext} from "../../main/contexts/C
 import {StateProps} from "../modal/ContentFullCardComponent";
 
 export function CardInfoComponent({state}: StateProps) {
-    const useContext = useContentFullCardContext()
     return <div className="text-white">
         <div className="flex justify-between">
             <div className="flex space-x-4">
-                <Dialog.Title className="text-3xl font-bold">{state.content.name}</Dialog.Title>
+                <div className="text-3xl font-bold">{state.content.name}</div>
                 <BookmarkOutFilledIcon/>
                 <ComplaintIcon/>
             </div>
-            <div className="hover:bg-black hover:rounded-full p-2" onClick={() => {
-                useContext?.setVisibility(initContentProps())
-            }}>
-                <svg xmlns="http://www.w3.org/2000/svg"
-                     fill="none"
-                     viewBox="0 0 24 24"
-                     strokeWidth="1.5"
-                     stroke="currentColor"
-                     className="w-6 h-6">
-                    <path strokeLinecap="round"
-                          strokeLinejoin="round"
-                          d="M6 18L18 6M6 6l12 12"/>
-                </svg>
-            </div>
+            <svg xmlns="http://www.w3.org/2000/svg"
+                 fill="none"
+                 viewBox="0 0 24 24"
+                 strokeWidth="1.5"
+                 stroke="currentColor"
+                 className="w-6 h-6">
+                <path strokeLinecap="round"
+                      strokeLinejoin="round"
+                      d="M6 18L18 6M6 6l12 12"/>
+            </svg>
         </div>
         <div className="flex">
             <div className="flex">

@@ -226,7 +226,7 @@ async function createRoom(request, result) {
         await roomController.createRoom(roomId, title, userId, contentId, token)
 
         if(contentId){
-            await contentController.createStartRequirements(contentId)
+            await contentController.createStartRequirements(roomId, contentId, token)
         }
 
         result.status(200).json({

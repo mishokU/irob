@@ -31,7 +31,8 @@ export const RoomPaymentApi = createApi({
             transformErrorResponse(meta: unknown, arg: unknown): string {
                 return "Error while getRoomRequirementsCost, try later."
             }
-        }), createLicense: builder.mutation<CreateLicenseResult, CreateLicenseRequest>({
+        }),
+        createLicense: builder.mutation<CreateLicenseResult, CreateLicenseRequest>({
             query: (body) => ({
                 url: `/create`, method: `POST`, body
             }),
@@ -39,7 +40,8 @@ export const RoomPaymentApi = createApi({
             transformErrorResponse(meta: unknown, arg: unknown): string {
                 return "Error while getRoomRequirementsCost, try later."
             }
-        }), getRoomResult: builder.mutation<GetRoomResult, string>({
+        }),
+        getRoomResult: builder.mutation<GetRoomResult, string>({
             query: (roomId) => ({
                 url: `/result`, method: `GET`, params: {
                     roomId: roomId
@@ -49,7 +51,8 @@ export const RoomPaymentApi = createApi({
             transformErrorResponse(meta: unknown, arg: unknown): string {
                 return "Error while getRoomRequirementsCost, try later."
             }
-        }), getContractData: builder.mutation<GetContractDataResult, GetContractDataRequest>({
+        }),
+        getContractData: builder.mutation<GetContractDataResult, GetContractDataRequest>({
             query: (body) => ({
                 url: `/contractData`, method: `GET`, params: {
                     roomId: body.roomId, ownerId: body.ownerId, userId: body.userId

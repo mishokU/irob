@@ -361,7 +361,7 @@ CREATE TABLE public.room_requirements (
     title text,
     description text,
     type text,
-    value integer,
+    value numeric,
     is_alive boolean,
     license_id integer,
     current_value integer DEFAULT 0
@@ -478,6 +478,10 @@ ALTER TABLE public.users ALTER COLUMN id ADD GENERATED ALWAYS AS IDENTITY (
 COPY public.content (id, name, description, owner, type, director, country, actors, video_url, category, date, user_id, video_preview, cost, start_distr, end_distr, genres, year, trailer_url, duration) FROM stdin;
 12	John Wick	With the untimely death of his beloved wife still bitter in his mouth, John Wick, the expert former assassin, receives one final gift from her a precious keepsake to help John find a new meaning in life now that she is gone. But when the arrogant Russian mob prince, Iosef Tarasov, and his men pay Wick a rather unwelcome visit to rob him of his prized 1969 Mustang and his wifes present, the...	Summit Entertainment	Film	David Leitch, Chad Stahelski	China, United States	Michael Nyqvist, Keanu Reeves, Alfie Allen	https://firebasestorage.googleapis.com/v0/b/irob-d735a.appspot.com/o/videos%2F%D0%B8%D0%B7%20%D0%BF%D0%BE%D0%BA%D1%83%D0%BF%D0%BA%D0%B8%20%D0%BF%D0%BE%D0%B4%D0%BF%D0%B8%D1%81%D0%BA%D0%B8%20%D0%B2%20%D0%BD%D0%B0%D1%81%D1%82%D1%80%D0%BE%D0%B8%CC%86%D0%BA%D0%B0%D1%85.mp4?alt=media&token=b56086b8-a224-40e0-b1ea-eb42cafebbe0		2023-04-21	1	https://firebasestorage.googleapis.com/v0/b/irob-d735a.appspot.com/o/videoPreviews%2F%D0%B8%D0%B7%20%D0%BF%D0%BE%D0%BA%D1%83%D0%BF%D0%BA%D0%B8%20%D0%BF%D0%BE%D0%B4%D0%BF%D0%B8%D1%81%D0%BA%D0%B8%20%D0%B2%20%D0%BD%D0%B0%D1%81%D1%82%D1%80%D0%BE%D0%B8%CC%86%D0%BA%D0%B0%D1%85.mp4?alt=media&token=98b64079-34b4-49a5-a0d3-8ade7fd24c45	0.004	03.12.1999	03.12.1999	Action, Crime, Thriller / Suspense	2014	https://firebasestorage.googleapis.com/v0/b/irob-d735a.appspot.com/o/videoTrailers%2F%D0%B8%D0%B7%20%D1%83%D1%87%D0%B5%D1%82%D0%BD%D0%BE%D0%B8%CC%86%20%D0%B7%D0%B0%D0%BF%D0%B8%D0%BC%D0%B8.mp4?alt=media&token=a90fcabf-8d26-48d8-960a-69bf44eacbaf	undefined
 13	John Wick	With the untimely death of his beloved wife still bitter in his mouth, John Wick, the expert former assassin, receives one final gift from her a precious keepsake to help John find a new meaning in life now that she is gone. But when the arrogant Russian mob prince, Iosef Tarasov, and his men pay Wick a rather unwelcome visit to rob him of his prized 1969 Mustang and his wifes present, the...	Summit Entertainment	Film	David Leitch, Chad Stahelski	China, United States	Michael Nyqvist, Keanu Reeves, Alfie Allen	https://firebasestorage.googleapis.com/v0/b/irob-d735a.appspot.com/o/videos%2F%D0%B8%D0%B7%20%D0%BF%D0%BE%D0%BA%D1%83%D0%BF%D0%BA%D0%B8%20%D0%BF%D0%BE%D0%B4%D0%BF%D0%B8%D1%81%D0%BA%D0%B8%20%D0%B2%20%D0%BD%D0%B0%D1%81%D1%82%D1%80%D0%BE%D0%B8%CC%86%D0%BA%D0%B0%D1%85.mp4?alt=media&token=dc3983ab-fae7-4bcb-b64a-9ceb03a0a4fe		2023-04-21	3	https://firebasestorage.googleapis.com/v0/b/irob-d735a.appspot.com/o/videoPreviews%2F%D0%B8%D0%B7%20%D0%BF%D0%BE%D0%BA%D1%83%D0%BF%D0%BA%D0%B8%20%D0%BF%D0%BE%D0%B4%D0%BF%D0%B8%D1%81%D0%BA%D0%B8%20%D0%B2%20%D0%BD%D0%B0%D1%81%D1%82%D1%80%D0%BE%D0%B8%CC%86%D0%BA%D0%B0%D1%85.mp4?alt=media&token=eddef169-63d5-4cd1-9d9a-b0118d9f9d97	0.004	03.12.1999	03.12.1999	Action, Crime, Thriller / Suspense	2014	null	undefined
+14	John Wick	With the untimely death of his beloved wife still bitter in his mouth, John Wick, the expert former assassin, receives one final gift from her a precious keepsake to help John find a new meaning in life now that she is gone. But when the arrogant Russian mob prince, Iosef Tarasov, and his men pay Wick a rather unwelcome visit to rob him of his prized 1969 Mustang and his wifes present, the...	Summit Entertainment	Film	David Leitch, Chad Stahelski	China, United States	Michael Nyqvist, Keanu Reeves, Alfie Allen	https://firebasestorage.googleapis.com/v0/b/irob-d735a.appspot.com/o/videos%2F%D0%B8%D0%B7%20%D1%83%D1%87%D0%B5%D1%82%D0%BD%D0%BE%D0%B8%CC%86%20%D0%B7%D0%B0%D0%BF%D0%B8%D0%BC%D0%B8.mp4?alt=media&token=b3306d5c-472a-4de8-9961-0ffa407b0931		2023-04-22	1	https://firebasestorage.googleapis.com/v0/b/irob-d735a.appspot.com/o/videoPreviews%2F%D0%B8%D0%B7%20%D1%83%D1%87%D0%B5%D1%82%D0%BD%D0%BE%D0%B8%CC%86%20%D0%B7%D0%B0%D0%BF%D0%B8%D0%BC%D0%B8.mp4?alt=media&token=24de89c4-7884-464d-957f-cdeb4e76b513	0.004	03.12.1999	03.12.1999	Action, Crime, Thriller / Suspense	2014	null	undefined
+15	John Wick	With the untimely death of his beloved wife still bitter in his mouth, John Wick, the expert former assassin, receives one final gift from her a precious keepsake to help John find a new meaning in life now that she is gone. But when the arrogant Russian mob prince, Iosef Tarasov, and his men pay Wick a rather unwelcome visit to rob him of his prized 1969 Mustang and his wifes present, the...	Summit Entertainment	Film	David Leitch, Chad Stahelski	China, United States	Michael Nyqvist, Keanu Reeves, Alfie Allen	https://firebasestorage.googleapis.com/v0/b/irob-d735a.appspot.com/o/videos%2F%D0%B8%D0%B7%20%D1%83%D1%87%D0%B5%D1%82%D0%BD%D0%BE%D0%B8%CC%86%20%D0%B7%D0%B0%D0%BF%D0%B8%D0%BC%D0%B8.mp4?alt=media&token=acfe54fa-eb46-4e24-9a6d-0965957e1e89		2023-04-22	1	https://firebasestorage.googleapis.com/v0/b/irob-d735a.appspot.com/o/videoPreviews%2F%D0%B8%D0%B7%20%D1%83%D1%87%D0%B5%D1%82%D0%BD%D0%BE%D0%B8%CC%86%20%D0%B7%D0%B0%D0%BF%D0%B8%D0%BC%D0%B8.mp4?alt=media&token=391e7c00-f35d-40f7-b45a-bf981b9d9e53	0.004	03.12.1999	03.12.1999	Action, Crime, Thriller / Suspense	2014	null	undefined
+16	John Wick	With the untimely death of his beloved wife still bitter in his mouth, John Wick, the expert former assassin, receives one final gift from her a precious keepsake to help John find a new meaning in life now that she is gone. But when the arrogant Russian mob prince, Iosef Tarasov, and his men pay Wick a rather unwelcome visit to rob him of his prized 1969 Mustang and his wifes present, the...	Summit Entertainment	Film	David Leitch, Chad Stahelski	China, United States	Michael Nyqvist, Keanu Reeves, Alfie Allen	https://firebasestorage.googleapis.com/v0/b/irob-d735a.appspot.com/o/videos%2F%D0%B8%D0%B7%20%D1%83%D1%87%D0%B5%D1%82%D0%BD%D0%BE%D0%B8%CC%86%20%D0%B7%D0%B0%D0%BF%D0%B8%D0%BC%D0%B8.mp4?alt=media&token=22218429-f004-4ae5-b815-dd1bf98e0a84		2023-04-22	1	https://firebasestorage.googleapis.com/v0/b/irob-d735a.appspot.com/o/videoPreviews%2F%D0%B8%D0%B7%20%D1%83%D1%87%D0%B5%D1%82%D0%BD%D0%BE%D0%B8%CC%86%20%D0%B7%D0%B0%D0%BF%D0%B8%D0%BC%D0%B8.mp4?alt=media&token=51c17ac6-4788-42d6-82b2-6b45f10974d7	0.004	03.12.1999	03.12.1999	Action, Crime, Thriller / Suspense	2014	null	undefined
+17	John Wick	With the untimely death of his beloved wife still bitter in his mouth, John Wick, the expert former assassin, receives one final gift from her a precious keepsake to help John find a new meaning in life now that she is gone. But when the arrogant Russian mob prince, Iosef Tarasov, and his men pay Wick a rather unwelcome visit to rob him of his prized 1969 Mustang and his wifes present, the...	Summit Entertainment	Film	David Leitch, Chad Stahelski	China, United States	Michael Nyqvist, Keanu Reeves, Alfie Allen	https://firebasestorage.googleapis.com/v0/b/irob-d735a.appspot.com/o/videos%2F%D0%B8%D0%B7%20%D0%BF%D0%BE%D0%BA%D1%83%D0%BF%D0%BA%D0%B8%20%D0%BF%D0%BE%D0%B4%D0%BF%D0%B8%D1%81%D0%BA%D0%B8%20%D0%B2%20%D0%BD%D0%B0%D1%81%D1%82%D1%80%D0%BE%D0%B8%CC%86%D0%BA%D0%B0%D1%85.mp4?alt=media&token=ed1836bf-1a65-41bb-a782-730e8f786d43		2023-04-22	1	https://firebasestorage.googleapis.com/v0/b/irob-d735a.appspot.com/o/videoPreviews%2F%D0%B8%D0%B7%20%D0%BF%D0%BE%D0%BA%D1%83%D0%BF%D0%BA%D0%B8%20%D0%BF%D0%BE%D0%B4%D0%BF%D0%B8%D1%81%D0%BA%D0%B8%20%D0%B2%20%D0%BD%D0%B0%D1%81%D1%82%D1%80%D0%BE%D0%B8%CC%86%D0%BA%D0%B0%D1%85.mp4?alt=media&token=13d9bbc1-297a-4979-bb3b-28f0fa27d25e	0.004	03.12.1999	03.12.1999	Action, Crime, Thriller / Suspense	2014	null	undefined
 \.
 
 
@@ -486,6 +490,7 @@ COPY public.content (id, name, description, owner, type, director, country, acto
 --
 
 COPY public.licenses (id, uid, status, date, is_favourite, user_id, address, room_id) FROM stdin;
+30	f45ba06a-28bf-4e0f-9a27-158ea6cdbfd1	running	2023-04-22	f	1	0x87AaFD6DD5F6c4bA54e5a6C9a997a9EDC6CA10c3	jnhzn
 \.
 
 
@@ -502,6 +507,12 @@ COPY public.notifications (id, type, user_id, message, date, room_id, is_watched
 67	requirement_accepted	1	Your requirement was accepted in room: sxm8x	2023-04-13	sxm8x	f
 68	requirement_accepted	1	Your requirement was accepted in room: sxm8x	2023-04-13	sxm8x	f
 69	requirement_accepted	1	Your requirement was accepted in room: sxm8x	2023-04-13	sxm8x	f
+70	admin_added	3	Congratulations, now you are the second admin in room: 25v5n, make a deal!	2023-04-22	25v5n	f
+71	admin_added	3	Congratulations, now you are the second admin in room: 25v5n, make a deal!	2023-04-22	25v5n	f
+72	admin_added	3	Congratulations, now you are the second admin in room: 25v5n, make a deal!	2023-04-22	25v5n	f
+73	requirement_accepted	1	Your requirement was accepted in room: jnhzn	2023-04-22	jnhzn	f
+74	requirement_accepted	1	Your requirement was accepted in room: jnhzn	2023-04-22	jnhzn	f
+75	requirement_accepted	1	Your requirement was accepted in room: jnhzn	2023-04-22	jnhzn	f
 \.
 
 
@@ -516,12 +527,7 @@ COPY public.room_messages (id, date, content, user_id, room_id, type) FROM stdin
 25	2023-04-09 3:54:06	efwfe	1	fiecb	0
 26	2023-04-09 3:54:08	wfwfwefwefwfwfwefwefwefwe	1	fiecb	0
 27	2023-04-09 3:54:55	ацацуацуацуаццуцуа	2	fiecb	0
-43	2023-04-12 1:41:12	ffwefwweewewew	1	ww4ghf	0
-44	2023-04-12 1:42:02	frfefer	1	ww4ghf	0
-45	2023-04-12 1:42:58	акаукауккау	2	ww4ghf	0
-46	2023-04-12 1:55:21	rgregerger	1	sxm8x	0
-47	2023-04-13 0:32:14	fewfwfweffwe	1	sxm8x	0
-48	2023-04-13 0:32:15	fwefjwofjw	1	sxm8x	0
+49	2023-04-22 2:57:18	gegerge	3	jnhzn	0
 \.
 
 
@@ -530,9 +536,9 @@ COPY public.room_messages (id, date, content, user_id, room_id, type) FROM stdin
 --
 
 COPY public.room_requirements (id, room_id, user_id, title, description, type, value, is_alive, license_id, current_value) FROM stdin;
-60	sxm8x	1	Время	ацацацацу	Duration	30	f	29	0
-61	sxm8x	1	Депозит		Hold deposit	2	f	29	0
-62	sxm8x	1	Цена	пупкупкупкупук	Cost	3	f	29	0
+63	jnhzn	1	ewfwe	fwefew	Duration	30	f	30	0
+64	jnhzn	1	fwffefw	fefwfwe	Hold deposit	2	f	30	0
+65	jnhzn	1	fwfefwe	fewfefefw	Cost	2	f	30	0
 39	fiecb	1	wfwfwe	fwfwf	Duration days	30	f	18	0
 40	fiecb	1	fwfw	ewfwefew	Hold deposit	2	f	18	0
 41	fiecb	1	fwefw	vweefwefwe	Views count	1000	f	18	0
@@ -541,9 +547,6 @@ COPY public.room_requirements (id, room_id, user_id, title, description, type, v
 36	s4sl3	1	ergergre	gergeregrr	Hold deposit	2	f	19	0
 37	s4sl3	1	gergre	bbbberere	Views count	3000	f	19	0
 38	s4sl3	1	gergre	errgerger	Cost	2	f	19	0
-57	ww4ghf	1	eddedw	wedewdwe	Duration	30	f	28	0
-58	ww4ghf	1	eweefw	ewfw	Hold deposit	3	f	28	0
-59	ww4ghf	1	dwedwe		Cost	2	f	28	0
 \.
 
 
@@ -556,6 +559,7 @@ COPY public.room_result (id, room_id, requirements, gas, deposit, user_id, cost)
 27	n903hj	0.001	0.021	3	1	3
 28	ww4ghf	0.001	0.020	3	1	2
 29	sxm8x	0.001	0.026	2	1	3
+30	jnhzn	0.001	0.033	2	1	2
 \.
 
 
@@ -607,6 +611,33 @@ COPY public.room_users (id, user_id, room_id) FROM stdin;
 41	1	93row
 42	1	ipabmh
 43	1	vgnpa
+44	1	n8gc6
+45	1	x3oyvh
+46	1	ncfkbh
+47	3	ncfkbh
+48	1	0my76
+49	1	ltlpu
+50	1	oqz8al
+51	3	oqz8al
+52	1	bms2p
+53	1	48r25
+54	3	48r25
+55	3	7cx8d
+56	1	4etxn
+57	1	g2k55
+58	1	jvb48
+59	1	gwsmek
+60	1	tudfsk
+61	1	wwd3b
+62	1	ej8ou
+63	1	25v5n
+64	3	25v5n
+65	3	bms2p
+66	1	7dp3f
+67	1	jnhzn
+68	3	jnhzn
+69	1	ok2wyh
+70	1	y934x
 \.
 
 
@@ -615,9 +646,9 @@ COPY public.room_users (id, user_id, room_id) FROM stdin;
 --
 
 COPY public.rooms (room_id, owner_id, name, first_agreement, second_agreement, user_id, content_id) FROM stdin;
-ww4ghf	1	fwefwe	t	t	2	\N
-sxm8x	1	efwew	t	t	2	\N
-sulfr	1	ffefw	f	f	\N	\N
+jnhzn	1	test 	t	t	3	13
+ok2wyh	1		f	f	3	13
+y934x	1		f	f	3	13
 \.
 
 
@@ -626,9 +657,9 @@ sulfr	1	ffefw	f	f	\N	\N
 --
 
 COPY public.users (id, name, surname, avatar, description, website, nickname, password, email, token, location, language, followers, account, disabled) FROM stdin;
-3							$2a$10$B8rAD1CzIpqZGii4jtBEi.Dzj2Ed0QRV.uSXIkZcC8apluDV1IcNy	ru@mail.ru	eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InJ1QG1haWwucnUiLCJpYXQiOjE2ODIxMDg0MzN9.HRfUE4TdewIp8dyr5QcvVUS2R9MTtpjBvLWb2xDihMY			0	\N	f
+3	Alex 	Usov	https://firebasestorage.googleapis.com/v0/b/irob-d735a.appspot.com/o/images%2F%D0%A1%D0%BD%D0%B8%D0%BC%D0%BE%D0%BA%20%D1%8D%D0%BA%D1%80%D0%B0%D0%BD%D0%B0%202023-04-09%20%D0%B2%2017.42.23.png?alt=media&token=12eb0b0b-62af-47d0-bf4b-297ec667d168				$2a$10$B8rAD1CzIpqZGii4jtBEi.Dzj2Ed0QRV.uSXIkZcC8apluDV1IcNy	ru@mail.ru	eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InJ1QG1haWwucnUiLCJpYXQiOjE2ODIxNjkxNTV9.p6tJV_xM9NODcjUH6SA5peS1hXgwahUawCTkYI6-yHY	\N	\N	0	0xd5cC383881D6d9A7dc1891A0235E11D03Cb992d3	f
 2	Алексей	У	\N				$2a$10$2S7n7x5u0EhX1xEUmLX2iuK/IXw2vyGDnG.j4L0igSnzGhoIg9Tgu	e@mail.ru	eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImVAbWFpbC5ydSIsImlhdCI6MTY4MTE2MTQ1Nn0._n2OK6ThQazJkg8yqqLIvGd906og1XHZboNyaj24IH8			0	0xd5cC383881D6d9A7dc1891A0235E11D03Cb992d3	f
-1	Misha	Uso	https://firebasestorage.googleapis.com/v0/b/irob-d735a.appspot.com/o/images%2F2023-02-01%2012.34.13.jpg?alt=media&token=fa495542-0bc8-4feb-9365-dac7fe3e5434	With the untimely death of his beloved wife still bitter in his mouth, John Wick, the expert former assassin, receives one final gift from her a precious keepsake to help John find a new meaning in life now that she is gone. But when the arrogant Russian mob prince, Iosef Tarasov, an	ewfwefwe		$2a$10$PXyx/J3c2YL8OV2z5P.mFuQ7HeYxA2pb0X0c42vWnxTd7LofnLECi	usov.misha@gmail.com	eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InVzb3YubWlzaGFAZ21haWwuY29tIiwiaWF0IjoxNjgyMTEwMDkwfQ._y6YtTuBK-FTzrKcQlGBO3_b0KW4GIlvJMmzi7RIgz8	\N	\N	0	0xa508dD875f10C33C52a8abb20E16fc68E981F186	f
+1	Misha	Usov	https://firebasestorage.googleapis.com/v0/b/irob-d735a.appspot.com/o/images%2F2023-02-01%2012.34.13.jpg?alt=media&token=fa495542-0bc8-4feb-9365-dac7fe3e5434	With the untimely death of his beloved wife still bitter in his mouth, John Wick, the expert former assassin, receives one final gift from her a precious keepsake to help John find a new meaning in life now that she is gone. But when the arrogant Russian mob prince, Iosef Tarasov, an	ewfwefwe		$2a$10$PXyx/J3c2YL8OV2z5P.mFuQ7HeYxA2pb0X0c42vWnxTd7LofnLECi	usov.misha@gmail.com	eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InVzb3YubWlzaGFAZ21haWwuY29tIiwiaWF0IjoxNjgyMTEwMDkwfQ._y6YtTuBK-FTzrKcQlGBO3_b0KW4GIlvJMmzi7RIgz8	\N	\N	0	0xa508dD875f10C33C52a8abb20E16fc68E981F186	f
 \.
 
 
@@ -636,49 +667,49 @@ COPY public.users (id, name, surname, avatar, description, website, nickname, pa
 -- Name: content_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.content_id_seq', 13, true);
+SELECT pg_catalog.setval('public.content_id_seq', 17, true);
 
 
 --
 -- Name: licenses_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.licenses_id_seq', 29, true);
+SELECT pg_catalog.setval('public.licenses_id_seq', 30, true);
 
 
 --
 -- Name: notifications_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.notifications_id_seq', 69, true);
+SELECT pg_catalog.setval('public.notifications_id_seq', 75, true);
 
 
 --
 -- Name: roomUsers_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public."roomUsers_id_seq"', 43, true);
+SELECT pg_catalog.setval('public."roomUsers_id_seq"', 70, true);
 
 
 --
 -- Name: room_messages_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.room_messages_id_seq', 48, true);
+SELECT pg_catalog.setval('public.room_messages_id_seq', 49, true);
 
 
 --
 -- Name: room_requirements_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.room_requirements_id_seq', 62, true);
+SELECT pg_catalog.setval('public.room_requirements_id_seq', 65, true);
 
 
 --
 -- Name: room_result_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.room_result_id_seq', 29, true);
+SELECT pg_catalog.setval('public.room_result_id_seq', 30, true);
 
 
 --

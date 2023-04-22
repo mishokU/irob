@@ -8,12 +8,12 @@ import {updateRoomId} from "../../../data/slices/RoomSlice";
 
 export default function RoomsProfileViewModel() {
 
-    const [rooms, setRooms] = useState<RoomResponse[]>([]);
+    const [rooms, setRooms] = useState<RoomResponse[]>([])
 
     const [getRoomsMutation] = useGetRoomsMutation()
 
     const navigate = useNavigate()
-    const dispatch = useDispatch();
+    const dispatch = useDispatch()
 
     useEffect(() => {
         async function fetchData() {

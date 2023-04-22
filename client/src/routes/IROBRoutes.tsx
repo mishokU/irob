@@ -8,6 +8,7 @@ export enum IROBRoutes {
     profile = '/profile',
     settings = '/settings',
     catalogue = '/catalogue',
+    card = '/card',
     rooms = '/rooms',
     messages = '/messages',
     notification = '/notification',

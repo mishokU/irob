@@ -14,7 +14,7 @@ export function RoomPaymentComponent() {
             {screenState.isLedgerConnected && screenState.balance !== -1 &&
                 <div className="text-2xl text-white flex bg-gray-600 p-2 rounded-md space-x-4">
                     <h1>Active balance:</h1>
-                    <p>{screenState.balance} eth</p>
+                    <p>{screenState.balance} ETH</p>
                 </div>
             }
         </div>
@@ -22,11 +22,9 @@ export function RoomPaymentComponent() {
             based on the number of your conditions,
             and how difficult the conditions are,
             as well as the cost of gas for the blockchain and the commission for
-            this service in the form of 10% of the
-            transaction.
-            Also, the deposit you agreed on will always be taken into account.
-            The deposit will be
-            returned to the party that has met all the conditions, otherwise it
+            this service in the form of 3% of the
+            transaction. Also, the deposit you agreed on will be taken into a smart contract.
+            The deposit will be returned to the party that has met all the conditions, otherwise it
             will be returned to the seller.
         </p>
         {!screenState.isLedgerConnected &&
@@ -46,30 +44,30 @@ export function RoomPaymentComponent() {
         {screenState.isLedgerConnected &&
             <div className="flex justify-between items-center mt-12">
                 <div className="w-[300px] relative">
-                    {screenState.leftPanel.isLoading && <IROBProgressBar />}
+                    {screenState.leftPanel.isLoading && <IROBProgressBar/>}
                     {!screenState.leftPanel.isLoading && screenState.leftPanel.data.gasCost !== -1 &&
                         <div className="w-[300px]">
                             <div className="w-full bg-gray-800 text-white p-4 space-y-4 rounded-xl">
                                 <div className="flex justify-between">
                                     <p>Cost</p>
-                                    <p>{screenState.leftPanel.data.contractCost} eth</p>
+                                    <p>{screenState.leftPanel.data.contractCost} ETH</p>
                                 </div>
                                 <div className="flex justify-between">
                                     <p>Gas</p>
-                                    <p>{screenState.leftPanel.data.gasCost} eth</p>
+                                    <p>{screenState.leftPanel.data.gasCost} ETH</p>
                                 </div>
                                 <div className="flex justify-between">
                                     <p>Deposit</p>
-                                    <p>{screenState.leftPanel.data.depositCost} eth</p>
+                                    <p>{screenState.leftPanel.data.depositCost} ETH</p>
                                 </div>
                                 <div className="flex justify-between">
-                                    <p>Comission</p>
-                                    <p>{screenState.leftPanel.data.commission} eth</p>
+                                    <p>Commission</p>
+                                    <p>{screenState.leftPanel.data.commission} ETH</p>
                                 </div>
-                                <div className="w-full h-0.5 bg-gray-300" />
+                                <div className="w-full h-0.5 bg-gray-300"/>
                                 <div className="flex justify-between items-center text-2xl">
                                     <p>Total</p>
-                                    <p>{screenState.leftPanel.data.total} eth</p>
+                                    <p>{screenState.leftPanel.data.total} ETH</p>
                                 </div>
                             </div>
                             <button
@@ -80,22 +78,18 @@ export function RoomPaymentComponent() {
                         </div>}
                 </div>
                 <div className="ml-12 mr-12 items-center">
-                    <img src={rightArrow} className="w-12 h-12" />
+                    <img src={rightArrow} className="w-12 h-12"/>
                 </div>
                 <div className="w-[350px] h-[300px] bg-gray-800 text-white p-4 rounded-xl overflow-hidden">
                     <div className="flex w-full h-full justify-center items-center relative">
-                        { screenState.rightPanel.isLoading && <IROBProgressBar />}
-                        {
-                            !screenState.rightPanel.isLoading && <div className="space-y-6">
-                                {
-                                    screenState.rightPanel.showIcon && <img className="m-auto" src={dealIcon} />
-                                }
-                                <div className="space-y-2">
-                                    <p className="text-center text-xl">{screenState.rightPanel.title}</p>
-                                    <p className="text-center text-md">{screenState.rightPanel.description}</p>
-                                </div>
+                        {screenState.rightPanel.isLoading && <IROBProgressBar/>}
+                        {!screenState.rightPanel.isLoading && <div className="space-y-6">
+                            {screenState.rightPanel.showIcon && <img className="m-auto" src={dealIcon}/>}
+                            <div className="space-y-2">
+                                <p className="text-center text-xl">{screenState.rightPanel.title}</p>
+                                <p className="text-center text-md">{screenState.rightPanel.description}</p>
                             </div>
-                        }
+                        </div>}
                     </div>
                 </div>
             </div>}

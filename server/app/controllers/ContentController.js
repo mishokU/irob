@@ -3,6 +3,7 @@ const db = require("../db");
 const CONTENT_TABLE_NAME = "content"
 
 const userController = require("./UserController");
+const roomRequirementsController = require("../controllers/RoomRequirementsController")
 
 module.exports = {
     getUserContent,
@@ -12,16 +13,33 @@ module.exports = {
     deleteContent,
     getSingleContent,
     updateContent,
-    createStartRequirements
+    createStartRequirements,
+    getContentById
 }
 
-async function createStartRequirements(contentId){
+async function createStartRequirements(roomId, contentId, token){
     try {
 
+        const content = await getSingleContent(contentId)
 
+        await roomRequirementsController.createRequirement(token, roomId, "", "", content.cost, "Cost")
 
     } catch (e){
         console.log("Error in creating start requirements: " + e.message)
+    }
+}
+
+async function getContentById(contentId){
+    try {
+
+        const data = await db.query(`
+            SELECT *  FROM ${CONTENT_TABLE_NAME} WHERE id=$1
+        `, [contentId])
+
+        return data.rows[0]
+
+    } catch (e){
+        console.log("Error in get single content by room id: " + e.message)
     }
 }
 
@@ -39,12 +57,19 @@ async function getSingleContent(contentId) {
     }
 }
 
+/*
+    In profile tabs
+*/
+
 async function getUserContent(token) {
     try {
+
         const user = await userController.getUser(token)
 
-    } catch (e) {
 
+
+    } catch (e) {
+        console.log("Error in getting user content: " + e.message)
     }
 }
 

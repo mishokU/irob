@@ -17,6 +17,7 @@ import {useNotificationContext} from "../contexts/NotificationModelProvider";
 import {CreateLicenseModal} from "../../createContentModal/ui/CreateLicenseModal";
 import {ContentFullCardComponent} from "../../contentFullCard/modal/ContentFullCardComponent";
 import {useContentFullCardContext} from "../contexts/ContentFullCardProvider";
+import {ContentFullCardPage} from "../../contentFullCard/page/ContentFullCardPage";
 
 export function MainContainer() {
     const modalsContext = useModalsContext()
@@ -24,14 +25,16 @@ export function MainContainer() {
     const notificationContext = useNotificationContext()
     const contentCardFull = useContentFullCardContext()
     const location = useLocation();
+    const isHeaderVisible: boolean = !location.pathname.toString().includes(IROBRoutes.rooms) && !location.pathname.toString().includes(IROBRoutes.card)
     return <>
         {createRoomModalContext?.isVisible && <CreateRoomModal/>}
         {modalsContext?.state.isVisible && <CreateLicenseModal roomId={modalsContext.state.roomId}/>}
         {contentCardFull?.isVisibleProps.isVisible && <ContentFullCardComponent/>}
         {notificationContext?.isVisible && <NotificationMainComponent/>}
-        {!location.pathname.toString().includes(IROBRoutes.rooms) && <HeaderComponent/>}
+        {isHeaderVisible && <HeaderComponent/>}
         <Routes>
             <Route index element={<StartPage/>}/>
+            <Route path={IROBRoutes.card} element={<ContentFullCardPage />}/>
             <Route path={IROBRoutes.nonAuthPage} element={<NonAuthPage/>}/>
             <Route path={IROBRoutes.home} element={<StartPage/>}/>
             <Route path={IROBRoutes.messages} element={<CataloguePage/>}/>

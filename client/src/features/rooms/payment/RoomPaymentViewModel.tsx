@@ -1,22 +1,19 @@
 import {useMetaMask} from "metamask-react";
 import {useEffect, useState} from "react";
 import {
-    useCreateLicenseMutation, useGetContractDataMutation, useGetRoomRequirementsCostMutation, useGetRoomResultMutation
+    useCreateLicenseMutation,
+    useGetContractDataMutation,
+    useGetRoomRequirementsCostMutation,
+    useGetRoomResultMutation
 } from "../../../data/store/payment/RoomPaymentApi";
 import {useSelector} from "react-redux";
 import {RootState} from "../../../data/store";
 import {initialRoomPaymentState, RoomPaymentState} from "./RoomPaymentState";
-import {
-    useUpdateLedgerAccountMutation
-} from "../../../data/store/profile/ProfileApi";
+import {useUpdateLedgerAccountMutation} from "../../../data/store/profile/ProfileApi";
 import {RoomPrices} from "../../../data/models/rooms/payment/RoomPrices";
 import {ButtonType} from "./ButtonType";
-import {
-    GetRoomRequirementsCostResponse
-} from "../../../data/models/rooms/payment/GetRoomRequirementsCostResponse";
-import {
-    getLicenseStatus, LicenseStatus
-} from "../../profile/licenses/LicenseUiModel";
+import {GetRoomRequirementsCostResponse} from "../../../data/models/rooms/payment/GetRoomRequirementsCostResponse";
+import {getLicenseStatus, LicenseStatus} from "../../profile/licenses/LicenseUiModel";
 import {isMetamaskAvailable} from "../../../domain/web3/isMetamaskAvailable";
 import {signAndCreateContract} from "../../../domain/web3/signAndCreateContract";
 import {signAndSendDeposit} from "../../../domain/web3/signAndSendDeposit";
@@ -104,11 +101,10 @@ export default function RoomPaymentViewModel() {
                 } else {
 
                     const cost = screenState.leftPanel.data.contractCost.toString()
+                    const commission = screenState.leftPanel.data.commission.toString()
                     const deposit = screenState.leftPanel.data.depositCost.toString()
 
-                    console.log(result.buyerAddress)
-                    console.log(cost)
-                    console.log(deposit)
+                    const sendCommission = await signAndSendDeposit(result.commissionAddress, commission)
 
                     const contractAddress = await signAndCreateContract(result.buyerAddress, result.data, deposit)
 
@@ -181,8 +177,12 @@ export default function RoomPaymentViewModel() {
         })
     }
 
-    function updateScreenState(balance: number, prices: RoomPrices, buttonType: ButtonType,
-                               licenseStatus: LicenseStatus | null) {
+    function updateScreenState(
+        balance: number,
+        prices: RoomPrices,
+        buttonType: ButtonType,
+        licenseStatus: LicenseStatus | null
+    ) {
         setScreenState({
             ...screenState, balance: balance, leftPanel: {
                 ...screenState.leftPanel, isLoading: false, data: {
@@ -199,7 +199,9 @@ export default function RoomPaymentViewModel() {
     }
 
     function resolveButtonType(balance: number, response: GetRoomRequirementsCostResponse) {
-        if (balance < response.roomPrices.total) {
+        if (!response.canPay) {
+            return ButtonType.YouCanNotBuyYourContent
+        } else if (balance < response.roomPrices.total) {
             return ButtonType.NotEnoughMoney
         } else if (response.secondAccount === null) {
             return ButtonType.TheBuyerDidNotLinkTheWallet
@@ -210,11 +212,13 @@ export default function RoomPaymentViewModel() {
 
     function getButtonText(buttonType: ButtonType) {
         if (buttonType === ButtonType.NotEnoughMoney) {
-            return "Not enough money"
+            return "Not enough money!"
         } else if (buttonType === ButtonType.TheBuyerDidNotLinkTheWallet) {
-            return "The seller did not link the wallet"
+            return "The seller did not link the wallet!"
+        } else if (buttonType === ButtonType.YouCanNotBuyYourContent) {
+            return "You can not buy your content!"
         } else if (buttonType === ButtonType.ExecuteTransaction) {
-            return "Execute transaction"
+            return "Press to execute transaction"
         } else {
             return "Executed"
         }

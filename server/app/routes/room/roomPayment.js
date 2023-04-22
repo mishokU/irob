@@ -1,9 +1,13 @@
 const {Router} = require("express");
+
 const roomRequirementsController = require("../../controllers/RoomRequirementsController")
 const smartContractDeployment = require("../../scripts/deploy");
 const userController = require("../../controllers/UserController");
 const licensesController = require("../../controllers/LicensesController")
 const roomResultController = require("../../controllers/RoomResultController")
+const roomController = require("../../controllers/RoomControllers")
+
+
 const Web3 = require("web3");
 
 const roomPaymentRouter = new Router()
@@ -36,14 +40,7 @@ async function getContractData(request, result) {
         const userId = request.query.userId
         const roomId = request.query.roomId
 
-        console.log(ownerId)
-        console.log(userId)
-        console.log(roomId)
-
         const data = await resolveBuyerAndSeller(token, ownerId, userId)
-
-        console.log(data.buyer)
-        console.log(data.seller)
 
         const {depositCost, contractCost} = await getCosts(roomId)
 
@@ -53,6 +50,7 @@ async function getContractData(request, result) {
             success: true,
             buyerAddress: data.buyer.account,
             sellerAddress: data.seller.account,
+            commissionAddress: process.env.COMMISSION_ADDRESS,
             contractCost: contractCost,
             data: contractData
         })
@@ -123,6 +121,9 @@ async function getRoomResult(request, result) {
 
 async function getRoomRequirementsCost(request, result) {
     try {
+
+        const token = request.get('token')
+
         const roomId = request.query.roomId
         const secondSideUserId = request.query.userId
         if (roomId !== undefined) {
@@ -144,11 +145,16 @@ async function getRoomRequirementsCost(request, result) {
 
                 const secondAccount = await userController.getAccount(secondSideUserId)
 
+                const room = await roomController.getRoom(roomId)
+
+                const canPay = await roomController.checkOnBuyer(room.content_id, token)
+
                 const total = calculateTotalCost(requirementsCost, gasCost, depositCost, commissionCost, contractCost)
 
                 result.status(200).json({
                     success: true,
                     secondAccount: secondAccount,
+                    canPay: canPay,
                     roomPrices: {
                         gasCost: gasCost,
                         contractCost: contractCost,
@@ -209,6 +215,7 @@ async function getRequirementsCostFromTestNet(requirements, depositCost) {
 
 async function createSmartContract(request, result) {
     try {
+
         const token = request.get('token')
         const {ownerId, userId, roomId, contractAddress} = request.body
 
@@ -312,10 +319,6 @@ async function resolveBuyerAndSeller(token, ownerId, userId) {
     const ownerUser = await userController.getUserById(ownerId)
     const secondUser = await userController.getUserById(userId)
 
-    console.log("userL: " + user)
-    console.log("owner: " + ownerUser)
-    console.log("second: " + secondUser)
-
     let buyer
     let seller
 
@@ -334,7 +337,7 @@ async function resolveBuyerAndSeller(token, ownerId, userId) {
 }
 
 function calculateCommissionCost(requirementsCost, gasCost, depositCost, contractCost) {
-    return ((Number(requirementsCost) + Number(gasCost) + Number(contractCost) + Number(depositCost / 10)) * 0.1).toFixed(4)
+    return ((Number(requirementsCost) + Number(gasCost) + Number(contractCost) + Number(depositCost / 10)) * 0.03).toFixed(4)
 }
 
 function calculateTotalCost(requirementsCost, gasCost, depositCost, commissionCost, contractCost) {

@@ -58,7 +58,7 @@ export function MakeDealDialog({isVisible, setIsVisible}: MakeDealDialogProps) {
                                         </div>
                                     }
                                     {
-                                        isContentExist && <div>
+                                        !isContentExist && <div>
                                             <p className="text-red-600">There is no content to deal! Create it</p>
                                         </div>
                                     }

@@ -46,7 +46,7 @@ export function CreateRoomModal() {
                             bg-[#0E1420] p-6 text-left align-middle shadow-xl w-[400px] transition-all">
                                 <div className="space-y-3 text-white">
                                     <div className="flex items-center justify-between">
-                                        <h1 className="font-bold text-lg">Ссылка в вашу комнату</h1>
+                                        <h1 className="font-bold text-lg">Link to your room</h1>
                                         <button onClick={() => {
                                             createRoomModalContext?.setVisibility(false)
                                         }}
@@ -54,8 +54,8 @@ export function CreateRoomModal() {
                                             <CloseModal />
                                         </button>
                                     </div>
-                                    <h1> Скопируйте эту ссылку и поделитесь с теми, кого
-                                        хотите пригласить. Сохраните ее, если планируете встречу позже.</h1>
+                                    <h1> Copy this link and share with those who
+                                        want to invite. Save it if you plan a meeting later.</h1>
                                     <div>
                                         <input
                                             className={inputStyle + " bg-transparent w-full w-full flex"}

@@ -10,13 +10,16 @@ externalRouter.post('/update', (request, result) => {
     return updateLicenceCounter(request, result)
 })
 
+externalRouter.get('/getVideoUrl', (request, result) => {
+    return updateLicenceCounter(request, result)
+})
+
+
+
 async function updateLicenceCounter(request, result) {
     try {
 
         const {licenseKey, type} = request.body
-
-        console.log(licenseKey)
-        console.log(type)
 
         if (licenseKey === undefined || type === undefined) {
             result.status(400).json({

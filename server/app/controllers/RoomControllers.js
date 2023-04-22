@@ -1,5 +1,7 @@
 const db = require("../db");
+
 const userController = require("./UserController");
+const contentController = require("./ContentController")
 
 const ROOM_TABLE_NAME = "rooms"
 
@@ -13,7 +15,21 @@ module.exports = {
     updateRoomWithUser,
     updateRoomWithoutUser,
     getContentId,
-    updateContentId
+    updateContentId,
+    checkOnBuyer
+}
+
+async function checkOnBuyer(contentId, token){
+    try {
+
+        const user = await userController.getUser(token)
+        const content = await contentController.getContentById(contentId)
+
+        return user.id !== content.user_id
+
+    } catch (e){
+
+    }
 }
 
 async function updateContentId(roomId, contentId) {
@@ -48,8 +64,6 @@ async function createRoom(roomId, title, userId, contentId, token) {
     try {
 
         const user = await userController.getUser(token)
-
-
 
         await db.query(`
             INSERT INTO rooms
