@@ -11,7 +11,18 @@ module.exports = {
     getContentCount,
     deleteContent,
     getSingleContent,
-    updateContent
+    updateContent,
+    createStartRequirements
+}
+
+async function createStartRequirements(contentId){
+    try {
+
+
+
+    } catch (e){
+        console.log("Error in creating start requirements: " + e.message)
+    }
 }
 
 async function getSingleContent(contentId) {
@@ -94,7 +105,7 @@ async function createContent(
         const datetime = new Date();
         const date = datetime.toISOString().slice(0, 10)
 
-        return await db.query(`
+        const data = await db.query(`
                 INSERT INTO ${CONTENT_TABLE_NAME} 
                 (name, description, owner, type, director, country, actors, video_url, category, date, user_id, video_preview, cost, start_distr, end_distr, genres, year, trailer_url, duration) 
                 VALUES ('${name}', '${description}', '${owner}', '${contentType}', '${director}', '${country}', '${actors}',
@@ -102,6 +113,9 @@ async function createContent(
                   '${cost}', '${startDate}', '${endDate}', '${genres}', '${year}', '${trailerUrl}', '${duration}')
                 RETURNING id
            `)
+
+        return data.rows[0].id
+
     } catch (e) {
         console.log("Error in create db content: " + e.message)
     }

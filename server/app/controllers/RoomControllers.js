@@ -11,7 +11,37 @@ module.exports = {
     updateSecondAgreement,
     isRoomAdmin,
     updateRoomWithUser,
-    updateRoomWithoutUser
+    updateRoomWithoutUser,
+    getContentId,
+    updateContentId
+}
+
+async function updateContentId(roomId, contentId) {
+    try {
+
+        await db.query(`
+                UPDATE ${ROOM_TABLE_NAME} SET content_id=$1 WHERE room_id=$2;`, [contentId, roomId]
+        )
+
+    } catch (e) {
+        console.log("Error in updating room content: " + e.message)
+    }
+}
+
+async function getContentId(roomId) {
+    try {
+
+        console.log(roomId)
+
+        const data = await db.query(`
+            SELECT content_id FROM ${ROOM_TABLE_NAME} WHERE room_id=$1
+        `, [roomId])
+
+        return data.rows[0].content_id
+
+    } catch (e) {
+        console.log("Error in get content id: " + e.message)
+    }
 }
 
 async function createRoom(roomId, title, userId, contentId, token) {
@@ -19,10 +49,12 @@ async function createRoom(roomId, title, userId, contentId, token) {
 
         const user = await userController.getUser(token)
 
+
+
         await db.query(`
             INSERT INTO rooms
             (room_id, owner_id, name, first_agreement, second_agreement, user_id, content_id)
-            VALUES ('${roomId}', '${user.id}', '${title}', false, false, ${userId}, '${contentId}')
+            VALUES ('${roomId}', '${user.id}', '${title}', false, false, '${userId}', '${contentId}')
         `)
 
     } catch (e) {
@@ -78,7 +110,7 @@ async function getRoom(roomId) {
 
 async function updateRoomWithUser(roomId, newName, userId) {
     try {
-        await db.query(`UPDATE rooms SET name = $1, user_id = $3,WHERE room_id= $2;`, [newName, roomId, Number(userId)])
+        await db.query(`UPDATE rooms SET name = $1, user_id = $3 WHERE room_id= $2;`, [newName, roomId, Number(userId)])
     } catch (e) {
         console.log("Error in updating room with user: " + e.message)
     }

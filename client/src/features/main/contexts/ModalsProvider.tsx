@@ -1,9 +1,21 @@
 import * as React from 'react'
 import {createContext, ReactNode, useContext, useState} from "react";
 
-interface IModalContext {
+export interface CreateCardProps {
     isVisible: boolean
-    setVisibility: (state: boolean) => void;
+    roomId: string | null
+}
+
+export function initCreateCardProps(): CreateCardProps {
+    return {
+        isVisible: false,
+        roomId: null
+    }
+}
+
+interface IModalContext {
+    state: CreateCardProps
+    setState: (state: CreateCardProps) => void;
 }
 
 const ModalsContext = createContext<IModalContext | null>(null)
@@ -15,8 +27,8 @@ export interface IProps {
 }
 
 const ModalsProvider = ({children}: IProps) => {
-    const [isVisible, setVisibility] = useState(false)
-    return <ModalsContext.Provider value={{isVisible, setVisibility}}>
+    const [state, setState] = useState(initCreateCardProps)
+    return <ModalsContext.Provider value={{state, setState}}>
         {children}
     </ModalsContext.Provider>
 }

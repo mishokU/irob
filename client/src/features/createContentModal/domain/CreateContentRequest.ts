@@ -15,4 +15,5 @@ export interface CreateContentRequest {
     genres: string
     year: string
     cost : string
+    roomId: string | null
 }

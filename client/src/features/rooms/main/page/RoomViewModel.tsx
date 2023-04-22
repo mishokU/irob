@@ -1,7 +1,11 @@
 import {useEffect, useState} from "react";
 import {useDispatch, useSelector} from "react-redux";
 import {clearRoom, updateRoom, updateRoomId} from "../../../../data/slices/RoomSlice";
-import {useDeleteRoomMutation, useGetRoomMutation} from "../../../../data/store/rooms/RoomsApi";
+import {
+    useDeleteRoomMutation,
+    useGetContentIdMutation,
+    useGetRoomMutation
+} from "../../../../data/store/rooms/RoomsApi";
 import {RootState} from "../../../../data/store";
 import {useNavigate} from "react-router-dom";
 import useWebSocket from "react-use-websocket";
@@ -26,12 +30,15 @@ export default function RoomViewModel() {
         isVisible: false, requirement: null
     })
 
+    const [isPaymentButtonVisible, setIsPaymentButtonVisible] = useState(roomReducer.isAdmin && !roomReducer.isFinished)
+
     const navigate = useNavigate();
     const dispatch = useDispatch();
 
     const [roomMutation] = useGetRoomMutation()
     const [deleteRoomMutation] = useDeleteRoomMutation()
     const [leaveUserMutation] = useRemoveUserMutation()
+    const [getContentId] = useGetContentIdMutation()
 
     useWebSocket(WS_URL, {
         onError: (error) => {
@@ -92,14 +99,23 @@ export default function RoomViewModel() {
     const useFullCard = useContentFullCardContext()
 
     const onShowCardClick = async () => {
-        if (roomReducer.contentId) {
+        if (roomReducer.contentId !== 0) {
             useFullCard?.setVisibility({
                 isVisible: true,
                 contentId: roomReducer.contentId,
                 fromCatalogue: false
             })
         } else {
-            useCreateContent?.setVisibility(true)
+            const data = await getContentId(roomReducer.roomId).unwrap()
+            if (data.success) {
+                useFullCard?.setVisibility({
+                    isVisible: true,
+                    contentId: data.contentId,
+                    fromCatalogue: false
+                })
+            } else {
+                useCreateContent?.setState({isVisible: true, roomId: roomReducer.roomId})
+            }
         }
     }
 
@@ -119,6 +135,7 @@ export default function RoomViewModel() {
         setIsMakeDealDialogVisible,
         isRequirementVisible,
         onShowCardClick,
+        isPaymentButtonVisible,
         setIsRequirementVisible,
         onBackClick
     }

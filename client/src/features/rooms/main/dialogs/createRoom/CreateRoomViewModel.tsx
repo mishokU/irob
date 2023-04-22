@@ -29,7 +29,7 @@ export default function CreateRoomViewModel(errorState: (value: string) => void)
         return "" + fullLink.at(fullLink.length - 1);
     }
 
-    const createRoom = async (contentId: number | null, userId: number | null) => {
+    const createRoom = async (contentId: number, userId: number) => {
         try {
             console.log(contentId)
             const roomId = getRoomLink()

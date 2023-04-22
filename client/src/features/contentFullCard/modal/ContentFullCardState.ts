@@ -8,7 +8,7 @@ export interface ContentFullCardState {
     }
 
     content: {
-        id: number | null
+        id: number
         name: string
         type: string
         duration: string
@@ -38,7 +38,7 @@ export function initContentFullCardState(): ContentFullCardState {
             userId: -1
         },
         content: {
-            id: null,
+            id: 0,
             name: "",
             type: "",
             duration: "",

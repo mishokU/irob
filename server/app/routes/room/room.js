@@ -6,6 +6,7 @@ const roomController = require("../../controllers/RoomControllers")
 const roomMessagesController = require("../../controllers/RoomMessagesController")
 const roomRequirementsController = require("../../controllers/RoomRequirementsController")
 const notificationsController = require("../../controllers/NotificationsController")
+const contentController = require("../../controllers/ContentController")
 
 const NotificationTypes = require("../notification/notificationTypes");
 
@@ -51,6 +52,36 @@ roomRouter.post('/updateFirstAgreement', (request, result) => {
 roomRouter.post('/updateSecondAgreement', (request, result) => {
     return updateSecondAgreement(request, result)
 })
+
+roomRouter.get('/getContentId', (request, result) => {
+    return getContentId(request, result)
+})
+
+async function getContentId(request, result) {
+    try {
+
+        const roomId = request.query.roomId;
+
+        const contentId = await roomController.getContentId(roomId)
+
+        if(contentId !== 0){
+            result.status(200).json({
+                success: true,
+                contentId: contentId
+            })
+        } else {
+            result.status(200).json({success: false})
+        }
+
+    } catch (e){
+        const message = "Error in get content id: " + e.message
+        console.log(message)
+        result.status(500).json({
+            success: false,
+            message: message
+        })
+    }
+}
 
 async function updateSecondAgreement(request, result) {
     try {
@@ -193,6 +224,10 @@ async function createRoom(request, result) {
         const {roomId, title, userId, contentId} = request.body;
 
         await roomController.createRoom(roomId, title, userId, contentId, token)
+
+        if(contentId){
+            await contentController.createStartRequirements(contentId)
+        }
 
         result.status(200).json({
             success: true,

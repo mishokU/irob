@@ -26,7 +26,7 @@ export function MainContainer() {
     const location = useLocation();
     return <>
         {createRoomModalContext?.isVisible && <CreateRoomModal/>}
-        {modalsContext?.isVisible && <CreateLicenseModal />}
+        {modalsContext?.state.isVisible && <CreateLicenseModal roomId={modalsContext.state.roomId}/>}
         {contentCardFull?.isVisibleProps.isVisible && <ContentFullCardComponent/>}
         {notificationContext?.isVisible && <NotificationMainComponent/>}
         {!location.pathname.toString().includes(IROBRoutes.rooms) && <HeaderComponent/>}

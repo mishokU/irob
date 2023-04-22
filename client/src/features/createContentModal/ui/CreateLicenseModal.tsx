@@ -3,7 +3,7 @@ import {Fragment} from "react";
 import {buttonTheme} from "../../../themes/Themes";
 import {ReactComponent as CloseModal} from "../../../ui/assets/close_black_24dp.svg";
 import useViewModel from "./CreateLicenseViewModel"
-import {useModalsContext} from "../../main/contexts/ModalsProvider";
+import {initCreateCardProps, useModalsContext} from "../../main/contexts/ModalsProvider";
 import {CreateContentStepper, Stepper} from "./CreateContentStepper";
 import {FormPage} from "./FormPage";
 import {UploadVideoContentComponent} from "./UploadVideoContentComponent";
@@ -11,7 +11,11 @@ import {AdditionalInfoComponent} from "./AdditionalInfoComponent";
 import {StartConditionsComponent} from "./StartConditionsComponent";
 import {IROBProgressBar} from "../../../ui/common/IROBProgressBar";
 
-export function CreateLicenseModal() {
+export interface CreateLicenseProps {
+    roomId: string | null
+}
+
+export function CreateLicenseModal({roomId}: CreateLicenseProps) {
     const {
         handleFileChange,
         state,
@@ -35,12 +39,12 @@ export function CreateLicenseModal() {
         leftButtonText,
         rightButtonText,
         stepper
-    } = useViewModel()
+    } = useViewModel(roomId)
     const modalsContext = useModalsContext()
     return (<>
-        <Transition appear show={modalsContext?.isVisible} as={Fragment}>
+        <Transition appear show={modalsContext?.state.isVisible} as={Fragment}>
             <Dialog as="div" className="relative z-10" onClose={() => {
-                modalsContext?.setVisibility(false)
+                modalsContext?.setState(initCreateCardProps())
             }}>
                 <Transition.Child
                     as={Fragment}
@@ -72,7 +76,7 @@ export function CreateLicenseModal() {
                                     <div className="flex justify-between">
                                         <h1 className="text-3xl font-bold">Content card creation</h1>
                                         <button onClick={() => {
-                                            modalsContext?.setVisibility(false)
+                                            modalsContext?.setState(initCreateCardProps())
                                         }}
                                                 className="bg-transparent hover:bg-black border-transparent p-2 rounded-none hover:rounded-full">
                                             <CloseModal/>

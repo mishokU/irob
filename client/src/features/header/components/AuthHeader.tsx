@@ -19,9 +19,9 @@ export function AuthHeader() {
                 <NavLink className="mr-4 active:text-yellow-500" to={IROBRoutes.about}>About</NavLink>
                 <NavLink className="mr-4 active:text-yellow-500" to={IROBRoutes.catalogue}>Catalogue</NavLink>
             </span>
-            <span className="flex space-x-4">
+        <span className="flex space-x-4">
                 <button onClick={() => {
-                    createContent?.setVisibility(true)
+                    createContent?.setState({isVisible: true, roomId: null})
                 }}>Upload content</button>
                 <button onClick={() => {
                     createRoomModalContext?.setVisibility(true)

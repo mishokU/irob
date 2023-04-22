@@ -31,7 +31,7 @@ export function HeaderComponent() {
         return () => window.removeEventListener('scroll', handleScroll)
     })
 
-    return (<div className={`z-20 sticky absolute ${visible ? 'top-0 bg-[#0E1420] ' : ''} `}>
+    return (<div className={`z-0 sticky absolute ${visible ? 'top-0 bg-[#0E1420] ' : ''} `}>
         {location.pathname !== IROBRoutes.auth && !isUserLogged && <NonAuthHeader />}
         {location.pathname !== IROBRoutes.auth && isUserLogged && <AuthHeader />}
     </div>)

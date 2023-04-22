@@ -2,6 +2,7 @@ const {Router} = require("express");
 
 const contentController = require("../../controllers/ContentController")
 const userController = require("../../controllers/UserController");
+const roomController = require("../../controllers/RoomControllers")
 
 const Promise = require("bluebird");
 const {getUsername} = require("../../controllers/Utils");
@@ -166,7 +167,8 @@ async function createContent(request, result) {
             endDate,
             genres,
             year,
-            country
+            country,
+            roomId
         } = request.body
 
         const id = await contentController.createContent(
@@ -191,6 +193,9 @@ async function createContent(request, result) {
         )
 
         if (id !== undefined) {
+
+            await roomController.updateContentId(roomId, id)
+
             result.status(200).json({
                 success: true,
                 message: "Content created!"

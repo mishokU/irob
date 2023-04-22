@@ -76,7 +76,7 @@ export function CreateRoomModal() {
                                         </div>
                                     </div>
                                     <button className={buttonTheme + " w-full"}
-                                            onClick={() => createRoom(null, null)}>Open
+                                            onClick={() => createRoom(0, 0)}>Open
                                     </button>
                                     {message != null && <div className="text-red-600">{message}</div>}
                                 </div>

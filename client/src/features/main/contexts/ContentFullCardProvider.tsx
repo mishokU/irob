@@ -3,14 +3,14 @@ import {createContext, ReactNode, useContext, useState} from "react";
 
 export interface ContentProps {
     isVisible: boolean
-    contentId: number | null
+    contentId: number
     fromCatalogue: boolean
 }
 
 export function initContentProps(): ContentProps {
     return {
         isVisible: false,
-        contentId: null,
+        contentId: 0,
         fromCatalogue: true
     }
 }

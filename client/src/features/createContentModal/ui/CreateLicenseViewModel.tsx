@@ -4,11 +4,11 @@ import {useCreateContentMutation} from "../../../data/store/content/ContentApi";
 import {getDownloadURL, ref, uploadBytes} from "firebase/storage";
 import {storage} from "../../../firebaseConfig";
 import {getVideoCover} from "@rajesh896/video-thumbnails-generator";
-import {useModalsContext} from "../../main/contexts/ModalsProvider";
+import {initCreateCardProps, useModalsContext} from "../../main/contexts/ModalsProvider";
 import {Stepper} from "./CreateContentStepper";
 
 
-export default function CreateLicenseViewModel() {
+export default function CreateLicenseViewModel(roomId: string | null) {
 
     const [state, setState] = useState<CreateContentState>(initCreateContentState)
 
@@ -145,7 +145,6 @@ export default function CreateLicenseViewModel() {
             setState({...state, isLoading: true})
 
             getVideoCover(state.video.url, 1).then(async (thumbnail) => {
-                console.log(thumbnail)
 
                 async function dataUrlToFile(dataUrl: string): Promise<File> {
 
@@ -210,11 +209,12 @@ export default function CreateLicenseViewModel() {
             year: state.year,
             startDate: state.startDate,
             endDate: state.endDate,
-            cost: state.cost
+            cost: state.cost,
+            roomId: roomId
         }).unwrap()
 
         if (result.success) {
-            modalsContext?.setVisibility(false)
+            modalsContext?.setState(initCreateCardProps())
         } else {
             //Toast
 

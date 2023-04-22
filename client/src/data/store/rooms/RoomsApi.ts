@@ -10,6 +10,7 @@ import {UpdateRoomResult} from "../../models/rooms/room/UpdateRoomResult";
 import {HandleAgreementRequest} from "../../../features/rooms/domain/requests/HandleAgreementRequest";
 import {MakeDealResponse} from "../../models/rooms/users/MakeDealResponse";
 import {ServerUrl} from "../../../constants/Constants";
+import {GetContentIdResponse} from "../../models/rooms/room/GetContentIdResponse";
 
 export const RoomsApi = createApi({
     reducerPath: "irob/api/rooms", baseQuery: fetchBaseQuery({
@@ -75,6 +76,17 @@ export const RoomsApi = createApi({
                 return "Error while updating room";
             }
         }),
+        getContentId: build.mutation<GetContentIdResponse, string>({
+            query: (body) => ({
+                url: "/getContentId", method: `GET`, params: {
+                    roomId: body
+                }
+            }),
+            transformResponse: (response: GetContentIdResponse) => response,
+            transformErrorResponse(baseQueryReturnValue: unknown, meta: unknown, arg: unknown): string {
+                return "Error while updating room";
+            }
+        }),
     }),
 });
 
@@ -83,5 +95,6 @@ export const {
     useDeleteRoomMutation,
     useGetRoomMutation,
     useGetRoomsMutation,
+    useGetContentIdMutation,
     useUpdateRoomMutation
 } = RoomsApi;
