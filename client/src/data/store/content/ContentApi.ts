@@ -44,9 +44,20 @@ export const ContentApi = createApi({
                 return "Error while getRoomRequirementsCost, try later."
             }
         }),
+        getUserCatalogueItems: builder.mutation<GetCatalogueItemsResponse, void>({
+            query: (body) => ({
+                url: `/getUserPaging`, method: `GET`
+            }),
+            transformResponse: (response: GetCatalogueItemsResponse) => response,
+            transformErrorResponse(meta: unknown, arg: unknown): string {
+                return "Error while getRoomRequirementsCost, try later."
+            }
+        }),
         deleteContent: builder.mutation<CommonResponse, number>({
             query: (body) => ({
-                url: `/delete`, method: `DELETE`
+                url: `/delete`, method: `DELETE`, params: {
+                    contentId: body
+                }
             }),
             transformResponse: (response: CommonResponse) => response,
             transformErrorResponse(meta: unknown, arg: unknown): string {
@@ -68,6 +79,7 @@ export const ContentApi = createApi({
 export const {
     useDeleteContentMutation,
     useCreateContentMutation,
+    useGetUserCatalogueItemsMutation,
     useGetCatalogueItemsMutation,
     useGetContentMutation,
     useUpdateContentMutation

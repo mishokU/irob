@@ -14,22 +14,24 @@ module.exports = {
     getSingleContent,
     updateContent,
     createStartRequirements,
-    getContentById
+    getContentById,
+    getUserContentCount,
+    getUserPagingContent
 }
 
-async function createStartRequirements(roomId, contentId, token){
+async function createStartRequirements(roomId, contentId, token) {
     try {
 
         const content = await getSingleContent(contentId)
 
         await roomRequirementsController.createRequirement(token, roomId, "", "", content.cost, "Cost")
 
-    } catch (e){
+    } catch (e) {
         console.log("Error in creating start requirements: " + e.message)
     }
 }
 
-async function getContentById(contentId){
+async function getContentById(contentId) {
     try {
 
         const data = await db.query(`
@@ -38,7 +40,7 @@ async function getContentById(contentId){
 
         return data.rows[0]
 
-    } catch (e){
+    } catch (e) {
         console.log("Error in get single content by room id: " + e.message)
     }
 }
@@ -67,7 +69,6 @@ async function getUserContent(token) {
         const user = await userController.getUser(token)
 
 
-
     } catch (e) {
         console.log("Error in getting user content: " + e.message)
     }
@@ -88,6 +89,33 @@ async function deleteContent(contentId) {
         `, [contentId])
     } catch (e) {
         console.log("Error in deleting content: " + e.message)
+    }
+}
+
+async function getUserContentCount(userId) {
+    try {
+        const data = db.query(`SELECT COUNT(*) as count_rows FROM ${CONTENT_TABLE_NAME} WHERE user_id=$1`, [userId])
+        return data.rows[0].count_rows
+    } catch (e) {
+        console.log("Error in content count: " + e.message)
+    }
+}
+
+async function getUserPagingContent(limit, offset, userId) {
+    try {
+
+        const data = await db.query(`
+            WITH messages AS (
+                SELECT * from ${CONTENT_TABLE_NAME}
+                WHERE user_id=$3 ORDER BY id DESC LIMIT $1 OFFSET $2
+            )
+            SELECT * FROM messages ORDER BY id ASC;`, [limit, offset, userId]
+        )
+
+        return data.rows
+
+    } catch (e) {
+        console.log("Error in getting paging content: " + e.message)
     }
 }
 

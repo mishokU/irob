@@ -11,16 +11,22 @@ export function ProfileContentTabs({menu, setMenu}: TabProps) {
     const menuStyleActive = "p-3 bg-[#1E252F] text-white rounded-xl border-[#29303A] border-2"
     return <div>
         <ul className="flex flex-wrap -mb-px text-sm font-medium text-center space-x-3" role="tablist">
-            <li className="mr-2" role="presentation">
+            <li role="presentation">
                 <button className={menu === ProfileMenu.Rooms ? menuStyleActive : menuStyle} onClick={() => {
                     setMenu(ProfileMenu.Rooms)
                 }}>Rooms
                 </button>
             </li>
-            <li className="mr-2" role="presentation">
+            <li role="presentation">
                 <button className={menu === ProfileMenu.License ? menuStyleActive : menuStyle} onClick={() => {
                     setMenu(ProfileMenu.License)
                 }}>Licenses
+                </button>
+            </li>
+            <li role="presentation">
+                <button className={menu === ProfileMenu.Content ? menuStyleActive : menuStyle} onClick={() => {
+                    setMenu(ProfileMenu.Content)
+                }}>Content
                 </button>
             </li>
             <li role="presentation">

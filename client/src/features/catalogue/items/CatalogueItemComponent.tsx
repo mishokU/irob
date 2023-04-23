@@ -13,7 +13,10 @@ export function CatalogueItemComponent({item}: CatalogueItemProps) {
              onClick={() => {
                  navigate(IROBRoutes.card, {state: {contentId: item.contentId, fromCatalogue: true}})
              }}>
-            <img src={item.videoPreview} className="fill bg-black w-full h-full object-cover flex overflow-y-hidden"/>
+            <img
+                placeholder="bg-black"
+                src={item.videoPreview}
+                className="fill bg-black w-full h-full object-cover flex overflow-y-hidden"/>
         </div>
         <h1 className="text-xl text-ellipsis text-white overflow-hidden pl-4 pr-4 pt-1">{item.name}</h1>
     </div>

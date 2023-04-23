@@ -3,9 +3,10 @@ import {ProfileCard} from "../card/ProfileCard";
 import {ProfileMenuHandlerDelegate} from "../delegates/ProfileMenuHandlerDelegate";
 import {ProfileMenu} from "../delegates/ProfileMenu";
 import {LicensesPage} from "./LicensesPage";
-import {ProfileLedgerPage} from "../ledger/ProfileLedgerPage";
-import {DevelopersPage} from "../developers/DevelopersPage";
 import {RoomsProfilePage} from "../rooms/RoomsProfilePage";
+import {ProfileContentPage} from "../content/ProfileContentPage";
+import {ProfileLedgerPage} from "../ledger/ProfileLedgerPage";
+import {DevelopersPage} from "../developers/page/DevelopersPage";
 
 export function ProfilePage() {
     const {menu, setMenu} = ProfileMenuHandlerDelegate()
@@ -18,6 +19,7 @@ export function ProfilePage() {
                 <ProfileContentTabs menu={menu} setMenu={setMenu} />
                 {menu === ProfileMenu.Rooms && <RoomsProfilePage />}
                 {menu === ProfileMenu.License && <LicensesPage />}
+                {menu === ProfileMenu.Content && <ProfileContentPage/>}
                 {menu === ProfileMenu.Ledger && <ProfileLedgerPage />}
                 {menu === ProfileMenu.Developers && <DevelopersPage />}
             </div>

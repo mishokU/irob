@@ -11,7 +11,7 @@ export function CataloguePage() {
                 <div className="text-white pb-4 text-[#8fadc0]">Get a preview of what’s available for licensing on
                     IROB. Sign in or Sign up for free to access ALL titles!
                 </div>
-                <div className="flex grid lg:grid-cols-5 md:grid-cols-3 sm:grid-cols-2">
+                <div className="flex w-fit gap-4 grid lg:grid-cols-5 md:grid-cols-3 sm:grid-cols-2">
                     {content.map((item: CatalogueUi) => <CatalogueItemComponent item={item}/>)}
                 </div>
             </div>

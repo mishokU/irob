@@ -4,25 +4,24 @@ import {ProfileInfoComponent} from "../components/ProfileInfoComponent";
 import {BookmarkOutFilledIcon} from "../../../ui/common/icons/BookmarkOutFilledIcon";
 import {ComplaintIcon} from "../../../ui/common/icons/ComplaintIcon";
 import {buttonTheme} from "../../../themes/Themes";
-import {useLocation} from "react-router-dom";
-import {useSelector} from "react-redux";
-import {RootState} from "../../../data/store";
 import useCreateRoomViewModel from "../../rooms/main/dialogs/createRoom/CreateRoomViewModel";
 import {useErrorToast} from "../../../ui/common/ToastErrorComponent";
 import {IROBProgressBar} from "../../../ui/common/IROBProgressBar";
+import {DeleteContentDialog} from "../deleteContentModal/DeleteContentDialog";
+import deleteImg from "../../../ui/assets/delete_96px.png";
 
 export function ContentFullCardPage() {
-
-    const location = useLocation();
-    const contentId: any = location.state.contentId
-    const fromCatalogue: boolean = location.state.fromCatalogue
-
-    const profileReducer = useSelector((state: RootState) => state.profile)
 
     const {setErrorMessage} = useErrorToast()
     const {createRoom} = useCreateRoomViewModel(setErrorMessage)
 
-    const {onBackClick, state} = useViewModel(contentId)
+    const {
+        onBackClick,
+        state,
+        setIsDeleteDialogVisible,
+        isDeleteDialogVisible,
+        handleDeleteCardClick
+    } = useViewModel()
 
     return <div className="h-screen overflow-y-hidden relative">
         <button
@@ -32,6 +31,22 @@ export function ContentFullCardPage() {
             <img src={backImg}/>
             <span className="sr-only">Icon description</span>
         </button>
+        <div className="z-10 absolute right-8 top-8">
+            {state.isDeleteDialogButtonVisible && <button
+                type="button"
+                onClick={() => {
+                    setIsDeleteDialogVisible(!isDeleteDialogVisible)
+                }}
+                className="bg-red-600 rounded-full w-14 h-14 p-4 text-center inline-flex">
+                <img src={deleteImg}/>
+                <span className="sr-only">Icon description</span>
+            </button>}
+        </div>
+        {isDeleteDialogVisible && <DeleteContentDialog
+            isDeleteDialogVisible={isDeleteDialogVisible}
+            setIsDeleteDialogVisible={setIsDeleteDialogVisible}
+            handleDeleteRoomClick={handleDeleteCardClick}
+        />}
         <div className="absolute right-0 left-0">
             <h1>Content card</h1>
         </div>
@@ -71,14 +86,17 @@ export function ContentFullCardPage() {
                         </div>
                     </div>
                     <div>
-                        <img src={state.content.videoPreview} className="w-[54em] h-[33em] bg-black rounded-2xl"/>
+                        <img
+                            placeholder="bg-black"
+                            src={state.content.videoPreview}
+                            className="w-[54em] h-[33em] bg-black rounded-2xl"/>
                         <div className="flex space-x-4">
                             {state.content.videoTrailerUrl &&
                                 <button className={buttonTheme + " mt-4 w-full"} onClick={() => {
 
                                 }}>Play trailer
                                 </button>}
-                            {profileReducer.profileId !== state.user.userId && fromCatalogue &&
+                            {state.isCreateRoomButtonVisible &&
                                 <button
                                     className={buttonTheme + " mt-4 w-full"}
                                     onClick={() => {

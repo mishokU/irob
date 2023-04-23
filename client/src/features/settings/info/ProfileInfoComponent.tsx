@@ -20,7 +20,7 @@ export function ProfileInfoComponent() {
     return <div className="border-[#29303A] -mt-4 rounded-2xl p-4 text-white">
         <h1 className="text-3xl">{SettingsStrings.PublicProfile}</h1>
         <p>Your profile will be able to see the specified information</p>
-        <p className="mt-4">Photo</p>
+        <p className="mt-4 mb-2">Photo</p>
         <div className="flex items-center">
             <img
                 id="profile_image"
@@ -43,9 +43,7 @@ export function ProfileInfoComponent() {
                 <input
                     className="border-[#29303A] border-2 rounded-2xl p-4 bg-transparent mt-2"
                     value={name}
-                    onChange={(nameField) => {
-                        setName(nameField.target.value)
-                    }}
+                    onChange={(nameField) => setName(nameField.target.value)}
                 />
             </div>
             <div className="ml-4">
@@ -53,9 +51,7 @@ export function ProfileInfoComponent() {
                 <input
                     className="border-[#29303A] border-2 rounded-2xl p-4 bg-transparent mt-2"
                     value={surname}
-                    onChange={(surnameField) => {
-                        setSurname(surnameField.target.value)
-                    }}
+                    onChange={(surnameField) => setSurname(surnameField.target.value)}
                 />
             </div>
         </div>
@@ -63,18 +59,14 @@ export function ProfileInfoComponent() {
             <p className="mt-4">Description</p>
             <textarea
                 value={description}
-                onChange={(surnameField) => {
-                    setDescription(surnameField.target.value)
-                }}
-                className="border-[#29303A] align-text-top border-2 rounded-2xl p-4 bg-transparent mt-2 w-full h-[100px]"/>
+                onChange={(surnameField) => setDescription(surnameField.target.value)}
+                className="border-[#29303A] align-text-top border-2 rounded-2xl p-4 bg-transparent mt-2 w-full h-[120px]"/>
         </div>
         <div>
             <p className="mt-4">Website</p>
             <input
                 value={website}
-                onChange={(surnameField) => {
-                    setWebsite(surnameField.target.value)
-                }}
+                onChange={(surnameField) => setWebsite(surnameField.target.value)}
                 className="border-[#29303A] border-2 rounded-2xl p-4 bg-transparent mt-2 w-full"/>
         </div>
         <div className="flex space-x-2">

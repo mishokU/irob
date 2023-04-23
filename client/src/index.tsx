@@ -1,7 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import {BrowserRouter} from 'react-router-dom'
-import {ModalState} from "./context/ModalContext";
 import {Provider} from "react-redux";
 import {persistor, store} from "./data/store";
 import './index.css';
@@ -22,11 +21,9 @@ root.render(<ModalsProvider>
                 <Provider store={store}>
                     <PersistGate loading={null} persistor={persistor}>
                         <BrowserRouter>
-                            <ModalState>
-                                <MetaMaskProvider>
-                                    <App/>
-                                </MetaMaskProvider>
-                            </ModalState>
+                            <MetaMaskProvider>
+                                <App/>
+                            </MetaMaskProvider>
                         </BrowserRouter>
                     </PersistGate>
                 </Provider>

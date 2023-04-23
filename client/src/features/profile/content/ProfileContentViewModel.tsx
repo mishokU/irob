@@ -1,19 +1,19 @@
 import {useEffect, useState} from "react";
-import {CatalogueUi} from "../items/CatalogueUi";
-import {useGetCatalogueItemsMutation} from "../../../data/store/content/ContentApi";
+import {CatalogueUi} from "../../catalogue/items/CatalogueUi";
 import {GetShortContentResponse} from "../../../data/models/content/GetShortContentResponse";
+import {useGetUserCatalogueItemsMutation} from "../../../data/store/content/ContentApi";
 
-export default function CatalogueViewModel() {
+export default function ProfileContentViewModel() {
 
-    const [error, setError] = useState("");
-    const [content, setContent] = useState<CatalogueUi[]>([]);
+    const [content, setContent] = useState<CatalogueUi[]>([])
 
-    const [getPagingContents] = useGetCatalogueItemsMutation()
+    const [isEmptyVisible, setIsEmptyVisible] = useState(false)
+    const [getPagingUserContent] = useGetUserCatalogueItemsMutation()
 
     useEffect(() => {
 
         async function getCatalogue() {
-            return await getPagingContents().unwrap()
+            return await getPagingUserContent().unwrap()
         }
 
         getCatalogue()
@@ -29,12 +29,15 @@ export default function CatalogueViewModel() {
                         }
                     })
                     setContent(convertedUi)
+                    setIsEmptyVisible(result.content.length === 0)
                 }
             })
+
     }, [])
 
     return {
-        error,
-        content
+        content,
+        isEmptyVisible
     }
+
 }

@@ -6,6 +6,7 @@ const roomController = require("../../controllers/RoomControllers")
 
 const Promise = require("bluebird");
 const {getUsername} = require("../../controllers/Utils");
+const {deleteObject, storage, ref} = require("../../firebase/index");
 
 const contentRouter = new Router()
 
@@ -28,16 +29,33 @@ contentRouter.get('/get', (request, result) => {
 })
 
 contentRouter.get('/getPaging', (request, result) => {
-    return getPagingContent(request, result)
+    return getPagingContent(request, result, false)
 })
 
-async function getPagingContent(request, result) {
+contentRouter.get('/getUserPaging', (request, result) => {
+    return getPagingContent(request, result, true)
+})
+
+async function getPagingContent(request, result, isUserContent) {
     try {
+
+        const token = request.get('token')
 
         const offset = request.query.offset
 
-        const limit = await contentController.getContentCount()
-        const data = await contentController.getPagingContent(15, offset)
+        let limit
+        let data
+
+        if (isUserContent) {
+
+            const user = await userController.getUser(token)
+
+            limit = await contentController.getUserContentCount()
+            data = await contentController.getUserPagingContent(15, offset, user.id)
+        } else {
+            limit = await contentController.getContentCount()
+            data = await contentController.getPagingContent(15, offset)
+        }
 
         const convertedContent = await Promise.map(data, async (content) => {
             return {
@@ -129,12 +147,33 @@ async function updateContent(request, result) {
 
 async function deleteContent(request, result) {
     try {
+
         const contentId = request.query.contentId
-        await contentController.deleteContent(contentId)
-        result.status(200).json({
-            success: true,
-            message: "Content deleted!"
-        })
+
+        const content = await contentController.getSingleContent(contentId)
+
+        // Create a reference to the file to delete
+        const videoUrl = ref(storage, content.video_url)
+        const videoPreviewUrl = ref(storage, content.video_preview)
+
+        // Delete the file
+        deleteObject(videoUrl).then(() => {
+            deleteObject(videoPreviewUrl).then(() => {
+                if (content.trailer_url) {
+                    const videoTrailer = ref(storage, content.trailer_url)
+                    deleteObject(videoTrailer).then(() => {
+                        deleteDatabaseContent(result, contentId)
+                    })
+                } else {
+                    deleteDatabaseContent(result, contentId)
+                }
+            })
+        }).catch((error) => {
+            result.json(500).json({
+                success: false,
+                message: "Something went wrong on deleting video content: " + error.message
+            })
+        });
     } catch (e) {
         const message = "Error in content deletion: " + e.message
         console.log(message)
@@ -143,6 +182,14 @@ async function deleteContent(request, result) {
             message: message
         })
     }
+}
+
+async function deleteDatabaseContent(result, contentId) {
+    await contentController.deleteContent(contentId)
+    result.status(200).json({
+        success: true,
+        message: "Content deleted!"
+    })
 }
 
 async function createContent(request, result) {

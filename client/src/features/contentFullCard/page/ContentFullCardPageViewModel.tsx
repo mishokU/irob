@@ -1,12 +1,23 @@
-import {useGetContentMutation} from "../../../data/store/content/ContentApi";
+import {useDeleteContentMutation, useGetContentMutation} from "../../../data/store/content/ContentApi";
 import {ContentFullCardState, initContentFullCardState} from "./ContentFullCardState";
 import {useEffect, useState} from "react";
-import {useNavigate} from "react-router-dom";
+import {useLocation, useNavigate} from "react-router-dom";
+import {useSelector} from "react-redux";
+import {RootState} from "../../../data/store";
 
-export default function ContentFullCardViewModel(contentId: any) {
+export default function ContentFullCardViewModel() {
+
+    const profileReducer = useSelector((state: RootState) => state.profile)
+
+    const location = useLocation();
+    const contentId: any = location.state.contentId
+    const fromCatalogue: boolean = location.state.fromCatalogue
 
     const [state, setState] = useState<ContentFullCardState>(initContentFullCardState())
 
+    const [isDeleteDialogVisible, setIsDeleteDialogVisible] = useState(false)
+
+    const [deleteContent] = useDeleteContentMutation()
     const [getContent] = useGetContentMutation()
 
     const navigate = useNavigate()
@@ -14,7 +25,7 @@ export default function ContentFullCardViewModel(contentId: any) {
     useEffect(() => {
 
         async function loadCard() {
-            if(contentId){
+            if (contentId) {
                 return await getContent(contentId).unwrap()
             }
         }
@@ -24,6 +35,8 @@ export default function ContentFullCardViewModel(contentId: any) {
             .then((result: any) => {
                 setState({
                     isLoading: false,
+                    isDeleteDialogButtonVisible: profileReducer.profileId === result.user.userId,
+                    isCreateRoomButtonVisible: profileReducer.profileId !== result.user.userId && fromCatalogue,
                     user: {
                         username: result.user.username,
                         avatar: result.user.avatar,
@@ -58,8 +71,19 @@ export default function ContentFullCardViewModel(contentId: any) {
         navigate(-1)
     }
 
+    const handleDeleteCardClick = async () => {
+        const result: any = await deleteContent(contentId).unwrap()
+        if (result.success) {
+
+            navigate(-1)
+        }
+    }
+
     return {
         state,
+        isDeleteDialogVisible,
+        setIsDeleteDialogVisible,
+        handleDeleteCardClick,
         onBackClick
     }
 

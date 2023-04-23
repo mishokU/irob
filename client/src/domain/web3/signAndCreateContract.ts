@@ -1,5 +1,5 @@
 import {ethereum, localChain} from "./isMetamaskAvailable";
-import {ethers, parseEther} from "ethers";
+import {ethers} from "ethers";
 import {getSigner} from "./getSigner";
 import Web3 from "web3";
 
@@ -14,8 +14,6 @@ function verifyMessage(message: any, address: any, signature: any) {
 }
 
 export async function signAndCreateContract(address: string, data: string, depositCost: string) {
-
-    console.log(data)
 
     const signer = await getSigner()
     const signature = await signer.signMessage(data);
@@ -37,14 +35,9 @@ export async function signAndCreateContract(address: string, data: string, depos
             method: 'eth_sendTransaction', params: [transactionParameters],
         });
 
-        console.log(txHash)
-
         const transactionReceipt = await ethereum.request({
             method: 'eth_getTransactionReceipt', params: [txHash]
         })
-
-        console.log("contract")
-        console.log(transactionReceipt)
 
         if(!transactionReceipt){
             throw Error("No contract address!")

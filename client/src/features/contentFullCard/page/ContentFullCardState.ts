@@ -1,6 +1,9 @@
 export interface ContentFullCardState {
 
     isLoading: boolean
+
+    isCreateRoomButtonVisible: boolean
+    isDeleteDialogButtonVisible: boolean
     user: {
         username: string
         description: string
@@ -33,6 +36,8 @@ export interface ContentFullCardState {
 export function initContentFullCardState(): ContentFullCardState {
     return {
         isLoading: true,
+        isCreateRoomButtonVisible: false,
+        isDeleteDialogButtonVisible: false,
         user: {
             username: "",
             description: "",

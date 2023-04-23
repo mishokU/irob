@@ -10,6 +10,8 @@ export default function RoomsProfileViewModel() {
 
     const [rooms, setRooms] = useState<RoomResponse[]>([])
 
+    const [isEmptyVisible, setIsEmptyVisible] = useState(false)
+
     const [getRoomsMutation] = useGetRoomsMutation()
 
     const navigate = useNavigate()
@@ -19,11 +21,13 @@ export default function RoomsProfileViewModel() {
         async function fetchData() {
             return await getRoomsMutation().unwrap()
         }
+
         fetchData()
             .catch(e => console.log("load rooms error: " + e))
             .then(data => {
                 if (data !== undefined) {
                     data.map((room: RoomResponse) => setRooms((prev) => prev.concat(room)))
+                    setIsEmptyVisible(data.length === 0)
                 }
             });
     }, [getRoomsMutation])
@@ -34,7 +38,7 @@ export default function RoomsProfileViewModel() {
     }
 
     return {
-        rooms, handleOpenRoom
+        rooms, handleOpenRoom, isEmptyVisible
     }
 
 }
