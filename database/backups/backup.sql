@@ -242,7 +242,8 @@ CREATE TABLE public.licenses (
     is_favourite boolean,
     user_id integer NOT NULL,
     address text,
-    room_id text
+    room_id text,
+    content_id integer
 );
 
 
@@ -489,8 +490,8 @@ COPY public.content (id, name, description, owner, type, director, country, acto
 -- Data for Name: licenses; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-COPY public.licenses (id, uid, status, date, is_favourite, user_id, address, room_id) FROM stdin;
-30	f45ba06a-28bf-4e0f-9a27-158ea6cdbfd1	running	2023-04-22	f	1	0x87AaFD6DD5F6c4bA54e5a6C9a997a9EDC6CA10c3	jnhzn
+COPY public.licenses (id, uid, status, date, is_favourite, user_id, address, room_id, content_id) FROM stdin;
+30	f45ba06a-28bf-4e0f-9a27-158ea6cdbfd1	running	2023-04-22	f	1	0x87AaFD6DD5F6c4bA54e5a6C9a997a9EDC6CA10c3	jnhzn	\N
 \.
 
 

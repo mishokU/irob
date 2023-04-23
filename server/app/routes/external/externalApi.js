@@ -1,6 +1,7 @@
 const {Router} = require("express");
 
 const licensesController = require("../../controllers/LicensesController")
+const contentController = require("../../controllers/ContentController")
 
 const externalRouter = new Router()
 
@@ -11,10 +12,31 @@ externalRouter.post('/update', (request, result) => {
 })
 
 externalRouter.get('/getVideoUrl', (request, result) => {
-    return updateLicenceCounter(request, result)
+    return getVideoUrl(request, result)
 })
 
+async function getVideoUrl(request, result) {
+    try {
 
+        const licenseKey = request.query.licenseKey
+
+        const license = await licensesController.getLicenseBySecretKey(licenseKey)
+        const content = await contentController.getContentById(license.content_id)
+
+        result.status(200).json({
+            success: true,
+            videoUrl: content.video_url
+        })
+
+    } catch (e) {
+        const message = "Error in getting video by license: " + e.message
+        console.log(message)
+        result.json(500).json({
+            success: false,
+            message: message
+        })
+    }
+}
 
 async function updateLicenceCounter(request, result) {
     try {

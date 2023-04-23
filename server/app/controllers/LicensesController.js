@@ -14,12 +14,25 @@ module.exports = {
     getSoldLicenses,
     getLicenseByRoomId,
     getLicenseById,
+    getLicenseBySecretKey,
     getLicenseRequirementsProgress,
     createLicense,
     handleFavourite,
     deleteLicense,
     cancelLicense,
     updateLicenseRequirement
+}
+
+async function getLicenseBySecretKey(licenseKey) {
+    try {
+
+        const data = await db.query(`SELECT * FROM ${LICENSES_TABLE_NAME} WHERE uid= $1;`, [licenseKey])
+
+        return data.rows[0]
+
+    } catch (e){
+        console.log("Error in getting user all licenses: " + e.message)
+    }
 }
 
 async function getAllUserLicenses(token) {
@@ -122,15 +135,15 @@ async function getLicenseRequirementsProgress(licenseId) {
     }
 }
 
-async function createLicense(roomId, userId, address) {
+async function createLicense(roomId, userId, address, contentId) {
     try {
         const uid = uuidv4()
         const datetime = new Date();
         const date = datetime.toISOString().slice(0, 10)
         const data = await db.query(`
                 INSERT INTO ${LICENSES_TABLE_NAME}
-                (uid, status, date, is_favourite, user_id, address, room_id)
-                VALUES ('${uid}', 'running', '${date}', false, ${userId}, '${address}', '${roomId}')
+                (uid, status, date, is_favourite, user_id, address, room_id, content_id)
+                VALUES ('${uid}', 'running', '${date}', false, ${userId}, '${address}', '${roomId}', '${contentId}')
                 RETURNING id
            `)
         return data.rows[0].id

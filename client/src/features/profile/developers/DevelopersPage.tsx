@@ -1,4 +1,7 @@
 import {ServerUrl} from "../../../constants/Constants";
+import {buttonTheme} from "../../../themes/Themes";
+import {useNavigate} from "react-router-dom";
+import {IROBRoutes} from "../../../routes/IROBRoutes";
 
 export function DevelopersPage() {
     const value = "{\n" +
@@ -9,10 +12,18 @@ export function DevelopersPage() {
         "    \"success\": true,\n" +
         "    \"message\": \"Requirement with type: Duration days was increased!\"\n" +
         "}"
+    const navigate = useNavigate()
     return <div className="ml-4 mt-4 space-y-2">
         <h1 className="text-2xl">On this page you can find all necessary information about IROB API</h1>
         <h2 className="text-xl mt-4">Update requirement value by current license id and type</h2>
         <h2>Returns the success and message</h2>
+        <button
+            onClick={() => {
+                navigate(IROBRoutes.sample)
+            }}
+            className={buttonTheme}>
+            Test site
+        </button>
         <div className="bg-[#4a5058] w-[500px] rounded-lg p-2 mt-2 flex space-x-2">
             <h2>POST: </h2>
             <p>{ServerUrl}/api/update</p>

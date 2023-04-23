@@ -238,10 +238,12 @@ async function createSmartContract(request, result) {
 
             const checkSummedAddress = Web3.utils.toChecksumAddress(contractAddress)
 
+            const room = await roomController.getRoom(roomId)
             const licenseId = await licensesController.createLicense(
                 roomId,
                 data.buyer.id,
-                checkSummedAddress
+                checkSummedAddress,
+                room.content_id
             )
 
             await roomRequirementsController.updateRequirements(licenseId, roomId)

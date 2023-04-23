@@ -5,6 +5,7 @@ import {CommonResponse} from "../../models/common/CommonResponse";
 import {GetContentResponse} from "../../models/content/GetContentResponse";
 import {UpdateContentRequest} from "../../../features/createContentModal/domain/UpdateContentRequest";
 import {GetCatalogueItemsResponse} from "../../models/content/GetCatalogueItemsResponse";
+import {VideoResponse} from "../../models/common/VideoResponse";
 
 export const ContentApi = createApi({
     reducerPath: "irob/api/content", baseQuery: fetchBaseQuery({
@@ -60,7 +61,7 @@ export const ContentApi = createApi({
             transformErrorResponse(meta: unknown, arg: unknown): string {
                 return "Error while getRoomRequirementsCost, try later."
             }
-        }),
+        })
     })
 })
 

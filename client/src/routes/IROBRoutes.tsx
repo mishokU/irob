@@ -16,6 +16,7 @@ export enum IROBRoutes {
     buy = '/buy',
     about = '/about',
     home = '/home',
+    sample = '/sample',
     privacy = '/privacy',
     terms = '/terms',
     faq = '/faq'
