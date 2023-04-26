@@ -12,7 +12,7 @@ export async function signAndFinishContract(address: string) {
 
     const checkedAddress = Web3.utils.toChecksumAddress(address)
 
-    const depositHolder = new ethers.Contract(checkedAddress, abi, signer)
+    const depositHolder = new ethers.Contract(signer.address, abi, signer)
 
     const result = await depositHolder.sendDeposit(0)
 

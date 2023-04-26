@@ -84,7 +84,7 @@ async function getRooms() {
 async function updateFirstAgreement(roomId, isAgree) {
     try {
         await db.query(`
-                UPDATE rooms SET first_agreement = $1 WHERE room_id= $2;`, [isAgree, roomId]
+                UPDATE rooms SET first_agreement=$1 WHERE room_id= $2;`, [isAgree, roomId]
         )
     } catch (e) {
         console.log("Error in update first agreement: " + e.message)
@@ -94,7 +94,7 @@ async function updateFirstAgreement(roomId, isAgree) {
 async function updateSecondAgreement(roomId, isAgree) {
     try {
         await db.query(`
-                UPDATE rooms SET second_agreement = $1 WHERE room_id= $2;`, [isAgree, roomId]
+                UPDATE rooms SET second_agreement=$1 WHERE room_id= $2;`, [isAgree, roomId]
         )
     } catch (e) {
         console.log("Error in updateSecondAgreement: " + e.message)

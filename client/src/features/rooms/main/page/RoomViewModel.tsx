@@ -29,7 +29,7 @@ export default function RoomViewModel() {
         isVisible: false, requirement: null
     })
 
-    const [isPaymentButtonVisible] = useState(roomReducer.isAdmin && !roomReducer.isFinished)
+    const [isPaymentButtonVisible, setIsPaymentButtonVisible] = useState(false)
 
     const navigate = useNavigate();
     const dispatch = useDispatch();
@@ -55,7 +55,6 @@ export default function RoomViewModel() {
                 if (roomId !== roomReducer.roomId) {
                     dispatch(updateRoomId(window.location.href))
                 }
-
                 return await roomMutation(roomId).unwrap()
             } else {
                 navigate(IROBRoutes.nonAuthPage)
@@ -65,13 +64,16 @@ export default function RoomViewModel() {
         fetchData()
             .catch((e) => console.log("load room error: " + e))
             .then(data => {
-                console.log(data)
-                dispatch(updateRoom(data))
+                if(data){
+                    dispatch(updateRoom(data))
+                    setIsPaymentButtonVisible(data.isAdmin && (!data.firstAgreement && !data.secondAgreement))
+                }
             }).then(() => setIsContentVisible(true))
     }, [])
 
     useEffect(() => {
         setIsMakeDealDialogVisible(false)
+        setIsPaymentButtonVisible(false)
     }, [roomReducer.isFinished])
 
     const handleDeleteRoomClick = async () => {

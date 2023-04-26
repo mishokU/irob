@@ -150,17 +150,29 @@ async function deleteContent(request, result) {
 
         const contentId = request.query.contentId
 
+        console.log(contentId)
+
         const content = await contentController.getSingleContent(contentId)
 
+        console.log(content.video_url)
+        console.log(content.video_preview)
+
+        const videoUrlSubstring = content.video_url.match(/videos(.*)/)
+        const videoPreviewSubstring = content.video_preview.match(/videoPreviews(.*)/)
+
+        console.log(videoPreviewSubstring)
+        console.log(videoUrlSubstring)
+
         // Create a reference to the file to delete
-        const videoUrl = ref(storage, content.video_url)
-        const videoPreviewUrl = ref(storage, content.video_preview)
+        const videoUrl = ref(storage, videoUrlSubstring[0])
+        const videoPreviewUrl = ref(storage, videoPreviewSubstring[0])
 
         // Delete the file
         deleteObject(videoUrl).then(() => {
             deleteObject(videoPreviewUrl).then(() => {
                 if (content.trailer_url) {
-                    const videoTrailer = ref(storage, content.trailer_url)
+                    const videoTrailerSubs = content.trailer_url.match(/videoTrailer(.*)/)
+                    const videoTrailer = ref(storage, videoTrailerSubs)
                     deleteObject(videoTrailer).then(() => {
                         deleteDatabaseContent(result, contentId)
                     })
@@ -169,7 +181,8 @@ async function deleteContent(request, result) {
                 }
             })
         }).catch((error) => {
-            result.json(500).json({
+            console.log(error.message)
+            result.status(500).json({
                 success: false,
                 message: "Something went wrong on deleting video content: " + error.message
             })
@@ -177,7 +190,7 @@ async function deleteContent(request, result) {
     } catch (e) {
         const message = "Error in content deletion: " + e.message
         console.log(message)
-        result.json(500).json({
+        result.status(500).json({
             success: false,
             message: message
         })

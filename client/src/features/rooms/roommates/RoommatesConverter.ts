@@ -4,7 +4,6 @@ import avatarPlaceholder from "../../../ui/assets/avatart_placeholder.png"
 export class RoommatesConverter {
 
     getUserFromServer(user: any) {
-        console.log(user)
         const newUser: RoomUserResponse = {
             id: user.profileId,
             fullName: user.fullName,
@@ -16,7 +15,6 @@ export class RoommatesConverter {
 
     getUser(lastMessage: any) {
         let json = JSON.parse(lastMessage.data)
-        console.log(json)
         const user: RoomUserResponse = {
             id: json.data.id,
             fullName: json.data.username,
@@ -27,7 +25,6 @@ export class RoommatesConverter {
     }
 
     getAvatar(avatar: string): string {
-        console.log(avatar)
         if (avatar === null) {
             return avatarPlaceholder
         } else {

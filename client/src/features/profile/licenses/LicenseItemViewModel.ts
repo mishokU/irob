@@ -70,6 +70,9 @@ export function LicenseItemViewModel(type: LicenseMenu, setIsVisible: Dispatch<D
         if (license !== null) {
 
             const licenseId = license.id
+
+            const data = await signAndFinishContract(license.address)
+
             const result = await deleteLicenseMutation({licenseId: licenseId, address: license.address}).unwrap()
 
             if (result.success) {

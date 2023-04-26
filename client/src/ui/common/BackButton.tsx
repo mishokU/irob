@@ -6,7 +6,7 @@ export function BackButton() {
     return (<button
         type="button"
         onClick={() => {navigate(-1)}}
-        className="bg-[#ffb81c] absolute m-8 z-10 rounded-full  p-4 text-center inline-flex">
+        className="w-[60px] bg-[#ffb81c] absolute m-8 z-10 rounded-full  p-4 text-center inline-flex">
         <img src={backImg}/>
         <span className="sr-only">Icon description</span>
     </button>)
