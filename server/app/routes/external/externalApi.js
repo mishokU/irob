@@ -31,7 +31,7 @@ async function getVideoUrl(request, result) {
     } catch (e) {
         const message = "Error in getting video by license: " + e.message
         console.log(message)
-        result.json(500).json({
+        result.status(500).json({
             success: false,
             message: message
         })

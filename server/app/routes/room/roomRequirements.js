@@ -2,6 +2,7 @@ const {Router} = require("express");
 
 const roomRequirementsController = require("../../controllers/RoomRequirementsController")
 const roomController = require("../../controllers/RoomControllers")
+const userController = require("../../controllers/UserController");
 
 const roomRequirementsRouter = new Router()
 
@@ -36,10 +37,22 @@ async function createRoomRequirement(request, result) {
     try {
         const token = request.get('token')
         const {roomId, title, description, type, value} = request.body
-        const data = await roomRequirementsController.createRequirement(token, roomId, title, description, value, type)
+        const user = await userController.getUser(token)
+        const requirementId = await roomRequirementsController.createRequirement(user.id, roomId, title, description, value, type)
+
+        let username = ""
+        if (user.name === "" || user.surname === "") {
+            username = user.email
+        } else {
+            username = user.name + " " + user.surname
+        }
+
         result.status(200).json({
             success: true,
-            requirement: data
+            requirement: {
+                username: username,
+                requirementId: requirementId
+            }
         })
     } catch (e) {
         console.log(e)

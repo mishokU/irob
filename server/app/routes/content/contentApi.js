@@ -150,35 +150,30 @@ async function deleteContent(request, result) {
 
         const contentId = request.query.contentId
 
-        console.log(contentId)
-
         const content = await contentController.getSingleContent(contentId)
 
-        console.log(content.video_url)
-        console.log(content.video_preview)
-
-        const videoUrlSubstring = content.video_url.match(/videos(.*)/)
-        const videoPreviewSubstring = content.video_preview.match(/videoPreviews(.*)/)
-
-        console.log(videoPreviewSubstring)
-        console.log(videoUrlSubstring)
+        const videoUrlSubstring = content.video_url.match(/videos(?!videos|irob).*?irob/)
+        const videoPreviewSubstring = content.video_preview.match(/videoPreviews(?!videoPreviews|irob).*?irob/)
 
         // Create a reference to the file to delete
-        const videoUrl = ref(storage, videoUrlSubstring[0])
-        const videoPreviewUrl = ref(storage, videoPreviewSubstring[0])
+        const videoUrl = ref(storage, videoUrlSubstring[0].replace("%2F", "/"))
+        const videoPreviewUrl = ref(storage, videoPreviewSubstring[0].replace("%2F", "/"))
 
-        // Delete the file
+        // Delete all files
         deleteObject(videoUrl).then(() => {
             deleteObject(videoPreviewUrl).then(() => {
-                if (content.trailer_url) {
-                    const videoTrailerSubs = content.trailer_url.match(/videoTrailer(.*)/)
-                    const videoTrailer = ref(storage, videoTrailerSubs)
-                    deleteObject(videoTrailer).then(() => {
-                        deleteDatabaseContent(result, contentId)
-                    })
-                } else {
-                    deleteDatabaseContent(result, contentId)
-                }
+                deleteDatabaseContent(result, contentId)
+                // if (content.trailer_url !== null) {
+                //     console.log("here")
+                //     console.log(content.trailer_url)
+                //     const videoTrailerSubs = content.trailer_url.match(/videoTrailers(?!videoTrailers|mp4).*?mp4(.*)/)
+                //     const videoTrailer = ref(storage, videoTrailerSubs[0])
+                //     deleteObject(videoTrailer).then(() => {
+                //         deleteDatabaseContent(result, contentId)
+                //     })
+                // } else {
+                //     deleteDatabaseContent(result, contentId)
+                // }
             })
         }).catch((error) => {
             console.log(error.message)

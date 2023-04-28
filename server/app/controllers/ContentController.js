@@ -19,12 +19,12 @@ module.exports = {
     getUserPagingContent
 }
 
-async function createStartRequirements(roomId, contentId, token) {
+async function createStartRequirements(roomId, contentId, userId) {
     try {
 
         const content = await getSingleContent(contentId)
 
-        await roomRequirementsController.createRequirement(token, roomId, "", "", content.cost, "Cost")
+        await roomRequirementsController.createRequirement(userId, roomId, "", "", content.cost, "Cost")
 
     } catch (e) {
         console.log("Error in creating start requirements: " + e.message)
@@ -94,10 +94,10 @@ async function deleteContent(contentId) {
 
 async function getUserContentCount(userId) {
     try {
-        const data = db.query(`SELECT COUNT(*) as count_rows FROM ${CONTENT_TABLE_NAME} WHERE user_id=$1`, [userId])
+        const data = await db.query(`SELECT COUNT(*) as count_rows FROM ${CONTENT_TABLE_NAME} WHERE user_id=$1`, [userId])
         return data.rows[0].count_rows
     } catch (e) {
-        console.log("Error in content count: " + e.message)
+        console.log("Error in user content count: " + e.message)
     }
 }
 
@@ -121,7 +121,7 @@ async function getUserPagingContent(limit, offset, userId) {
 
 async function getContentCount() {
     try {
-        const data = db.query(`SELECT COUNT(*) as count_rows FROM ${CONTENT_TABLE_NAME}`)
+        const data = await db.query(`SELECT COUNT(*) as count_rows FROM ${CONTENT_TABLE_NAME}`)
         return data.rows[0].count_rows
     } catch (e) {
         console.log("Error in content count: " + e.message)

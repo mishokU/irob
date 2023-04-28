@@ -1,5 +1,5 @@
 import {getSigner} from "./getSigner";
-import {ethers, parseEther} from "ethers";
+import {ethers} from "ethers";
 import Web3 from "web3";
 
 export async function signAndFinishContract(address: string) {
@@ -8,13 +8,20 @@ export async function signAndFinishContract(address: string) {
 
     const signer = await getSigner()
 
+    console.log(signer)
+
     const abi = ["function sendDeposit(uint progress) payable public"]
 
     const checkedAddress = Web3.utils.toChecksumAddress(address)
 
-    const depositHolder = new ethers.Contract(signer.address, abi, signer)
+    console.log(checkedAddress)
+
+    const depositHolder = new ethers.Contract(checkedAddress, abi, signer)
 
     const result = await depositHolder.sendDeposit(0)
+
+    result.chainId = 1337
+    result.gasLimit = 30000;
 
     await result.wait()
 

@@ -80,7 +80,7 @@ async function deleteLicense(request, result) {
         const address = request.query.address
         if (licenseId !== undefined && address !== undefined) {
 
-            await hreController.disableContract(address)
+            //await hreController.disableContract(address)
 
             await licensesController.deleteLicense(licenseId)
 

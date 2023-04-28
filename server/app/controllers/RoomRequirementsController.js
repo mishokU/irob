@@ -102,24 +102,14 @@ async function getRoomRequirements(roomId) {
     }
 }
 
-async function createRequirement(token, roomId, title, description, value, type) {
-    const user = await userController.getUser(token)
+async function createRequirement(userId, roomId, title, description, value, type) {
     const data = await db.query(`
               INSERT INTO ${ROOM_REQUIREMENTS_TABLE_NAME}
               (room_id, user_id, title, description, type, value, is_alive)
-              VALUES ('${roomId}', ${user.id}, '${title}','${description}', '${type}', '${value}', true)
+              VALUES ('${roomId}', ${userId}, '${title}','${description}', '${type}', '${value}', true)
               RETURNING id
         `)
-    let username = ""
-    if (user.name === "" || user.surname === "") {
-        username = user.email
-    } else {
-        username = user.name + " " + user.surname
-    }
-    return {
-        username: username,
-        requirementId: data.rows[0].id
-    }
+    return data.rows[0].id
 }
 
 async function updateRequirementValue(id, type) {

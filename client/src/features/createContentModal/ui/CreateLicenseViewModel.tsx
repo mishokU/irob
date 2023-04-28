@@ -6,6 +6,7 @@ import {storage} from "../../../firebaseConfig";
 import {getVideoCover} from "@rajesh896/video-thumbnails-generator";
 import {initCreateCardProps, useModalsContext} from "../../main/contexts/ModalsProvider";
 import {Stepper} from "./CreateContentStepper";
+import {renameFile} from "../../../domain/hooks/Utils";
 
 
 export default function CreateLicenseViewModel(roomId: string | null) {
@@ -27,7 +28,7 @@ export default function CreateLicenseViewModel(roomId: string | null) {
         setState({
             ...state, video: {
                 url: url,
-                file: file,
+                file: renameFile(file, Date.now().toString() + ".mp4"),
                 name: file.name
             }
         })
@@ -39,7 +40,7 @@ export default function CreateLicenseViewModel(roomId: string | null) {
         setState({
             ...state, trailer: {
                 url: url,
-                file: file,
+                file: renameFile(file, Date.now().toString() + ".mp4"),
                 name: file.name
             }
         })
@@ -139,8 +140,8 @@ export default function CreateLicenseViewModel(roomId: string | null) {
 
         if (state.video) {
 
-            const mountainVideosRef = ref(storage, `videos/${state.video.name}`);
-            const mountainVideoPreviewRef = ref(storage, `videoPreviews/${state.video.name}`);
+            const mountainVideosRef = ref(storage, `videos/${"video" + Date.now() + "irob"}`);
+            const mountainVideoPreviewRef = ref(storage, `videoPreviews/${"preview" + Date.now() + "irob"}`);
 
             setState({...state, isLoading: true})
 
@@ -160,13 +161,13 @@ export default function CreateLicenseViewModel(roomId: string | null) {
                         console.log('Uploaded a video file!');
                         getDownloadURL(snapshot.ref).then(async (videoUrl) => {
 
-                            uploadBytes(mountainVideoPreviewRef, file).then(async (snapshot) => {
+                            uploadBytes(mountainVideoPreviewRef, renameFile(file, Date.now() + ".jpg")).then(async (snapshot) => {
                                 console.log('Uploaded a video preview file!');
                                 getDownloadURL(snapshot.ref).then(async (videoPreview) => {
 
                                     if (state.trailer) {
                                         const mountainVideoTrailerPreviewRef = ref(storage, `videoTrailers/${state.trailer.name}`);
-                                        uploadBytes(mountainVideoTrailerPreviewRef, file).then(async (snapshot) => {
+                                        uploadBytes(mountainVideoTrailerPreviewRef, state.trailer.file).then(async (snapshot) => {
                                             console.log('Uploaded a video trailer file!');
                                             getDownloadURL(snapshot.ref).then(async (videoTrailerPreview) => {
                                                 await createContentWithVideoUrl(videoUrl, videoPreview, videoTrailerPreview)
@@ -192,7 +193,6 @@ export default function CreateLicenseViewModel(roomId: string | null) {
     }
 
     async function createContentWithVideoUrl(videoUrl: string, videoPreview: string, videoTrailerPreview: string | null) {
-
         const result = await createContent({
             name: state.name,
             description: state.description,
