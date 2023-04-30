@@ -8,16 +8,9 @@ export async function signAndSendDeposit(address: string, deposit: string) {
     const tx = await signer.sendTransaction({
         to: address,
         value: parseEther(deposit),
-        chainId: '0x539'
+        chainId: testChain
     })
 
-    console.log(tx)
-
-    const result = await tx.wait()
-
-    console.log("transfer result: ")
-    console.log(result)
-
-    return result
+    return await tx.wait()
 
 }

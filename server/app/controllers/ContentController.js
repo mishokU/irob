@@ -6,7 +6,6 @@ const userController = require("./UserController");
 const roomRequirementsController = require("../controllers/RoomRequirementsController")
 
 module.exports = {
-    getUserContent,
     createContent,
     getPagingContent,
     getContentCount,
@@ -56,21 +55,6 @@ async function getSingleContent(contentId) {
 
     } catch (e) {
         console.log("Error in get single content: " + e.message)
-    }
-}
-
-/*
-    In profile tabs
-*/
-
-async function getUserContent(token) {
-    try {
-
-        const user = await userController.getUser(token)
-
-
-    } catch (e) {
-        console.log("Error in getting user content: " + e.message)
     }
 }
 

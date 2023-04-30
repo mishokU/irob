@@ -6,5 +6,6 @@ export enum SettingsStrings {
     Notifications = "Notifications",
     PrivacyData = "Privacy & Data",
     Ledger = "Ledger",
-    ReferralProgram = "Referral program"
+    ReferralProgram = "Referral program",
+    NetworkChanger = "Network changer"
 }

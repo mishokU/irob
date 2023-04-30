@@ -14,7 +14,8 @@ const initialState = {
     email: "",
     disabled: false,
     followersCount: 0,
-    profileId: 0
+    profileId: 0,
+    isAdmin: false
 };
 
 export const profileSlice = createSlice({
@@ -34,6 +35,7 @@ export const profileSlice = createSlice({
                 state.avatar = action.payload.user.avatar
                 state.disabled = action.payload.user.disabled
                 state.email = action.payload.user.email
+                state.isAdmin = action.payload.user.isAdmin
 
                 if (state.name === "" || state.surname === "") {
                     state.fullName = state.email
@@ -54,6 +56,7 @@ export const profileSlice = createSlice({
             state.fullName = ""
             state.email = ""
             state.profileId = 0
+            state.isAdmin = false
         },
         updateLocationAndLanguage: (state, action) => {
             state.language = action.payload.language

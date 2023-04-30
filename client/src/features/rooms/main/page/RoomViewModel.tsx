@@ -19,6 +19,8 @@ export const WS_URL = process.env.WS_URL || 'ws://localhost:8080';
 
 export default function RoomViewModel() {
 
+    const dispatch = useDispatch();
+
     const roomReducer = useSelector((state: RootState) => state.room)
 
     const [isDeleteDialogVisible, setIsDeleteDialogVisible] = useState(false)
@@ -32,7 +34,6 @@ export default function RoomViewModel() {
     const [isPaymentButtonVisible, setIsPaymentButtonVisible] = useState(false)
 
     const navigate = useNavigate();
-    const dispatch = useDispatch();
 
     const [roomMutation] = useGetRoomMutation()
     const [deleteRoomMutation] = useDeleteRoomMutation()
@@ -64,7 +65,7 @@ export default function RoomViewModel() {
         fetchData()
             .catch((e) => console.log("load room error: " + e))
             .then(data => {
-                if(data){
+                if (data) {
                     dispatch(updateRoom(data))
                     setIsPaymentButtonVisible(data.isAdmin && (!data.firstAgreement && !data.secondAgreement))
                 }
@@ -72,8 +73,11 @@ export default function RoomViewModel() {
     }, [])
 
     useEffect(() => {
+        console.log("is finished: " + roomReducer.isFinished)
+        const visible = !roomReducer.isFinished
+        console.log(visible)
         setIsMakeDealDialogVisible(false)
-        setIsPaymentButtonVisible(false)
+        setIsPaymentButtonVisible(visible)
     }, [roomReducer.isFinished])
 
     const handleDeleteRoomClick = async () => {

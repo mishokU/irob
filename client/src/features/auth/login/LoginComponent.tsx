@@ -7,7 +7,6 @@ import {AuthErrorFormComponent} from "../components/AuthErrorFormComponent";
 export function LoginComponent(auth: IAuth) {
     const {setEmail, setPassword, handleLogin, emailError, passwordError} = useViewModel(auth.errorState)
     return <div className="absolute">
-        <h1 className="text-4xl text-center text-white pb-4">IROB</h1>
         <h2 className="text-[#8fadc0] text-xs font-bold">Email</h2>
         <input className="bg-[#8fadc01a] mt-2 w-[250px] rounded border p-2 text-white border-[#8fadc033]"
                type="email"

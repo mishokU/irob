@@ -6,6 +6,7 @@ import {GetShortContentResponse} from "../../../data/models/content/GetShortCont
 export default function CatalogueViewModel() {
 
     const [error, setError] = useState("");
+    const [isEmptyVisible, setIsEmptyVisible] = useState(false)
     const [content, setContent] = useState<CatalogueUi[]>([]);
 
     const [getPagingContents] = useGetCatalogueItemsMutation()
@@ -29,12 +30,14 @@ export default function CatalogueViewModel() {
                         }
                     })
                     setContent(convertedUi)
+                    setIsEmptyVisible(convertedUi.size === 0)
                 }
             })
     }, [])
 
     return {
         error,
+        isEmptyVisible,
         content
     }
 }

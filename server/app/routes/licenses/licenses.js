@@ -1,8 +1,8 @@
 const {Router} = require("express");
 
 const licensesController = require("../../controllers/LicensesController")
-const hreController = require("../../scripts/disableContract");
 const roomController = require("../../controllers/RoomControllers")
+const contentController = require("../../controllers/ContentController")
 
 const Promise = require("bluebird");
 
@@ -80,8 +80,6 @@ async function deleteLicense(request, result) {
         const address = request.query.address
         if (licenseId !== undefined && address !== undefined) {
 
-            //await hreController.disableContract(address)
-
             await licensesController.deleteLicense(licenseId)
 
             result.status(200).json({
@@ -157,10 +155,10 @@ async function getAllLicenses(request, result) {
 
 async function getLicenses(request, type) {
     const token = request.get('token')
-    if(type === "all"){
+    if (type === "all") {
         const licenses = await licensesController.getAllUserLicenses(token)
         return await convertLicenses(licenses, true)
-    } else if(type === "favourite"){
+    } else if (type === "favourite") {
         const licenses = await licensesController.getFavouriteLicenses(token)
         return await convertLicenses(licenses, false)
     } else {
@@ -173,32 +171,53 @@ async function convertLicenses(licenses, isPrivateKeyButtonVisible) {
     return await Promise.map(licenses, async (license) => {
         const requirementsProgress = await licensesController.getLicenseRequirementsProgress(license.id)
         const room = await roomController.getRoom(license.room_id)
+        const content = await contentController.getContentById(license.content_id)
 
-        if(room === undefined){
-            return {
-                id: license.id,
-                status: license.status,
-                date: license.date,
-                name: "Room was deleted!",
-                isFavourite: license.is_favourite,
-                isPrivateKeyButtonVisible: isPrivateKeyButtonVisible,
-                uid: license.uid,
-                address: license.address,
-                roomId: null,
-                progress: requirementsProgress
+        let name
+        let owner
+        let type
+        let roomId
+
+        if (content !== undefined) {
+            name = content.name
+            type = content.type
+            owner = content.owner
+            if (room !== undefined) {
+                roomId = room.room_id
             }
+        } else if (room !== undefined) {
+            if(room.name){
+                name = room.name
+            } else {
+                name = "Room was deleted!"
+            }
+            if(room.type){
+                type = room.type
+            } else {
+                type = "Undefined"
+            }
+            if(room.owner){
+                owner = room.owner
+            } else {
+                owner = "Somebody"
+            }
+        } else {
+            name = "Original content deleted!"
+            owner = "Somebody"
+            type = "Undefined"
         }
 
         return {
             id: license.id,
             status: license.status,
-            name: room.name,
-            type: room.type,
-            owner: room.owner,
+            name: name,
+            type: type,
+            owner: owner,
             address: license.address,
             isPrivateKeyButtonVisible: isPrivateKeyButtonVisible,
             date: license.date,
-            roomId: room.room_id,
+            roomId: roomId,
+            userId: license.user_id,
             isFavourite: license.is_favourite,
             uid: license.uid,
             progress: requirementsProgress

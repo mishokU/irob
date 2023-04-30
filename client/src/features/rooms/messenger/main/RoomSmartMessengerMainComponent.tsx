@@ -20,7 +20,7 @@ export function RoomSmartMessengerMainComponent({isVisible, setIsVisible, isDeal
         {menu === CenterMenu.CHAT && <RoomChatComponent
             isVisible={isVisible}
             setIsVisible={setIsVisible}
-            isDealButtonVisible={isDealButtonVisible}
+            isDealButtonVisible={!isAgreed()}
         />}
         {menu === CenterMenu.PAYMENT && <RoomPaymentComponent />}
     </div>

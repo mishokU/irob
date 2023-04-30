@@ -2,15 +2,18 @@ import {ProfileInfoComponent} from "../info/ProfileInfoComponent";
 import {MenuDelegateHandler} from "../delegates/MenuDelegateHandler";
 import {SettingsMenu} from "../delegates/SettingsMenu";
 import {SettingsStrings} from "../strings/SettingsStrings";
-import backImg from "../../../ui/assets/left_24px.png";
+import backImg from "../../../ui/assets/left_white_48px.png";
 import {AccountManagementComponent} from "../accountManagement/AccountManagementComponent";
 import {PersonalDataComponent} from "../personalData/PersonalDataComponent";
 import {NotificationsComponent} from "../notifications/NotificationsComponent";
 import {ConfidentialComponent} from "../confidential/ConfidentialComponent";
 import {LedgerComponent} from "../ledger/LedgerComponent";
+import {NetworkComponent} from "../network/NetworkComponent";
+import useViewModel from "./SettingsViewModel"
 
 export function SettingsPage() {
     const {activeMenu, setActiveMenu, onBackClick} = MenuDelegateHandler()
+    const {profileReducer} = useViewModel()
     const menuStyle = "p-3 hover:border-[#4a5058] hover:text-white rounded-xl border-2 border-transparent"
     const menuStyleActive = "p-3 bg-[#1E252F] text-white rounded-xl border-[#29303A] border-2"
     return <div className="flex ml-12 mt-8 mt-24">
@@ -48,6 +51,11 @@ export function SettingsPage() {
                      onClick={() => setActiveMenu(SettingsMenu.PROGRAM)}>
                     <h1>{SettingsStrings.ReferralProgram}</h1>
                 </div>
+                {profileReducer.isAdmin &&
+                    <div className={activeMenu === SettingsMenu.CRM ? menuStyleActive : menuStyle}
+                         onClick={() => setActiveMenu(SettingsMenu.CRM)}>
+                        <h1>{SettingsStrings.NetworkChanger}</h1>
+                    </div>}
             </div>
         </div>
         <div className="lg:ml-36 md:ml-16 sm:ml-8">
@@ -68,6 +76,9 @@ export function SettingsPage() {
             </div>}
             {activeMenu === SettingsMenu.LEDGER && <div className="justify-center">
                 <LedgerComponent/>
+            </div>}
+            {activeMenu === SettingsMenu.CRM && <div className="justify-center">
+                <NetworkComponent/>
             </div>}
         </div>
     </div>

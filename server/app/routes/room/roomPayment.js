@@ -6,6 +6,7 @@ const userController = require("../../controllers/UserController");
 const licensesController = require("../../controllers/LicensesController")
 const roomResultController = require("../../controllers/RoomResultController")
 const roomController = require("../../controllers/RoomControllers")
+const contentController = require("../../controllers/ContentController")
 
 
 const Web3 = require("web3");
@@ -239,12 +240,12 @@ async function createSmartContract(request, result) {
             const checkSummedAddress = Web3.utils.toChecksumAddress(contractAddress)
 
             const room = await roomController.getRoom(roomId)
-            const licenseId = await licensesController.createLicense(
-                roomId,
-                data.buyer.id,
-                checkSummedAddress,
-                room.content_id
-            )
+
+            /*
+                Need to create video clone in shared folder in firebase.
+            */
+
+            const licenseId = await duplicateVideoFile(roomId, data.buyer.id, checkSummedAddress, room.content_id)
 
             await roomRequirementsController.updateRequirements(licenseId, roomId)
             await roomResultController.createRoomResult(roomId, requirementsCost, gasCost, depositCost, data.buyer.id, contractCost)
@@ -336,6 +337,21 @@ async function resolveBuyerAndSeller(token, ownerId, userId) {
         buyer,
         seller
     }
+}
+
+async function duplicateVideoFile(roomId, userId, address, contentId) {
+
+    const content = contentController.getContentById(contentId)
+
+    const licenseId = await licensesController.createLicense(
+        roomId,
+        userId,
+        address,
+        contentId
+    )
+
+    return licenseId
+
 }
 
 function calculateCommissionCost(requirementsCost, gasCost, depositCost, contractCost) {

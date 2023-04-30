@@ -6,5 +6,6 @@ export enum SettingsMenu {
     CONFIDENTIAL,
     APPLICATIONS,
     PROGRAM,
-    LEDGER
+    LEDGER,
+    CRM
 }

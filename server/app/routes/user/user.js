@@ -1,5 +1,8 @@
 const db = require('../../db');
+
 const userController = require("../../controllers/UserController");
+const configController = require("../../controllers/ConfigController");
+
 const getBalance = require("../../scripts/getBalance")
 const {Router} = require("express");
 const Web3 = require("web3")
@@ -116,7 +119,9 @@ async function updateAccountLedger(request, result) {
 
         await userController.updateAccountLedger(token, checkSummedAddress)
 
-        const balance = await getBalance(account)
+        const config = await configController.getCurrentNetwork()
+
+        const balance = await getBalance(account, config)
 
         result.status(200).json({
             success: true,

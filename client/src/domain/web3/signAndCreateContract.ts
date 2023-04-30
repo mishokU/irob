@@ -1,7 +1,8 @@
-import {ethereum, localChain} from "./isMetamaskAvailable";
+import {ethereum} from "./isMetamaskAvailable";
 import {ethers} from "ethers";
 import {getSigner} from "./getSigner";
 import Web3 from "web3";
+import {testChain} from "../../data/slices/IrobConfigSlice";
 
 function verifyMessage(message: any, address: any, signature: any) {
     try {
@@ -25,7 +26,7 @@ export async function signAndCreateContract(address: string, data: string, depos
         const transactionParameters = {
             from: address,
             data: data,
-            chainId: localChain,
+            chainId: testChain,
             gasLimit: 3000000,
             value: ether
         };

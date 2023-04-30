@@ -17,7 +17,7 @@ export default function ProfileLedgerViewModel() {
         async function getBalance() {
             if(account !== null){
                 const response = await updateAccountLedgerMutation({account: account}).unwrap()
-                const balance = response.balance.toFixed(2)
+                const balance = response.balance.toFixed(4)
                 setBalance(Number(balance))
                 setIsLedgerConnected(status === "connected")
             } else {

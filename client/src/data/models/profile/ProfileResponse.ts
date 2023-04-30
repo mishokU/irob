@@ -8,4 +8,5 @@ export interface ProfileResponse {
     website: string
     id: number
     email: string
+    isAdmin: boolean
 }

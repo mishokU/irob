@@ -12,7 +12,7 @@ import {WS_URL} from "../../../page/RoomViewModel";
 import {useDispatch, useSelector} from "react-redux";
 import {RootState} from "../../../../../../data/store";
 import {RightButtonProps} from "./RightButtonProps";
-import {updateSecondAgreement} from "../../../../../../data/slices/RoomSlice";
+import {updateFirstAgreement, updateSecondAgreement} from "../../../../../../data/slices/RoomSlice";
 
 
 export default function RightButtonViewModel(

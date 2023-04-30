@@ -13,8 +13,12 @@ import {IROBRoutes} from "../../../routes/IROBRoutes";
 import {LicenseMenu} from "../delegates/LicenseMenu";
 import {signAndFinishContract} from "../../../domain/web3/signAndFinishContract";
 import {DeleteProps} from "./LicenseItemPage";
+import {useSelector} from "react-redux";
+import {RootState} from "../../../data/store";
 
 export function LicenseItemViewModel(type: LicenseMenu, setIsVisible: Dispatch<DeleteProps>) {
+
+    const profileReducer = useSelector((state: RootState) => state.profile)
 
     const [licenseItems, setLicenseItems] = useState<LicenseUiModel[]>([])
 
@@ -46,10 +50,12 @@ export function LicenseItemViewModel(type: LicenseMenu, setIsVisible: Dispatch<D
             .catch((error) => console.log(error))
             .then((data: any) => {
                 const items = data.licenses.map((license: LicenseResponse) => {
+                    console.log(license)
                     return {
                         status: getLicenseStatus(license.status),
                         name: license.name,
                         date: license.date,
+                        userId: license.userId,
                         owner: license.owner,
                         type: license.type,
                         uid: license.uid,
@@ -71,7 +77,11 @@ export function LicenseItemViewModel(type: LicenseMenu, setIsVisible: Dispatch<D
 
             const licenseId = license.id
 
-            const data = await signAndFinishContract(license.address)
+            if(license.userId === profileReducer.profileId){
+                await signAndFinishContract(license.address, 0)
+            } else {
+                await signAndFinishContract(license.address, 100)
+            }
 
             const result = await deleteLicenseMutation({licenseId: licenseId, address: license.address}).unwrap()
 

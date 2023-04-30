@@ -42,7 +42,6 @@ export class MessagesUiConverter {
     }
 
     getAvatar(avatar: string): string {
-        console.log(avatar)
         if (avatar) {
             return avatar
         } else {

@@ -1,15 +1,15 @@
-import logo from "../assets/start-image-logo.png";
 import {buttonTheme} from "../../../themes/Themes";
 import {IROBRoutes} from "../../../routes/IROBRoutes";
 import {Auth} from "../../auth/domain/utils/Auth";
 import {useNavigate} from "react-router-dom";
+import {WelcomeImage} from "./WelcomeImage";
 
 export function WelcomeSection() {
     const navigate = useNavigate()
     return <section>
         <div className="flex-col text-center justify-center m-8 ">
             <div>
-                <img className="m-auto" src={logo} alt="Logo" />
+                <WelcomeImage/>
             </div>
             <p className="d-none mt-16 font-bold text-3xl">
                 This is a service for sell and buy
@@ -31,8 +31,6 @@ export function WelcomeSection() {
                 }}>Sign in</a>
             </div>
         </div>
-        {/*<div className="w-[400px] h-[400px] bg-[#1d2b37] rotate-45 absolute -mt-80 -ml-56 rounded-lg overflow-hidden" />*/}
-        {/*<div className="w-[400px] h-[400px] bg-[#1d2b37] rotate-45 right-0 top-0 absolute mt-40 -mr-56 rounded-lg overflow-hidden" />*/}
         <div className="h-14 w-full bg-[#0c131a] rotate-1" />
     </section>
 }

@@ -7,6 +7,7 @@ export interface LicenseUiModel {
     progress: number
     address: string
     roomId: string
+    userId: number
     id: number
     uid: string
     isFavourite: boolean

@@ -9,6 +9,7 @@ import {RoomChatProps} from "./RoomChatProps";
 
 export function RoomChatComponent({isVisible, setIsVisible, isDealButtonVisible}: RoomChatProps) {
     const {messageList, messagesEndRef, onScroll} = useViewModel()
+    console.log("is visible: " + isDealButtonVisible)
     return <>
         <div
             onScroll={onScroll}

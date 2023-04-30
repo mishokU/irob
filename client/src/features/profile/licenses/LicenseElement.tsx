@@ -42,9 +42,9 @@ export function LicenseElement({
                     {license.status === LicenseStatus.running ? (
                         <div className="bg-green-500 w-3 h-3 min-w-[12px] rounded rounded-full"/>) : (
                         <div className="bg-red-500 w-3 h-3 min-w-[12px] rounded rounded-full"/>)}
-                    <h1 className="select-none min-w-fit">{license.type}</h1>
-                    <h2 className="line-clamp-1 min-w-fit max-w-[150px] select-none">{license.name}</h2>
-                    <h1 className="line-clamp-1 min-w-fit max-w-[150px] select-none">{license.owner}</h1>
+                    { license.type && <h1 className="select-none min-w-fit">{license.type}</h1>}
+                    { license.name && <h2 className="line-clamp-1 min-w-fit max-w-[150px] select-none">{license.name}</h2>}
+                    { license.owner && <h1 className="line-clamp-1 min-w-fit max-w-[150px] select-none">{license.owner}</h1>}
                     <h1 className="min-w-fit line-clamp-1 select-none">{license.date}</h1>
                 </div>
                 <div className="flex w-fit space-x-3">
