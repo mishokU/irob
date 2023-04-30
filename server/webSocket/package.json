@@ -4,7 +4,7 @@
   "description": "",
   "main": "webServer.js",
   "scripts": {
-    "start": "nodemon webServer.js",
+    "start": "./node_modules/.bin/nodemon webServer.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "dependencies": {

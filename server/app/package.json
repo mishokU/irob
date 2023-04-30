@@ -4,7 +4,7 @@
   "description": "Server for IROB project",
   "main": "index.js",
   "scripts": {
-    "start": "node app.js",
+    "start": "./node_modules/.bin/node app.js",
     "server": "nodemon app.js",
     "debug": "nodemon app.js --debug",
     "jobs": "nodemon jobs/ContractsCheckerJob.js"
