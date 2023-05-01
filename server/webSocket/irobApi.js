@@ -12,7 +12,7 @@ module.exports = {
 }
 
 const api = axios.create({
-    baseURL: 'http://app:5000',
+    baseURL: 'http://server:5000',
 });
 
 async function isUserAdmin(id, roomId) {

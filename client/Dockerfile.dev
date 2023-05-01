@@ -4,7 +4,8 @@ WORKDIR /app
 COPY ./package.json ./
 RUN npm i
 COPY . .
-CMD ["npm", "run", "dev"]
+EXPOSE 3000
+CMD ["npm", "run", "start"]
 
 # FROM nginx
 # EXPOSE 3000

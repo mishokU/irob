@@ -54,8 +54,6 @@ services:
   # Контейнер с базой данных
   db:
     image: postgres:15.2-alpine
-    ports:
-      - "5432:5432"
     build:
       context: ./database
       dockerfile: Dockerfile
