@@ -55,7 +55,7 @@ export function ContentFullCardPage() {
             <div className="pt-12 flex justify-center items-center space-x-2 text-4xl">
                 <h1 className="text-yellow-300 ">Content card</h1>
             </div>
-            <div className="flex space-x-4 pt-12 pl-32 pr-32 pb-12 mt-4">
+            <div className="flex justify-center items-center space-x-4 pt-12 pl-32 pr-32 pb-12 mt-4">
                 <div className="flex">
                     <div className="flex text-white w-[500px]">
                         <div className="max-w-lg pr-16 space-y-4">

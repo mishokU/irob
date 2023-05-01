@@ -3,13 +3,13 @@ import {useEffect, useState} from "react";
 import {
     useUpdateLedgerAccountMutation
 } from "../../../data/store/profile/ProfileApi";
+import { ProfileLedgerState, initProfileLedgerState } from "./ProfileLedgerState";
 
 export default function ProfileLedgerViewModel() {
 
     const {status, connect, account } = useMetaMask();
 
-    const [balance, setBalance] = useState(0)
-    const [isLedgerConnected, setIsLedgerConnected] = useState(status === "connected")
+    const [state, setState] = useState<ProfileLedgerState>(initProfileLedgerState(status === "connected"))
 
     const [updateAccountLedgerMutation] = useUpdateLedgerAccountMutation()
 
@@ -18,14 +18,21 @@ export default function ProfileLedgerViewModel() {
             if(account !== null){
                 const response = await updateAccountLedgerMutation({account: account}).unwrap()
                 const balance = response.balance.toFixed(4)
-                setBalance(Number(balance))
-                setIsLedgerConnected(status === "connected")
+                setState({
+                    isLoading: false,
+                    balance: Number(balance),
+                    isLedgerConnected: status === "connected"
+                })
             } else {
-                setIsLedgerConnected(false)
+                setState({
+                    ...state,
+                    isLedgerConnected: false
+                })
             }
         }
 
         getBalance().catch((e) => console.log(e))
+        
     }, [status])
 
     function onForgetAccountClick() {
@@ -41,7 +48,12 @@ export default function ProfileLedgerViewModel() {
     }
 
     return {
-        isLedgerConnected, status, balance, onForgetAccountClick, connect, onReceiveClick, onSendClick
+        status, 
+        state, 
+        onForgetAccountClick, 
+        connect, 
+        onReceiveClick, 
+        onSendClick
     }
 
 }
