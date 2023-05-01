@@ -14,7 +14,21 @@ module.exports = {
     getRequiredRequirements,
     getRoomRequirementsByLicenseId,
     updateRequirements,
+    updateRoomRequirement,
     updateRequirementValue
+}
+
+async function updateRoomRequirement(id, title, description, value) {
+    try {
+
+        await db.query(`
+            UPDATE ${ROOM_REQUIREMENTS_TABLE_NAME}
+            SET title=$2, description=$3, value=$4 WHERE id=$1
+        `,[id, title, description, value])
+
+    } catch(e){
+        console.log("Error in updating db requirement: " + e.message)
+    }
 }
 
 async function updateRequirements(licenseId, roomId) {
