@@ -25,6 +25,10 @@ roomRequirementsRouter.post('/create', (request, result) => {
     return createRoomRequirement(request, result)
 })
 
+roomRequirementsRouter.post('/update', (request, result) => {
+    return updateRoomRequirement(request, result)
+})
+
 roomRequirementsRouter.get('/get', (request, result) => {
     return getRoomRequirement(request, result)
 })
@@ -32,6 +36,27 @@ roomRequirementsRouter.get('/get', (request, result) => {
 roomRequirementsRouter.get('/getRequiredRequirementCount', (request, result) => {
     return getRequiredRequirementCount(request, result)
 })
+
+async function updateRoomRequirement(request, result) {
+    try {
+
+        const {id, title, description, value} = request.body
+
+        const result = roomRequirementsController.updateRoomRequirement(id, title, description, value)
+
+        result.status(200).json({
+            success: true
+        })
+
+    } catch(e){
+        const message = "Error in update room requirement: " + e.message
+        console.log(message)
+        result.status(500).json({
+            success: false,
+            message: message
+        })
+    }
+}
 
 async function createRoomRequirement(request, result) {
     try {
@@ -55,10 +80,11 @@ async function createRoomRequirement(request, result) {
             }
         })
     } catch (e) {
-        console.log(e)
+        const message = "Error in create room requirements: " + e.message
+        console.log(message)
         result.status(500).json({
             success: false,
-            message: "Error in create room requirements: " + e.message
+            message: message
         })
     }
 }

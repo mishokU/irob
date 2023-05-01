@@ -106,14 +106,16 @@ export default function CreateRequirementViewModel(isVisibleState: RequirementSt
         try {
             const type = getType()
             const roomId = roomReducer.roomId
-            await updateRequirementMutation({
-                roomId,
-                title,
-                type,
-                description,
-                value
-            }).unwrap();
-            setIsVisibleState({isVisible: false, requirement: null})
+            const requirement = isVisibleState.requirement
+            if(requirement !== null){
+                await updateRequirementMutation({
+                    id: requirement.requirementId,
+                    title: title,
+                    description: description,
+                    value: value
+                }).unwrap()
+                setIsVisibleState({isVisible: false, requirement: null})
+            }
         } catch (e) {
             console.log(e)
         }

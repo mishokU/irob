@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "./node_modules/.bin/node app.js",
-    "server": "nodemon app.js",
+    "server": "./node_modules/.bin/nodemon app.js",
     "debug": "nodemon app.js --debug",
     "jobs": "nodemon jobs/ContractsCheckerJob.js"
   },

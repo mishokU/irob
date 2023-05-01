@@ -59,7 +59,7 @@ export function CreateRequirementFormPage({isVisibleState, setIsVisibleState}: C
                         <p className="absolute right-4 bottom-2">{title.length} / {maxTitleLength} max</p>
                     </div>
                 </div>
-                <div>
+                <div className={requirementId !== null ? "pointer-events-none" : ""}>
                     <p className="mt-4">Content type</p>
                     <ContentTypeDropDown type={contentType} setType={setType}/>
                 </div>

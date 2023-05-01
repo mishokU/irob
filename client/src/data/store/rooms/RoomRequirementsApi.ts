@@ -1,21 +1,21 @@
-import {createApi, fetchBaseQuery} from "@reduxjs/toolkit/dist/query/react";
-import {CreateRequirementRequest} from "../../../features/rooms/domain/requests/CreateRequirementRequest";
-import {CreateRequirementResult} from "../../models/rooms/requirements/CreateRequirementResult";
-import {GetRequirementsResponse} from "../../models/rooms/requirements/GetRequrementsResponse";
-import {ApplyRequirementRequest} from "../../../features/rooms/domain/requests/ApplyRequirementRequest";
-import {DeclineRequirementRequest} from "../../../features/rooms/domain/requests/DeclineRequirementRequest";
-import {ApplyRequirementResponse} from "../../models/rooms/requirements/ApplyRequirementResponse";
-import {DeclineRequirementResponse} from "../../models/rooms/requirements/DeclineRequirementResponse";
-import {GetRequirementResponse} from "../../models/rooms/requirements/GetRequirementResponse";
-import {UpdateRequirementRequest} from "../../models/rooms/requirements/UpdateRequirementRequest";
-import {GetMakeDealResponse} from "../../models/rooms/requirements/GetMakeDealResponse";
-import {GetMakeDealRequest} from "../../../features/rooms/domain/requests/GetMakeDealRequest";
-import {ServerUrl} from "../../../constants/Constants";
+import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/dist/query/react";
+import { CreateRequirementRequest } from "../../../features/rooms/domain/requests/CreateRequirementRequest";
+import { CreateRequirementResult } from "../../models/rooms/requirements/CreateRequirementResult";
+import { GetRequirementsResponse } from "../../models/rooms/requirements/GetRequrementsResponse";
+import { ApplyRequirementRequest } from "../../../features/rooms/domain/requests/ApplyRequirementRequest";
+import { DeclineRequirementRequest } from "../../../features/rooms/domain/requests/DeclineRequirementRequest";
+import { ApplyRequirementResponse } from "../../models/rooms/requirements/ApplyRequirementResponse";
+import { DeclineRequirementResponse } from "../../models/rooms/requirements/DeclineRequirementResponse";
+import { GetRequirementResponse } from "../../models/rooms/requirements/GetRequirementResponse";
+import { UpdateRequirementRequest } from "../../../features/rooms/domain/requests/UpdateRequirementRequest";
+import { GetMakeDealResponse } from "../../models/rooms/requirements/GetMakeDealResponse";
+import { GetMakeDealRequest } from "../../../features/rooms/domain/requests/GetMakeDealRequest";
+import { ServerUrl } from "../../../constants/Constants";
 
 export const RoomRequirementsApi = createApi({
     reducerPath: 'irob/api/room/requirements', baseQuery: fetchBaseQuery({
         baseUrl: `${ServerUrl}/room/requirements`,
-        prepareHeaders: (headers, {getState}) => {
+        prepareHeaders: (headers, { getState }) => {
             headers.set('token', localStorage.getItem("jwtToken") || "")
             return headers
         },
@@ -33,7 +33,7 @@ export const RoomRequirementsApi = createApi({
             query: (requirementId) => ({
                 url: `/get`,
                 method: `GET`,
-                params: {requirementId: requirementId}
+                params: { requirementId: requirementId }
             }),
             transformResponse: (response: GetRequirementResponse) => response,
             transformErrorResponse(meta: unknown, arg: unknown): string {
@@ -44,7 +44,7 @@ export const RoomRequirementsApi = createApi({
             query: (roomId) => ({
                 url: `/getAll`,
                 method: `GET`,
-                params: {roomId: roomId}
+                params: { roomId: roomId }
             }),
             transformResponse: (response: GetRequirementsResponse) => response,
             transformErrorResponse(meta: unknown, arg: unknown): string {

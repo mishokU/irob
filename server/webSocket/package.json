@@ -5,6 +5,7 @@
   "main": "webServer.js",
   "scripts": {
     "start": "./node_modules/.bin/nodemon webServer.js",
+    "prod": "node webServer.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "dependencies": {

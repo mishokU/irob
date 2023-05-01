@@ -4,9 +4,8 @@ RUN apk add --no-cache tzdata
 
 WORKDIR /opt/server/
 COPY ./package.json ./
-RUN npm cache clean --force && rm -rf node_modules
+RUN rm -rf node_modules
 RUN npm install --lts
 RUN npm install
 COPY . .
-CMD [ "npm", "run", "server" ]
-#CMD [ "npx", "hardhat", "compile" ]
+CMD [ "npm", "run", "start" ]

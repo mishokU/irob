@@ -8,4 +8,4 @@ WORKDIR /opt/ws/
 COPY ./package.json ./
 RUN npm i
 
-CMD [ "npm", "run", "start" ]
+CMD [ "npm", "run", "prod" ]

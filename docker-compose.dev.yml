@@ -1,5 +1,8 @@
 version: '3'
 
+#sudo docker-compose -f docker-compose.dev.yml build
+#sudo docker-compose -f docker-compose.dev.yml up -d
+
 services:
 
   # Контейнер с React app
@@ -18,10 +21,10 @@ services:
       - ./static:/opt/static
 
   # Контейнер с Node.js
-  app:
+  server:
     build:
       context: ./server/app
-      dockerfile: Dockerfile
+      dockerfile: Dockerfile.dev
     tty: true
     working_dir: /opt/server
     volumes:
@@ -40,7 +43,7 @@ services:
     working_dir: /opt/ws
     build:
       context: server/webSocket
-      dockerfile: Dockerfile
+      dockerfile: Dockerfile.dev
     env_file:
       - .env
     volumes:
@@ -50,7 +53,7 @@ services:
 
   # Контейнер с базой данных
   db:
-    image: postgres:12-alpine
+    image: postgres:15.2-alpine
     ports:
       - "5432:5432"
     build:
@@ -67,7 +70,7 @@ services:
   nginx:
     container_name: proxy_nginx
     depends_on:
-      - app
+      - server
       - db
       - pgadmin
       - client
