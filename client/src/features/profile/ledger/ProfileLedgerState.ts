@@ -6,9 +6,9 @@ export interface ProfileLedgerState {
     balance: number
 }
 
-export function initProfileLedgerState(isConnected: boolean): ProfileLedgerState {
+export function initProfileLedgerState(isConnected: boolean, hasAccount: boolean): ProfileLedgerState {
     return {
-        isLoading: true,
+        isLoading: !hasAccount,
         isLedgerConnected: isConnected,
         balance: 0
     }

@@ -19,7 +19,7 @@ export function ProfileLedgerPage() {
             <div className="w-[500px] border-2 border-[#4a5058] rounded-lg p-2 items-center relative">
                 {state.isLoading && <IROBProgressBar/>}
                 <h1 className="text-3xl text-white ml-4 mt-2">Balance</h1>
-                <div className="flex justify-center h-[180px]">
+                <div className="flex justify-center min-h-[180px]">
                     {state.isLedgerConnected && !state.isLoading && <div className="mt-24 space-y-2">
                         <h1 className="text-5xl text-center">{state.balance} - ETH </h1>
                         <p className="text-center text-[#8fadc0]">Available Balance</p>

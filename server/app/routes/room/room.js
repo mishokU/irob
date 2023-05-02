@@ -223,7 +223,14 @@ async function createRoom(request, result) {
         const token = request.get('token')
         const {roomId, title, userId, contentId} = request.body;
 
-        await roomController.createRoom(roomId, title, userId, contentId, token)
+        let newTitle = ""
+        if(title === ""){
+            newTitle = "Untitled"
+        } else {
+            newTitle = title
+        }
+
+        await roomController.createRoom(roomId, newTitle, userId, contentId, token)
 
         if(contentId){
             await contentController.createStartRequirements(roomId, contentId, userId)

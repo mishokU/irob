@@ -8,20 +8,20 @@ export function AboutUsComponent() {
         <div className="mt-16 mb-32">
           <h2 className="text-[#EAB308] text-sm">ABOUT US</h2>
           <h1 className="text-5xl font-bold mt-12">
-            We're united <br /> by our passion for online-cinema.
+            Our love for online movies <br /> brings us together as a community.
+            
           </h1>
           <h2 className="text-lg mt-8 text-[#8fadc0]">
-            We're devoted to bringing the 8th art to <br /> its ultimate digital
-            transformation!
+          Our passion for online movies unites us as a community committed <br />
+           to revolutionizing the way the 8th art is experienced digitally.
           </h2>
         </div>
         <div className="h-20 w-full -rotate-1 bg-[#0c131a] -mt-8" />
         <div className="bg-[#0c131a] pt-8 -mt-4 pb-8">
           <div className="grid md:grid-cols-1 lg:grid-cols-2 sm:grid-cols-1 lg:pl-48 lg:pr-48 space-y-6 lg:space-y-0">
             <div>
-              <h1 className="text-5xl font-bold lg:text-start lg:pl-48 text-center">
-                Greater efficiency <br /> means more money <br /> for great
-                cinema.
+              <h1 className="text-5xl font-bold lg:text-start lg:pl-40 text-center">
+                 Excellent films that are more effective in engaging audiences will generate higher profits.
               </h1>
             </div>
             <div className="space-y-4 lg:text-start text-center pl-32 pr-32 text-[#8fadc0] pr-32">

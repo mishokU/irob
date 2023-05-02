@@ -31,7 +31,7 @@ export function UploadVideoContentComponent({handleFileChange, media, clearVideo
                     />
                     <label
                         htmlFor="video_upload"
-                        className={buttonTheme + " h-fit w-fit"}>Choose file</label>
+                        className={buttonTheme + " cursor-pointer h-fit w-fit"}>Choose file</label>
                 </div>
             }
             {

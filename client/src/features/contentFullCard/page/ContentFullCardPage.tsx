@@ -47,9 +47,6 @@ export function ContentFullCardPage() {
             setIsDeleteDialogVisible={setIsDeleteDialogVisible}
             handleDeleteRoomClick={handleDeleteCardClick}
         />}
-        <div className="absolute right-0 left-0">
-            <h1>Content card</h1>
-        </div>
         {state.isLoading && <IROBProgressBar/>}
         {<div className="h-full">
             <div className="pt-12 flex justify-center items-center space-x-2 text-4xl">

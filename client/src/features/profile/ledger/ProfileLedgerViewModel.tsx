@@ -9,7 +9,7 @@ export default function ProfileLedgerViewModel() {
 
     const {status, connect, account } = useMetaMask();
 
-    const [state, setState] = useState<ProfileLedgerState>(initProfileLedgerState(status === "connected"))
+    const [state, setState] = useState<ProfileLedgerState>(initProfileLedgerState(status === "connected", account !== null))
 
     const [updateAccountLedgerMutation] = useUpdateLedgerAccountMutation()
 
@@ -26,7 +26,8 @@ export default function ProfileLedgerViewModel() {
             } else {
                 setState({
                     ...state,
-                    isLedgerConnected: false
+                    isLedgerConnected: false,
+                    isLoading: false
                 })
             }
         }
