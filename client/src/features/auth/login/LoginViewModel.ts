@@ -8,6 +8,7 @@ import {AuthExceptionsConverter} from "../domain/errors/AuthExceptionsConverter"
 import {useDispatch} from "react-redux";
 import {updateProfile} from "../../../data/slices/ProfileSlice";
 import AuthMiddleware from "../middleware/AuthMiddleware";
+import { NotificationPosition, initNotification, usePopupContext } from "../../main/contexts/NotificationProvider";
 
 export default function LoginViewModel(errorState: (value: string) => void) {
 
@@ -22,6 +23,7 @@ export default function LoginViewModel(errorState: (value: string) => void) {
 
     const authErrorConverter = new AuthExceptionsConverter()
 
+    const popupContext = usePopupContext()
     const navigate = useNavigate();
     const dispatch = useDispatch();
 
@@ -34,6 +36,7 @@ export default function LoginViewModel(errorState: (value: string) => void) {
                     user: payload.user
                 }))
                 navigate(IROBRoutes.profile)
+                popupContext?.setState(initNotification(payload.message, 3000, NotificationPosition.RIGHT_TOP))
             }
         } catch (exception: any) {
             errorState(authErrorConverter.convert(exception))

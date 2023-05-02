@@ -11,6 +11,7 @@ import { UpdateRequirementRequest } from "../../../features/rooms/domain/request
 import { GetMakeDealResponse } from "../../models/rooms/requirements/GetMakeDealResponse";
 import { GetMakeDealRequest } from "../../../features/rooms/domain/requests/GetMakeDealRequest";
 import { ServerUrl } from "../../../constants/Constants";
+import { CommonResponse } from "../../models/common/CommonResponse";
 
 export const RoomRequirementsApi = createApi({
     reducerPath: 'irob/api/room/requirements', baseQuery: fetchBaseQuery({
@@ -82,12 +83,12 @@ export const RoomRequirementsApi = createApi({
                 return "Error while creating room, try later."
             }
         }),
-        updateRequirement: build.mutation<GetRequirementResponse, UpdateRequirementRequest>({
+        updateRequirement: build.mutation<CommonResponse, UpdateRequirementRequest>({
             query: (body) => ({
                 url: `/update`,
                 method: `POST`, body
             }),
-            transformResponse: (response: GetRequirementResponse) => response,
+            transformResponse: (response: CommonResponse) => response,
             transformErrorResponse(meta: unknown, arg: unknown): string {
                 return "Error while creating room, try later."
             }

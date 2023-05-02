@@ -76,7 +76,7 @@ async function registrationWithEmailPassword(request, result) {
                             status: "success",
                             user: data,
                             token: token,
-                            message: "User created successfully",
+                            message: "User created successfully!",
                         });
                     })
                     .catch(function (e) {

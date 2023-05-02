@@ -3,6 +3,7 @@ import {useDispatch, useSelector} from "react-redux";
 import {RootState} from "../../../data/store";
 import {useUpdateLocationAndLanguageMutation} from "../../../data/store/profile/ProfileApi";
 import {updateLocationAndLanguage} from "../../../data/slices/ProfileSlice";
+import { initNotification, usePopupContext } from "../../main/contexts/NotificationProvider";
 
 export default function PersonalInformationViewModel() {
 
@@ -12,6 +13,8 @@ export default function PersonalInformationViewModel() {
 
     const [location, setLocation] = useState(profileReducer.location)
     const [language, setLanguage] = useState(profileReducer.language)
+
+    const popupContext = usePopupContext()
 
     const [update] = useUpdateLocationAndLanguageMutation()
 
@@ -23,12 +26,12 @@ export default function PersonalInformationViewModel() {
         updateData()
             .catch((error) => console.log(error))
             .then((result: any) => {
-                console.log(result)
                 if (result !== undefined) {
                     dispatch(updateLocationAndLanguage({
                         location: result.location,
                         language: result.language
                     }))
+                    popupContext?.setState(initNotification(result.message))
                 }
             })
     }

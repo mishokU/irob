@@ -6,6 +6,7 @@ import {clearProfile, updateIsDisabled} from "../../../data/slices/ProfileSlice"
 import {useNavigate} from "react-router-dom";
 import {IROBRoutes} from "../../../routes/IROBRoutes";
 import AuthMiddleware from "../../auth/middleware/AuthMiddleware";
+import { NotificationPosition, initNotification, usePopupContext } from "../../main/contexts/NotificationProvider";
 
 
 export default function AccountManagementViewModel() {
@@ -16,6 +17,8 @@ export default function AccountManagementViewModel() {
 
     const [isUpdatePasswordVisible, setIsUpdatePasswordVisible] = useState(false)
     const [newPassword, setNewPassword] = useState("")
+
+    const popupContext = usePopupContext()
 
     const [deleteAccountMutation] = useDeleteAccountMutation()
     const [disableAccountMutation] = useDisableAccountMutation()
@@ -38,6 +41,7 @@ export default function AccountManagementViewModel() {
                     dispatch(clearProfile())
                     authMiddleware.removeToken()
                     navigate(IROBRoutes.home)
+                    popupContext?.setState(initNotification(data.message))
                 }
             })
     }
@@ -53,6 +57,7 @@ export default function AccountManagementViewModel() {
                 if (data !== undefined) {
                     setDisableButtonText(getText(data.isDisabled))
                     dispatch(updateIsDisabled(data.isDisabled))
+                    popupContext?.setState(initNotification(data.message))
                 }
             })
 

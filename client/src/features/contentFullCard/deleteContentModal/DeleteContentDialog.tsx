@@ -1,13 +1,14 @@
-import {Fragment} from "react";
-import {Dialog, Transition} from "@headlessui/react";
-import {DeleteContentDialogProms} from "./DeleteDialogProms";
-import {buttonTheme} from "../../../themes/Themes";
+import { Fragment } from "react";
+import { Dialog, Transition } from "@headlessui/react";
+import { DeleteContentDialogProms } from "./DeleteDialogProms";
+import { buttonTheme } from "../../../themes/Themes";
 
 export function DeleteContentDialog({
-                                        isDeleteDialogVisible,
-                                        setIsDeleteDialogVisible,
-                                        handleDeleteRoomClick
-                                    }: DeleteContentDialogProms) {
+    isDeleteDialogVisible,
+    setIsDeleteDialogVisible,
+    handleDeleteRoomClick
+}: DeleteContentDialogProms) {
+
     function onClose() {
         setIsDeleteDialogVisible(false)
     }
@@ -23,7 +24,7 @@ export function DeleteContentDialog({
                 leaveFrom="opacity-100"
                 leaveTo="opacity-0"
             >
-                <div className="fixed inset-0 bg-black bg-opacity-25"/>
+                <div className="fixed inset-0 bg-black bg-opacity-50" />
             </Transition.Child>
             <div className="fixed inset-0 overflow-y-auto">
                 <div className="flex min-h-full items-center justify-center p-4 text-center">

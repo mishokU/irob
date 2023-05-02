@@ -19,6 +19,8 @@ import {ContentFullCardComponent} from "../../contentFullCard/modal/ContentFullC
 import {useContentFullCardContext} from "../contexts/ContentFullCardProvider";
 import {ContentFullCardPage} from "../../contentFullCard/page/ContentFullCardPage";
 import {SamplePage} from "../../sample/SamplePage";
+import { CommonNotification } from "../notifications/CommonNotification";
+import { initNotification, usePopupContext } from "../contexts/NotificationProvider";
 
 export function MainContainer() {
     const modalsContext = useModalsContext()
@@ -26,11 +28,22 @@ export function MainContainer() {
     const notificationContext = useNotificationContext()
     const contentCardFull = useContentFullCardContext()
     const location = useLocation();
+    const popupContext = usePopupContext()
+    {
+        popupContext?.state.text !== undefined && setTimeout(() => {
+            popupContext?.setState(initNotification())
+        }, popupContext?.state.timeMs);
+    }
     const isHeaderVisible: boolean =
         !location.pathname.toString().includes(IROBRoutes.rooms) &&
         !location.pathname.toString().includes(IROBRoutes.card) &&
         !location.pathname.toString().includes(IROBRoutes.sample)
     return <>
+        {popupContext?.state.text !== undefined && <CommonNotification 
+            text={popupContext.state.text}
+            showTimeMs={popupContext.state.timeMs}
+            position={popupContext.state.position}
+        />}
         {createRoomModalContext?.isVisible && <CreateRoomModal/>}
         {modalsContext?.state.isVisible && <CreateLicenseModal roomId={modalsContext.state.roomId}/>}
         {contentCardFull?.isVisibleProps.isVisible && <ContentFullCardComponent/>}

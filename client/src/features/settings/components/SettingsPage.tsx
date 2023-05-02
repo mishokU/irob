@@ -47,10 +47,10 @@ export function SettingsPage() {
                      onClick={() => setActiveMenu(SettingsMenu.LEDGER)}>
                     <h1>{SettingsStrings.Ledger}</h1>
                 </div>
-                <div className={activeMenu === SettingsMenu.PROGRAM ? menuStyleActive : menuStyle}
+                {/* <div className={activeMenu === SettingsMenu.PROGRAM ? menuStyleActive : menuStyle}
                      onClick={() => setActiveMenu(SettingsMenu.PROGRAM)}>
                     <h1>{SettingsStrings.ReferralProgram}</h1>
-                </div>
+                </div> */}
                 {profileReducer.isAdmin &&
                     <div className={activeMenu === SettingsMenu.CRM ? menuStyleActive : menuStyle}
                          onClick={() => setActiveMenu(SettingsMenu.CRM)}>

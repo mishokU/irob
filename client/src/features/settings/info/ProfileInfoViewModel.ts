@@ -5,11 +5,14 @@ import {useGetProfileMutation, useUpdateProfileMutation} from "../../../data/sto
 import {updateProfile} from "../../../data/slices/ProfileSlice";
 import {storage} from "../../../firebaseConfig"
 import {ref, uploadBytes, getDownloadURL} from "firebase/storage";
+import { initNotification, usePopupContext } from "../../main/contexts/NotificationProvider";
+import avatarPlaceholder from "../../../ui/assets/avatart_placeholder.png"
 
 export default function ProfileInfoViewModel() {
 
     const profileReducer = useSelector((state: RootState) => state.profile)
     const dispatch = useDispatch();
+    const popupContext = usePopupContext()
 
     const [getProfileMutation] = useGetProfileMutation()
     const [updateProfileMutation] = useUpdateProfileMutation()
@@ -18,7 +21,7 @@ export default function ProfileInfoViewModel() {
     const [surname, setSurname] = useState(profileReducer.surname)
     const [description, setDescription] = useState(profileReducer.description)
     const [website, setWebsite] = useState(profileReducer.website)
-    const [imagePath, setImagePath] = useState(profileReducer.avatar)
+    const [imagePath, setImagePath] = useState(getAvatar())
 
     const [imageFile, setImageFile] = useState<File>()
 
@@ -41,6 +44,14 @@ export default function ProfileInfoViewModel() {
             await firstUploadNewAvatar()
         } catch (e) {
             console.log("error update: " + e)
+        }
+    }
+
+    function getAvatar(): string {
+        if(profileReducer.avatar === ""){
+            return avatarPlaceholder
+        } else {
+            return profileReducer.avatar
         }
     }
 
@@ -73,7 +84,7 @@ export default function ProfileInfoViewModel() {
                 avatar: avatar
             }
         }))
-        console.log("updated profile: " + updatedProfile)
+        popupContext?.setState(initNotification(updatedProfile.message))
     }
 
     function handleUndoProfileData() {

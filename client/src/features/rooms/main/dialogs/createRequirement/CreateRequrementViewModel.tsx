@@ -10,6 +10,7 @@ import {useSelector} from "react-redux";
 import {RootState} from "../../../../../data/store";
 import {CreateRequirementResult} from "../../../../../data/models/rooms/requirements/CreateRequirementResult";
 import {RequirementState} from "../../page/RequirementState";
+import { NotificationPosition, initNotification, usePopupContext } from "../../../../main/contexts/NotificationProvider";
 
 export default function CreateRequirementViewModel(isVisibleState: RequirementState, setIsVisibleState: (value: RequirementState) => void) {
 
@@ -24,6 +25,8 @@ export default function CreateRequirementViewModel(isVisibleState: RequirementSt
     const [requirementId, setRequirementId] = useState(null)
     const [isProgress, setIsProgress] = useState(false)
     const [error, setError] = useState("")
+
+    const popupContext = usePopupContext()
 
     const [isPrimaryButtonInvisible] = useState(roomReducer.isFinished || isVisibleState.requirement?.isAlive === false)
 
@@ -108,13 +111,14 @@ export default function CreateRequirementViewModel(isVisibleState: RequirementSt
             const roomId = roomReducer.roomId
             const requirement = isVisibleState.requirement
             if(requirement !== null){
-                await updateRequirementMutation({
+                const result = await updateRequirementMutation({
                     id: requirement.requirementId,
                     title: title,
                     description: description,
                     value: value
                 }).unwrap()
                 setIsVisibleState({isVisible: false, requirement: null})
+                popupContext?.setState(initNotification(result.message, 3000, NotificationPosition.CENTER))
             }
         } catch (e) {
             console.log(e)

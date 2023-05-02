@@ -27,8 +27,8 @@ export function LicenseItemPage({type}: LicenseTypePage) {
                 onLicenseClick={onLicenseClick}
                 onShowProgressClick={onShowProgressClick}
             />))}
-            {licenseItems.length === 0 && <div className="ml-2 text-xl">
-                You do not have any licenses
+            {licenseItems.length === 0 && <div className="ml-2 text-xl text-[#8fadc0]">
+                You do not have any licenses, make a deal!
             </div>}
         </div>
     </div>

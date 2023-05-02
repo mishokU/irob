@@ -2,8 +2,8 @@ import ic_bookmark from "../asserts/obookmark_24px.png";
 import ic_bookmark_filled from "../asserts/bookmark_24px.png"
 import ic_chat from "../asserts/chat.png";
 import ic_delete from "../asserts/remove_24px.png";
-import {ClickType, LicenseStatus, LicenseUiModel} from "./LicenseUiModel";
-import {DeleteProps} from "./LicenseItemPage";
+import { ClickType, LicenseStatus, LicenseUiModel } from "./LicenseUiModel";
+import { DeleteProps } from "./LicenseItemPage";
 import ic_show_secret from "../asserts/password_key_48px.png"
 import ic_progress from "../asserts/progress.png"
 
@@ -30,8 +30,8 @@ export interface LicenseElementProps {
 }
 
 export function LicenseElement({
-                                   license, onLicenseClick, onMessagesClick, onShowDeleteModalClick, onShowProgressClick
-                               }: LicenseElementProps) {
+    license, onLicenseClick, onMessagesClick, onShowDeleteModalClick, onShowProgressClick
+}: LicenseElementProps) {
     return (<div key={license.id}>
         <div
             className="w-full h-[50px] cursor-pointer rounded rounded-xl border-[#4a5058]
@@ -40,11 +40,11 @@ export function LicenseElement({
             <div className="space-x-4 flex ml-6 justify-between items-center w-full mr-4">
                 <div className="flex w-fit space-x-4 items-center">
                     {license.status === LicenseStatus.running ? (
-                        <div className="bg-green-500 w-3 h-3 min-w-[12px] rounded rounded-full"/>) : (
-                        <div className="bg-red-500 w-3 h-3 min-w-[12px] rounded rounded-full"/>)}
-                    { license.type && <h1 className="select-none min-w-fit">{license.type}</h1>}
-                    { license.name && <h2 className="line-clamp-1 min-w-fit max-w-[150px] select-none">{license.name}</h2>}
-                    { license.owner && <h1 className="line-clamp-1 min-w-fit max-w-[150px] select-none">{license.owner}</h1>}
+                        <div className="bg-green-500 w-3 h-3 min-w-[12px] rounded rounded-full" />) : (
+                        <div className="bg-red-500 w-3 h-3 min-w-[12px] rounded rounded-full" />)}
+                    {license.type && <h1 className="select-none min-w-fit">{license.type}</h1>}
+                    {license.name && <h2 className="line-clamp-1 min-w-fit max-w-[150px] select-none">{license.name}</h2>}
+                    {license.owner && <h1 className="line-clamp-1 min-w-fit max-w-[150px] select-none">{license.owner}</h1>}
                     <h1 className="min-w-fit line-clamp-1 select-none">{license.date}</h1>
                 </div>
                 <div className="flex w-fit space-x-3">
@@ -52,25 +52,25 @@ export function LicenseElement({
                         license.isPrivateKeyButtonVisible && <div
                             className="z-10"
                             onClick={() => onLicenseClick(ClickType.updateVisibility, license.id)}>
-                            <img className="w-8 h-8 min-w-fit" src={ic_show_secret}/>
+                            <img className="w-8 h-8 min-w-fit" src={ic_show_secret} />
                         </div>
                     }
                     <div
                         className="z-10"
                         onClick={() => onLicenseClick(ClickType.updateFavourite, license.id)}>
                         <img className="w-8 h-8 min-w-fit"
-                             src={license.isFavourite ? ic_bookmark_filled : ic_bookmark}/>
+                            src={license.isFavourite ? ic_bookmark_filled : ic_bookmark} />
                     </div>
                     <div onClick={() => onShowProgressClick(license.id)}>
-                        <img className="w-8 h-8 min-w-fit" src={ic_progress}/>
+                        <img className="w-8 h-8 min-w-fit" src={ic_progress} />
                     </div>
                     <div onClick={() => onMessagesClick(license.roomId)}>
-                        <img className="w-8 h-8 min-w-fit" src={ic_chat}/>
+                        <img className="w-8 h-8 min-w-fit" src={ic_chat} />
                     </div>
                     <div onClick={() => onShowDeleteModalClick({
                         isVisible: true, license: license
                     })}>
-                        <img className="w-8 h-8 min-w-fit" src={ic_delete}/>
+                        <img className="w-8 h-8 min-w-fit" src={ic_delete} />
                     </div>
                 </div>
             </div>
@@ -85,7 +85,7 @@ export function LicenseElement({
             license.isProgressVisible && <div className="mt-2 ml-6 mr-6">
                 <h1>Progress of your license</h1>
                 <div className="bg-gray-200 w-full inline-block rounded-full h-2.5 dark:bg-gray-700">
-                    <div className="bg-blue-600 h-2.5 w-full rounded-full" style={{width: `${license.progress}%`}}></div>
+                    <div className="bg-blue-600 h-2.5 w-full rounded-full" style={{ width: `${license.progress}%` }}></div>
                 </div>
             </div>
         }

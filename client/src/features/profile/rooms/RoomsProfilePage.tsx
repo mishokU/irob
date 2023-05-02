@@ -28,8 +28,8 @@ export function RoomsProfilePage() {
                 </div>
             </div>))}
         </div>
-        {isEmptyVisible && <div className="ml-2 text-xl">
-            You do not have any rooms
+        {isEmptyVisible && <div className="ml-2 text-xl text-[#8fadc0]">
+            You do not have any rooms!
         </div>}
     </div>
 }

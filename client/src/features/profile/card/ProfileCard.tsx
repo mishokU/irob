@@ -11,14 +11,14 @@ export function ProfileCard() {
     const navigate = useNavigate()
     const dispatch = useDispatch()
     const authMiddleware = AuthMiddleware()
-    const {profileReducer} = useViewModel()
+    const {profileReducer, avatar} = useViewModel()
 
     return <div className="text-center w-[380px] border-[#4a5058] h-fit border-2 p-4 rounded-2xl top-0">
         <div className="flex justify-center">
             <img
                 placeholder={avatarPlaceholder}
                 alt="avatar"
-                src={profileReducer.avatar}
+                src={avatar}
                 className="rounded-full bg-white object-cover content-center w-[120px] h-[120px]"/>
         </div>
         <h1 className="text-4xl mt-6 overflow-hidden">{profileReducer.fullName}</h1>

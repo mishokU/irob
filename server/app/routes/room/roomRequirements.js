@@ -42,10 +42,11 @@ async function updateRoomRequirement(request, result) {
 
         const {id, title, description, value} = request.body
 
-        const result = roomRequirementsController.updateRoomRequirement(id, title, description, value)
+        await roomRequirementsController.updateRoomRequirement(id, title, description, value)
 
         result.status(200).json({
-            success: true
+            success: true,
+            message: "Requirement successfully updated!"
         })
 
     } catch(e){

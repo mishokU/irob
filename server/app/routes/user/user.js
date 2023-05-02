@@ -65,7 +65,8 @@ async function updateUser(request, result) {
             token
         )
         result.status(200).json({
-            success: true
+            success: true,
+            message: "Profile updated successfully!"
         })
     } catch (e) {
         console.log(e)
@@ -148,7 +149,8 @@ async function updateLanguageAndLocation(request, result){
         result.status(200).json({
             success: true,
             language: language,
-            location: location
+            location: location,
+            message: "Language and location updated!"
         })
 
     } catch (e){
@@ -168,10 +170,17 @@ async function handleDisableAccount(request, result){
 
         const isDisabled = await userController.handleDisableAccount(token)
 
+        let message = ""
+        if(isDisabled){
+            message = "Account successfully disabled!"
+        } else {
+            message = "Now account public!"
+        }
+
         result.status(200).json({
             success: true,
             isDisabled: isDisabled,
-            message: "Account successfully disabled!"
+            message: message
         })
 
     } catch (e){

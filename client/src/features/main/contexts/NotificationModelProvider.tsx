@@ -1,4 +1,3 @@
-import * as React from 'react'
 import {createContext, ReactNode, useContext, useState} from "react";
 
 interface IModalContext {

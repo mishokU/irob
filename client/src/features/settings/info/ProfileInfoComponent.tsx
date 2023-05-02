@@ -2,6 +2,7 @@ import {buttonTheme} from "../../../themes/Themes";
 import {SettingsStrings} from "../strings/SettingsStrings";
 import useViewModel from "./ProfileInfoViewModel"
 
+
 export function ProfileInfoComponent() {
     const {
         name,
@@ -19,12 +20,13 @@ export function ProfileInfoComponent() {
     } = useViewModel()
     return <div className="border-[#29303A] -mt-4 rounded-2xl p-4 text-white">
         <h1 className="text-3xl">{SettingsStrings.PublicProfile}</h1>
-        <p>Your profile will be able to see the specified information</p>
+        <p className="text-[#8fadc0]">Your profile will be able to see the specified information</p>
         <p className="mt-4 mb-2">Photo</p>
         <div className="flex items-center">
             <img
                 id="profile_image"
-                src={imagePath} className="object-cover rounded-full bg-white w-[75px] h-[75px]"/>
+                src={imagePath} 
+                className="object-cover rounded-full bg-white w-[75px] h-[75px]"/>
             <label
                 htmlFor="image_uploads"
                 className="rounded-full ml-6 bg-[#4a5058] pt-2 pl-4 pr-4 pb-2 cursor-pointer">Choose</label>

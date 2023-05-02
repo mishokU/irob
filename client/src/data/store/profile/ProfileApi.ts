@@ -14,6 +14,7 @@ import {DeleteAccountResponse} from "../../models/profile/DeleteAccountResponse"
 import {DisableAccountResponse} from "../../models/profile/DisableAccountResponse";
 import {UpdatePasswordResponse} from "../../models/profile/UpdatePasswordResponse";
 import {UpdatePasswordRequest} from "../../../features/settings/domain/models/UpdatePasswordRequest";
+import { CommonResponse } from "../../models/common/CommonResponse";
 
 export const ProfileApi = createApi({
     reducerPath: "irob/api/profile", baseQuery: fetchBaseQuery({
@@ -26,22 +27,22 @@ export const ProfileApi = createApi({
         getProfile: build.mutation<ProfileResponse, void>({
             query: () => ({
                 url: `/get`, method: `GET`,
-            }),
+            })
         }),
-        updateProfile: build.mutation<ProfileResponse, UpdateProfile>({
+        updateProfile: build.mutation<CommonResponse, UpdateProfile>({
             query: (body) => ({
                 url: `/update`, method: `POST`, body,
-            }),
+            })
         }),
         updateLocationAndLanguage: build.mutation<LocationAndLanguageProfileResponse, UpdateProfileLocationAndLanguage>({
             query: (body) => ({
                 url: `/updateLanguageAndLocation`, method: `POST`, body,
-            }),
+            })
         }),
         deleteProfile: build.mutation<boolean, void>({
             query: () => ({
                 url: `/update`, method: `POST`,
-            }),
+            })
         }),
         updateLedgerAccount: build.mutation<UpdateAccountLedgerResponse, UpdateProfileLedger>({
             query: (body) => ({
