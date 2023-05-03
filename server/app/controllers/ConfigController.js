@@ -42,6 +42,10 @@ async function updateConfig(id) {
         await db.query(`UPDATE ${CONFIG_TABLE_NAME} SET enabled=false`)
         await db.query(`UPDATE ${CONFIG_TABLE_NAME} SET enabled=$1 WHERE id= $2;`, [true, id])
 
+        const data = await db.query(`SELECT * FROM ${CONFIG_TABLE_NAME} WHERE enabled=true`)
+
+        return data.rows[0]
+
     } catch (e) {
         console.log("Error in updating db config: " + e.message)
     }

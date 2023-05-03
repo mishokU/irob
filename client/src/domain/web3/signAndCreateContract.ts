@@ -2,7 +2,7 @@ import {ethereum} from "./isMetamaskAvailable";
 import {ethers} from "ethers";
 import {getSigner} from "./getSigner";
 import Web3 from "web3";
-import {testChain} from "../../data/slices/IrobConfigSlice";
+import {wait} from "@testing-library/user-event/dist/utils";
 
 function verifyMessage(message: any, address: any, signature: any) {
     try {
@@ -14,8 +14,9 @@ function verifyMessage(message: any, address: any, signature: any) {
     }
 }
 
-export async function signAndCreateContract(address: string, data: string, depositCost: string) {
+export async function signAndCreateContract(address: string, data: string, depositCost: string, chainHexId: string) {
 
+    const provider = new ethers.BrowserProvider(ethereum);
     const signer = await getSigner()
     const signature = await signer.signMessage(data);
 
@@ -26,21 +27,23 @@ export async function signAndCreateContract(address: string, data: string, depos
         const transactionParameters = {
             from: address,
             data: data,
-            chainId: testChain,
+            chainId: chainHexId,
             gasLimit: 3000000,
             value: ether
         };
 
         // As with any RPC call, it may throw an error
-        const txHash = await ethereum.request({
+        const txHash: any = await ethereum.request({
             method: 'eth_sendTransaction', params: [transactionParameters],
         });
+
+        await provider.waitForTransaction(txHash, 1, 150000)
 
         const transactionReceipt = await ethereum.request({
             method: 'eth_getTransactionReceipt', params: [txHash]
         })
 
-        if(!transactionReceipt){
+        if (!transactionReceipt) {
             throw Error("No contract address!")
         }
 

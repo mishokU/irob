@@ -2,10 +2,13 @@ const db = require('../../db');
 
 const userController = require("../../controllers/UserController");
 const configController = require("../../controllers/ConfigController");
+const etherscan = require("../../services/etherscan/etherscanApi")
 
 const getBalance = require("../../scripts/getBalance")
 const {Router} = require("express");
 const Web3 = require("web3")
+const {time} = require("@nomicfoundation/hardhat-network-helpers");
+const {ethers} = require("hardhat");
 
 const userRouter = new Router()
 
@@ -42,6 +45,10 @@ userRouter.post('/updatePassword', (request, result) => {
 
 userRouter.post('/updateAccountLedger', (request, result) => {
     return updateAccountLedger(request, result)
+})
+
+userRouter.get('/getLedgerTransactions', (request, result) => {
+    return getAccountTransactions(request, result)
 })
 
 async function updateUser(request, result) {
@@ -128,7 +135,7 @@ async function updateAccountLedger(request, result) {
             success: true,
             balance: balance
         })
-    } catch (e){
+    } catch (e) {
         const message = "Error in updating account balance: " + e.message
         console.log(message)
         result.status(500).json({
@@ -138,7 +145,7 @@ async function updateAccountLedger(request, result) {
     }
 }
 
-async function updateLanguageAndLocation(request, result){
+async function updateLanguageAndLocation(request, result) {
     try {
 
         const token = request.get('token')
@@ -153,7 +160,7 @@ async function updateLanguageAndLocation(request, result){
             message: "Language and location updated!"
         })
 
-    } catch (e){
+    } catch (e) {
         const message = "Error in updating country and location: " + e.message
         console.log(message)
         result.status(500).json({
@@ -163,7 +170,7 @@ async function updateLanguageAndLocation(request, result){
     }
 }
 
-async function handleDisableAccount(request, result){
+async function handleDisableAccount(request, result) {
     try {
 
         const token = request.get('token')
@@ -171,7 +178,7 @@ async function handleDisableAccount(request, result){
         const isDisabled = await userController.handleDisableAccount(token)
 
         let message = ""
-        if(isDisabled){
+        if (isDisabled) {
             message = "Account successfully disabled!"
         } else {
             message = "Now account public!"
@@ -183,7 +190,7 @@ async function handleDisableAccount(request, result){
             message: message
         })
 
-    } catch (e){
+    } catch (e) {
         const message = "Error in disabling account: " + e.message
         console.log(message)
         result.status(500).json({
@@ -193,7 +200,7 @@ async function handleDisableAccount(request, result){
     }
 }
 
-async function deleteAccount(request, result){
+async function deleteAccount(request, result) {
     try {
 
         const token = request.get('token')
@@ -205,7 +212,7 @@ async function deleteAccount(request, result){
             message: "Account successfully deleted!"
         })
 
-    } catch (e){
+    } catch (e) {
         const message = "Error in deleting account: " + e.message
         console.log(message)
         result.status(500).json({
@@ -215,7 +222,44 @@ async function deleteAccount(request, result){
     }
 }
 
-async function updatePassword(request, result){
+async function getAccountTransactions(request, result) {
+    try {
+
+        const account = request.query.account
+
+        const config = await configController.getCurrentNetwork()
+
+        const transactions = await etherscan.getAccountTransactions(account, config.chain_id)
+
+        const mappedTransactions = transactions.map((transaction) => {
+            const date = new Date(transaction.timeStamp * 1000)
+            const eth = ethers.utils.formatEther(transaction.value);
+            return {
+                from: transaction.from,
+                to: transaction.to,
+                date: date.toISOString().slice(0, 10),
+                isContractCreation: transaction.to === "",
+                contractAddress: transaction.contractAddress,
+                value: eth
+            }
+        })
+
+        result.status(200).json({
+            success: false,
+            transactions: mappedTransactions
+        })
+
+    } catch (e) {
+        const message = "Error in get ledger account transaction history: " + e.message
+        console.log(message)
+        result.status(500).json({
+            success: false,
+            message: message
+        })
+    }
+}
+
+async function updatePassword(request, result) {
     try {
 
         const token = request.get('token')
@@ -224,7 +268,7 @@ async function updatePassword(request, result){
 
         await userController.updatePassword(token, password)
 
-    } catch (e){
+    } catch (e) {
         const message = "Error in updating password: " + e.message
         console.log(message)
         result.status(500).json({

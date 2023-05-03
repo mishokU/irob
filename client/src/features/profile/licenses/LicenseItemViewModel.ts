@@ -19,6 +19,7 @@ import {RootState} from "../../../data/store";
 export function LicenseItemViewModel(type: LicenseMenu, setIsVisible: Dispatch<DeleteProps>) {
 
     const profileReducer = useSelector((state: RootState) => state.profile)
+    const configReducer = useSelector((state: RootState) => state.config)
 
     const [licenseItems, setLicenseItems] = useState<LicenseUiModel[]>([])
 
@@ -78,9 +79,9 @@ export function LicenseItemViewModel(type: LicenseMenu, setIsVisible: Dispatch<D
             const licenseId = license.id
 
             if(license.userId === profileReducer.profileId){
-                await signAndFinishContract(license.address, 0)
+                await signAndFinishContract(license.address, 0, configReducer.chainId)
             } else {
-                await signAndFinishContract(license.address, 100)
+                await signAndFinishContract(license.address, 100, configReducer.chainId)
             }
 
             const result = await deleteLicenseMutation({licenseId: licenseId, address: license.address}).unwrap()

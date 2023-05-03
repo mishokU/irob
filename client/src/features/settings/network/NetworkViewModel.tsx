@@ -2,6 +2,8 @@ import {useEffect, useState} from "react";
 import {useGetConfigMutation, useUpdateConfigMutation} from "../../../data/store/config/ConfigApi";
 import {IrobNetwork} from "../../../data/models/config/ConfigResponse";
 import {UiNetwork} from "./UiNetwork";
+import {useDispatch} from "react-redux";
+import {setConfig} from "../../../data/slices/IrobConfigSlice";
 
 
 export default function NetworkViewModel() {
@@ -11,6 +13,8 @@ export default function NetworkViewModel() {
 
     const [getConfig] = useGetConfigMutation()
     const [updateConfig] = useUpdateConfigMutation()
+
+    const dispatch = useDispatch();
 
     useEffect(() => {
 
@@ -39,7 +43,12 @@ export default function NetworkViewModel() {
         const newNetworks = networks.filter((_network) => _network.name === network)
         const networkId = newNetworks.at(0)
         if (networkId) {
-            await updateConfig({id: networkId.id}).unwrap()
+            const updatedNetwork = await updateConfig({id: networkId.id}).unwrap()
+            dispatch(setConfig({
+                chainId: updatedNetwork.network.chainId,
+                chainHexId: updatedNetwork.network.networkHex,
+                networkUrl: updatedNetwork.network.networkUrl
+            }))
         }
     }
 

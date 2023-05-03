@@ -2,6 +2,7 @@ import {createApi, fetchBaseQuery} from "@reduxjs/toolkit/query/react";
 import {ServerUrl} from "../../../constants/Constants";
 import {ConfigResponse} from "../../models/config/ConfigResponse";
 import {UpdateNetworkRequest} from "../../../features/settings/domain/models/UpdateNetworkRequest";
+import {ConfigSingleNetworkResponse} from "../../models/config/ConfigSingleNetworkResponse";
 
 export const ConfigApi = createApi({
     reducerPath: 'irob/api/config', baseQuery: fetchBaseQuery({
@@ -12,7 +13,7 @@ export const ConfigApi = createApi({
                 url: `/getConfig`, method: `GET`, body
             }),
         }),
-        updateConfig: build.mutation<void, UpdateNetworkRequest>({
+        updateConfig: build.mutation<ConfigSingleNetworkResponse, UpdateNetworkRequest>({
             query: (body) => ({
                 url: `/updateConfig`, method: `POST`, body
             }),

@@ -15,6 +15,7 @@ import {DisableAccountResponse} from "../../models/profile/DisableAccountRespons
 import {UpdatePasswordResponse} from "../../models/profile/UpdatePasswordResponse";
 import {UpdatePasswordRequest} from "../../../features/settings/domain/models/UpdatePasswordRequest";
 import { CommonResponse } from "../../models/common/CommonResponse";
+import {GetLedgerTransactionsResponse} from "../../models/profile/GetLedgerTransactionsResponse";
 
 export const ProfileApi = createApi({
     reducerPath: "irob/api/profile", baseQuery: fetchBaseQuery({
@@ -80,6 +81,17 @@ export const ProfileApi = createApi({
                 return "Error while account deleting, try later."
             }
         }),
+        getLedgerTransactions: build.mutation<GetLedgerTransactionsResponse, string>({
+            query: (body) => ({
+                url: `/getLedgerTransactions`, method: `GET`, params: {
+                    account: body
+                }
+            }),
+            transformResponse: (response: GetLedgerTransactionsResponse) => response,
+            transformErrorResponse(meta: unknown, arg: unknown): string {
+                return "Error while account deleting, try later."
+            }
+        }),
     }),
 });
 
@@ -89,6 +101,7 @@ export const {
     useUpdateLocationAndLanguageMutation,
     useUpdatePasswordMutation,
     useDeleteAccountMutation,
+    useGetLedgerTransactionsMutation,
     useDisableAccountMutation,
     useUpdateLedgerAccountMutation
 } = ProfileApi;

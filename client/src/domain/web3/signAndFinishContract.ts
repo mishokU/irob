@@ -1,9 +1,8 @@
 import {getSigner} from "./getSigner";
 import {ethers} from "ethers";
 import Web3 from "web3";
-import {testChainId} from "../../data/slices/IrobConfigSlice";
 
-export async function signAndFinishContract(address: string, progress: number) {
+export async function signAndFinishContract(address: string, progress: number, chainId: number) {
 
     const signer = await getSigner()
 
@@ -15,7 +14,7 @@ export async function signAndFinishContract(address: string, progress: number) {
 
     const result = await depositHolder.sendDeposit(progress)
 
-    result.chainId = testChainId
+    result.chainId = chainId
     result.gasLimit = 30000;
 
     await result.wait()

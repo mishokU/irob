@@ -8,7 +8,7 @@ export interface ProfileLedgerState {
 
 export function initProfileLedgerState(isConnected: boolean, hasAccount: boolean): ProfileLedgerState {
     return {
-        isLoading: !hasAccount,
+        isLoading: hasAccount,
         isLedgerConnected: isConnected,
         balance: 0
     }

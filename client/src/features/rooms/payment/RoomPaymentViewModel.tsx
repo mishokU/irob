@@ -104,14 +104,15 @@ export default function RoomPaymentViewModel() {
                     const commission = screenState.leftPanel.data.commission.toString()
                     const deposit = screenState.leftPanel.data.depositCost.toString()
 
-                    const sendCommission = await signAndSendDeposit(result.commissionAddress, commission)
+                    const sendCommission = await signAndSendDeposit(result.commissionAddress, commission, configReducer.chainHexId)
 
-                    const contractAddress = await signAndCreateContract(result.buyerAddress, result.data, deposit)
+                    const contractAddress = await signAndCreateContract(result.buyerAddress, result.data, deposit, configReducer.chainHexId)
 
                     /*
                         Need to save transfer cost
                     */
-                    const sendDepositResult = await signAndSendDeposit(result.sellerAddress, cost)
+
+                    const sendDepositResult = await signAndSendDeposit(result.sellerAddress, cost, configReducer.chainHexId)
 
                     const createLicenseResponse = await createLicenseMutation({
                         roomId: roomReducer.roomId,
@@ -132,7 +133,7 @@ export default function RoomPaymentViewModel() {
             }
 
         } catch (e: any) {
-            console.log(e)
+            console.log(e.message)
             error(e.message)
         }
     }

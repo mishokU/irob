@@ -23,10 +23,7 @@ async function getBalance(userAccount, config) {
             convertedBalance = parseInt(balance._hex, 16)
         }
 
-        console.log(convertedBalance)
-        console.log(balance)
-
-        return Number(convertedBalance)
+        return Number(convertedBalance).toFixed(4)
     } catch (e) {
         console.log("Get balance error: " + e.message)
     }

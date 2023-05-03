@@ -6,7 +6,7 @@ const roomController = require("../../controllers/RoomControllers")
 
 const Promise = require("bluebird");
 const {getUsername} = require("../../controllers/Utils");
-const {deleteObject, storage, ref} = require("../../firebase/index");
+const {deleteObject, storage, ref} = require("../../services/firebase/index");
 
 const contentRouter = new Router()
 

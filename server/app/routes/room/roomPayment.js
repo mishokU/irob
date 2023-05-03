@@ -8,6 +8,8 @@ const roomResultController = require("../../controllers/RoomResultController")
 const roomController = require("../../controllers/RoomControllers")
 const contentController = require("../../controllers/ContentController")
 
+const etherscan = require("../../services/etherscan/etherscanApi")
+
 
 const Web3 = require("web3");
 
@@ -180,18 +182,6 @@ async function getRoomRequirementsCost(request, result) {
     }
 }
 
-async function getGasCostFromApi() {
-    try {
-        const key = process.env.ETHERSCAN_API_KEY;
-        const res = await fetch(`https://api.etherscan.io/api?module=gastracker&action=gasoracle&apikey=${key}`);
-        const data = await res.json();
-        return Number(data.result.suggestBaseFee / 1000).toFixed(3);
-    } catch (e) {
-        console.log("getGasCostFromApi: " + e.message)
-        return 0;
-    }
-}
-
 /*
     Call bash script that compile and run solidity contracts
     The end of current process will be final price of contract cost
@@ -297,7 +287,7 @@ async function getCosts(roomId) {
             }
         })
 
-        gasCost = await getGasCostFromApi()
+        gasCost = await etherscan.getGasCostFromApi()
         requirementsCost = await getRequirementsCostFromTestNet(requirements, depositCost)
 
         commissionCost = calculateCommissionCost(requirementsCost, gasCost, depositCost, contractCost)

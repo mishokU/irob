@@ -49,13 +49,19 @@ async function updateConfig(request, result) {
         const {id} = request.body
 
         if (id !== undefined) {
-            await configController.updateConfig(id)
+            const data = await configController.updateConfig(id)
             result.status(200).json({
-                success: true
+                success: true,
+                network: {
+                    networkUrl: data.network_url,
+                    chainId: data.chain_id,
+                    networkHex: data.chain_hex,
+                }
             })
         } else {
             result.status(400).json({
                 success: false
+
             })
         }
 

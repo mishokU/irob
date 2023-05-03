@@ -21,6 +21,8 @@ import {ContentFullCardPage} from "../../contentFullCard/page/ContentFullCardPag
 import {SamplePage} from "../../sample/SamplePage";
 import { CommonNotification } from "../notifications/CommonNotification";
 import { initNotification, usePopupContext } from "../contexts/NotificationProvider";
+import {ProfileMenu} from "../../profile/delegates/ProfileMenu";
+import {RoomsProfilePage} from "../../profile/rooms/RoomsProfilePage";
 
 export function MainContainer() {
     const modalsContext = useModalsContext()

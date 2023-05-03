@@ -11,7 +11,7 @@ export function LicenseContentTabs({menu, setMenu}: LicenseTabProps) {
     const menuStyleActive = "p-3 bg-[#1E252F] text-white rounded-xl border-[#29303A] border-2"
     return <>
         <ul className="flex flex-wrap -mb-px text-sm font-medium text-center space-x-3" role="tablist">
-            <li className="mr-2" role="presentation">
+            <li role="presentation">
                 <button className={menu === LicenseMenu.MY_LICENSES ? menuStyleActive : menuStyle} onClick={() => {
                     setMenu(LicenseMenu.MY_LICENSES)
                 }}>My Licenses
