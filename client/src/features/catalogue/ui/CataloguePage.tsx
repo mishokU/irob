@@ -7,7 +7,7 @@ import { useModalsContext } from "../../main/contexts/ModalsProvider";
 export function CataloguePage() {
     const { content, isEmptyVisible } = useViewModel()
     const modalsContext = useModalsContext()
-    return (<div className="h-screen w-screen relative">
+    return (<div className="w-screen">
         <div className="pt-6 pl-12 ml-24 mr-24">
             {isEmptyVisible && <div className="absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2">
                 <div className="space-y-4 items-center">

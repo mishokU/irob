@@ -16,7 +16,7 @@ export function AboutUsComponent() {
            to revolutionizing the way the 8th art is experienced digitally.
           </h2>
         </div>
-        <div className="h-20 w-full -rotate-1 bg-[#0c131a] -mt-8" />
+        <div className="h-20 w-full opacity-5 -rotate-1 bg-[#0c131a] -mt-8" />
         <div className="bg-[#0c131a] pt-8 -mt-4 pb-8">
           <div className="grid md:grid-cols-1 lg:grid-cols-2 sm:grid-cols-1 lg:pl-48 lg:pr-48 space-y-6 lg:space-y-0">
             <div>

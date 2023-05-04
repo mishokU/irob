@@ -19,10 +19,9 @@ import {ContentFullCardComponent} from "../../contentFullCard/modal/ContentFullC
 import {useContentFullCardContext} from "../contexts/ContentFullCardProvider";
 import {ContentFullCardPage} from "../../contentFullCard/page/ContentFullCardPage";
 import {SamplePage} from "../../sample/SamplePage";
-import { CommonNotification } from "../notifications/CommonNotification";
-import { initNotification, usePopupContext } from "../contexts/NotificationProvider";
-import {ProfileMenu} from "../../profile/delegates/ProfileMenu";
-import {RoomsProfilePage} from "../../profile/rooms/RoomsProfilePage";
+import {CommonNotification} from "../notifications/CommonNotification";
+import {initNotification, usePopupContext} from "../contexts/NotificationProvider";
+import {FaqPage} from "../../faq/FaqPage";
 
 export function MainContainer() {
     const modalsContext = useModalsContext()
@@ -40,8 +39,8 @@ export function MainContainer() {
         !location.pathname.toString().includes(IROBRoutes.rooms) &&
         !location.pathname.toString().includes(IROBRoutes.card) &&
         !location.pathname.toString().includes(IROBRoutes.sample)
-    return <>
-        {popupContext?.state.text !== undefined && <CommonNotification 
+    return <div className="relative">
+        {popupContext?.state.text !== undefined && <CommonNotification
             text={popupContext.state.text}
             showTimeMs={popupContext.state.timeMs}
             position={popupContext.state.position}
@@ -51,22 +50,25 @@ export function MainContainer() {
         {contentCardFull?.isVisibleProps.isVisible && <ContentFullCardComponent/>}
         {notificationContext?.isVisible && <NotificationMainComponent/>}
         {isHeaderVisible && <HeaderComponent/>}
-        <Routes>
-            <Route index element={<StartPage/>}/>
-            <Route path={IROBRoutes.card} element={<ContentFullCardPage />}/>
-            <Route path={IROBRoutes.nonAuthPage} element={<NonAuthPage/>}/>
-            <Route path={IROBRoutes.sample} element={<SamplePage/>} />
-            <Route path={IROBRoutes.home} element={<StartPage/>}/>
-            <Route path={IROBRoutes.messages} element={<CataloguePage/>}/>
-            <Route path={IROBRoutes.about} element={<AboutUsComponent/>}/>
-            <Route path={IROBRoutes.rooms + "/:id"} element={<RoomComponent/>}/>
-            <Route path={IROBRoutes.profile} element={<ProfilePage/>}/>
-            <Route path={IROBRoutes.notification} element={<CataloguePage/>}/>
-            <Route path={IROBRoutes.sell} element={<CataloguePage/>}/>
-            <Route path={IROBRoutes.buy} element={<CataloguePage/>}/>
-            <Route path={IROBRoutes.catalogue} element={<CataloguePage/>}/>
-            <Route path={IROBRoutes.auth} element={<AuthPage/>}/>
-            <Route path={IROBRoutes.settings} element={<SettingsPage/>}/>
-        </Routes>
-    </>
+        <main>
+            <Routes>
+                <Route index element={<StartPage/>}/>
+                <Route path={IROBRoutes.card} element={<ContentFullCardPage/>}/>
+                <Route path={IROBRoutes.nonAuthPage} element={<NonAuthPage/>}/>
+                <Route path={IROBRoutes.sample} element={<SamplePage/>}/>
+                <Route path={IROBRoutes.home} element={<StartPage/>}/>
+                <Route path={IROBRoutes.messages} element={<CataloguePage/>}/>
+                <Route path={IROBRoutes.about} element={<AboutUsComponent/>}/>
+                <Route path={IROBRoutes.rooms + "/:id"} element={<RoomComponent/>}/>
+                <Route path={IROBRoutes.profile} element={<ProfilePage/>}/>
+                <Route path={IROBRoutes.notification} element={<CataloguePage/>}/>
+                <Route path={IROBRoutes.sell} element={<CataloguePage/>}/>
+                <Route path={IROBRoutes.buy} element={<CataloguePage/>}/>
+                <Route path={IROBRoutes.catalogue} element={<CataloguePage/>}/>
+                <Route path={IROBRoutes.auth} element={<AuthPage/>}/>
+                <Route path={IROBRoutes.settings} element={<SettingsPage/>}/>
+                <Route path={IROBRoutes.faq} element={<FaqPage/>}/>
+            </Routes>
+        </main>
+    </div>
 }

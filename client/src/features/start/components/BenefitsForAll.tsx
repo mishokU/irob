@@ -6,7 +6,7 @@ export function BenefitsForAll() {
     let bottomBlockStyle = "border-2 text-center p-12 rounded-b-md border-[#40484f] -mt-0.5"
     return (<section className="bg-[#0c131a]">
         <div className="pt-16">
-            <h1 className="flex justify-center text-xs text-[#ffb81c]">BENEFITS FOR ALL</h1>
+            <h1 className="flex justify-center text-md font-bold text-[#ffb81c]">BENEFITS FOR ALL</h1>
             <div className="column-3 flex mt-8 pb-16 justify-center">
                 <div className="w-[350px] m-4">
                     <h1 className={topBlockStyle}>Seller</h1>

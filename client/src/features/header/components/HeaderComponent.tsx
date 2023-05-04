@@ -7,7 +7,6 @@ import AuthMiddleware from "../../auth/middleware/AuthMiddleware";
 
 export function HeaderComponent() {
 
-    const [prevScrollPos, setPrevScrollPos] = useState(0);
     const [visible, setVisible] = useState(true)
 
     const location = useLocation()
@@ -16,14 +15,11 @@ export function HeaderComponent() {
 
     const handleScroll = () => {
         const currentScrollPos = window.scrollY
-
-        if (currentScrollPos > prevScrollPos) {
+        if (currentScrollPos > 5) {
             setVisible(false)
         } else {
             setVisible(true)
         }
-
-        setPrevScrollPos(currentScrollPos)
     }
 
     useEffect(() => {
@@ -31,8 +27,9 @@ export function HeaderComponent() {
         return () => window.removeEventListener('scroll', handleScroll)
     })
 
-    return (<div className={`z-0 sticky absolute ${visible ? 'top-0 bg-[#0E1420] ' : ''} `}>
-        {location.pathname !== IROBRoutes.auth && !isUserLogged && <NonAuthHeader />}
-        {location.pathname !== IROBRoutes.auth && isUserLogged && <AuthHeader />}
-    </div>)
+    return (<header className={`z-60 sticky top-0 bg-[#0E1420]`}>
+        {location.pathname !== IROBRoutes.auth && !isUserLogged && <NonAuthHeader/>}
+        {location.pathname !== IROBRoutes.auth && isUserLogged && <AuthHeader/>}
+        {!visible && <div className="h-0.5 w-full bg-gray-800"/>}
+    </header>)
 }

@@ -10,12 +10,11 @@ export function TransactionItem({transaction}: TransactionItemProps) {
             <h1>From:</h1>
             <h2 className="text-sm">{transaction.from}</h2>
         </div>
-        { !transaction.isContractCreation && <div className="flex items-center space-x-2">
+        {!transaction.isContractCreation && <div className="flex items-center space-x-2">
             <h1>To:</h1>
             <h2 className="text-sm">{transaction.to}</h2>
-        </div>
-        }
-        { transaction.isContractCreation && <div className="flex items-center space-x-2">
+        </div>}
+        {transaction.isContractCreation && <div className="flex items-center space-x-2">
             <h1>Contract creation: </h1>
             <h2 className="text-sm">{transaction.contractAddress}</h2>
         </div>

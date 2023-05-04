@@ -4,7 +4,7 @@ import useViewModel from "./ProfileContentViewModel"
 
 export function ProfileContentPage() {
     const {content, isEmptyVisible} = useViewModel()
-    return (<div className="h-screen w-screen">
+    return (<div className="w-screen">
         <div className="pt-2 ml-2 mr-24">
             {isEmptyVisible && <div className="text-xl text-[#8fadc0]">
                 You do not have any content! Let's create it!

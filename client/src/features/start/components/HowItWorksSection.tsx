@@ -2,7 +2,7 @@ import {StepCard} from "./StepCard";
 
 export function HowItWorksSection() {
     return <section className="text-center bg-[#0c131a] -mt-8">
-        <div className="w-[480px] m-auto">
+        <div className="w-[480px] h-fit m-auto">
             <h2 className="text-yellow-400 pt-16 text-base">HOW IT WORKS</h2>
             <h1 className="mt-8 text-2xl text-left">IROB offers a secure 24/7 digital film market for the
                 film industry.</h1>

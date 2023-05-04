@@ -11,13 +11,9 @@ export function WelcomeSection() {
             <div>
                 <WelcomeImage/>
             </div>
-            <p className="d-none mt-16 font-bold text-3xl">
-                This is a service for sell and buy
-            </p>
+            <p className="d-none mt-16 font-bold text-3xl">This is a service for sell and buy</p>
             <p className="d-none font-bold text-3xl">licences for content</p>
-            <p className="m-8 text-[#8fadc0]">
-                Where buyers and sellers can interact directly anytime, anywhere.
-            </p>
+            <p className="m-8 text-[#8fadc0]">Where buyers and sellers can interact directly anytime, anywhere.</p>
             <button
                 className={buttonTheme}
                 onClick={() => {
@@ -31,6 +27,6 @@ export function WelcomeSection() {
                 }}>Sign in</a>
             </div>
         </div>
-        <div className="h-14 w-full bg-[#0c131a] rotate-1" />
+        <div className="h-14 w-full bg-[#0c131a] opacity-5 rotate-1" />
     </section>
 }
