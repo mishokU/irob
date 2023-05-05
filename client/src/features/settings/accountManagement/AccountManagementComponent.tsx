@@ -1,5 +1,5 @@
 import {SettingsStrings} from "../strings/SettingsStrings";
-import {buttonTheme} from "../../../themes/Themes";
+import {buttonTheme, settingsInputStyle} from "../../../themes/Themes";
 import useViewModel from "./AccountManagementViewModel"
 import {UpdatePasswordModal} from "../dialogs/updatePassword/UpdatePasswordModal";
 
@@ -30,7 +30,7 @@ export function AccountManagementComponent() {
             <p className="mt-4">E-mail • Hidden information</p>
             <input
                 value={profileReducer.email}
-                className="border-[#29303A] border-2 rounded-2xl p-4 bg-transparent mt-2 w-full"/>
+                className={settingsInputStyle}/>
         </div>
         <div className="mt-8">
             <p className="mt-4">Password</p>
@@ -39,7 +39,7 @@ export function AccountManagementComponent() {
                     onChange={(passwordField) => {
                         setNewPassword(passwordField.target.value)
                     }}
-                    className="border-[#29303A] border-2 rounded-2xl p-4 bg-transparent w-full"/>
+                    className={settingsInputStyle}/>
                 <button className={buttonTheme + " w-fit min-w-[120px] m-auto"} onClick={() => {
                     setIsUpdatePasswordVisible(true)
                 }}>Change

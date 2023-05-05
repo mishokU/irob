@@ -1,5 +1,5 @@
 import {SettingsStrings} from "../strings/SettingsStrings";
-import {buttonTheme} from "../../../themes/Themes";
+import {buttonTheme, settingsInputStyle} from "../../../themes/Themes";
 import useViewModel from "./PersonalInformationViewModel"
 
 export function PersonalDataComponent() {
@@ -23,7 +23,7 @@ export function PersonalDataComponent() {
                 onChange={(surnameField) => {
                     setLocation(surnameField.target.value)
                 }}
-                className="border-[#29303A] border-2 rounded-2xl p-4 bg-transparent mt-2 w-full" />
+                className={settingsInputStyle} />
         </div>
         <div>
             <p className="mt-4">Language</p>
@@ -32,7 +32,7 @@ export function PersonalDataComponent() {
                 onChange={(surnameField) => {
                     setLanguage(surnameField.target.value)
                 }}
-                className="border-[#29303A] border-2 rounded-2xl p-4 bg-transparent mt-2 w-full" />
+                className={settingsInputStyle} />
         </div>
         <div className="flex space-x-2">
             <button

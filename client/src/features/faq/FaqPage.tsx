@@ -16,9 +16,9 @@ export function FaqPage() {
                             us </a></p>
                 </div>
             </div>
-            <div className="mt-16">
+            <div className="mt-16 mb-16">
                 <h1 className="text-lg text-[#ffb81c] mb-4">1. PLATFORM GETTING STARTED AND DEFAULT MESSAGES</h1>
-                <div className="mt-16 space-y-4">
+                <div className="mt-8 space-y-4">
                     {items.map((item) => <FaqItem item={item} />)}
                 </div>
             </div>

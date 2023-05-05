@@ -11,8 +11,8 @@ export function WelcomeSection() {
             <div>
                 <WelcomeImage/>
             </div>
-            <p className="d-none mt-16 font-bold text-3xl">This is a service for sell and buy</p>
-            <p className="d-none font-bold text-3xl">licences for content</p>
+            <p className="d-none mt-16 font-bold text-4xl">This is a service for sell and buy</p>
+            <p className="d-none mt-4 font-bold text-3xl">licences for content</p>
             <p className="m-8 text-[#8fadc0]">Where buyers and sellers can interact directly anytime, anywhere.</p>
             <button
                 className={buttonTheme}

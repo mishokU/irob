@@ -1,4 +1,4 @@
-import {buttonTheme} from "../../../themes/Themes";
+import {buttonTheme, settingsInputStyle} from "../../../themes/Themes";
 import {SettingsStrings} from "../strings/SettingsStrings";
 import useViewModel from "./ProfileInfoViewModel"
 
@@ -25,7 +25,7 @@ export function ProfileInfoComponent() {
         <div className="flex items-center">
             <img
                 id="profile_image"
-                src={imagePath} 
+                src={imagePath}
                 className="object-cover rounded-full bg-white w-[75px] h-[75px]"/>
             <label
                 htmlFor="image_uploads"
@@ -43,7 +43,7 @@ export function ProfileInfoComponent() {
             <div>
                 <p className="mt-4">Name</p>
                 <input
-                    className="border-[#29303A] border-2 rounded-2xl p-4 bg-transparent mt-2"
+                    className={settingsInputStyle}
                     value={name}
                     onChange={(nameField) => setName(nameField.target.value)}
                 />
@@ -51,7 +51,7 @@ export function ProfileInfoComponent() {
             <div className="ml-4">
                 <p className="mt-4">Surname</p>
                 <input
-                    className="border-[#29303A] border-2 rounded-2xl p-4 bg-transparent mt-2"
+                    className={settingsInputStyle}
                     value={surname}
                     onChange={(surnameField) => setSurname(surnameField.target.value)}
                 />
@@ -62,14 +62,14 @@ export function ProfileInfoComponent() {
             <textarea
                 value={description}
                 onChange={(surnameField) => setDescription(surnameField.target.value)}
-                className="border-[#29303A] align-text-top border-2 rounded-2xl p-4 bg-transparent mt-2 w-full h-[120px]"/>
+                className="border-[#29303A] outline-none align-text-top border-2 rounded-2xl p-4 bg-transparent mt-2 w-full h-[120px]"/>
         </div>
         <div>
             <p className="mt-4">Website</p>
             <input
                 value={website}
                 onChange={(surnameField) => setWebsite(surnameField.target.value)}
-                className="border-[#29303A] border-2 rounded-2xl p-4 bg-transparent mt-2 w-full"/>
+                className={settingsInputStyle}/>
         </div>
         <div className="flex space-x-2">
             <button
