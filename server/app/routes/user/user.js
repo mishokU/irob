@@ -264,10 +264,17 @@ async function updatePassword(request, result) {
 
         const token = request.get('token')
 
-        const {password} = request.body
+        const {newPassword, oldPassword, repeatNewPassword} = request.body
 
-        await userController.updatePassword(token, password)
-
+        if(newPassword === repeatNewPassword){
+            const user = await userController.getUser(token)
+            await userController.updatePassword(token, user.password,  oldPassword, newPassword, result)
+        } else {
+            result.status(400).json({
+                success: false,
+                message: "Passwords are not equal!"
+            })
+        }
     } catch (e) {
         const message = "Error in updating password: " + e.message
         console.log(message)

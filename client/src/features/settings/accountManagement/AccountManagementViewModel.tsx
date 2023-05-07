@@ -6,7 +6,7 @@ import {clearProfile, updateIsDisabled} from "../../../data/slices/ProfileSlice"
 import {useNavigate} from "react-router-dom";
 import {IROBRoutes} from "../../../routes/IROBRoutes";
 import AuthMiddleware from "../../auth/middleware/AuthMiddleware";
-import { NotificationPosition, initNotification, usePopupContext } from "../../main/contexts/NotificationProvider";
+import { initNotification, usePopupContext } from "../../main/contexts/NotificationProvider";
 
 
 export default function AccountManagementViewModel() {

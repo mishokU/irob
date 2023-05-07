@@ -36,6 +36,7 @@ export default function ContentFullCardViewModel() {
                 setState({
                     isLoading: false,
                     isDeleteDialogButtonVisible: profileReducer.profileId === result.user.userId,
+                    isTrailerVisible: false,
                     isCreateRoomButtonVisible: profileReducer.profileId !== result.user.userId && fromCatalogue,
                     user: {
                         username: result.user.username,
@@ -53,7 +54,7 @@ export default function ContentFullCardViewModel() {
                         actors: result.content.actors,
                         country: result.content.country,
                         owner: result.content.owner,
-                        videoTrailerUrl: result.content.trailer,
+                        videoTrailerUrl: result.content.trailerUrl,
                         year: result.content.year,
                         duration: result.content.duration,
                         name: result.content.name,
@@ -68,21 +69,32 @@ export default function ContentFullCardViewModel() {
     }, [])
 
     const onBackClick = () => {
-        navigate(-1)
+        if (state.isTrailerVisible) {
+            onHandlePlayerVisible()
+        } else {
+            navigate(-1)
+        }
     }
 
     const handleDeleteCardClick = async () => {
         const result: any = await deleteContent(contentId).unwrap()
         if (result.success) {
-
             navigate(-1)
         }
+    }
+
+    const onHandlePlayerVisible = () => {
+        setState({
+            ...state,
+            isTrailerVisible: !state.isTrailerVisible
+        })
     }
 
     return {
         state,
         isDeleteDialogVisible,
         setIsDeleteDialogVisible,
+        onHandlePlayerVisible,
         handleDeleteCardClick,
         onBackClick
     }

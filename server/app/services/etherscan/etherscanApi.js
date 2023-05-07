@@ -11,8 +11,10 @@ async function getAccountTransactions(account, networkId) {
         let baseUrl = ""
         if(networkId === 1){
             baseUrl = "https://api.etherscan.io/api"
-        } else {
+        } else if(networkId === 11155111) {
             baseUrl = "https://api-sepolia.etherscan.io/api"
+        } else {
+            return []
         }
 
         const result = await fetch(`${baseUrl}?module=account&action=txlist&address=${account}&startblock=0&endblock=99999999&page=1&offset=10&sort=asc&apikey=${key}`)

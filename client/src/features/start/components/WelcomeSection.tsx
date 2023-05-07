@@ -1,4 +1,4 @@
-import {buttonTheme} from "../../../themes/Themes";
+import {buttonThemeTransparent} from "../../../themes/Themes";
 import {IROBRoutes} from "../../../routes/IROBRoutes";
 import {Auth} from "../../auth/domain/utils/Auth";
 import {useNavigate} from "react-router-dom";
@@ -15,7 +15,7 @@ export function WelcomeSection() {
             <p className="d-none mt-4 font-bold text-3xl">licences for content</p>
             <p className="m-8 text-[#8fadc0]">Where buyers and sellers can interact directly anytime, anywhere.</p>
             <button
-                className={buttonTheme}
+                className={buttonThemeTransparent}
                 onClick={() => {
                     navigate(IROBRoutes.auth, {state: {auth: Auth.REGISTRATION}})
                 }}>Register for free

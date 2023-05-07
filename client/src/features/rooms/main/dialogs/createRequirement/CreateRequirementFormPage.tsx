@@ -52,9 +52,7 @@ export function CreateRequirementFormPage({isVisibleState, setIsVisibleState}: C
                             value={title}
                             readOnly={!!roomReducer.isFinished}
                             placeholder="For example: Contract duration"
-                            onChange={(titleField) => {
-                                setTitle(titleField.target.value)
-                            }}
+                            onChange={(titleField) => setTitle(titleField.target.value)}
                             className={inputStyle}/>
                         <p className="absolute right-4 bottom-2">{title.length} / {maxTitleLength} max</p>
                     </div>
@@ -74,9 +72,7 @@ export function CreateRequirementFormPage({isVisibleState, setIsVisibleState}: C
                         placeholder="0"
                         type="text"
                         readOnly={!!roomReducer.isFinished}
-                        onChange={(valueField) => {
-                            setValue(valueField.target.value)
-                        }}
+                        onChange={(valueField) => setValue(valueField.target.value)}
                         className={inputStyle}/>
                 </div>
             </div>
@@ -87,9 +83,7 @@ export function CreateRequirementFormPage({isVisibleState, setIsVisibleState}: C
                     value={customType}
                     readOnly={!!roomReducer.isFinished}
                     placeholder="Write there your custom requirement type with numeric meaning"
-                    onChange={(customTypeField) => {
-                        setCustomType(customTypeField.target.value)
-                    }}
+                    onChange={(customTypeField) => setCustomType(customTypeField.target.value)}
                     className="resize-none border-[#29303A] align-text-top border-2 rounded-lg pt-2 pl-4 pr-4 pb-2 bg-transparent mt-2 w-full h-[46px]"
                 />
             </div>}
@@ -101,9 +95,7 @@ export function CreateRequirementFormPage({isVisibleState, setIsVisibleState}: C
                     value={description}
                     readOnly={!!roomReducer.isFinished}
                     placeholder="Some words about your requirement to current situation"
-                    onChange={(descriptionField) => {
-                        setDescription(descriptionField.target.value)
-                    }}
+                    onChange={(descriptionField) => setDescription(descriptionField.target.value)}
                     className="resize-none border-[#29303A] align-text-top border-2 rounded-lg pt-2 pl-4 pr-4 pb-2 bg-transparent mt-2 w-full h-[140px]"
                 />
                     <p className="absolute right-10 bottom-[90px]">{description.length} / {maxDescriptionLength} max</p>
@@ -117,16 +109,15 @@ export function CreateRequirementFormPage({isVisibleState, setIsVisibleState}: C
                         {requirementId === null ? "Save" : "Update"}
                     </button>
                 }
-                <button className={buttonTheme + " mt-4 w-full"} onClick={() => {
-                    setIsVisibleState({isVisible: false, requirement: null})
-                }}>Cancel
+                <button
+                    className={buttonTheme + " mt-4 w-full"}
+                    onClick={() => setIsVisibleState({isVisible: false, requirement: null})}>
+                    Cancel
                 </button>
             </div>
         </div>
-        {
-            error !== "" && <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
-                <h1>{error}</h1>
-            </div>
-        }
+        {error !== "" && <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
+            <h1>{error}</h1>
+        </div>}
     </div>
 }

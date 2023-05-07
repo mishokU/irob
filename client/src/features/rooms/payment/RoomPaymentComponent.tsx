@@ -10,19 +10,19 @@ export function RoomPaymentComponent() {
     const disabledButtonStyle = buttonTheme + ' w-full mt-4 bg-gray-600 pointer-events-none select-none'
     return <div className="border-2 border-[#29303A] rounded-lg mt-4 p-16 w-full h-[calc(100vh-250px)]">
         <div className="flex justify-between items-center">
-            <h1 className="text-2xl text-white pt-2 pb-2">Payment info form</h1>
+            <h1 className="text-2xl text-white font-bold pt-2 pb-2">Payment info form</h1>
             {screenState.isLedgerConnected && screenState.balance !== -1 &&
-                <div className="text-2xl text-white flex bg-gray-600 p-2 rounded-md space-x-4">
-                    <h1>Active balance:</h1>
+                <div className="text-2xl text-white flex bg-gray-800 p-2 rounded-md space-x-4">
+                    <h1>Balance:</h1>
                     <p>{screenState.balance} ETH</p>
                 </div>
             }
         </div>
-        <p className="text-white pt-4">The cost of your contract is calculated
+        <p className="text-[#8fadc0] pt-4">The cost of your contract is calculated
             based on the number of your conditions,
             and how difficult the conditions are,
             as well as the cost of gas for the blockchain and the commission for
-            this service in the form of 3% of the
+            this service in the form of 5% of the
             transaction. Also, the deposit you agreed on will be taken into a smart contract.
             The deposit will be returned to the party that has met all the conditions, otherwise it
             will be returned to the seller.

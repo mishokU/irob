@@ -3,12 +3,11 @@ import {useEffect, useState} from "react";
 import {
     useGetLedgerTransactionsMutation,
     useUpdateLedgerAccountMutation
-} from "../../../data/store/profile/ProfileApi";
+} from "../../../../data/store/profile/ProfileApi";
 import {ProfileLedgerState, initProfileLedgerState} from "./ProfileLedgerState";
-import {LedgerTransaction} from "../../../data/models/profile/GetLedgerTransactionsResponse";
+import {LedgerTransaction} from "../../../../data/models/profile/GetLedgerTransactionsResponse";
 
 export default function ProfileLedgerViewModel() {
-
 
     const {status, connect, account} = useMetaMask();
 
@@ -59,27 +58,12 @@ export default function ProfileLedgerViewModel() {
 
     }, [])
 
-
-    function onForgetAccountClick() {
-
-    }
-
-    function onReceiveClick() {
-
-    }
-
-    function onSendClick() {
-
-    }
-
     return {
         status,
+        account,
         state,
         transactions,
-        onForgetAccountClick,
-        connect,
-        onReceiveClick,
-        onSendClick
+        connect
     }
 
 }

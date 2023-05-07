@@ -36,13 +36,12 @@ export function AccountManagementComponent() {
             <p className="mt-4">Password</p>
             <div className="flex mt-2 space-x-4">
                 <input
-                    onChange={(passwordField) => {
-                        setNewPassword(passwordField.target.value)
-                    }}
+                    type={"password"}
+                    onChange={(passwordField) => setNewPassword(passwordField.target.value)}
                     className={settingsInputStyle}/>
-                <button className={buttonTheme + " w-fit min-w-[120px] m-auto"} onClick={() => {
-                    setIsUpdatePasswordVisible(true)
-                }}>Change
+                <button
+                    className={buttonTheme + " w-fit min-w-[120px] m-auto"}
+                    onClick={() => setIsUpdatePasswordVisible(true)}>Change
                 </button>
             </div>
         </div>

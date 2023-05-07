@@ -1,4 +1,4 @@
-import {Route, Routes, useLocation} from "react-router-dom";
+import {Navigate, Route, Routes, useLocation} from "react-router-dom";
 import {StartPage} from "../../start/components/StartPage";
 import {CataloguePage} from "../../catalogue/ui/CataloguePage";
 import {AuthPage} from "../../auth/components/AuthPage";
@@ -22,6 +22,9 @@ import {SamplePage} from "../../sample/SamplePage";
 import {CommonNotification} from "../notifications/CommonNotification";
 import {initNotification, usePopupContext} from "../contexts/NotificationProvider";
 import {FaqPage} from "../../faq/FaqPage";
+import {PolicyPrivacyPage} from "../../privacy/PolicyPrivacyPage";
+import {TermsOfUsePage} from "../../termsOfUse/TermsOfUsePage";
+import AuthMiddleware from "../../auth/middleware/AuthMiddleware";
 
 export function MainContainer() {
     const modalsContext = useModalsContext()
@@ -30,10 +33,12 @@ export function MainContainer() {
     const contentCardFull = useContentFullCardContext()
     const location = useLocation();
     const popupContext = usePopupContext()
+    const authMiddleware = AuthMiddleware()
+    const isAuth = authMiddleware.getToken() !== null
     {
         popupContext?.state.text !== undefined && setTimeout(() => {
             popupContext?.setState(initNotification())
-        }, popupContext?.state.timeMs);
+        }, popupContext?.state.timeMs)
     }
     const isHeaderVisible: boolean =
         !location.pathname.toString().includes(IROBRoutes.rooms) &&
@@ -53,21 +58,34 @@ export function MainContainer() {
         <main>
             <Routes>
                 <Route index element={<StartPage/>}/>
-                <Route path={IROBRoutes.card} element={<ContentFullCardPage/>}/>
                 <Route path={IROBRoutes.nonAuthPage} element={<NonAuthPage/>}/>
                 <Route path={IROBRoutes.sample} element={<SamplePage/>}/>
                 <Route path={IROBRoutes.home} element={<StartPage/>}/>
-                <Route path={IROBRoutes.messages} element={<CataloguePage/>}/>
                 <Route path={IROBRoutes.about} element={<AboutUsComponent/>}/>
-                <Route path={IROBRoutes.rooms + "/:id"} element={<RoomComponent/>}/>
-                <Route path={IROBRoutes.profile} element={<ProfilePage/>}/>
-                <Route path={IROBRoutes.notification} element={<CataloguePage/>}/>
+                <Route path={IROBRoutes.faq} element={<FaqPage/>}/>
+                <Route path={IROBRoutes.privacy} element={<PolicyPrivacyPage/>}/>
+                <Route path={IROBRoutes.terms} element={<TermsOfUsePage/>}/>
                 <Route path={IROBRoutes.sell} element={<CataloguePage/>}/>
                 <Route path={IROBRoutes.buy} element={<CataloguePage/>}/>
-                <Route path={IROBRoutes.catalogue} element={<CataloguePage/>}/>
+                <Route
+                    path={IROBRoutes.card}
+                    element={isAuth ? <ContentFullCardPage/> : <Navigate to={IROBRoutes.auth}/>}/>
+                <Route
+                    path={IROBRoutes.rooms + "/:id"}
+                    element={isAuth ? <RoomComponent/> : <Navigate to={IROBRoutes.auth}/>}/>
+                <Route
+                    path={IROBRoutes.profile}
+                    element={isAuth ? <ProfilePage/> : <Navigate to={IROBRoutes.auth}/>}/>
+                <Route
+                    path={IROBRoutes.notification}
+                    element={isAuth ? <CataloguePage/> : <Navigate to={IROBRoutes.auth}/>}/>
+                <Route
+                    path={IROBRoutes.catalogue}
+                    element={isAuth ? <CataloguePage/> : <Navigate to={IROBRoutes.auth}/>}/>
                 <Route path={IROBRoutes.auth} element={<AuthPage/>}/>
-                <Route path={IROBRoutes.settings} element={<SettingsPage/>}/>
-                <Route path={IROBRoutes.faq} element={<FaqPage/>}/>
+                <Route
+                    path={IROBRoutes.settings}
+                    element={isAuth ? <SettingsPage/> : <Navigate to={IROBRoutes.auth}/>}/>
             </Routes>
         </main>
     </div>

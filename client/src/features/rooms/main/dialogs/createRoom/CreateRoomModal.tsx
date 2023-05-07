@@ -61,9 +61,7 @@ export function CreateRoomModal() {
                                             className={inputStyle + " bg-transparent w-full w-full flex"}
                                             placeholder="Room title"
                                             value={title}
-                                            onChange={(titleField) => {
-                                                setTitle(titleField.target.value)
-                                            }}
+                                            onChange={(titleField) => setTitle(titleField.target.value)}
                                         />
                                     </div>
                                     <div className={inputStyle + " w-full p-3 flex justify-between"}>

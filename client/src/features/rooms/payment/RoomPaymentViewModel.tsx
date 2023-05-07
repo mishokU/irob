@@ -74,14 +74,6 @@ export default function RoomPaymentViewModel() {
         })
     }, [status])
 
-    useEffect(() => {
-        setScreenState({
-            ...screenState, leftPanel: {
-                ...screenState.leftPanel, isLoading: isUpdating
-            }
-        })
-    }, [isUpdating])
-
     /*
         First sign and create contract with deposit
         Then pay to seller

@@ -21,7 +21,6 @@ async function loginWithEmailPassword(request, result) {
     const {email, password} = request.body;
     try {
         const user = await userController.getUserByEmail(email)
-        console.log(user)
         if (user === undefined) {
             result.status(400).json({
                 error: `User with email ${email} is not registered, Sign Up first`,

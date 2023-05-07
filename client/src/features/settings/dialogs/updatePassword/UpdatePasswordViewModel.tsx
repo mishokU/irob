@@ -8,6 +8,8 @@ export default function UpdatePasswordViewModel(props: UpdatePasswordProps) {
     const [oldPassword, setOldPassword] = useState("")
     const [repeatNewPassword, setRepeatNewPassword] = useState("")
 
+    const [error, setError] = useState("")
+
     const [updatePasswordMutation] = useUpdatePasswordMutation()
 
     const updatePasswordClick = async () => {
@@ -25,6 +27,8 @@ export default function UpdatePasswordViewModel(props: UpdatePasswordProps) {
                 if (data !== undefined) {
                     if(data.success){
 
+                    } else {
+                        setError(data.message)
                     }
                 }
             })

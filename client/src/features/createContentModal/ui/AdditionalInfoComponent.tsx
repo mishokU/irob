@@ -33,27 +33,21 @@ export function AdditionalInfoComponent({
             <p className="mt-4">Content creation year</p>
             <input
                 value={state.year}
-                onChange={(nameField) => {
-                    onYearChanged(nameField.target.value)
-                }}
+                onChange={(nameField) => onYearChanged(nameField.target.value)}
                 className={inputStyle}/>
         </div>
         <div>
             <p className="mt-4">Cast</p>
             <input
                 value={state.actors}
-                onChange={(nameField) => {
-                    onCastChanged(nameField.target.value)
-                }}
+                onChange={(nameField) => onCastChanged(nameField.target.value)}
                 className={inputStyle}/>
         </div>
         <div>
             <p className="mt-4">Studio owner</p>
             <input
                 value={state.owner}
-                onChange={(nameField) => {
-                    onOwnerChanged(nameField.target.value)
-                }}
+                onChange={(nameField) => onOwnerChanged(nameField.target.value)}
                 className={inputStyle}/>
         </div>
     </div>

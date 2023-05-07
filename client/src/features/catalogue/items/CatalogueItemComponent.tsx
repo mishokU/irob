@@ -8,16 +8,15 @@ export interface CatalogueItemProps {
 
 export function CatalogueItemComponent({item}: CatalogueItemProps) {
     const navigate = useNavigate()
-    return <div>
-        <div className="rounded-xl border-sm border-2 border-gray-700 w-[16em] h-[10em] overflow-hidden"
-             onClick={() => {
-                 navigate(IROBRoutes.card, {state: {contentId: item.contentId, fromCatalogue: true}})
-             }}>
+    return <div
+        className="cursor-pointer w-fit"
+        onClick={() => navigate(IROBRoutes.card, {state: {contentId: item.contentId, fromCatalogue: true}})}>
+        <div className="rounded-xl border-sm border-2 border-gray-700 max-w-[16em] w-fit h-[10em] overflow-hidden">
             <img
                 placeholder="bg-black"
                 src={item.videoPreview}
-                className="fill bg-black w-full h-full object-cover flex overflow-y-hidden"/>
+                className="fill bg-black w-full h-full object-cover min-w-[16em] flex overflow-y-hidden"/>
         </div>
-        <h1 className="text-xl text-ellipsis text-white overflow-hidden pl-4 pr-4 pt-1">{item.name}</h1>
+        <h1 className="text-xl text-ellipsis max-w-[270px] text-white overflow-hidden pl-4 pr-4 pt-1">{item.name}</h1>
     </div>
 }

@@ -57,27 +57,34 @@ async function getPagingContent(request, result, isUserContent) {
             data = await contentController.getPagingContent(15, offset)
         }
 
-        const convertedContent = await Promise.map(data, async (content) => {
-            return {
-                videoPreview: content.video_preview,
-                contentId: content.id,
-                name: content.name
-            }
-        }, {concurrency: 2})
+        if(token){
+            const convertedContent = await Promise.map(data, async (content) => {
+                return {
+                    videoPreview: content.video_preview,
+                    contentId: content.id,
+                    name: content.name
+                }
+            }, {concurrency: 2})
 
-        const newOffset = Number(offset) + 15
+            const newOffset = Number(offset) + 15
 
-        result.status(200).json({
-            success: true,
-            content: convertedContent,
-            limit: limit,
-            offset: newOffset
-        })
+            result.status(200).json({
+                success: true,
+                content: convertedContent,
+                limit: limit,
+                offset: newOffset
+            })
+        } else {
+            result.status(200).json({
+                success: false,
+                message: "User not logged!"
+            })
+        }
 
     } catch (e) {
         const message = "Error in get content: " + e.message
         console.log(message)
-        result.json(500).json({
+        result.status(500).json({
             success: false,
             message: message
         })

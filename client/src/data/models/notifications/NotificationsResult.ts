@@ -7,4 +7,6 @@ export interface SingleNotification {
     userId: number
     id: number
     message: string
+    room_id: string
+    type: string
 }

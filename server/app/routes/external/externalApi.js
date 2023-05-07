@@ -23,6 +23,8 @@ async function getVideoUrl(request, result) {
         const license = await licensesController.getLicenseBySecretKey(licenseKey)
         const content = await contentController.getContentById(license.content_id)
 
+        await licensesController.updateLicenseRequirement(licenseKey, "Views count")
+
         result.status(200).json({
             success: true,
             videoUrl: content.video_url

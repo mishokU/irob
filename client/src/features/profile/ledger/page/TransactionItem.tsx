@@ -1,10 +1,11 @@
-import {LedgerTransaction} from "../../../data/models/profile/GetLedgerTransactionsResponse";
+import {LedgerTransaction} from "../../../../data/models/profile/GetLedgerTransactionsResponse";
 
 export interface TransactionItemProps {
     transaction: LedgerTransaction
 }
 
 export function TransactionItem({transaction}: TransactionItemProps) {
+    const link = `https://sepolia.etherscan.io/address/${transaction.contractAddress}`
     return <div className="pl-4 pr-8 pt-2 pb-2 space-y-2">
         <div className="flex items-center space-x-2">
             <h1>From:</h1>
@@ -15,10 +16,9 @@ export function TransactionItem({transaction}: TransactionItemProps) {
             <h2 className="text-sm">{transaction.to}</h2>
         </div>}
         {transaction.isContractCreation && <div className="flex items-center space-x-2">
-            <h1>Contract creation: </h1>
-            <h2 className="text-sm">{transaction.contractAddress}</h2>
-        </div>
-        }
+            <h1>Creation: </h1>
+            <a target="_blank" href={link} className="hover:underline text-sm">{transaction.contractAddress}</a>
+        </div>}
         <div className="flex justify-between">
             <div className="flex items-center space-x-2">
                 <h1>Date:</h1>

@@ -20,18 +20,14 @@ export function PersonalDataComponent() {
             <p className="mt-4">Location</p>
             <input
                 value={location}
-                onChange={(surnameField) => {
-                    setLocation(surnameField.target.value)
-                }}
+                onChange={(surnameField) => setLocation(surnameField.target.value)}
                 className={settingsInputStyle} />
         </div>
         <div>
             <p className="mt-4">Language</p>
             <input
                 value={language}
-                onChange={(surnameField) => {
-                    setLanguage(surnameField.target.value)
-                }}
+                onChange={(surnameField) => setLanguage(surnameField.target.value)}
                 className={settingsInputStyle} />
         </div>
         <div className="flex space-x-2">

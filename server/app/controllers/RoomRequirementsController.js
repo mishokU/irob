@@ -137,7 +137,9 @@ async function updateRequirementValue(id, type) {
                 SET current_value = newValue WHERE license_id=$1 AND type=$2`, [id, type]
             )
         } else {
-            return "There is no available type in requirements!"
+            const message = "There is no available type in requirements!"
+            console.log(message)
+            return message
         }
 
     } catch (e) {

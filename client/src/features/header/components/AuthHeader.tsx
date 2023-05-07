@@ -14,7 +14,7 @@ export function AuthHeader() {
     const createContent = useModalsContext()
     const createRoomModalContext = useCreateRoomModalContext()
     const notificationContext = useNotificationContext()
-    return <nav className="flex justify-between pt-4 pb-2 pl-16 pr-16 p-4 text-[#8fadc0] text-lg">
+    return <nav className="flex justify-between pt-2 pb-2 pl-16 pr-16 p-4 text-[#8fadc0] text-lg">
         <span className="flex items-center">
             <LogoImage/>
             <div className="ml-4 space-x-6">

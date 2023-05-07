@@ -49,10 +49,22 @@ async function getUserByEmail(email) {
     }
 }
 
-async function updatePassword(token, oldPassword, newPassword) {
-
-    bcrypt.hash(newPassword, 10, async (error, hash) => {
-        await db.query(`UPDATE users SET password = $2 WHERE token= $1;`, [token, hash])
+async function updatePassword(token, currentPassword, oldPassword, newPassword, result) {
+    bcrypt.compare(currentPassword, oldPassword, async (error, hashResult) => {
+        if (error) {
+            result.status(400).json({
+                success: true,
+                message: "Incorrect password"
+            })
+        } else if (hashResult === true) {
+            bcrypt.hash(newPassword, 10, async (error, hash) => {
+                await db.query(`UPDATE users SET password=$2 WHERE token=$1;`, [token, hash])
+            })
+            result.status(200).json({
+                success: true,
+                message: "Password updated!"
+            })
+        }
     })
 }
 

@@ -34,8 +34,8 @@ body {
 
 @layer utilities {
     .scrollbar::-webkit-scrollbar {
-        width: 20px;
-        height: 20px;
+        width: 10px;
+        height: 10px;
     }
     .scrollbar::-webkit-scrollbar-track {
         border-radius: 100vh;
@@ -43,12 +43,11 @@ body {
     }
 
     .scrollbar::-webkit-scrollbar-thumb {
-        background: #e0cbcb;
+        background: #1F2937;
         border-radius: 100vh;
-        border: 3px solid #f6f7ed;
     }
 
     .scrollbar::-webkit-scrollbar-thumb:hover {
-        background: #c0a0b9;
+        background: #0E1420;
     }
 }

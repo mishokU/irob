@@ -2,10 +2,14 @@ import {useState} from "react";
 import {ProfileLedgerMenu} from "./ProfileLedgerMenu";
 
 export function ProfileLedgerMenuHandler() {
-    const [menu, setMenu] = useState(ProfileLedgerMenu.SEND)
+    const [menu, setMenu] = useState(ProfileLedgerMenu.BALANCE)
 
     function setSend() {
         setMenu(ProfileLedgerMenu.SEND)
+    }
+
+    function setBalance() {
+        setMenu(ProfileLedgerMenu.BALANCE)
     }
 
     function setReceive() {
@@ -13,6 +17,6 @@ export function ProfileLedgerMenuHandler() {
     }
 
     return {
-        menu, setSend, setReceive
+        menu, setSend, setReceive, setBalance
     };
 }

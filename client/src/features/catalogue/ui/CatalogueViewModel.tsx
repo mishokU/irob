@@ -22,7 +22,6 @@ export default function CatalogueViewModel() {
             .then((result: any) => {
                 if (result.success) {
                     const convertedUi = result.content.map((item: GetShortContentResponse) => {
-                        console.log(item)
                         return {
                             videoPreview: item.videoPreview,
                             contentId: item.contentId,
@@ -31,6 +30,8 @@ export default function CatalogueViewModel() {
                     })
                     setContent(convertedUi)
                     setIsEmptyVisible(convertedUi.size === 0)
+                } else {
+                    setError(result.message)
                 }
             })
     }, [])

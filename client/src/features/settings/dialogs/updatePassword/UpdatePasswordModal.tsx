@@ -21,9 +21,7 @@ export function UpdatePasswordModal(props: UpdatePasswordProps) {
     } = useViewModel(props)
     return <>
         <Transition appear show={props.isVisible} as={Fragment}>
-            <Dialog as="div" className="relative z-10" onClose={() => {
-                props.setIsVisible(false)
-            }}>
+            <Dialog as="div" className="relative z-10" onClose={() => props.setIsVisible(false)}>
                 <Transition.Child
                     as={Fragment}
                     enter="ease-out duration-300"
@@ -51,10 +49,9 @@ export function UpdatePasswordModal(props: UpdatePasswordProps) {
                                 <div className="space-y-3 text-white">
                                     <div className="flex items-center justify-between">
                                         <h1 className="font-bold text-lg">Password updating</h1>
-                                        <button onClick={() => {
-                                            props.setIsVisible(false)
-                                        }}
-                                                className="bg-transparent hover:bg-black border-transparent p-2 rounded-none hover:rounded-full">
+                                        <button
+                                            onClick={() => props.setIsVisible(false)}
+                                            className="bg-transparent hover:bg-black border-transparent p-2 rounded-none hover:rounded-full">
                                             <CloseModal/>
                                         </button>
                                     </div>
@@ -63,9 +60,7 @@ export function UpdatePasswordModal(props: UpdatePasswordProps) {
                                         <input
                                             className={inputStyle + " bg-transparent w-full w-full flex"}
                                             value={oldPassword}
-                                            onChange={(passwordField) => {
-                                                setOldPassword(passwordField.target.value)
-                                            }}
+                                            onChange={(passwordField) => setOldPassword(passwordField.target.value)}
                                         />
                                     </div>
                                     <div>
@@ -73,9 +68,7 @@ export function UpdatePasswordModal(props: UpdatePasswordProps) {
                                         <input
                                             className={inputStyle + " bg-transparent w-full w-full flex"}
                                             value={props.newPassword}
-                                            onChange={(passwordField) => {
-                                                props.setNewPassword(passwordField.target.value)
-                                            }}
+                                            onChange={(passwordField) => props.setNewPassword(passwordField.target.value)}
                                         />
                                     </div>
                                     <div>
@@ -83,13 +76,13 @@ export function UpdatePasswordModal(props: UpdatePasswordProps) {
                                         <input
                                             className={inputStyle + " bg-transparent w-full w-full flex"}
                                             value={repeatNewPassword}
-                                            onChange={(passwordField) => {
-                                                setRepeatNewPassword(passwordField.target.value)
-                                            }}
+                                            onChange={(passwordField) => setRepeatNewPassword(passwordField.target.value)}
                                         />
                                     </div>
-                                    <button className={buttonTheme + " w-full"}
-                                            onClick={() => updatePasswordClick()}>Update
+                                    <button
+                                        className={buttonTheme + " w-full"}
+                                        onClick={() => updatePasswordClick()}>
+                                        Update
                                     </button>
                                 </div>
                             </Dialog.Panel>

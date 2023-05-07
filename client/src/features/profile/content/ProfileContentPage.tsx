@@ -9,7 +9,7 @@ export function ProfileContentPage() {
             {isEmptyVisible && <div className="text-xl text-[#8fadc0]">
                 You do not have any content! Let's create it!
             </div>}
-            <div className="flex grid lg:grid-cols-4 gap-4 w-fit md:grid-cols-3 sm:grid-cols-2">
+            <div className="flex grid lg:grid-cols-4 pr-24 gap-4 w-fit md:grid-cols-3 sm:grid-cols-2">
                 {content.map((item: CatalogueUi) => <CatalogueItemComponent item={item}/>)}
             </div>
         </div>

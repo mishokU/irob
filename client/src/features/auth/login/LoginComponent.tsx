@@ -1,4 +1,4 @@
-import {buttonTheme} from "../../../themes/Themes";
+import {buttonThemeTransparent} from "../../../themes/Themes";
 import {Auth} from "../domain/utils/Auth";
 import {IAuth} from "../components/AuthPage";
 import useViewModel from "./LoginViewModel";
@@ -8,14 +8,14 @@ export function LoginComponent(auth: IAuth) {
     const {setEmail, setPassword, handleLogin, emailError, passwordError} = useViewModel(auth.errorState)
     return <div className="absolute">
         <h2 className="text-[#8fadc0] text-xs font-bold">Email</h2>
-        <input className="bg-[#8fadc01a] outline-none mt-2 w-[250px] rounded border p-2 text-white border-[#8fadc033]"
+        <input className="bg-[#8fadc01a] focus:border-gray-600 border-transparent focus:ring-0 mt-2 w-[250px] rounded border p-2 text-white border-[#8fadc033]"
                type="email"
                placeholder="Your email here"
                onChange={emailField => setEmail(emailField.target.value)}
         />
         {emailError != null && <AuthErrorFormComponent message={emailError} />}
         <h2 className="text-[#8fadc0] mt-6 text-xs font-bold">Password</h2>
-        <input className="bg-[#8fadc01a] outline-none mt-2 w-[250px] rounded  border p-2 text-white border-[#8fadc033]"
+        <input className="bg-[#8fadc01a] focus:border-gray-600 border-transparent focus:ring-0 mt-2 w-[250px] rounded  border p-2 text-white border-[#8fadc033]"
                type="password"
                placeholder="Your password"
                onChange={passwordField => setPassword(passwordField.target.value)}
@@ -23,7 +23,7 @@ export function LoginComponent(auth: IAuth) {
         {passwordError != null && <AuthErrorFormComponent message={passwordError} />}
         <div className="flex justify-center pt-8">
             <button
-                className={buttonTheme}
+                className={buttonThemeTransparent}
                 onClick={handleLogin}>Log In
             </button>
         </div>

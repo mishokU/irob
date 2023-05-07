@@ -21,7 +21,6 @@ export default function ProfileContentViewModel() {
             .then((result: any) => {
                 if (result.success) {
                     const convertedUi = result.content.map((item: GetShortContentResponse) => {
-                        console.log(item)
                         return {
                             videoPreview: item.videoPreview,
                             contentId: item.contentId,
