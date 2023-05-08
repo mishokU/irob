@@ -17,4 +17,4 @@ ENV TZ Europe/Moscow
 ENV NODE_PATH /opt/ws/node_modules
 
 WORKDIR /opt/ws/
-CMD [ "npm", "run", "start" ]
+CMD [ "yarn", "start" ]

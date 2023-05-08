@@ -22,13 +22,13 @@ data-fixture:
 
 install: install-client install-ws install-server ## Установка зависимостей
 install-client:
-	$(DOCKER_COMPOSE) run --rm -T client npm i
+	$(DOCKER_COMPOSE) run --rm -T client yarn install
 
 install-server:
-	$(DOCKER_COMPOSE) run --rm -T server npm i
+	$(DOCKER_COMPOSE) run --rm -T server yarn install
 
 install-ws:
-	$(DOCKER_COMPOSE) run --rm -T ws npm
+	$(DOCKER_COMPOSE) run --rm -T ws yarn install
 
 start: ## Запуск контейнеров
 	$(DOCKER_COMPOSE) up -d --no-build
