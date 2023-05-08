@@ -14,7 +14,7 @@ import {useRemoveUserMutation} from "../../../../data/store/rooms/RoomUsersApi";
 import {RequirementState} from "./RequirementState";
 import {useModalsContext} from "../../../main/contexts/ModalsProvider";
 
-export const WS_URL = process.env.WS_URL || 'ws://localhost:8080';
+export const WS_URL = 'ws://localhost:4000';
 
 export default function RoomViewModel() {
 
@@ -40,7 +40,12 @@ export default function RoomViewModel() {
     const [getContentId] = useGetContentIdMutation()
 
     useWebSocket(WS_URL, {
+        onMessage: (msg) => {
+            console.log("pupa")
+            console.log(msg)
+        },
         onError: (error) => {
+            console.log("aboba")
             console.log(error)
         },
         onOpen: () => {

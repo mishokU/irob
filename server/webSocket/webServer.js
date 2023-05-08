@@ -18,9 +18,9 @@ const NotificationTypes = require("./notificationTypes");
 const server = http.createServer();
 const wsServer = new WebSocketServer({server});
 
-const port = 8080;
-server.listen(port, () => {
-    console.log(`WebSocket server is running on port http://localhost:${port}`);
+const port = 4000;
+server.listen(port, "0.0.0.0", () => {
+    console.log(`WebSocket server is running on port http://0.0.0.0:${port}`);
 });
 
 // I'm maintaining all active connections in this object

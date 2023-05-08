@@ -2,14 +2,9 @@ MAKEFLAGS += --silent
 
 export COMPOSE_PROJECT_NAME ?= irob
 export APP_ENV ?= dev
-export ENV_FILE = .env
 export DOCKER_COMPOSE = docker compose \
-	-f ${ENV_ENVIRONMENT}/docker-compose.${APP_ENV}.yml \
-	--env-file ${ENV_FILE}
-
-ifneq ("$(wildcard ~/.bash_profile)","")
-	include ~/.bash_profile
-endif
+	-f docker-compose.${APP_ENV}.yml \
+	--env-file .env
 
 SHELL=/bin/bash -o pipefail
 
@@ -19,9 +14,11 @@ help: ## Справка по командам
 
 init: stop build install start info ## Сборка и запуск проекта
 
-
 build: ## Сборка контейнеров
-    $(DOCKER_COMPOSE) build
+	$(DOCKER_COMPOSE) build
+
+data-fixture:
+	cat ./database/backups/backup.sql | $(DOCKER_COMPOSE) exec -T --user=postgres db psql 
 
 install: install-frontend ## Установка зависимостей
 install-client:
@@ -31,24 +28,7 @@ install-server:
 	$(DOCKER_COMPOSE) run --rm -T server npm i
 
 install-ws:
-	$(DOCKER_COMPOSE) run --rm -T ws npm i
-
-reinstall: clean rm-env rm-output rm-modules init ## полная очистка и повторная сборка
-
-graph: ## Генерация графа зависимостей в проекте
-	$(DOCKER_COMPOSE) exec frontend $(YARN) graph
-
-clean: ## Остановка и очистка контейнеров
-	$(DOCKER_COMPOSE) down --rmi local -v
-
-rm-env:
-	rm -f $(ENV_FILE)
-
-rm-output:
-	@rm -rf app/{coverage,gen}
-
-rm-modules:
-	@rm -rf app/node_modules
+	$(DOCKER_COMPOSE) run --rm -T ws npm
 
 start: ## Запуск контейнеров
 	$(DOCKER_COMPOSE) up -d --no-build
@@ -57,7 +37,11 @@ restart:
 stop:
 	$(DOCKER_COMPOSE) stop
 down:
-    $(DOCKER_COMPOSE) down
+	$(DOCKER_COMPOSE) down
+reload: down start
+
+restart-nginx:
+	$(DOCKER_COMPOSE) exec -T nginx bash -c "nginx -t && nginx -s reload"
 
 info:
 	echo ""

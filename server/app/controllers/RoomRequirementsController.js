@@ -70,7 +70,7 @@ async function declineRequirement(requirementId) {
 }
 
 async function applyRequirement(requirementId, type, roomId) {
-    await db.query(`DELETE FROM ${ROOM_REQUIREMENTS_TABLE_NAME} WHERE type= $1 and roomId=$2`, [type, roomId])
+    //await db.query(`DELETE FROM ${ROOM_REQUIREMENTS_TABLE_NAME} WHERE type=$1 and room_id=$2`, [type, roomId])
     await db.query(`
             UPDATE ${ROOM_REQUIREMENTS_TABLE_NAME} SET
             is_alive=false WHERE id=$1`, [requirementId]
