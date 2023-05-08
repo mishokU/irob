@@ -1,4 +1,4 @@
-version: '3'
+version: '3.8'
 
 #sudo docker-compose -f docker-compose.dev.yml build
 #sudo docker-compose -f docker-compose.dev.yml up -d
@@ -9,7 +9,8 @@ services:
   client:
     build:
       context: ./client
-      dockerfile: Dockerfile.dev
+      dockerfile: Dockerfile
+      target: dev
     container_name: client
     env_file:
       - .env
@@ -24,7 +25,8 @@ services:
   server:
     build:
       context: ./server/app
-      dockerfile: Dockerfile.dev
+      dockerfile: Dockerfile
+      target: dev
     tty: true
     working_dir: /opt/server
     volumes:
@@ -43,7 +45,8 @@ services:
     working_dir: /opt/ws
     build:
       context: server/webSocket
-      dockerfile: Dockerfile.dev
+      dockerfile: Dockerfile
+      target: dev
     env_file:
       - .env
     volumes:

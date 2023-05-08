@@ -9,3 +9,12 @@ RUN npm install --lts
 RUN npm install
 COPY . .
 CMD [ "npm", "run", "start" ]
+
+FROM node:16.10-alpine as dev
+RUN apk --no-cache add --virtual .builds-deps build-base python3 tzdata
+
+ENV TZ Europe/Moscow
+ENV NODE_PATH /opt/server/node_modules
+
+WORKDIR /opt/server/
+CMD [ "npm", "run", "server" ]
