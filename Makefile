@@ -47,12 +47,23 @@ logs-client: ## Showing logs to frontend
 	$(DOCKER_COMPOSE) logs --tail="all" --follow client
 logs-server: ## Showing logs to backend
 	$(DOCKER_COMPOSE) logs --tail="all" --follow server
-logs-ws: ## Showing logs to nginx
+logs-ws: ## Showing logs to ws
 	$(DOCKER_COMPOSE) logs --tail="all" --follow ws
 logs-db: ## Showing logs to db
 	$(DOCKER_COMPOSE) logs --tail="all" --follow db
-logs-nginx: ## Showing logs to redoc
+logs-nginx: ## Showing logs to nginx
 	$(DOCKER_COMPOSE) logs --tail="all" --follow nginx
+
+shell-client: ## Entering into containers to frontend
+	$(DOCKER_COMPOSE) exec client sh
+shell-server: ## Entering into containers to backend
+	$(DOCKER_COMPOSE) exec server sh
+shell-nginx: ## Entering into containers to nginx
+	$(DOCKER_COMPOSE) exec nginx sh
+shell-db: ## Entering into containers to db
+	$(DOCKER_COMPOSE) exec db sh
+shell-ws: ## Entering into containers to ws
+	$(DOCKER_COMPOSE) exec redoc ws
 
 
 info:
