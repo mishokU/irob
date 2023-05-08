@@ -20,7 +20,7 @@ build: ## Сборка контейнеров
 data-fixture:
 	cat ./database/backups/backup.sql | $(DOCKER_COMPOSE) exec -T --user=postgres db psql 
 
-install: install-frontend ## Установка зависимостей
+install: install-client install-ws install-server ## Установка зависимостей
 install-client:
 	$(DOCKER_COMPOSE) run --rm -T client npm i
 
