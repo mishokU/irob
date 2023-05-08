@@ -43,6 +43,18 @@ reload: down start
 restart-nginx:
 	$(DOCKER_COMPOSE) exec -T nginx bash -c "nginx -t && nginx -s reload"
 
+logs-client: ## Showing logs to frontend
+	$(DOCKER_COMPOSE) logs --tail="all" --follow client
+logs-server: ## Showing logs to backend
+	$(DOCKER_COMPOSE) logs --tail="all" --follow server
+logs-ws: ## Showing logs to nginx
+	$(DOCKER_COMPOSE) logs --tail="all" --follow ws
+logs-db: ## Showing logs to db
+	$(DOCKER_COMPOSE) logs --tail="all" --follow db
+logs-nginx: ## Showing logs to redoc
+	$(DOCKER_COMPOSE) logs --tail="all" --follow nginx
+
+
 info:
 	echo ""
 	echo "# localhost:"
