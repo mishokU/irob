@@ -24,9 +24,9 @@ async function updateRoomRequirement(id, title, description, value) {
         await db.query(`
             UPDATE ${ROOM_REQUIREMENTS_TABLE_NAME}
             SET title=$2, description=$3, value=$4 WHERE id=$1
-        `,[id, title, description, value])
+        `, [id, title, description, value])
 
-    } catch(e){
+    } catch (e) {
         console.log("Error in updating db requirement: " + e.message)
     }
 }
@@ -66,15 +66,14 @@ async function getRequiredRequirements(roomId) {
 }
 
 async function declineRequirement(requirementId) {
-    await db.query(`
-            DELETE FROM ${ROOM_REQUIREMENTS_TABLE_NAME} WHERE id= $1`, [requirementId]
-    )
+    await db.query(`DELETE FROM ${ROOM_REQUIREMENTS_TABLE_NAME} WHERE id= $1`, [requirementId])
 }
 
-async function applyRequirement(requirementId) {
+async function applyRequirement(requirementId, type, roomId) {
+    await db.query(`DELETE FROM ${ROOM_REQUIREMENTS_TABLE_NAME} WHERE type= $1 and roomId=$2`, [type, roomId])
     await db.query(`
             UPDATE ${ROOM_REQUIREMENTS_TABLE_NAME} SET
-            is_alive=false WHERE id= $1`, [requirementId]
+            is_alive=false WHERE id=$1`, [requirementId]
     )
 }
 
@@ -101,10 +100,19 @@ async function getRoomRequirements(roomId) {
         } else {
             return await Promise.map(data.rows, async (requirement) => {
                 const user = await userController.getUserById(requirement.user_id)
+                let username = ""
+                let id = 0
+                if (user) {
+                    username = getUsername(user)
+                    id = user.id
+                } else {
+                    username = "User deleted!"
+                    id = -1
+                }
                 return {
-                    username: getUsername(user),
+                    username: username,
                     isAlive: requirement.is_alive,
-                    userId: user.id,
+                    userId: id,
                     type: requirement.type,
                     value: requirement.value,
                     requirementId: requirement.id

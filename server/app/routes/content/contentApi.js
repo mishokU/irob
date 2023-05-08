@@ -100,15 +100,26 @@ async function getContent(request, result) {
 
         const user = await userController.getUserById(data.user_id)
 
-        result.status(200).json({
-            success: true,
-            user: {
+        let userData
+
+        if(user === undefined){
+            userData = {
+                isDeleted: true
+            }
+        } else {
+            userData = {
+                isDeleted: false,
                 username: getUsername(user),
                 description: user.description,
                 avatar: user.avatar,
                 email: user.email,
                 userId: user.id
-            },
+            }
+        }
+
+        result.status(200).json({
+            success: true,
+            user: userData,
             content: {
                 id: data.id,
                 name: data.name,

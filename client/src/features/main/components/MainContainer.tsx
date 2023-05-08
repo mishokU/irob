@@ -11,7 +11,7 @@ import {AboutUsComponent} from "../../abousUs/components/AboutUsComponent";
 import {RoomComponent} from "../../rooms/main/page/RoomComponent";
 import {CreateRoomModal} from "../../rooms/main/dialogs/createRoom/CreateRoomModal";
 import {useCreateRoomModalContext} from "../contexts/CreateRoomModalProvider";
-import {NonAuthPage} from "../../noAuth/NonAuthPage";
+import {NotExistsPage} from "../../noAuth/NotExistsPage";
 import {NotificationMainComponent} from "../../notifications/NotificationMainComponent";
 import {useNotificationContext} from "../contexts/NotificationModelProvider";
 import {CreateLicenseModal} from "../../createContentModal/ui/CreateLicenseModal";
@@ -57,16 +57,15 @@ export function MainContainer() {
         {isHeaderVisible && <HeaderComponent/>}
         <main>
             <Routes>
+                <Route path="*" element={<NotExistsPage />} />
                 <Route index element={<StartPage/>}/>
-                <Route path={IROBRoutes.nonAuthPage} element={<NonAuthPage/>}/>
+                <Route path={IROBRoutes.nonAuthPage} element={<NotExistsPage/>}/>
                 <Route path={IROBRoutes.sample} element={<SamplePage/>}/>
                 <Route path={IROBRoutes.home} element={<StartPage/>}/>
                 <Route path={IROBRoutes.about} element={<AboutUsComponent/>}/>
                 <Route path={IROBRoutes.faq} element={<FaqPage/>}/>
                 <Route path={IROBRoutes.privacy} element={<PolicyPrivacyPage/>}/>
                 <Route path={IROBRoutes.terms} element={<TermsOfUsePage/>}/>
-                <Route path={IROBRoutes.sell} element={<CataloguePage/>}/>
-                <Route path={IROBRoutes.buy} element={<CataloguePage/>}/>
                 <Route
                     path={IROBRoutes.card}
                     element={isAuth ? <ContentFullCardPage/> : <Navigate to={IROBRoutes.auth}/>}/>
@@ -76,9 +75,6 @@ export function MainContainer() {
                 <Route
                     path={IROBRoutes.profile}
                     element={isAuth ? <ProfilePage/> : <Navigate to={IROBRoutes.auth}/>}/>
-                <Route
-                    path={IROBRoutes.notification}
-                    element={isAuth ? <CataloguePage/> : <Navigate to={IROBRoutes.auth}/>}/>
                 <Route
                     path={IROBRoutes.catalogue}
                     element={isAuth ? <CataloguePage/> : <Navigate to={IROBRoutes.auth}/>}/>

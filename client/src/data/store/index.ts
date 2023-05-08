@@ -9,6 +9,7 @@ import {RoomUsersApi} from "./rooms/RoomUsersApi";
 import roomReducer from "../slices/RoomSlice";
 import userReducer from "../slices/ProfileSlice";
 import configReducer from "../slices/IrobConfigSlice";
+import catalogueReducer from "../slices/CatalogueSlice"
 
 import storage from "redux-persist/lib/storage";
 import {persistReducer, persistStore} from "redux-persist";
@@ -42,7 +43,8 @@ const rootReducer = combineReducers({
     [ConfigApi.reducerPath]: ConfigApi.reducer,
     room: roomReducer,
     profile: userReducer,
-    config: configReducer
+    config: configReducer,
+    catalogueSlice: catalogueReducer
 });
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);

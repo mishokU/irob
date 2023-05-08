@@ -79,7 +79,11 @@ export default function NewRequirementsViewModel(setIsVisibleState: (value: Requ
 
     const onApplyRequirementClick = async (requirement: RoomRequirementModel) => {
         try {
-            const payload = await applyRequirementMutation({requirementId: requirement.requirementId}).unwrap()
+            const payload = await applyRequirementMutation({
+                requirementId: requirement.requirementId,
+                roomId: roomReducer.roomId,
+                type: requirement.type
+            }).unwrap()
             if (payload.success === true) {
                 sendJsonMessage({
                     type: RoomWebSocketTypes.applyRequirement,

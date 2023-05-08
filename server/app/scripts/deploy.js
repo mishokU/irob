@@ -35,28 +35,14 @@ async function getContractData(sellerAddress, buyerAddress, depositCost) {
 async function deployTestContract(listRequirements, sellerAddress, depositCost) {
     try {
 
-        const Lib = await hre.ethers.getContractFactory("StringUtils");
-        const lib = await Lib.deploy();
-        await lib.deployed();
+        const DepositHolder = await hre.ethers.getContractFactory("DepositHolder");
 
-        const Requirements = await hre.ethers.getContractFactory("RequirementsStorage", {
-            libraries: {
-                StringUtils: lib.address
-            }
-        });
+        const depositCostInWei = Web3.utils.toWei(depositCost.toString(), 'ether');
 
-        const requirements = await Requirements.deploy(sellerAddress, depositCost);
+        const requirements = await DepositHolder.deploy(sellerAddress, sellerAddress, sellerAddress, depositCostInWei);
         await requirements.deployed();
-        let fullEther = 0.0;
 
-        for (const requirement of listRequirements) {
-            const data = await requirements.addRequirement(requirement.type, requirement.value);
-            fullEther += Number(hre.ethers.utils.formatEther(data.gasLimit * 1000000000))
-        }
-
-        fullEther += Number(hre.ethers.utils.formatEther(requirements.deployTransaction.gasLimit * 1000000000))
-
-        return fullEther
+        return Number(hre.ethers.utils.formatEther(requirements.deployTransaction.gasLimit * 1000000000))
 
     } catch (e) {
         console.log("Error in deployTestContract: " + e.message)

@@ -14,6 +14,7 @@ export interface UpdatePasswordProps {
 export function UpdatePasswordModal(props: UpdatePasswordProps) {
     const {
         oldPassword,
+        error,
         setRepeatNewPassword,
         repeatNewPassword,
         setOldPassword,
@@ -79,6 +80,7 @@ export function UpdatePasswordModal(props: UpdatePasswordProps) {
                                             onChange={(passwordField) => setRepeatNewPassword(passwordField.target.value)}
                                         />
                                     </div>
+                                    {error !== null && <div className="text-red-600 text-sm ml-2 mr-2">{error}</div>}
                                     <button
                                         className={buttonTheme + " w-full"}
                                         onClick={() => updatePasswordClick()}>

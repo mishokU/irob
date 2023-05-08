@@ -10,7 +10,6 @@ import {RootState} from "../../../../data/store";
 import {useNavigate} from "react-router-dom";
 import useWebSocket from "react-use-websocket";
 import {IROBRoutes} from "../../../../routes/IROBRoutes";
-import {isLogged} from "../../../../domain/checkers/Checkers";
 import {useRemoveUserMutation} from "../../../../data/store/rooms/RoomUsersApi";
 import {RequirementState} from "./RequirementState";
 import {useModalsContext} from "../../../main/contexts/ModalsProvider";
@@ -51,15 +50,11 @@ export default function RoomViewModel() {
 
     useEffect(() => {
         async function fetchData() {
-            if (isLogged()) {
-                const roomId = getRoomId(roomReducer.roomId, window.location.href)
-                if (roomId !== roomReducer.roomId) {
-                    dispatch(updateRoomId(window.location.href))
-                }
-                return await roomMutation(roomId).unwrap()
-            } else {
-                navigate(IROBRoutes.nonAuthPage)
+            const roomId = getRoomId(roomReducer.roomId, window.location.href)
+            if (roomId !== roomReducer.roomId) {
+                dispatch(updateRoomId(window.location.href))
             }
+            return await roomMutation(roomId).unwrap()
         }
 
         fetchData()

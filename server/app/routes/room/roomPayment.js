@@ -253,10 +253,11 @@ async function createSmartContract(request, result) {
             })
         }
     } catch (e) {
-        console.log(e)
+        const message = "Error in creating smart contract: " + e.message
+        console.log(message)
         result.status(500).json({
             success: false,
-            message: "Error in creating smart contract: " + e.message
+            message: message
         })
     }
 }
@@ -288,13 +289,14 @@ async function getCosts(roomId) {
         })
 
         gasCost = await etherscan.getGasCostFromApi()
+        console.log(gasCost)
         requirementsCost = await getRequirementsCostFromTestNet(requirements, depositCost)
 
         commissionCost = calculateCommissionCost(requirementsCost, gasCost, depositCost, contractCost)
 
         return {
             requirementsCost: requirementsCost,
-            gasCost: gasCost,
+            gasCost: Number(gasCost).toFixed(9),
             commissionCost: commissionCost,
             depositCost: depositCost,
             contractCost: contractCost,
@@ -345,7 +347,7 @@ async function duplicateVideoFile(roomId, userId, address, contentId) {
 }
 
 function calculateCommissionCost(requirementsCost, gasCost, depositCost, contractCost) {
-    return ((Number(requirementsCost) + Number(gasCost) + Number(contractCost) + Number(depositCost / 10)) * 0.03).toFixed(4)
+    return ((Number(requirementsCost) + Number(gasCost) + Number(contractCost) + Number(depositCost / 10)) * 0.05).toFixed(4)
 }
 
 function calculateTotalCost(requirementsCost, gasCost, depositCost, commissionCost, contractCost) {

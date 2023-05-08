@@ -1,6 +1,7 @@
 export interface ContentFullCardState {
 
     user: {
+        isDeleted: boolean
         username: string
         description: string
         avatar: string
@@ -32,6 +33,7 @@ export interface ContentFullCardState {
 export function initContentFullCardState(): ContentFullCardState {
     return {
         user: {
+            isDeleted: false,
             username: "",
             description: "",
             avatar: "",

@@ -7,9 +7,15 @@ import {getVideoCover} from "@rajesh896/video-thumbnails-generator";
 import {initCreateCardProps, useModalsContext} from "../../main/contexts/ModalsProvider";
 import {Stepper} from "./CreateContentStepper";
 import {renameFile} from "../../../domain/hooks/Utils";
+import {initNotification, usePopupContext} from "../../main/contexts/NotificationProvider";
+import {useDispatch, useSelector} from "react-redux";
+import {RootState} from "../../../data/store";
+import {updateCatalogueState} from "../../../data/slices/CatalogueSlice";
 
 
 export default function CreateLicenseViewModel(roomId: string | null) {
+
+    const dispatch = useDispatch()
 
     const [state, setState] = useState<CreateContentState>(initCreateContentState)
 
@@ -20,6 +26,7 @@ export default function CreateLicenseViewModel(roomId: string | null) {
 
     const [createContent] = useCreateContentMutation()
 
+    const popupContext = usePopupContext()
     const modalsContext = useModalsContext()
 
     const handleFileChange = (event: any) => {
@@ -213,11 +220,11 @@ export default function CreateLicenseViewModel(roomId: string | null) {
             roomId: roomId
         }).unwrap()
 
-        if (result.success) {
-            modalsContext?.setState(initCreateCardProps())
+        modalsContext?.setState(initCreateCardProps())
+        if (!result.success) {
+            popupContext?.setState(initNotification(result.message))
         } else {
-            //Toast
-
+            dispatch(updateCatalogueState({reload: true}))
         }
     }
 

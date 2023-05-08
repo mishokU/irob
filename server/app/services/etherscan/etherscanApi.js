@@ -1,3 +1,5 @@
+const hre = require("../../scripts/config")
+
 module.exports = {
     getGasCostFromApi,
     getAccountTransactions
@@ -21,8 +23,6 @@ async function getAccountTransactions(account, networkId) {
 
         const data = await result.json();
 
-        console.log(data)
-
         return data.result
 
     } catch (e) {
@@ -35,7 +35,8 @@ async function getGasCostFromApi() {
         const key = process.env.ETHERSCAN_API_KEY;
         const result = await fetch(`https://api.etherscan.io/api?module=gastracker&action=gasoracle&apikey=${key}`);
         const data = await result.json();
-        return Number(data.result.suggestBaseFee / 1000).toFixed(3);
+        const wei = Number(data.result.suggestBaseFee * 1000000000)
+        return hre.ethers.utils.formatEther(wei)
     } catch (e) {
         console.log("getGasCostFromApi: " + e.message)
         return 0;

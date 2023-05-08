@@ -4,6 +4,7 @@ import {useEffect, useState} from "react";
 import {useLocation, useNavigate} from "react-router-dom";
 import {useSelector} from "react-redux";
 import {RootState} from "../../../data/store";
+import avatarPlaceholder from "../../../ui/assets/avatart_placeholder.png";
 
 export default function ContentFullCardViewModel() {
 
@@ -37,10 +38,11 @@ export default function ContentFullCardViewModel() {
                     isLoading: false,
                     isDeleteDialogButtonVisible: profileReducer.profileId === result.user.userId,
                     isTrailerVisible: false,
-                    isCreateRoomButtonVisible: profileReducer.profileId !== result.user.userId && fromCatalogue,
+                    isCreateRoomButtonVisible: !result.user.isDeleted && profileReducer.profileId !== result.user.userId && fromCatalogue,
                     user: {
+                        isDeleted: result.user.isDeleted,
                         username: result.user.username,
-                        avatar: result.user.avatar,
+                        avatar: getAvatar(result.user.avatar),
                         userId: result.user.userId,
                         description: result.user.description
                     },
@@ -88,6 +90,14 @@ export default function ContentFullCardViewModel() {
             ...state,
             isTrailerVisible: !state.isTrailerVisible
         })
+    }
+
+    function getAvatar(avatar: string): string {
+        if (avatar) {
+            return avatar
+        } else {
+            return avatarPlaceholder
+        }
     }
 
     return {

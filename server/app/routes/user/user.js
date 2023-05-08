@@ -270,7 +270,7 @@ async function updatePassword(request, result) {
             const user = await userController.getUser(token)
             await userController.updatePassword(token, user.password,  oldPassword, newPassword, result)
         } else {
-            result.status(400).json({
+            result.status(200).json({
                 success: false,
                 message: "Passwords are not equal!"
             })

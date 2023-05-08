@@ -46,13 +46,10 @@ export function CardInfoComponent({state}: StateProps) {
                 </div>
                 <div className="mt-8">
                     <img src={state.content.videoPreview} className="w-[20em] h-[13em] bg-black"/>
-                    {
-                        state.content.videoTrailerUrl &&
-                        <button className={buttonTheme + " mt-4 w-full"} onClick={() => {
+                    {state.content.videoTrailerUrl && <button className={buttonTheme + " mt-4 w-full"} onClick={() => {
 
-                        }}>Play trailer
-                        </button>
-                    }
+                    }}>Play trailer
+                    </button>}
                 </div>
             </div>
         </div>

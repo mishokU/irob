@@ -14,32 +14,26 @@ export function NewRequirementsList({setIsVisibleState}: CreateRequirementsProps
         {newRequirements.length > 0 && newRequirements.map((requirement, index) => (<div
             key={index}
             className="relative p-2 h-max text-2xl rounded-lg text-white flex hover:bg-gray-800 p-2 cursor-pointer
-                select-none justify-between items-center"
-        >
+                select-none justify-between items-center">
             <div
                 className={!roomReducer.isFinished ? "absolute w-3/5 h-full" : "absolute w-full h-full"}
-                onClick={() => {
-                    onRequirementClick(requirement)
-                }}
-            />
+                onClick={() => onRequirementClick(requirement)}/>
             <div>
                 <h1 className="text-2xl max-w-[180px] overflow-hidden">{requirement.username}</h1>
                 <h2 className="text-sm">{requirement.type}</h2>
             </div>
-            {
-                !roomReducer.isFinished && <div className="flex space-x-2">
-                    {requirement.isApplyButtonVisible && <div
-                        className="border rounded bg-green-600 hover:bg-green-500"
-                        onClick={() => onApplyRequirementClick(requirement)}>
-                        <ApplyRequirementsIcon/>
-                    </div>}
-                    <div
-                        className="border rounded bg-red-600 hover:bg-red-500"
-                        onClick={() => onDeclineRequirementClick(requirement.requirementId)}
-                    >
-                        <DeleteRequirementsIcon/>
-                    </div>
+            {!roomReducer.isFinished && <div className="flex space-x-2">
+                {requirement.isApplyButtonVisible && <div
+                    className="border rounded bg-green-600 hover:bg-green-500"
+                    onClick={() => onApplyRequirementClick(requirement)}>
+                    <ApplyRequirementsIcon/>
+                </div>}
+                <div
+                    className="border rounded bg-red-600 hover:bg-red-500"
+                    onClick={() => onDeclineRequirementClick(requirement.requirementId)}>
+                    <DeleteRequirementsIcon/>
                 </div>
+            </div>
             }
         </div>))}
     </div>

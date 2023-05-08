@@ -70,8 +70,8 @@ export function CreateLicenseModal({roomId}: CreateLicenseProps) {
                         >
                             <Dialog.Panel
                                 className=" transform overflow-hidden border-2 border-[#29303A] w-3/5 rounded-2xl bg-[#0E1420] text-left align-middle shadow-xl transition-all">
-                                {state.isLoading && <div className="absolute z-30 w-full h-full bg-black opacity-70"/>}
                                 {state.isLoading && <IROBProgressBar/>}
+                                {state.isLoading && <div className="absolute z-20 w-full h-full bg-black opacity-70"/>}
                                 <div className="p-6">
                                     <div className="flex justify-between">
                                         <h1 className="text-3xl font-bold">Content card creation</h1>

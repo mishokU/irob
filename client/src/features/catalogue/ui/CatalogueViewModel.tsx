@@ -2,6 +2,9 @@ import {useEffect, useState} from "react";
 import {CatalogueUi} from "../items/CatalogueUi";
 import {useGetCatalogueItemsMutation} from "../../../data/store/content/ContentApi";
 import {GetShortContentResponse} from "../../../data/models/content/GetShortContentResponse";
+import {useDispatch, useSelector} from "react-redux";
+import {RootState} from "../../../data/store";
+import {updateCatalogueState} from "../../../data/slices/CatalogueSlice";
 
 export default function CatalogueViewModel() {
 
@@ -9,14 +12,28 @@ export default function CatalogueViewModel() {
     const [isEmptyVisible, setIsEmptyVisible] = useState(false)
     const [content, setContent] = useState<CatalogueUi[]>([]);
 
+    const catalogueReducer = useSelector((state: RootState) => state.catalogueSlice)
+    const dispatch = useDispatch()
+
     const [getPagingContents] = useGetCatalogueItemsMutation()
 
     useEffect(() => {
+        loadCatalogue().then(r => {})
+    }, [])
 
-        async function getCatalogue() {
-            return await getPagingContents().unwrap()
+    useEffect(() => {
+        if(catalogueReducer.reloadCatalogue){
+            console.log("reload")
+            loadCatalogue().then(r => {})
+            dispatch(updateCatalogueState({reload: false}))
         }
+    }, [catalogueReducer.reloadCatalogue])
 
+    async function getCatalogue() {
+        return await getPagingContents().unwrap()
+    }
+
+    async function loadCatalogue() {
         getCatalogue()
             .catch((error) => console.log(error))
             .then((result: any) => {
@@ -29,12 +46,12 @@ export default function CatalogueViewModel() {
                         }
                     })
                     setContent(convertedUi)
-                    setIsEmptyVisible(convertedUi.size === 0)
+                    setIsEmptyVisible(convertedUi.length === 0)
                 } else {
                     setError(result.message)
                 }
             })
-    }, [])
+    }
 
     return {
         error,

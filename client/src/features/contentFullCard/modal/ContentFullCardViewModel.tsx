@@ -21,6 +21,7 @@ export default function ContentFullCardViewModel(contentId: any) {
             .then((result: any) => {
                 setState({
                     user: {
+                        isDeleted: result.user.isDeleted,
                         username: result.user.username,
                         avatar: result.user.avatar,
                         userId: result.user.userId,

@@ -2,6 +2,7 @@ export interface GetContentResponse {
     success: boolean,
     message: string | null
     user: {
+        isDeleted: boolean
         username: string
         description: string
         email: string

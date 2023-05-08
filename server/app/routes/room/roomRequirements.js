@@ -132,8 +132,8 @@ async function getRoomRequirements(request, result) {
 
 async function applyRequirement(request, result) {
     try {
-        const {requirementId} = request.body
-        await roomRequirementsController.applyRequirement(requirementId)
+        const {requirementId, roomId, type} = request.body
+        await roomRequirementsController.applyRequirement(requirementId, type, roomId)
         result.status(200).json({
             success: true
         })

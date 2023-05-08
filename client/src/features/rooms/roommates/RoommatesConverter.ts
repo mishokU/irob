@@ -25,10 +25,11 @@ export class RoommatesConverter {
     }
 
     getAvatar(avatar: string): string {
-        if (avatar === null) {
-            return avatarPlaceholder
-        } else {
+        console.log(avatar)
+        if (avatar) {
             return avatar
+        } else {
+            return avatarPlaceholder
         }
     }
 

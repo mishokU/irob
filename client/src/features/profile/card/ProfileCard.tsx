@@ -21,7 +21,7 @@ export function ProfileCard() {
                 src={avatar}
                 className="rounded-full bg-white object-cover content-center w-[120px] h-[120px]"/>
         </div>
-        <h1 className="text-4xl mt-6 overflow-hidden">{profileReducer.fullName}</h1>
+        <h1 className="text-4xl truncate mt-6 overflow-hidden">{profileReducer.fullName}</h1>
         <div className="space-y-2 mt-4">
             <p>{profileReducer.description}</p>
             {profileReducer.followersCount === 0 && <p>{profileReducer.followersCount} subscriptions</p>}

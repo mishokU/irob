@@ -1,7 +1,7 @@
 import useWebSocket from "react-use-websocket";
 import {WS_URL} from "../main/page/RoomViewModel";
 import {
-    getUser, getEventType, getUserFromServer, isUserEvent, RoomWebSocketTypes
+    getUser, getEventType, isUserEvent, RoomWebSocketTypes
 } from "../domain/requests/HandleEventTypes";
 import {useEffect, useState} from "react";
 import {useSelector} from "react-redux";

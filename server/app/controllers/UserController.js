@@ -50,10 +50,10 @@ async function getUserByEmail(email) {
 }
 
 async function updatePassword(token, currentPassword, oldPassword, newPassword, result) {
-    bcrypt.compare(currentPassword, oldPassword, async (error, hashResult) => {
+    bcrypt.compare(oldPassword, currentPassword, async (error, hashResult) => {
         if (error) {
-            result.status(400).json({
-                success: true,
+            result.status(200).json({
+                success: false,
                 message: "Incorrect password"
             })
         } else if (hashResult === true) {
@@ -63,6 +63,11 @@ async function updatePassword(token, currentPassword, oldPassword, newPassword, 
             result.status(200).json({
                 success: true,
                 message: "Password updated!"
+            })
+        } else {
+            result.status(200).json({
+                success: false,
+                message: "Current password incorrect!"
             })
         }
     })
