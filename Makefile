@@ -18,9 +18,9 @@ build: ## Сборка контейнеров
 	$(DOCKER_COMPOSE) build
 
 data-fixture:
-	cat ./database/backups/backup.sql | $(DOCKER_COMPOSE) exec -T --user=postgres db psql 
+	cat ./database/backups/backup.sql | $(DOCKER_COMPOSE) exec -T --user=postgres db psql
 
-install: install-client install-ws install-server ## Установка зависимостей
+install: install-client install-ws install-indexer install-server ## Установка зависимостей
 install-client:
 	$(DOCKER_COMPOSE) run --rm -T client yarn install
 
@@ -29,6 +29,9 @@ install-server:
 
 install-ws:
 	$(DOCKER_COMPOSE) run --rm -T ws yarn install
+
+install-indexer:
+	$(DOCKER_COMPOSE) run --rm -T indexer yarn install
 
 start: ## Запуск контейнеров
 	$(DOCKER_COMPOSE) up -d --no-build

@@ -37,6 +37,10 @@ roomRequirementsRouter.get('/getRequiredRequirementCount', (request, result) => 
     return getRequiredRequirementCount(request, result)
 })
 
+roomRequirementsRouter.post('/index', (request, result) => {
+    return indexRequirementsDays(request, result)
+})
+
 async function updateRoomRequirement(request, result) {
     try {
 
@@ -49,7 +53,7 @@ async function updateRoomRequirement(request, result) {
             message: "Requirement successfully updated!"
         })
 
-    } catch(e){
+    } catch (e) {
         const message = "Error in update room requirement: " + e.message
         console.log(message)
         result.status(500).json({
@@ -199,4 +203,19 @@ async function getRequiredRequirementCount(request, result) {
         })
     }
 
+}
+
+async function indexRequirementsDays(request, result) {
+    try {
+
+        await roomRequirementsController.indexAllDays()
+
+    } catch (e) {
+        const message = "Error in index requirements days: " + e.message
+        console.log(message)
+        result.status(200).json({
+            success: false,
+            message: message
+        })
+    }
 }

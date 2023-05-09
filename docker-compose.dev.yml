@@ -56,6 +56,22 @@ services:
     ports:
       - "4000:4000"
 
+  indexer:
+    hostname: ${COMPOSE_PROJECT_NAME}_indexer
+    container_name: ${COMPOSE_PROJECT_NAME}_indexer
+    restart: always
+    working_dir: /opt/indexer
+    build:
+      context: server/daysIndexer
+      dockerfile: Dockerfile
+      target: dev
+    env_file:
+      - .env
+    volumes:
+      - ./server/daysIndexer:/opt/indexer
+    ports:
+      - "4001:4001"
+
   # Контейнер с базой данных
   db:
     hostname: ${COMPOSE_PROJECT_NAME}_db

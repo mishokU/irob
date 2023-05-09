@@ -10,7 +10,7 @@ import {renameFile} from "../../../domain/hooks/Utils";
 import {initNotification, usePopupContext} from "../../main/contexts/NotificationProvider";
 import {useDispatch, useSelector} from "react-redux";
 import {RootState} from "../../../data/store";
-import {updateCatalogueState} from "../../../data/slices/CatalogueSlice";
+import {updateCatalogueState} from "../../catalogue/redux/CatalogueSlice";
 
 
 export default function CreateLicenseViewModel(roomId: string | null) {

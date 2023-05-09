@@ -139,11 +139,10 @@ async function createLicense(roomId, userId, address, contentId) {
     try {
         const uid = uuidv4()
         const datetime = new Date();
-        const date = datetime.toISOString().slice(0, 10)
         const data = await db.query(`
                 INSERT INTO ${LICENSES_TABLE_NAME}
                 (uid, status, date, is_favourite, user_id, address, room_id, content_id)
-                VALUES ('${uid}', 'running', '${date}', false, ${userId}, '${address}', '${roomId}', '${contentId}')
+                VALUES ('${uid}', 'running', '${datetime}', false, ${userId}, '${address}', '${roomId}', '${contentId}')
                 RETURNING id
            `)
         return data.rows[0].id

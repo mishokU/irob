@@ -15,7 +15,8 @@ module.exports = {
     getRoomRequirementsByLicenseId,
     updateRequirements,
     updateRoomRequirement,
-    updateRequirementValue
+    updateRequirementValue,
+    indexAllDays
 }
 
 async function updateRoomRequirement(id, title, description, value) {
@@ -137,20 +138,37 @@ async function createRequirement(userId, roomId, title, description, value, type
 async function updateRequirementValue(id, type) {
     try {
 
-        const value = await db.query(`SELECT current_value FROM ${ROOM_REQUIREMENTS_TABLE_NAME} WHERE license_id=$1 AND type=$2`, [id, type])
-
+        const value = await db.query(`SELECT * FROM ${ROOM_REQUIREMENTS_TABLE_NAME} WHERE license_id=$1 AND type=$2`, [id, type])
         if (value.rows[0] !== undefined) {
-            await db.query(`
+            const maxValue = value.rows[0].value
+            if (value.rows[0].current_value < maxValue) {
+                const newValue = Number(value.rows[0].current_value) + 1
+                await db.query(`
                 UPDATE ${ROOM_REQUIREMENTS_TABLE_NAME} 
-                SET current_value = newValue WHERE license_id=$1 AND type=$2`, [id, type]
-            )
+                    SET current_value=$3 WHERE license_id=$1 AND type=$2`, [id, type, newValue]
+                )
+            }
         } else {
-            const message = "There is no available type in requirements!"
+            const message = `There is no available type: ${type} in requirement with id: ${id}!`
             console.log(message)
             return message
         }
 
     } catch (e) {
         console.log("Error in update requirement value: " + e.message)
+    }
+}
+
+async function indexAllDays() {
+    try {
+
+        const type = "Duration"
+        const requirements = await db.query(`SELECT * FROM ${ROOM_REQUIREMENTS_TABLE_NAME} WHERE type=$1`, [type])
+        requirements.rows.map(async (requirement) => {
+            await updateRequirementValue(requirement.license_id, type)
+        })
+
+    } catch (e) {
+        console.log("Error in indexAllDays: " + e.message)
     }
 }

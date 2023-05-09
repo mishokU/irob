@@ -46,9 +46,14 @@ async function updateLicenceCounter(request, result) {
         const {licenseKey, type} = request.body
 
         if (licenseKey === undefined || type === undefined) {
-            result.status(400).json({
+            result.status(200).json({
                 success: false,
                 message: "License or type or licenseKey is undefined"
+            })
+        } else if(type === "Duration"){
+            result.status(400).json({
+                success: false,
+                message: "Duration value increased automatically!"
             })
         } else {
 

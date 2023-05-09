@@ -4,7 +4,7 @@ import {useGetCatalogueItemsMutation} from "../../../data/store/content/ContentA
 import {GetShortContentResponse} from "../../../data/models/content/GetShortContentResponse";
 import {useDispatch, useSelector} from "react-redux";
 import {RootState} from "../../../data/store";
-import {updateCatalogueState} from "../../../data/slices/CatalogueSlice";
+import {updateCatalogueItems, updateCatalogueState} from "../redux/CatalogueSlice";
 
 export default function CatalogueViewModel() {
 
@@ -18,12 +18,15 @@ export default function CatalogueViewModel() {
     const [getPagingContents] = useGetCatalogueItemsMutation()
 
     useEffect(() => {
-        loadCatalogue().then(r => {})
+        if(catalogueReducer.items === undefined){
+            loadCatalogue().then(r => {})
+        } else {
+            setContent(catalogueReducer.items)
+        }
     }, [])
 
     useEffect(() => {
         if(catalogueReducer.reloadCatalogue){
-            console.log("reload")
             loadCatalogue().then(r => {})
             dispatch(updateCatalogueState({reload: false}))
         }
@@ -46,6 +49,7 @@ export default function CatalogueViewModel() {
                         }
                     })
                     setContent(convertedUi)
+                    dispatch(updateCatalogueItems({items: convertedUi}))
                     setIsEmptyVisible(convertedUi.length === 0)
                 } else {
                     setError(result.message)

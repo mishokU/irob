@@ -172,6 +172,8 @@ async function convertLicenses(licenses, isPrivateKeyButtonVisible) {
         const requirementsProgress = await licensesController.getLicenseRequirementsProgress(license.id)
         const room = await roomController.getRoom(license.room_id)
         const content = await contentController.getContentById(license.content_id)
+        const date = new Date(license.date)
+        const dateValue = date.toISOString().slice(0, 10)
 
         let name
         let owner
@@ -215,12 +217,12 @@ async function convertLicenses(licenses, isPrivateKeyButtonVisible) {
             owner: owner,
             address: license.address,
             isPrivateKeyButtonVisible: isPrivateKeyButtonVisible,
-            date: license.date,
+            date: dateValue,
             roomId: roomId,
             userId: license.user_id,
             isFavourite: license.is_favourite,
             uid: license.uid,
-            progress: requirementsProgress
+            progress: Number(requirementsProgress).toFixed(2)
         }
 
     })
