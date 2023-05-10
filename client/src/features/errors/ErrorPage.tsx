@@ -1,4 +1,4 @@
-import {buttonTheme} from "../../themes/Themes";
+import {buttonTheme} from "../../ui/themes/Themes";
 
 export interface ErrorPageProps {
     onClick: () => void

@@ -1,5 +1,5 @@
 import {IROBProgressBar} from "../../../../ui/common/IROBProgressBar";
-import {buttonTheme} from "../../../../themes/Themes";
+import {buttonTheme} from "../../../../ui/themes/Themes";
 import {SendIcon} from "../icons/SendIcon";
 import {ReceiveIcon} from "../icons/ReceiveIcon";
 import {ProfileLedgerState} from "../page/ProfileLedgerState";

@@ -9,7 +9,6 @@ import {RoomChatProps} from "./RoomChatProps";
 
 export function RoomChatComponent({isVisible, setIsVisible, isDealButtonVisible}: RoomChatProps) {
     const {messageList, messagesEndRef, onScroll} = useViewModel()
-    console.log("is visible: " + isDealButtonVisible)
     return <>
         <div
             onScroll={onScroll}
@@ -25,13 +24,11 @@ export function RoomChatComponent({isVisible, setIsVisible, isDealButtonVisible}
         </div>
         <div className="flex w-full items-center mt-4 justify-center">
             <RoomMessageInputComponent/>
-            {
-                isDealButtonVisible && <div
-                    className="border-2 ml-2 rounded-lg h-[50px] w-[50px] m-auto block cursor-pointer"
-                    onClick={() => setIsVisible(!isVisible)}>
-                    <img alt="deal" src={makeDealImg}/>
-                </div>
-            }
+            {isDealButtonVisible && <div
+                className="border-2 ml-2 rounded-lg h-[50px] w-[50px] m-auto block cursor-pointer"
+                onClick={() => setIsVisible(!isVisible)}>
+                <img alt="deal" src={makeDealImg}/>
+            </div>}
         </div>
     </>
 }

@@ -2,7 +2,10 @@ export function WelcomeImage() {
     return <div>
         <svg
             className="m-auto"
-            xmlns="http://www.w3.org/2000/svg" width="100mm" height="100mm" version="1.1"
+            xmlns="http://www.w3.org/2000/svg"
+            width="100mm"
+            height="100mm"
+            version="1.1"
             viewBox="0 0 10000 10000">
             <defs>
                 <style type="text/css">
@@ -23,6 +26,5 @@ export function WelcomeImage() {
                 </g>
             </g>
         </svg>
-
     </div>
 }

@@ -1,5 +1,5 @@
 import {SettingsStrings} from "../strings/SettingsStrings";
-import {buttonTheme} from "../../../themes/Themes";
+import {buttonTheme} from "../../../ui/themes/Themes";
 
 
 export function ConfidentialComponent() {

@@ -139,7 +139,7 @@ async function handleDisableAccount(token) {
         await db.query(`UPDATE users SET disabled=$2 WHERE token= $1;`, [token, isDisabled])
         return isDisabled
     } catch (e) {
-        console.log("Error in deleting account: " + e.message)
+        console.log("Error in disabled account: " + e.message)
     }
 }
 

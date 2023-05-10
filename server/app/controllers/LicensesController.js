@@ -20,7 +20,9 @@ module.exports = {
     handleFavourite,
     deleteLicense,
     cancelLicense,
-    updateLicenseRequirement
+    updateLicenseRequirement,
+    updateLicenseState,
+    claimReward
 }
 
 async function getLicenseBySecretKey(licenseKey) {
@@ -76,6 +78,10 @@ async function getSoldLicenses(token) {
 
         const results = await this.getAllLicenses()
 
+        if(results === undefined){
+            return []
+        }
+
         const rooms = await roomController.getRooms()
 
         const roomIds = []
@@ -86,6 +92,10 @@ async function getSoldLicenses(token) {
                 }
             })
         })
+
+        if(roomIds.length === 0){
+            return []
+        }
 
         const argument = "(" + roomIds.map((value) => `\'${value}\'`) + ")"
 
@@ -120,6 +130,7 @@ async function getLicenseRequirementsProgress(licenseId) {
         const requirements = await roomRequirementsController.getRoomRequirementsByLicenseId(licenseId)
         let fullProgress = 0;
         let currentProgress = 0;
+        console.log(requirements)
         requirements.forEach((requirement) => {
             fullProgress += Number(requirement.value)
             currentProgress += Number(requirement.current_value)
@@ -198,5 +209,29 @@ async function updateLicenseRequirement(key, type) {
 
     } catch (e) {
         console.log("Error in updating license requirement: " + e.message)
+    }
+}
+
+async function updateLicenseState(licenseId) {
+    try {
+
+        await db.query(`
+                UPDATE ${LICENSES_TABLE_NAME} SET status='success' WHERE id=$1
+            `, [licenseId])
+
+    } catch (e){
+        console.log("Error in updating license state: " + e.message)
+    }
+}
+
+async function claimReward(licenseId){
+    try {
+
+        await db.query(`
+                UPDATE ${LICENSES_TABLE_NAME} SET status='claimed' WHERE id=$1
+            `, [licenseId])
+
+    } catch (e){
+        console.log("Error in updating license state: " + e.message)
     }
 }

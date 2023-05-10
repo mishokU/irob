@@ -31,7 +31,6 @@ export default function CreateRoomViewModel(errorState: (value: string) => void)
 
     const createRoom = async (contentId: number, userId: number) => {
         try {
-            console.log(contentId)
             const roomId = getRoomLink()
             const payload = await createRoomMutation({
                 roomId: roomId,

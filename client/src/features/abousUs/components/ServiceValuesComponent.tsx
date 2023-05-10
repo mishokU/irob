@@ -1,6 +1,3 @@
-import privacy from "../assets/privacy.png"
-import innovation from "../assets/innovations.png"
-
 export function ServiceValuesComponent() {
     return <div className="pl-56 bg-[#0c131a] pr-56 pb-16">
         <h1 className="text-center text-[#EAB308] pt-16 text-2xl">Service values</h1>

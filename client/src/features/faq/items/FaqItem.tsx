@@ -1,7 +1,7 @@
-import {UiFAQModel} from "./UiFAQModel";
+import {UiFAQModel} from "../UiFAQModel";
 import {useState} from "react";
-import {ArrowUp} from "./icons/ArrowUp";
-import {ArrowDown} from "./icons/ArrowDown";
+import {ArrowUp} from "../icons/ArrowUp";
+import {ArrowDown} from "../icons/ArrowDown";
 
 
 export interface FaqItemProps {

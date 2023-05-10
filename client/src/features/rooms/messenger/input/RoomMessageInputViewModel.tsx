@@ -22,7 +22,7 @@ export default function RoomMessageInputViewModel() {
             if (singleMessage !== "") {
                 sendJsonMessage({
                     type: RoomWebSocketTypes.sendMessage,
-                    username: profileReducer.name + " " + profileReducer.surname,
+                    username: profileReducer.fullName,
                     avatar: profileReducer.avatar,
                     userId: profileReducer.profileId,
                     roomId: roomReducer.roomId,

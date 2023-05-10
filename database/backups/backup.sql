@@ -495,8 +495,8 @@ ALTER TABLE public.users ALTER COLUMN id ADD GENERATED ALWAYS AS IDENTITY (
 --
 
 COPY public.config (id, network_url, enabled, name, chain_id, chain_hex) FROM stdin;
-0	https://mainnet.infura.io/v3/ace2d5caa7ad4bada55e324bd37a9ca1	f	Main net	1	0x1
 2	http://ganache:8545	f	Local ganache	1337	0x539
+0	https://mainnet.infura.io/v3/ace2d5caa7ad4bada55e324bd37a9ca1	f	Main net	1	0x1
 1	https://sepolia.infura.io/v3/ace2d5caa7ad4bada55e324bd37a9ca1	t	Sepolia	11155111	0xaa36a7
 \.
 
@@ -515,7 +515,7 @@ COPY public.content (id, name, description, owner, type, director, country, acto
 --
 
 COPY public.licenses (id, uid, status, date, is_favourite, user_id, address, room_id, content_id, video_url) FROM stdin;
-40	3e0958b5-3032-450b-97c0-1f04bb9ab9ed	running	2023-04-29	f	1	0xB275252710c10e26cF51139D289B181775F9A562	da95	42	\N
+43	04c32068-068c-48b6-b028-a0d8b20839e1	claimed	Tue May 09 2023 01:16:35 GMT+0300 (Moscow Standard Time)	t	4	0x601Aa2179fE17c2849FaFA065624D6c3b4C86175	d1rwxl	42	\N
 \.
 
 
@@ -578,6 +578,27 @@ COPY public.notifications (id, type, user_id, message, date, room_id, is_watched
 113	requirement_accepted	3	Your requirement was accepted in room: da95	2023-04-29	da95	f
 114	requirement_accepted	1	Your requirement was accepted in room: da95	2023-04-29	da95	f
 115	requirement_accepted	1	Your requirement was accepted in room: da95	2023-04-29	da95	f
+116	admin_added	5	Congratulations, now you are the second admin in room: yts8ej, make a deal!	2023-05-08	yts8ej	f
+117	requirement_accepted	4	Your requirement was accepted in room: yts8ej	2023-05-08	yts8ej	f
+118	requirement_accepted	4	Your requirement was accepted in room: yts8ej	2023-05-08	yts8ej	f
+119	requirement_accepted	4	Your requirement was accepted in room: yts8ej	2023-05-08	yts8ej	f
+120	requirement_accepted	4	Your requirement was accepted in room: yts8ej	2023-05-08	yts8ej	f
+121	requirement_accepted	4	Your requirement was accepted in room: yts8ej	2023-05-08	yts8ej	f
+122	requirement_accepted	4	Your requirement was accepted in room: yts8ej	2023-05-08	yts8ej	f
+123	requirement_accepted	3	Your requirement was accepted in room: 7pg8a	2023-05-08	7pg8a	f
+124	requirement_accepted	4	Your requirement was accepted in room: 7pg8a	2023-05-08	7pg8a	f
+125	requirement_accepted	4	Your requirement was accepted in room: 7pg8a	2023-05-08	7pg8a	f
+126	requirement_accepted	3	Your requirement was accepted in room: 838sk	2023-05-08	838sk	f
+127	requirement_accepted	4	Your requirement was accepted in room: 838sk	2023-05-08	838sk	f
+128	requirement_accepted	4	Your requirement was accepted in room: 838sk	2023-05-08	838sk	f
+129	requirement_accepted	4	Your requirement was accepted in room: 838sk	2023-05-08	838sk	f
+130	requirement_accepted	3	Your requirement was accepted in room: d1rwxl	2023-05-08	d1rwxl	f
+131	requirement_accepted	4	Your requirement was accepted in room: d1rwxl	2023-05-08	d1rwxl	f
+132	requirement_accepted	4	Your requirement was accepted in room: d1rwxl	2023-05-08	d1rwxl	f
+133	requirement_accepted	4	Your requirement was accepted in room: d1rwxl	2023-05-08	d1rwxl	f
+134	requirement_accepted	3	Your requirement was accepted in room: scw88	2023-05-09	scw88	f
+135	requirement_accepted	4	Your requirement was accepted in room: scw88	2023-05-09	scw88	f
+136	requirement_accepted	3	Your requirement was accepted in room: scw88	2023-05-09	scw88	f
 \.
 
 
@@ -596,6 +617,13 @@ COPY public.room_messages (id, date, content, user_id, room_id, type) FROM stdin
 56	2023-04-28 4:58:48	Привет!	1	8wvdp	0
 57	2023-04-28 4:58:51	Отличная идея!	1	8wvdp	0
 58	2023-04-28 4:59:00	Хочу купить у тебя кино Джон Уик!	1	8wvdp	0
+64	2023-05-09 1:05:40	fwefew	4	scw88	0
+65	2023-05-09 7:19:06	fefwe	4	scw88	0
+66	2023-05-09 7:19:52	fefwefwwefw	4	scw88	0
+67	2023-05-09 7:20:03	fefwefwfewfw	4	scw88	0
+69	2023-05-09 7:22:38	fwefwf	4	scw88	0
+70	2023-05-09 7:22:39	fwefwwe	4	scw88	0
+71	2023-05-09 1:47:21	ftfty tyf tyf tfyytftfyfyf tyfytf	4	scw88	0
 \.
 
 
@@ -613,23 +641,30 @@ COPY public.room_requirements (id, room_id, user_id, title, description, type, v
 37	s4sl3	1	gergre	bbbberere	Views count	3000	f	19	0
 38	s4sl3	1	gergre	errgerger	Cost	2	f	19	0
 90	sp6v3g	1	FWE		Hold deposit	2	f	36	0
-89	sp6v3g	1	GEGE	FWEF	Duration	2	f	36	0
 87	sp6v3g	3			Cost	0.004	f	36	0
 91	idgj5	3			Cost	0.004	f	37	0
-92	idgj5	1	умуа		Duration	2	f	37	0
 93	idgj5	1	ауацу		Hold deposit	2	f	37	0
-95	8wvdp	1	rwr	ergerereere	Duration	30	f	38	0
 96	8wvdp	1	r33r3		Hold deposit	2	f	38	0
 94	8wvdp	3			Cost	0.004	f	38	0
 104	0b0x9	3			Cost	0.004	f	\N	0
 105	luadx	3			Cost	0.004	t	\N	0
 106	ktnri	3			Cost	0.004	t	\N	0
 107	da95	3			Cost	0.004	f	40	0
-108	da95	1	ацуац		Duration	30	f	40	0
 109	da95	1	ацуцу		Hold deposit	2	f	40	0
-86	2gvyy	3	fefwe	gergrgregre	Duration	30	f	35	0
 85	2gvyy	1			Cost	0.004	f	35	0
 88	2gvyy	1		fewfew	Hold deposit	2	f	35	0
+123	d1rwxl	3			Cost	0.004	f	43	0
+125	d1rwxl	4	fwef	fwefw	Hold deposit	0.004	f	43	0
+126	d1rwxl	4	wfefw	fwfw	Cost	0.004	f	43	0
+89	sp6v3g	1	GEGE	FWEF	Duration	2	f	36	2
+92	idgj5	1	умуа		Duration	2	f	37	2
+124	d1rwxl	4	fwefe	fwefew	Duration	30	f	43	30
+129	scw88	4	ffwef	fewfwwe	Duration	30	t	\N	0
+130	scw88	4	fwfwe		Hold deposit	0.002	t	\N	0
+131	scw88	3	fwfwe		Cost	0.003	f	\N	0
+108	da95	1	ацуац		Duration	30	f	40	16
+95	8wvdp	1	rwr	ergerereere	Duration	30	f	38	16
+86	2gvyy	3	fefwe	gergrgregre	Duration	30	f	35	16
 \.
 
 
@@ -653,6 +688,9 @@ COPY public.room_result (id, room_id, requirements, gas, deposit, user_id, cost)
 38	8wvdp	0.000	0.036	2	1	0
 39	7wx9p	0.000	0.032	2	1	0
 40	da95	0.000	0.033	2	1	0
+41	7pg8a	0.001	0.000000139	0.004	4	0
+42	838sk	0.001	0.000000090	0.004	4	0
+43	d1rwxl	0.001	0.000000081	0.004	4	0
 \.
 
 
@@ -767,6 +805,18 @@ COPY public.room_users (id, user_id, room_id) FROM stdin;
 104	3	luadx
 105	3	ktnri
 106	3	da95
+107	4	yts8ej
+108	5	yts8ej
+109	4	7pg8a
+110	3	7pg8a
+111	4	in1g8
+112	4	11dms
+113	4	838sk
+114	3	838sk
+115	4	d1rwxl
+116	3	d1rwxl
+117	4	scw88
+118	3	scw88
 \.
 
 
@@ -779,6 +829,7 @@ COPY public.rooms (room_id, owner_id, name, first_agreement, second_agreement, u
 luadx	1		f	f	3	42
 ktnri	1		f	f	3	42
 da95	1		t	t	3	42
+scw88	4	Untitled	f	f	3	42
 \.
 
 
@@ -789,7 +840,9 @@ da95	1		t	t	3	42
 COPY public.users (id, name, surname, avatar, description, website, nickname, password, email, token, location, language, followers, account, disabled, "isAdmin") FROM stdin;
 2	Алексей	У	\N				$2a$10$2S7n7x5u0EhX1xEUmLX2iuK/IXw2vyGDnG.j4L0igSnzGhoIg9Tgu	e@mail.ru	eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImVAbWFpbC5ydSIsImlhdCI6MTY4MTE2MTQ1Nn0._n2OK6ThQazJkg8yqqLIvGd906og1XHZboNyaj24IH8			0	0xd5cC383881D6d9A7dc1891A0235E11D03Cb992d3	f	\N
 1	Misha	Usov	https://firebasestorage.googleapis.com/v0/b/irob-d735a.appspot.com/o/images%2F2023-02-01%2012.34.13.jpg?alt=media&token=fa495542-0bc8-4feb-9365-dac7fe3e5434	With the untimely death of his beloved wife still bitter in his mouth, John Wick, the expert former assassin, receives one final gift from her a precious keepsake to help John find a new meaning in life now that she is gone. But when the arrogant Russian mob prince, Iosef Tarasov, an	ewfwefwe		$2a$10$PXyx/J3c2YL8OV2z5P.mFuQ7HeYxA2pb0X0c42vWnxTd7LofnLECi	usov.misha@gmail.com	eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InVzb3YubWlzaGFAZ21haWwuY29tIiwiaWF0IjoxNjgyNDY2Nzg1fQ.IvKWSDVexO_YL3iUTm4Zcoz-X_eC6aXCIXIKj46oZ0s	\N	\N	0	0xd4039eB67CBB36429Ad9DD30187B94f6A5122215	f	t
-3	Alex 	Usov	https://firebasestorage.googleapis.com/v0/b/irob-d735a.appspot.com/o/images%2F%D0%A1%D0%BD%D0%B8%D0%BC%D0%BE%D0%BA%20%D1%8D%D0%BA%D1%80%D0%B0%D0%BD%D0%B0%202023-04-09%20%D0%B2%2017.42.23.png?alt=media&token=12eb0b0b-62af-47d0-bf4b-297ec667d168				$2a$10$B8rAD1CzIpqZGii4jtBEi.Dzj2Ed0QRV.uSXIkZcC8apluDV1IcNy	ru@mail.ru	eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InJ1QG1haWwucnUiLCJpYXQiOjE2ODIxNjkxNTV9.p6tJV_xM9NODcjUH6SA5peS1hXgwahUawCTkYI6-yHY	\N	\N	0	0xd5cC383881D6d9A7dc1891A0235E11D03Cb992d3	f	\N
+4							$2a$10$V5i4q.Bl0b3d9dqIXfNJVuOhJbADHsViQced5wwZxAJPROvFjJg12	kazakov@itmo.dev	eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImthemFrb3ZAaXRtby5kZXYiLCJpYXQiOjE2ODM1NTkzNDl9.VBrA34ai0aaIEEGhcEPtoikCsHhU2YeAcR8Ha4VIU50			0	0x0a5BAeFCB3Ea40c21a70059F91B49706Cf320470	f	t
+3	Alex 	Usov	https://firebasestorage.googleapis.com/v0/b/irob-d735a.appspot.com/o/images%2F%D0%A1%D0%BD%D0%B8%D0%BC%D0%BE%D0%BA%20%D1%8D%D0%BA%D1%80%D0%B0%D0%BD%D0%B0%202023-04-09%20%D0%B2%2017.42.23.png?alt=media&token=12eb0b0b-62af-47d0-bf4b-297ec667d168				$2a$10$B8rAD1CzIpqZGii4jtBEi.Dzj2Ed0QRV.uSXIkZcC8apluDV1IcNy	ru@mail.ru	eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InJ1QG1haWwucnUiLCJpYXQiOjE2ODM1NjIxNDR9.n_V40_onDcPWESNeZUZrCyw31aitDTIngZ9x7M2s-wE	\N	\N	0	0xd5cC383881D6d9A7dc1891A0235E11D03Cb992d3	f	\N
+5							$2a$10$mY.AWcktGNa6AyGLK7ixf.DvngBXE.Ju0NZ6YkEN7qiux4DgzGFuO	usov@mail.ru	eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InVzb3ZAbWFpbC5ydSIsImlhdCI6MTY4MzU2MTY2OX0.ih5wwcckRXRSD-XFZgp9lsxtvVUMt5fwPC2Mh6CPBGA			0	0xd5cC383881D6d9A7dc1891A0235E11D03Cb992d3	f	t
 \.
 
 
@@ -804,49 +857,49 @@ SELECT pg_catalog.setval('public.content_id_seq', 42, true);
 -- Name: licenses_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.licenses_id_seq', 40, true);
+SELECT pg_catalog.setval('public.licenses_id_seq', 43, true);
 
 
 --
 -- Name: notifications_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.notifications_id_seq', 115, true);
+SELECT pg_catalog.setval('public.notifications_id_seq', 136, true);
 
 
 --
 -- Name: roomUsers_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public."roomUsers_id_seq"', 106, true);
+SELECT pg_catalog.setval('public."roomUsers_id_seq"', 118, true);
 
 
 --
 -- Name: room_messages_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.room_messages_id_seq', 60, true);
+SELECT pg_catalog.setval('public.room_messages_id_seq', 71, true);
 
 
 --
 -- Name: room_requirements_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.room_requirements_id_seq', 109, true);
+SELECT pg_catalog.setval('public.room_requirements_id_seq', 131, true);
 
 
 --
 -- Name: room_result_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.room_result_id_seq', 40, true);
+SELECT pg_catalog.setval('public.room_result_id_seq', 43, true);
 
 
 --
 -- Name: users_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.users_id_seq', 3, true);
+SELECT pg_catalog.setval('public.users_id_seq', 5, true);
 
 
 --

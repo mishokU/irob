@@ -1,14 +1,10 @@
 import {Fragment} from "react";
 import {Dialog, Transition} from "@headlessui/react";
 import {DeleteDialogProms} from "./DeleteDialogProms";
-import {buttonTheme} from "../../../../../themes/Themes";
+import {buttonTheme} from "../../../../../ui/themes/Themes";
 import {ReactComponent as CloseModal} from "../../../../../ui/assets/close_black_24dp.svg";
 
-export function DeleteEntityDialog({
-                                       isDeleteDialogVisible,
-                                       setIsDeleteDialogVisible,
-                                       handleDeleteRoomClick
-                                   }: DeleteDialogProms) {
+export function DeleteEntityDialog({isDeleteDialogVisible, setIsDeleteDialogVisible, handleDeleteRoomClick}: DeleteDialogProms) {
     function onClose() {
         setIsDeleteDialogVisible(false)
     }

@@ -1,9 +1,13 @@
 import useViewModel from "./FaqViewModel"
-import {FaqItem} from "./FaqItem";
+import {FaqItem} from "./items/FaqItem";
 import {Footer} from "../footer/components/Footer";
+import {RoomIconsItem} from "./items/RoomIconsItem";
+import {LicenseIconsItem} from "./items/LicenseIconsItem";
+import {initAskQuestionProps, useAskQuestionContext} from "../main/contexts/AskQuestionProvider";
 
 export function FaqPage() {
     const {items} = useViewModel()
+    const askQuestion = useAskQuestionContext()
     return <div className="mt-24">
         <div className="text-center">
             <div className="space-y-6">
@@ -12,7 +16,9 @@ export function FaqPage() {
                 <p className="text-[#8fadc0]">Here’s are some of the most common ones we've already <br/> been
                     asked. If
                     you have any questions that
-                    are not listed <br/> below feel free to <a href="" className="text-[#ffb81c] underline"> contact
+                    are not listed <br/> below feel free to <a
+                        onClick={() => askQuestion?.setVisibility(initAskQuestionProps(null, true))}
+                        className="text-[#ffb81c] underline cursor-pointer"> contact
                         us </a></p>
             </div>
         </div>
@@ -21,6 +27,8 @@ export function FaqPage() {
                 <h1 className="text-lg text-[#ffb81c] mb-4">1. PLATFORM GETTING STARTED AND DEFAULT MESSAGES</h1>
                 <div className="mt-8 space-y-4">
                     {items.map((item) => <FaqItem item={item}/>)}
+                    <RoomIconsItem/>
+                    <LicenseIconsItem/>
                 </div>
             </div>
         </div>

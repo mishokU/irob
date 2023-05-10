@@ -1,7 +1,7 @@
 import {RequirementsUpdatingInfo} from "../components/RequirementsUpdatingInfo";
 import {GetVideoUrlInfo} from "../components/GetVideoUrlInfo";
 import {IROBRoutes} from "../../../../routes/IROBRoutes";
-import {buttonTheme} from "../../../../themes/Themes";
+import {buttonTheme} from "../../../../ui/themes/Themes";
 import {useNavigate} from "react-router-dom";
 import isDev from "../../../../domain/hooks/Utils";
 

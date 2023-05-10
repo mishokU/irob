@@ -5,7 +5,7 @@ import {ReactComponent as CloseModal} from "../../../../../ui/assets/close_black
 import {ReactComponent as CopyIcon} from "../../../asserts/content_copy_white_24dp.svg";
 import useViewModel from "./CreateRoomViewModel";
 import {useErrorToast} from "../../../../../ui/common/ToastErrorComponent";
-import {buttonTheme, inputStyle} from "../../../../../themes/Themes";
+import {buttonTheme, inputStyle} from "../../../../../ui/themes/Themes";
 
 export function CreateRoomModal() {
     const {message, setErrorMessage} = useErrorToast()

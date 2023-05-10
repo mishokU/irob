@@ -1,4 +1,4 @@
-import {buttonThemeTransparent} from "../../../themes/Themes";
+import {buttonThemeTransparent} from "../../../ui/themes/Themes";
 import {Auth} from "../domain/utils/Auth";
 import {IAuth} from "../components/AuthPage";
 import useViewModel from "./LoginViewModel";

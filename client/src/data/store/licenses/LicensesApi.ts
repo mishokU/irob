@@ -1,11 +1,11 @@
 import {createApi, fetchBaseQuery} from "@reduxjs/toolkit/dist/query/react";
-import {LicenseResponse, LicensesResponse} from "../../models/common/LicensesResponse";
-import {
-    HandleFavouriteResponse
-} from "../../models/licenses/HandleFavouriteResponse";
+import {LicensesResponse} from "../../models/common/LicensesResponse";
+import {HandleFavouriteResponse} from "../../models/licenses/HandleFavouriteResponse";
 import {ServerUrl} from "../../../constants/Constants";
 import {DeleteLicenseRequest} from "../../../features/profile/domain/DeleteLicenseRequest";
 import {DeleteLicenseResult} from "../../models/licenses/DeleteLicenseResult";
+import {CommonResponse} from "../../models/common/CommonResponse";
+import {CanClaimRewardResponse} from "../../models/licenses/CanClaimRewardResponse";
 
 export const LicensesApi = createApi({
     reducerPath: "irob/api/licenses", baseQuery: fetchBaseQuery({
@@ -23,14 +23,16 @@ export const LicensesApi = createApi({
             transformErrorResponse(meta: unknown, arg: unknown): string {
                 return "Error while getRoomRequirementsCost, try later."
             }
-        }), deleteLicense: builder.mutation<DeleteLicenseResult, DeleteLicenseRequest>({
+        }),
+        deleteLicense: builder.mutation<DeleteLicenseResult, DeleteLicenseRequest>({
             query: (license) => ({
                 url: `/delete`, method: `DELETE`, params: {
                     licenseId: license.licenseId,
                     address: license.address
                 }
             })
-        }), handleFavourite: builder.mutation<HandleFavouriteResponse, number>({
+        }),
+        handleFavourite: builder.mutation<HandleFavouriteResponse, number>({
             query: (licenseId) => ({
                 url: `/handleFavourite`, method: `POST`, body: {
                     licenseId: licenseId
@@ -40,7 +42,8 @@ export const LicensesApi = createApi({
             transformErrorResponse(meta: unknown, arg: unknown): string {
                 return "Error while getRoomRequirementsCost, try later."
             }
-        }), getFavouriteLicenses: builder.mutation<LicensesResponse, void>({
+        }),
+        getFavouriteLicenses: builder.mutation<LicensesResponse, void>({
             query: (body) => ({
                 url: `/getFavourite`, method: `GET`
             }),
@@ -48,7 +51,8 @@ export const LicensesApi = createApi({
             transformErrorResponse(meta: unknown, arg: unknown): string {
                 return "Error while getRoomRequirementsCost, try later."
             }
-        }), getSoldLicenses: builder.mutation<LicensesResponse, void>({
+        }),
+        getSoldLicenses: builder.mutation<LicensesResponse, void>({
             query: (body) => ({
                 url: `/getSold`, method: `GET`
             }),
@@ -56,7 +60,29 @@ export const LicensesApi = createApi({
             transformErrorResponse(meta: unknown, arg: unknown): string {
                 return "Error while getRoomRequirementsCost, try later."
             }
-        })
+        }),
+        canClaimReward: builder.mutation<CanClaimRewardResponse, number>({
+            query: (body) => ({
+                url: `/canClaimReward`, method: `GET`, params: {
+                    licenseId: body
+                }
+            }),
+            transformResponse: (response: CanClaimRewardResponse) => response,
+            transformErrorResponse(meta: unknown, arg: unknown): string {
+                return "Error while getRoomRequirementsCost, try later."
+            }
+        }),
+        claimReward: builder.mutation<CommonResponse, number>({
+            query: (body) => ({
+                url: `/claimReward`, method: `POST`, body: {
+                    licenseId: body
+                }
+            }),
+            transformResponse: (response: CommonResponse) => response,
+            transformErrorResponse(meta: unknown, arg: unknown): string {
+                return "Error while getRoomRequirementsCost, try later."
+            }
+        }),
     }),
 });
 
@@ -65,5 +91,7 @@ export const {
     useDeleteLicenseMutation,
     useHandleFavouriteMutation,
     useGetSoldLicensesMutation,
+    useCanClaimRewardMutation,
+    useClaimRewardMutation,
     useGetFavouriteLicensesMutation,
 } = LicensesApi;

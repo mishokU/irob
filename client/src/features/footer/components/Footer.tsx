@@ -1,8 +1,9 @@
-import whatsupLogo from "../assets/whats_uo.png"
+import whatLogo from "../assets/whats_uo.png"
 import telegramLogo from "../assets/telegram.png"
 import vkIcon from "../assets/vk-icon.png"
 import {useNavigate} from "react-router-dom";
 import {IROBRoutes} from "../../../routes/IROBRoutes";
+import {email} from "../../../constants/Constants";
 
 export function Footer() {
     const navigate = useNavigate()
@@ -14,7 +15,7 @@ export function Footer() {
                 <div className="flex space-x-4">
                     <img
                         alt={"What's app link"}
-                        src={whatsupLogo}
+                        src={whatLogo}
                         className="w-[30px] h-[30px] cursor-pointer"/>
                     <img
                         src={vkIcon}
@@ -43,7 +44,7 @@ export function Footer() {
             </div>
             <div className="space-y-4">
                 <h1>CONTACTS</h1>
-                <h2 className="cursor-pointer text-sm opacity-70">usov.misha@gmail.com</h2>
+                <h2 className="cursor-pointer text-sm opacity-70">{email}</h2>
             </div>
         </div>
     </footer>)

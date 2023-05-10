@@ -1,4 +1,4 @@
-import {buttonTheme} from "../../../themes/Themes";
+import {buttonTheme} from "../../../ui/themes/Themes";
 import {IROBRoutes} from "../../../routes/IROBRoutes";
 import {useNavigate} from "react-router-dom";
 import useViewModel from "./ProfileCardViewModel"

@@ -22,7 +22,6 @@ export const profileSlice = createSlice({
     name: "profileSlice", initialState: initialState, reducers: {
         updateProfile: (state, action) => {
             if (action.payload.user !== undefined) {
-                console.log("profile id slice" + action.payload.user.id)
                 state.name = action.payload.user.name
                 state.surname = action.payload.user.surname
                 state.description = action.payload.user.description

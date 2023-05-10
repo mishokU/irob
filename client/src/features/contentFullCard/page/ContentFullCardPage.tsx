@@ -3,7 +3,7 @@ import useViewModel from "./ContentFullCardPageViewModel"
 import {ProfileInfoComponent} from "../components/ProfileInfoComponent";
 import {BookmarkOutFilledIcon} from "../../../ui/common/icons/BookmarkOutFilledIcon";
 import {ComplaintIcon} from "../../../ui/common/icons/ComplaintIcon";
-import {buttonTheme} from "../../../themes/Themes";
+import {buttonTheme} from "../../../ui/themes/Themes";
 import useCreateRoomViewModel from "../../rooms/main/dialogs/createRoom/CreateRoomViewModel";
 import {useErrorToast} from "../../../ui/common/ToastErrorComponent";
 import {IROBProgressBar} from "../../../ui/common/IROBProgressBar";
@@ -97,7 +97,7 @@ export function ContentFullCardPage() {
                                 src={state.content.videoPreview}
                                 className="w-[54em] h-[33em] bg-black rounded-2xl"/>
                             <div className="ml-1 mr-1 flex space-x-4">
-                                {state.content.videoTrailerUrl && <button
+                                {state.content.videoTrailerUrl !== "null" && <button
                                     className={buttonTheme + " mt-4 w-full"}
                                     onClick={() => onHandlePlayerVisible()}>
                                     Play trailer

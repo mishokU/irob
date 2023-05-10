@@ -1,5 +1,5 @@
 import {useEffect, useState} from "react";
-import {leftDisabled, leftMakeDealButtonTheme, leftMakeDealButtonThemeActive} from "../../../../../../themes/Themes";
+import {leftDisabled, leftMakeDealButtonTheme, leftMakeDealButtonThemeActive} from "../../../../../../ui/themes/Themes";
 import {
     getHandleAgreement,
     isLeftAgreementEvent,

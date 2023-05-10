@@ -1,7 +1,7 @@
 import { Fragment } from "react";
 import { Dialog, Transition } from "@headlessui/react";
 import { DeleteContentDialogProms } from "./DeleteDialogProms";
-import { buttonTheme } from "../../../themes/Themes";
+import { buttonTheme } from "../../../ui/themes/Themes";
 
 export function DeleteContentDialog({
     isDeleteDialogVisible,

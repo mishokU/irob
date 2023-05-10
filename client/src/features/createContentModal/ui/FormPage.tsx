@@ -1,5 +1,5 @@
 import {ContentTypeDropDown} from "./ContentTypeDropDown";
-import {inputStyle} from "../../../themes/Themes";
+import {inputStyle} from "../../../ui/themes/Themes";
 import {CreateContentState} from "./CreateContentState";
 import {useState} from "react";
 

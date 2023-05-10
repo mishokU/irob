@@ -12,18 +12,21 @@ export interface LicenseUiModel {
     uid: string
     isFavourite: boolean
     isUidVisible: boolean
+    isClaimRewardVisible: boolean
     isPrivateKeyButtonVisible: boolean
     isProgressVisible: boolean
 }
 
 export enum ClickType {
     'updateFavourite',
-    'updateVisibility'
+    'updateVisibility',
+    'claimReward'
 }
 
 export enum LicenseStatus {
     'running',
     'success',
+    'claimed',
     'expired',
     'canceled'
 }
@@ -37,6 +40,8 @@ export function getLicenseStatus(status: string): LicenseStatus | null {
         return LicenseStatus.expired
     } else if(status === "canceled") {
         return LicenseStatus.canceled
+    } else if(status === "claimed") {
+        return LicenseStatus.claimed
     } else {
         return null
     }

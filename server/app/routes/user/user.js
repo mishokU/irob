@@ -235,6 +235,7 @@ async function getAccountTransactions(request, result) {
             const date = new Date(transaction.timeStamp * 1000)
             const eth = ethers.utils.formatEther(transaction.value);
             return {
+                id: transaction.blockNumber,
                 from: transaction.from,
                 to: transaction.to,
                 date: date.toISOString().slice(0, 10),

@@ -5,6 +5,13 @@ import {DeleteLicenseModal} from "./DeleteLicenseModal";
 import {useState} from "react";
 import {LicenseUiModel} from "./LicenseUiModel";
 
+
+export function initDeleteLicenseProps(license: LicenseUiModel | null): DeleteProps {
+    return {
+        isVisible: false, license: license
+    }
+}
+
 export interface LicenseTypePage {
     type: LicenseMenu
 }
@@ -15,12 +22,19 @@ export interface DeleteProps {
 }
 
 export function LicenseItemPage({type}: LicenseTypePage) {
-    const [isVisible, setIsVisible] = useState<DeleteProps>({isVisible: false, license: null})
-    const {licenseItems, onMessagesClick, onDeleteClick, onLicenseClick, onShowProgressClick} = LicenseItemViewModel(type, setIsVisible)
+    const [isVisible, setIsVisible] = useState<DeleteProps>(initDeleteLicenseProps(null))
+    const {
+        licenseItems,
+        onMessagesClick,
+        onDeleteClick,
+        onLicenseClick,
+        onShowProgressClick
+    } = LicenseItemViewModel(type, setIsVisible)
     return <div className="gap-4">
-        <DeleteLicenseModal props={isVisible} setIsVisible={setIsVisible} onDeleteClick={onDeleteClick} />
+        <DeleteLicenseModal props={isVisible} setIsVisible={setIsVisible} onDeleteClick={onDeleteClick}/>
         <div className="mt-4 space-y-4">
             {licenseItems.map(license => (<LicenseElement
+                key={license.id}
                 license={license}
                 onMessagesClick={onMessagesClick}
                 onShowDeleteModalClick={setIsVisible}

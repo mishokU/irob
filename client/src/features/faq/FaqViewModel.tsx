@@ -1,6 +1,6 @@
 import {useEffect, useState} from "react";
 import {UiFAQModel} from "./UiFAQModel";
-
+import {email} from "../../constants/Constants";
 
 export default function FaqViewModel() {
 
@@ -11,7 +11,7 @@ export default function FaqViewModel() {
         setItems([
             {
                 id: 0,
-                answer: "You can delete your account anytime. Just email us usov.misha@gmail.com. " +
+                answer: `You can delete your account anytime. Just email us ${email}. ` +
                     "We'll be sorry to see you go but we're committed to making every process easy for you or you can delete " +
                     "in profile -> change profile -> account management -> Click on \"Deleting data and account\".",
                 question: "How can I delete my IROB profile?",

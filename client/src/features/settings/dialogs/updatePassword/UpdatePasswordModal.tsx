@@ -2,7 +2,7 @@ import useViewModel from "./UpdatePasswordViewModel"
 import {Dispatch, Fragment} from "react";
 import {Dialog, Transition} from "@headlessui/react";
 import {ReactComponent as CloseModal} from "../../../../ui/assets/close_black_24dp.svg";
-import {buttonTheme, inputStyle} from "../../../../themes/Themes";
+import {buttonTheme, inputStyle} from "../../../../ui/themes/Themes";
 
 export interface UpdatePasswordProps {
     newPassword: string

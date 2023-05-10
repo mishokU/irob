@@ -5,6 +5,7 @@ export interface GetLedgerTransactionsResponse {
 }
 
 export interface LedgerTransaction {
+    id: number
     date: string
     value: number
     from: string

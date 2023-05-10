@@ -8,7 +8,15 @@ const Promise = require("bluebird");
 
 const licensesRouter = new Router()
 
-// export our router to be mounted by the parent application
+/*
+    License states:
+    'running' - license is active.
+    'success' - user get all requirements in time, or if there is only time requirement.
+    'claimed' - user take deposit and use license for free.
+    'expired' - user do not get all requirements in time.
+    'canceled' - license has been inactive.
+*/
+
 module.exports = licensesRouter
 
 licensesRouter.get('/getAll', (request, result) => {
@@ -33,6 +41,14 @@ licensesRouter.post('/handleFavourite', (request, result) => {
 
 licensesRouter.post('/cancel', (request, result) => {
     return cancelLicense(request, result)
+})
+
+licensesRouter.post('/claimReward', (request, result) => {
+    return claimReward(request, result)
+})
+
+licensesRouter.get('/canClaimReward', (request, result) => {
+    return canClaimReward(request, result)
 })
 
 async function handleFavouriteRoute(request, result) {
@@ -107,10 +123,11 @@ async function getSoldLicenses(request, result) {
         })
 
     } catch (e) {
-        console.log("Error in getting licenses: " + e.message)
+        const message = "Error in getting sold licenses: " + e.message
+        console.log(message)
         result.status(500).json({
             success: false,
-            message: "Error in getting licenses: " + e.message
+            message: message
         })
     }
 }
@@ -170,6 +187,11 @@ async function getLicenses(request, type) {
 async function convertLicenses(licenses, isPrivateKeyButtonVisible) {
     return await Promise.map(licenses, async (license) => {
         const requirementsProgress = await licensesController.getLicenseRequirementsProgress(license.id)
+
+        if (requirementsProgress === 100 && license.status !== "claimed") {
+            await licensesController.updateLicenseState(license.id)
+        }
+
         const room = await roomController.getRoom(license.room_id)
         const content = await contentController.getContentById(license.content_id)
         const date = new Date(license.date)
@@ -188,17 +210,17 @@ async function convertLicenses(licenses, isPrivateKeyButtonVisible) {
                 roomId = room.room_id
             }
         } else if (room !== undefined) {
-            if(room.name){
+            if (room.name) {
                 name = room.name
             } else {
                 name = "Room was deleted!"
             }
-            if(room.type){
+            if (room.type) {
                 type = room.type
             } else {
                 type = "Undefined"
             }
-            if(room.owner){
+            if (room.owner) {
                 owner = room.owner
             } else {
                 owner = "Somebody"
@@ -226,4 +248,60 @@ async function convertLicenses(licenses, isPrivateKeyButtonVisible) {
         }
 
     })
+}
+
+async function claimReward(request, result) {
+    try {
+
+        const {licenseId} = request.body
+
+        if (licenseId !== undefined) {
+            await licensesController.claimReward(licenseId)
+            result.status(200).json({
+                success: true,
+                licenseId: licenseId
+            })
+        }
+
+    } catch (e) {
+        console.log("Error in claim reward: " + e.message)
+        result.status(500).json({
+            success: false,
+            message: "Error in getting licenses: " + e.message
+        })
+    }
+}
+
+async function canClaimReward(request, result) {
+    try {
+
+        const licenseId = request.query.licenseId
+
+        if (licenseId !== undefined) {
+            const progress = await licensesController.getLicenseRequirementsProgress(licenseId)
+            if (progress === 100) {
+                result.status(200).json({
+                    success: true,
+                    progress: progress,
+                    licenseId: licenseId
+                })
+            } else {
+                result.status(200).json({
+                    success: false,
+                    licenseId: licenseId
+                })
+            }
+        } else {
+            result.status(400).json({
+                success: false
+            })
+        }
+    } catch (e) {
+        const message = "Error in can claim reward: " + e.message
+        console.log(message)
+        result.status(500).json({
+            success: false,
+            message: message
+        })
+    }
 }

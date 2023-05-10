@@ -1,6 +1,6 @@
 import {Dialog, Transition} from "@headlessui/react";
 import {Fragment} from "react";
-import {buttonTheme} from "../../../themes/Themes";
+import {buttonTheme} from "../../../ui/themes/Themes";
 import {ReactComponent as CloseModal} from "../../../ui/assets/close_black_24dp.svg";
 import useViewModel from "./CreateLicenseViewModel"
 import {initCreateCardProps, useModalsContext} from "../../main/contexts/ModalsProvider";

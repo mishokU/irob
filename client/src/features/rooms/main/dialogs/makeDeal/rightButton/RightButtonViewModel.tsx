@@ -1,7 +1,7 @@
 import {useEffect, useState} from "react";
 import {
     rightDisabled, rightMakeDealButtonTheme, rightMakeDealButtonThemeActive
-} from "../../../../../../themes/Themes";
+} from "../../../../../../ui/themes/Themes";
 import {
     getHandleAgreement,
     isRightAgreementEvent,

@@ -1,6 +1,6 @@
 import {ChangeEventHandler} from "react";
 import {ReactComponent as CloseModal} from "../../../ui/assets/close_black_24dp.svg";
-import {buttonTheme} from "../../../themes/Themes";
+import {buttonTheme} from "../../../ui/themes/Themes";
 import {useRef} from "react";
 import ReactPlayer from "react-player";
 import {Media} from "./CreateContentState";

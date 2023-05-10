@@ -10,7 +10,7 @@ export default function AppViewModel() {
 
     const [getConfig] = useGetConfigMutation()
 
-    const [state, setState] = useState<AppState>(initAppState())
+    const [state, setState] = useState<AppState>(initAppState(false))
 
     const dispatch = useDispatch();
 
@@ -25,6 +25,7 @@ export default function AppViewModel() {
     async function loadConfig() {
         fetch()
             .catch((throwable) => setState({
+                inTestMode: false,
                 error: {
                     message: throwable.message,
                     isVisible: true
@@ -32,8 +33,8 @@ export default function AppViewModel() {
             }))
             .then((data: any) => {
                 if (data.success) {
-                    setState(initAppState())
                     const activeNetwork = data.networks.filter((network: IrobNetwork) => network.isEnabled)[0]
+                    setState(initAppState(activeNetwork.chainId !== 1))
                     dispatch(setConfig({
                         chainId: activeNetwork.chainId,
                         chainHexId: activeNetwork.networkHex,
@@ -49,9 +50,17 @@ export default function AppViewModel() {
 
     }
 
+    const onCloseTestNotificationClick = () => {
+        setState({
+            ...state,
+            inTestMode: false
+        })
+    }
+
     return {
         state,
-        onReloadClick
+        onReloadClick,
+        onCloseTestNotificationClick
     }
 
 }

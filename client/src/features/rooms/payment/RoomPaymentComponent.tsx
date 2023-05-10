@@ -1,4 +1,4 @@
-import {buttonTheme} from "../../../themes/Themes";
+import {buttonTheme} from "../../../ui/themes/Themes";
 import rightArrow from "../asserts/right_96px.png";
 import dealIcon from "../asserts/task_completed_96px.png"
 import useViewModel from "./RoomPaymentViewModel"

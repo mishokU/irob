@@ -45,9 +45,10 @@ async function updateRequirements(licenseId, roomId) {
 
 async function getRoomRequirementsByLicenseId(licenseId) {
     try {
-        const requirements = await db.query(
-            `SELECT * from ${ROOM_REQUIREMENTS_TABLE_NAME} WHERE license_id=$1`, [licenseId]
-        )
+        const requirements = await db.query(`
+            SELECT * from ${ROOM_REQUIREMENTS_TABLE_NAME} 
+            WHERE license_id=$1 and type!='Hold deposit' and type!='Cost'
+            `, [licenseId])
         return requirements.rows
     } catch (e) {
         console.log("Error in getting room requirements by license id: " + e.message)
@@ -71,7 +72,12 @@ async function declineRequirement(requirementId) {
 }
 
 async function applyRequirement(requirementId, type, roomId) {
-    //await db.query(`DELETE FROM ${ROOM_REQUIREMENTS_TABLE_NAME} WHERE type=$1 and room_id=$2`, [type, roomId])
+    const requirementWithSameType = await db.query(`SELECT * FROM ${ROOM_REQUIREMENTS_TABLE_NAME} WHERE type=$1 and room_id=$2 and is_alive=false`, [type, roomId])
+    if (requirementWithSameType.rows.length !== 0) {
+        const deletedRequirementId = requirementWithSameType.rows[0].id
+        await db.query(`DELETE FROM ${ROOM_REQUIREMENTS_TABLE_NAME} WHERE id=$1`, [deletedRequirementId])
+    }
+
     await db.query(`
             UPDATE ${ROOM_REQUIREMENTS_TABLE_NAME} SET
             is_alive=false WHERE id=$1`, [requirementId]

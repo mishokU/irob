@@ -50,10 +50,10 @@ async function updateLicenceCounter(request, result) {
                 success: false,
                 message: "License or type or licenseKey is undefined"
             })
-        } else if(type === "Duration"){
-            result.status(400).json({
+        } else if(type === "Duration" || type === "Hold deposit" || type === "Cost"){
+            result.status(200).json({
                 success: false,
-                message: "Duration value increased automatically!"
+                message: `${type} value increased automatically!`
             })
         } else {
 

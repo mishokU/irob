@@ -4,7 +4,7 @@ import {SettingsProps} from "./SettingsProps";
 import {
     ReactComponent as CloseModal
 } from "../../../../../ui/assets/close_black_24dp.svg";
-import {buttonTheme, inputStyle} from "../../../../../themes/Themes";
+import {buttonTheme, inputStyle} from "../../../../../ui/themes/Themes";
 import useViewModel from "./SettingsViewModel"
 import {UserSettingsModel} from "./UserSettingsModel";
 

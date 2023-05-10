@@ -13,6 +13,7 @@ import {IROBRoutes} from "../../../../routes/IROBRoutes";
 import {useRemoveUserMutation} from "../../../../data/store/rooms/RoomUsersApi";
 import {RequirementState} from "./RequirementState";
 import {useModalsContext} from "../../../main/contexts/ModalsProvider";
+import {initNotification, NotificationPosition, usePopupContext} from "../../../main/contexts/NotificationProvider";
 
 export const WS_URL = 'ws://localhost:4000';
 
@@ -32,6 +33,7 @@ export default function RoomViewModel() {
 
     const [isPaymentButtonVisible, setIsPaymentButtonVisible] = useState(false)
 
+    const notificationContext = usePopupContext()
     const navigate = useNavigate();
 
     const [roomMutation] = useGetRoomMutation()
@@ -73,9 +75,7 @@ export default function RoomViewModel() {
     }, [])
 
     useEffect(() => {
-        console.log("is finished: " + roomReducer.isFinished)
         const visible = !roomReducer.isFinished
-        console.log(visible)
         setIsMakeDealDialogVisible(false)
         setIsPaymentButtonVisible(visible)
     }, [roomReducer.isFinished])
@@ -83,10 +83,12 @@ export default function RoomViewModel() {
     const handleDeleteRoomClick = async () => {
         try {
             const payload = await deleteRoomMutation(roomReducer.roomId).unwrap()
-            if (payload) {
+            console.log(payload)
+            if (payload.success) {
                 navigate(-1)
             } else {
                 setIsDeleteDialogVisible(false)
+                notificationContext?.setState(initNotification(payload.message, 3000, NotificationPosition.CENTER))
             }
         } catch (e) {
             console.log(e)

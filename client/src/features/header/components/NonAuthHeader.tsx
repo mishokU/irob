@@ -1,7 +1,7 @@
 import { IROBRoutes } from "../../../routes/IROBRoutes";
 import { NavLink, useNavigate } from "react-router-dom";
 import React from "react";
-import {buttonThemeTransparent} from "../../../themes/Themes";
+import {buttonThemeTransparent} from "../../../ui/themes/Themes";
 import { Auth } from "../../auth/domain/utils/Auth";
 import { LogoImage } from "../assets/LogoImage";
 

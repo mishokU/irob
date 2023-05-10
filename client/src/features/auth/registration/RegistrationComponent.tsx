@@ -1,5 +1,5 @@
 import {IAuth} from "../components/AuthPage";
-import {buttonThemeTransparent} from "../../../themes/Themes";
+import {buttonThemeTransparent} from "../../../ui/themes/Themes";
 import {Auth} from "../domain/utils/Auth";
 import useViewModel from "./RegistrationViewModel";
 import {AuthErrorFormComponent} from "../components/AuthErrorFormComponent";

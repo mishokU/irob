@@ -1,6 +1,6 @@
 import {BookmarkOutFilledIcon} from "../../../ui/common/icons/BookmarkOutFilledIcon";
 import {ComplaintIcon} from "../../../ui/common/icons/ComplaintIcon";
-import {buttonTheme} from "../../../themes/Themes";
+import {buttonTheme} from "../../../ui/themes/Themes";
 import {StateProps} from "../modal/ContentFullCardComponent";
 
 export function CardInfoComponent({state}: StateProps) {

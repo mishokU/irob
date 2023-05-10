@@ -1,5 +1,5 @@
 import pcLogo from "../assets/pc.svg";
-import {buttonThemeTransparent} from "../../../themes/Themes";
+import {buttonThemeTransparent} from "../../../ui/themes/Themes";
 import {IROBRoutes} from "../../../routes/IROBRoutes";
 import {Auth} from "../../auth/domain/utils/Auth";
 import {useNavigate} from "react-router-dom";

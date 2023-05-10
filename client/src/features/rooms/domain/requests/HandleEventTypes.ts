@@ -23,7 +23,6 @@ export function getEventType(lastMessage: any) {
 }
 
 export function getUserFromServer(user: any) {
-    console.log(user)
     const newUser: RoomUserResponse = {
         id: user.profileId, fullName: user.fullName, avatar: user.avatar, isAdmin: user.isAdmin
     }
@@ -32,7 +31,6 @@ export function getUserFromServer(user: any) {
 
 export function getUser(lastMessage: any) {
     let json = JSON.parse(lastMessage.data)
-    console.log(json)
     const user: RoomUserResponse = {
         id: json.data.id,
         fullName: json.data.username,
@@ -67,7 +65,6 @@ function createMessageModel(data: any, type: MessageType): MessageModel {
 
 export function getRequirement(lastMessage: any, userId: number): RoomRequirementModel {
     let data = JSON.parse(lastMessage.data).data
-    console.log(data)
     return {
         userId: data.userId,
         username: data.username,
@@ -95,11 +92,6 @@ export function isUserEvent(message: any) {
 export function isRequirementEvent(message: any) {
     let event = JSON.parse(message.data);
     return event.type === RoomWebSocketTypes.createRequirement || event.type === RoomWebSocketTypes.applyRequirement || event.type === RoomWebSocketTypes.declineRequirement
-}
-
-export function isHandleAgreementEvent(message: any) {
-    const event = JSON.parse(message.data)
-    return event.type === RoomWebSocketTypes.handleAgreement
 }
 
 export function isLeftAgreementEvent(message: any) {

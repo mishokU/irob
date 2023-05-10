@@ -1,4 +1,5 @@
 import {Footer} from "../footer/components/Footer";
+import {email} from "../../constants/Constants";
 
 
 export function TermsOfUsePage() {
@@ -114,7 +115,7 @@ export function TermsOfUsePage() {
                         <h2 className="text-[#EAB308] text-lg">Contact Us</h2>
                         <p className="text-start text-[#8fadc0]">
                             If you have any questions or concerns about these Terms, please contact us at
-                            usov.misha@gmail.com
+                            {email}
                         </p>
                     </div>
                 </div>

@@ -1,7 +1,7 @@
 import useViewModel from "./CatalogueViewModel"
 import {CatalogueUi} from "../items/CatalogueUi";
 import {CatalogueItemComponent} from "../items/CatalogueItemComponent";
-import {buttonTheme} from "../../../themes/Themes";
+import {buttonTheme} from "../../../ui/themes/Themes";
 import {useModalsContext} from "../../main/contexts/ModalsProvider";
 
 export function CataloguePage() {

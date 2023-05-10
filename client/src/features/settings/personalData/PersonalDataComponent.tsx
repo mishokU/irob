@@ -1,5 +1,5 @@
 import {SettingsStrings} from "../strings/SettingsStrings";
-import {buttonTheme, settingsInputStyle} from "../../../themes/Themes";
+import {buttonTheme, settingsInputStyle} from "../../../ui/themes/Themes";
 import useViewModel from "./PersonalInformationViewModel"
 
 export function PersonalDataComponent() {

@@ -1,7 +1,11 @@
-import {buttonTheme, paragraphColor} from "../../../themes/Themes";
+import {buttonTheme, paragraphColor} from "../../../ui/themes/Themes";
+import {initAskQuestionProps, useAskQuestionContext} from "../../main/contexts/AskQuestionProvider";
+import {useState} from "react";
 
 
 export function EmailSubscribeSection() {
+    const askQuestion = useAskQuestionContext()
+    const [email, setEmail] = useState("")
     return <section className="bg-[#0c131a] p-8">
         <div className="h-20 w-full bg-[#0c131a] absolute -mt-14 opacity-5 -rotate-10"/>
         <div className="p-8">
@@ -16,8 +20,11 @@ export function EmailSubscribeSection() {
                 <input
                     className="ml-8 w-[400px] focus:border-gray-600 border-transparent focus:ring-0 rounded p-3 text-white bg-[#8fadc01a]"
                     type="text"
+                    onChange={(field) => setEmail(field.target.value)}
                     placeholder="Email"/>
-                <button className={buttonTheme + " ml-8"}>Send</button>
+                <button
+                    onClick={() => askQuestion?.setVisibility(initAskQuestionProps(email, true))}
+                    className={buttonTheme + " ml-4"}>Send</button>
             </div>
         </div>
     </section>

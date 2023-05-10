@@ -11,6 +11,7 @@ const contentController = require("../../controllers/ContentController")
 const NotificationTypes = require("../notification/notificationTypes");
 
 const Promise = require("bluebird");
+const {getUsername} = require("../../controllers/Utils");
 
 const roomRouter = new Router()
 
@@ -209,7 +210,7 @@ async function updateRoom(request, result) {
             })
         }
     } catch (e) {
-        console.log(e)
+        console.log(e.message)
         result.status(500).json({
             success: false,
             message: "Update room error"
@@ -244,10 +245,11 @@ async function createRoom(request, result) {
         })
 
     } catch (e) {
-        console.log(e)
+        const message = "Error in create room: " + e.message
+        console.log(message)
         result.status(500).json({
             success: false,
-            message: "Sm went wrong"
+            message: message
         })
     }
 }
@@ -256,34 +258,30 @@ async function deleteRoom(request, result) {
     try {
         const token = request.get('token')
         const roomId = request.query.roomId;
+
         const user = await userController.getUser(token)
-        const roomRes = await db.query(`SELECT *
-                                        FROM rooms
-                                        WHERE room_id = $1;`, [roomId])
-        const room = roomRes.rows[0]
+        const room = await roomController.getRoom(roomId)
+
         if (room.owner_id === user.id) {
-            await db.query(`DELETE
-                            FROM rooms
-                            WHERE room_id = $1;`, [roomId])
-            await db.query(`DELETE
-                            FROM room_requirements
-                            WHERE room_id = $1;`, [roomId])
-            await db.query(`DELETE
-                            FROM room_messages
-                            WHERE room_id = $1;`, [roomId])
+            await db.query(`DELETE FROM rooms WHERE room_id = $1;`, [roomId])
+            //await db.query(`DELETE FROM room_requirements WHERE room_id = $1;`, [roomId])
+            await db.query(`DELETE FROM room_messages WHERE room_id = $1;`, [roomId])
             result.status(200).json({
                 success: true,
                 message: "Room deleted"
             })
         } else {
-            result.status(400).json({
+            result.status(200).json({
+                success: false,
                 message: "Only owner can delete room!"
             })
         }
     } catch (e) {
-        console.log(e)
+        const message = "Error in delete room: " + e.message
+        console.log(message)
         result.status(500).json({
-            message: "Sm went wrong in getRoom"
+            success: false,
+            message: message
         })
     }
 }
@@ -299,6 +297,7 @@ async function getRoom(request, result) {
 
         const room = roomRes.rows[0]
         const isAdmin = room.owner_id === user.id || room.user_id === user.id
+
         result.status(200).json({
             roomId: room.room_id,
             isAdmin: isAdmin,
@@ -324,17 +323,19 @@ async function getRooms(request, result) {
         const token = request.get('token')
         const user = await userController.getUser(token)
 
-        const rooms = await db.query(`SELECT *
-                                      FROM rooms
-                                      WHERE owner_id = $1
-                                         OR user_id = $1`, [user.id])
+        const rooms = await db.query(`SELECT * FROM rooms WHERE owner_id = $1 OR user_id = $1`, [user.id])
+
         const fullRooms = await Promise.map(rooms.rows, async (room) => {
+
             const ownerUser = await userController.getUserById(room.owner_id)
-            const fullName = ownerUser.name + " " + ownerUser.surname
+            const fullName = getUsername(ownerUser)
+
             const isActive = room.first_agreement === true && room.second_agreement === true
             const title = room.name || room.room_id
+
             const lastMessage = await roomMessagesController.getLastMessage(room.room_id)
             const requirements = await roomRequirementsController.getRoomRequirements(room.room_id)
+
             return {
                 isActive: !isActive,
                 title: title,
@@ -346,12 +347,15 @@ async function getRooms(request, result) {
         }, {concurrency: 2})
 
         result.status(200).json({
+            status: true,
             rooms: fullRooms
         })
     } catch (e) {
-        console.log(e)
+        const message = "Something went wrong in getting rooms: " + e.message
+        console.log(message)
         result.status(500).json({
-            message: "Sm went wrong in getRooms"
+            status: false,
+            message: message
         })
     }
 }

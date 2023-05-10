@@ -12,7 +12,6 @@ export function AboutUsComponent() {
                 <h2 className="text-[#EAB308] text-2xl">ABOUT US</h2>
                 <h1 className="text-5xl font-bold mt-12">
                     Our love for online movies <br/> brings us together as a community.
-
                 </h1>
                 <h2 className="text-lg mt-8 text-[#8fadc0]">
                     Our passion for online movies unites us as a community committed <br/>
@@ -34,5 +33,5 @@ export function AboutUsComponent() {
             </div>
         </div>
         <Footer/>
-    </div>);
+    </div>)
 }

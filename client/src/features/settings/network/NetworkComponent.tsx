@@ -1,6 +1,6 @@
 import {SettingsStrings} from "../strings/SettingsStrings";
 import useViewModel from "./NetworkViewModel"
-import {buttonTheme} from "../../../themes/Themes";
+import {buttonTheme} from "../../../ui/themes/Themes";
 
 export function NetworkComponent() {
     const {updateNetwork, networks, setNetwork} = useViewModel()

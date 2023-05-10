@@ -1,5 +1,5 @@
 import {SettingsStrings} from "../strings/SettingsStrings";
-import {buttonTheme} from "../../../themes/Themes";
+import {buttonTheme} from "../../../ui/themes/Themes";
 
 export function NotificationsComponent() {
     return <div className="border-[#29303A] -mt-4 rounded-2xl p-4 text-white w-[550px]">

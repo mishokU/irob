@@ -1,5 +1,5 @@
 import {ContentTypeDropDown} from "./ContentTypeDropDown";
-import {buttonTheme, inputStyle} from "../../../../../themes/Themes";
+import {buttonTheme, inputStyle} from "../../../../../ui/themes/Themes";
 import useViewModel from "./CreateRequrementViewModel"
 import {IROBProgressBar} from "../../../../../ui/common/IROBProgressBar";
 import {CreateRequirementsProps} from "./CreateRequirementsDialog";

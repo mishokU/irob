@@ -25,14 +25,17 @@ import {FaqPage} from "../../faq/FaqPage";
 import {PolicyPrivacyPage} from "../../privacy/PolicyPrivacyPage";
 import {TermsOfUsePage} from "../../termsOfUse/TermsOfUsePage";
 import AuthMiddleware from "../../auth/middleware/AuthMiddleware";
+import {useAskQuestionContext} from "../contexts/AskQuestionProvider";
+import {AsqQuestionModal} from "../../faq/modals/AsqQuestionModal";
 
 export function MainContainer() {
     const modalsContext = useModalsContext()
     const createRoomModalContext = useCreateRoomModalContext()
     const notificationContext = useNotificationContext()
     const contentCardFull = useContentFullCardContext()
-    const location = useLocation();
+    const location = useLocation()
     const popupContext = usePopupContext()
+    const asqQuestionContext = useAskQuestionContext()
     const authMiddleware = AuthMiddleware()
     const isAuth = authMiddleware.getToken() !== null
     {
@@ -44,7 +47,7 @@ export function MainContainer() {
         !location.pathname.toString().includes(IROBRoutes.rooms) &&
         !location.pathname.toString().includes(IROBRoutes.card) &&
         !location.pathname.toString().includes(IROBRoutes.sample)
-    return <div className="relative">
+    return (<div className="relative">
         {popupContext?.state.text !== undefined && <CommonNotification
             text={popupContext.state.text}
             showTimeMs={popupContext.state.timeMs}
@@ -54,10 +57,11 @@ export function MainContainer() {
         {modalsContext?.state.isVisible && <CreateLicenseModal roomId={modalsContext.state.roomId}/>}
         {contentCardFull?.isVisibleProps.isVisible && <ContentFullCardComponent/>}
         {notificationContext?.isVisible && <NotificationMainComponent/>}
+        {asqQuestionContext?.props.isVisible && <AsqQuestionModal/>}
         {isHeaderVisible && <HeaderComponent/>}
         <main>
             <Routes>
-                <Route path="*" element={<NotExistsPage />} />
+                <Route path="*" element={<NotExistsPage/>}/>
                 <Route index element={<StartPage/>}/>
                 <Route path={IROBRoutes.nonAuthPage} element={<NotExistsPage/>}/>
                 <Route path={IROBRoutes.sample} element={<SamplePage/>}/>
@@ -84,5 +88,5 @@ export function MainContainer() {
                     element={isAuth ? <SettingsPage/> : <Navigate to={IROBRoutes.auth}/>}/>
             </Routes>
         </main>
-    </div>
+    </div>)
 }

@@ -1,4 +1,4 @@
-import {buttonTheme, buttonThemeDisabled, buttonThemeTransparentSmall} from "../../../../themes/Themes";
+import {buttonTheme, buttonThemeDisabled, buttonThemeTransparentSmall} from "../../../../ui/themes/Themes";
 import React from "react";
 import {BackButtonLedger} from "../components/BackButtonLedger";
 import useViewModel from "./SendMoneyViewModel"

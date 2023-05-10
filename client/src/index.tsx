@@ -11,7 +11,8 @@ import {PersistGate} from "redux-persist/integration/react";
 import {MetaMaskProvider} from "metamask-react";
 import {CreateNotificationProvider} from "./features/main/contexts/NotificationModelProvider";
 import {ContentFullCardProvider} from "./features/main/contexts/ContentFullCardProvider";
-import { NotificationProvider } from './features/main/contexts/NotificationProvider';
+import {NotificationProvider} from './features/main/contexts/NotificationProvider';
+import {AskQuestionProvider} from "./features/main/contexts/AskQuestionProvider";
 
 const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement);
 
@@ -24,7 +25,9 @@ root.render(<ModalsProvider>
                         <BrowserRouter>
                             <MetaMaskProvider>
                                 <NotificationProvider>
-                                    <App/>
+                                    <AskQuestionProvider>
+                                        <App/>
+                                    </AskQuestionProvider>
                                 </NotificationProvider>
                             </MetaMaskProvider>
                         </BrowserRouter>

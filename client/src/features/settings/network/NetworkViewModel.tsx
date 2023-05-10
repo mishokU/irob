@@ -4,6 +4,7 @@ import {IrobNetwork} from "../../../data/models/config/ConfigResponse";
 import {UiNetwork} from "./UiNetwork";
 import {useDispatch} from "react-redux";
 import {setConfig} from "../../../data/slices/IrobConfigSlice";
+import {initNotification, usePopupContext} from "../../main/contexts/NotificationProvider";
 
 
 export default function NetworkViewModel() {
@@ -14,6 +15,7 @@ export default function NetworkViewModel() {
     const [getConfig] = useGetConfigMutation()
     const [updateConfig] = useUpdateConfigMutation()
 
+    const popupContext = usePopupContext()
     const dispatch = useDispatch();
 
     useEffect(() => {
@@ -49,6 +51,7 @@ export default function NetworkViewModel() {
                 chainHexId: updatedNetwork.network.networkHex,
                 networkUrl: updatedNetwork.network.networkUrl
             }))
+            popupContext?.setState(initNotification("Network changed!"))
         }
     }
 

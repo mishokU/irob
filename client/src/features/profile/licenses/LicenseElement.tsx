@@ -5,6 +5,7 @@ import ic_delete from "../asserts/remove_24px.png";
 import {ClickType, LicenseStatus, LicenseUiModel} from "./LicenseUiModel";
 import {DeleteProps} from "./LicenseItemPage";
 import ic_show_secret from "../asserts/password_key_48px.png"
+import ic_reward from "../asserts/reward.png"
 import ic_progress from "../asserts/progress.png"
 import {ReactComponent as CopyIcon} from "../asserts/content_copy_white_24dp.svg";
 import {initNotification, usePopupContext} from "../../main/contexts/NotificationProvider";
@@ -28,7 +29,7 @@ export interface LicenseElementProps {
     onMessagesClick: (roomId: string) => void
     onShowProgressClick: (licenseId: number) => void
     onShowDeleteModalClick: (props: DeleteProps) => void
-    onLicenseClick: (type: ClickType, licenseId: number) => void
+    onLicenseClick: (type: ClickType, license: LicenseUiModel) => void
 }
 
 export function LicenseElement(
@@ -47,9 +48,10 @@ export function LicenseElement(
         <div className={isVisible ? visibleBorder : invisibleBorder}>
             <div className="space-x-4 flex ml-6 justify-between items-center w-full mr-4">
                 <div className="flex w-fit space-x-4 items-center">
-                    {license.status === LicenseStatus.running ? (
-                        <div className="bg-green-500 w-3 h-3 min-w-[12px] rounded rounded-full"/>) : (
-                        <div className="bg-red-500 w-3 h-3 min-w-[12px] rounded rounded-full"/>)}
+                    {license.status === LicenseStatus.running && <div className="bg-green-500 w-3 h-3 min-w-[12px] rounded rounded-full"/>}
+                    {license.status === LicenseStatus.canceled && <div className="bg-red-500 w-3 h-3 min-w-[12px] rounded rounded-full"/>}
+                    {license.status === LicenseStatus.success && <div className="bg-[#ffb81c] w-3 h-3 min-w-[12px] rounded rounded-full"/>}
+                    {license.status === LicenseStatus.claimed && <div className="bg-white w-3 h-3 min-w-[12px] rounded rounded-full"/>}
                     {license.type && <h1 className="select-none min-w-fit">{license.type}</h1>}
                     {license.name &&
                         <h2 className="line-clamp-1 min-w-fit max-w-[150px] select-none">{license.name}</h2>}
@@ -58,9 +60,17 @@ export function LicenseElement(
                     <h1 className="min-w-fit line-clamp-1 select-none">{license.date}</h1>
                 </div>
                 <div className="flex w-fit space-x-3">
+                    {license.isClaimRewardVisible && <div
+                        className="z-10"
+                        onClick={() => onLicenseClick(ClickType.claimReward, license)}>
+                        <img
+                            alt="reward"
+                            className="w-8 h-8 min-w-fit"
+                            src={ic_reward}/>
+                    </div>}
                     {license.isPrivateKeyButtonVisible && <div
                         className="z-10"
-                        onClick={() => onLicenseClick(ClickType.updateVisibility, license.id)}>
+                        onClick={() => onLicenseClick(ClickType.updateVisibility, license)}>
                         <img
                             alt="show"
                             className="w-8 h-8 min-w-fit"
@@ -68,7 +78,7 @@ export function LicenseElement(
                     </div>}
                     <div
                         className="z-10"
-                        onClick={() => onLicenseClick(ClickType.updateFavourite, license.id)}>
+                        onClick={() => onLicenseClick(ClickType.updateFavourite, license)}>
                         <img
                             alt="bookmark"
                             className="w-8 h-8 min-w-fit"
@@ -103,7 +113,7 @@ export function LicenseElement(
                     <h1>Progress of your license in {license.progress} to 100</h1>
                     <div className="bg-gray-200 w-full inline-block rounded-xl rounded-xl h-2.5 dark:bg-gray-700">
                         <div
-                            className="bg-blue-600 h-2.5 w-full rounded-full"
+                            className="bg-[#ffb81c] h-2.5 w-full rounded-full"
                             style={{width: `${license.progress}%`}}></div>
                     </div>
                 </div>}

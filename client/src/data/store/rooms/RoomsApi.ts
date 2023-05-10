@@ -11,6 +11,7 @@ import {HandleAgreementRequest} from "../../../features/rooms/domain/requests/Ha
 import {MakeDealResponse} from "../../models/rooms/users/MakeDealResponse";
 import {ServerUrl} from "../../../constants/Constants";
 import {GetContentIdResponse} from "../../models/rooms/room/GetContentIdResponse";
+import {CommonResponse} from "../../models/common/CommonResponse";
 
 export const RoomsApi = createApi({
     reducerPath: "irob/api/rooms", baseQuery: fetchBaseQuery({
@@ -24,10 +25,7 @@ export const RoomsApi = createApi({
             query: (body) => ({
                 url: `/create`, method: `POST`, body
             }),
-            transformResponse: (response: CreateRoomResponse) => response.roomId,
-            transformErrorResponse(meta: unknown, arg: unknown): string {
-                return "Error while creating room, try later.";
-            },
+            transformResponse: (response: CreateRoomResponse) => response.roomId
         }),
         getRoom: build.mutation<GetRoomResponse, string>({
             query: (roomId) => ({
@@ -49,11 +47,11 @@ export const RoomsApi = createApi({
                 return "Error get rooms response";
             },
         }),
-        deleteRoom: build.mutation<boolean, string>({
+        deleteRoom: build.mutation<CommonResponse, string>({
             query: (roomId) => ({
                 url: "/delete", method: `DELETE`, params: {roomId: roomId},
             }),
-            transformResponse: (response: DeleteRoomResponse) => response.success,
+            transformResponse: (response: CommonResponse) => response,
             transformErrorResponse(baseQueryReturnValue: unknown, meta: unknown, arg: unknown): boolean {
                 return false;
             },
