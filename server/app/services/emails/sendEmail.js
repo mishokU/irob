@@ -1,7 +1,8 @@
 const nodemailer = require("nodemailer");
 
 module.exports = {
-    sendQuestionEmail
+    sendQuestionEmail,
+    sendResumeEmail
 }
 
 const transporter = nodemailer.createTransport({
@@ -23,6 +24,24 @@ async function sendQuestionEmail(email, message) {
     } catch (e) {
         console.log("Error in send email")
     }
+}
+
+async function sendResumeEmail(resume) {
+    try {
+        sendResume(resume)
+    } catch (e) {
+        console.log("Error in send email")
+    }
+}
+
+function sendResume(resume) {
+    const mailOptions = {
+        from: 'irob.business@mail.ru',
+        to: 'irob.business@mail.ru',
+        subject: 'RESUME!',
+        html: `<p>${resume}</p>`
+    };
+    sendMail(mailOptions)
 }
 
 function sendEmail(email, message) {

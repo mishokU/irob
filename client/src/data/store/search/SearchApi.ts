@@ -8,7 +8,7 @@ import {SendEmailRequest} from "../../../features/faq/domain/SendEmailRequest";
 export const SearchApi = createApi({
     reducerPath: 'irob/api/search', baseQuery: fetchBaseQuery({
         baseUrl: `${ServerUrl}/search`,
-        prepareHeaders: (headers, { getState }) => {
+        prepareHeaders: (headers, {getState}) => {
             headers.set('token', localStorage.getItem("jwtToken") || "")
             return headers
         },
@@ -28,10 +28,13 @@ export const SearchApi = createApi({
             }),
             transformResponse: (response: CommonResponse) => response,
             transformErrorResponse(meta: unknown, arg: unknown): string {
-                return "Error while search room users";
+                return "Error while send email";
             },
-        }),
+        })
     })
 })
 
-export const {useSearchUsersByCredentialsMutation, useSendEmailMutation} = SearchApi
+export const {
+    useSearchUsersByCredentialsMutation,
+    useSendEmailMutation
+} = SearchApi

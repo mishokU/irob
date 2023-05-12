@@ -10,10 +10,7 @@ const licenses = require('./licenses/licenses')
 const external = require('./external/externalApi')
 const notifications = require('./notification/notifications')
 const content = require('./content/contentApi')
-
-/*
-    In developing
-*/
+const emails = require('./emails/emailsApi')
 const config = require('./config/config')
 
 module.exports = app => {
@@ -28,6 +25,7 @@ module.exports = app => {
     app.use('/licenses', licenses)
     app.use('/notifications', notifications)
     app.use('/content', content)
+    app.use('/emails', emails)
 
     app.use('/api', external)
 

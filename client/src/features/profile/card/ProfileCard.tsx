@@ -40,7 +40,7 @@ export function ProfileCard() {
         </div>
         <button className={buttonTheme + " mt-6 w-full"} onClick={() => {
             navigate(IROBRoutes.settings)
-        }}>Change profile
+        }}>Settings
         </button>
     </div>
 }

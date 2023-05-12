@@ -34,7 +34,7 @@ async function getUserById(userId) {
 }
 
 async function searchUsers(query) {
-    const users = await db.query(`SELECT * from users WHERE name= $1 OR surname= $1 OR email= $1`, [query])
+    const users = await db.query(`SELECT * from users WHERE name like '%${query}%' OR surname= '%${query}%' OR email= '%${query}%'`)
     return users.rows
 }
 

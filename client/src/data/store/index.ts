@@ -22,6 +22,7 @@ import {NotificationsApi} from "./notifications/NotificationsApi";
 import {ContentApi} from "./content/ContentApi";
 import {ExternalApi} from "./external/ExternalApi";
 import {ConfigApi} from "./config/ConfigApi";
+import {ResumeApi} from "./email/ResumeApi";
 
 const persistConfig = {
     key: "root", storage,
@@ -41,6 +42,7 @@ const rootReducer = combineReducers({
     [ContentApi.reducerPath]: ContentApi.reducer,
     [ExternalApi.reducerPath]: ExternalApi.reducer,
     [ConfigApi.reducerPath]: ConfigApi.reducer,
+    [ResumeApi.reducerPath]: ResumeApi.reducer,
     room: roomReducer,
     profile: userReducer,
     config: configReducer,
@@ -68,7 +70,8 @@ export const store = configureStore({
         NotificationsApi.middleware,
         ContentApi.middleware,
         ExternalApi.middleware,
-        ConfigApi.middleware
+        ConfigApi.middleware,
+        ResumeApi.middleware
     )
 });
 

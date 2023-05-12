@@ -3,7 +3,7 @@ import {ProfileTeammateCardComponent} from "./ProfileTeammateCardComponent";
 import {ServiceValuesComponent} from "./ServiceValuesComponent";
 import {MotivationComponent} from "./MotivationComponent";
 import {RoadmapComponent} from "./RoadmapComponent";
-import {JoinComponent} from "./JoinComponent";
+import {JoinComponent} from "../join/JoinComponent";
 
 export function AboutUsComponent() {
     return (<div className="text-white">

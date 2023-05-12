@@ -15,11 +15,14 @@ searchRouter.post('/sendEmail', (request, result) => {
     return sendQuestionWithEmail(request, result)
 })
 
+searchRouter.post('/sendResume', (request, result) => {
+    return sendResume(request, result)
+})
+
 async function searchUsers(request, result) {
     try {
         const {query} = request.body
         const users = await userController.searchUsers(query)
-        console.log("users: " + users)
         result.status(200).json({
             success: true,
             users: users

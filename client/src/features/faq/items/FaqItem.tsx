@@ -21,7 +21,7 @@ export function FaqItem({item}: FaqItemProps) {
             </button>
         </div>
         <div className={show ? "showAnswerBlock" : "hideAnswerBlock"}>
-            <div className="select-none text-lg w-fit mr-4 text-[#8fadc0]">{item.answer}</div>
+            <div className="select-none text-lg w-fit mr-8 text-[#8fadc0]">{item.answer}</div>
         </div>
     </div>
 }

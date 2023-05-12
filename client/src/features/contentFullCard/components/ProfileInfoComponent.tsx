@@ -17,9 +17,9 @@ export function ProfileInfoComponent({state}: StateProps) {
                 </div>
             </div>
             <div className="pt-4 space-y-4">
-                <h2><a className="font-bold">Distribution start's
-                    at: </a>{state.content.startDate} for {state.content.endDate}</h2>
-                <h2><a className="font-bold">Start conditions:</a> min {state.content.startCost} ETH</h2>
+                {state.content.startDate !== "" && <h2><a className="font-bold">Distribution start's at:
+                </a>{state.content.startDate} for {state.content.endDate}</h2>}
+                {state.content.startCost !== "" && <h2><a className="font-bold">Start conditions:</a> min {state.content.startCost} ETH</h2>}
                 <h1>Created at {state.content.creationDate}</h1>
             </div>
         </div>}

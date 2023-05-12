@@ -86,13 +86,14 @@ export function SettingsModalDialog({isVisible, setIsVisible}: SettingsProps) {
                                                 onChange={(searchField) => setSearch(
                                                     searchField.target.value)}
                                             />
-                                            <ul className="list-none w-full max-h-[200px] bg-black">
+                                            <ul className="list-none w-full max-h-[200px] scrollbar pr-4 space-y-2">
                                                 {users?.map((user: UserSettingsModel) => (
                                                     <li
                                                         key={user.userId}
                                                         onClick={() => onUserClick(user)}
-                                                        className="pt-2 pl-4 pr-4 pb-2 border-[#29303A] border-2 rounded-lg cursor-pointer"
-                                                    >{user.username}</li>))}
+                                                        className="pt-2 pl-4 pr-4 pb-2 border-[#29303A] bg-black border-2 rounded-lg cursor-pointer"
+                                                    >{user.username}</li>
+                                                ))}
                                             </ul>
                                         </div>
                                     }

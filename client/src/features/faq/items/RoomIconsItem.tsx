@@ -18,11 +18,11 @@ export function RoomIconsItem() {
             </button>
         </div>
         <div className={show ? "showAnswerBlock" : "hideAnswerBlock"}>
-            <div className="flex space-x-4 items-center">
+            <div className="flex space-x-4 mr-8 items-center">
                 <div className="bg-green-500 w-3 h-3 min-w-fit rounded rounded-full"/>
                 <div className="select-none text-lg w-fit mr-4 text-[#8fadc0]">{greenAnswer}</div>
             </div>
-            <div className="flex space-x-4 items-center">
+            <div className="flex space-x-4 mr-8 items-center">
                 <div className="bg-red-500 w-3 h-3 min-w-fit rounded rounded-full"/>
                 <div className="select-none text-lg w-fit mr-4 text-[#8fadc0]">{redAnswer}</div>
             </div>
