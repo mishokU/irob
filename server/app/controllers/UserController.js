@@ -20,10 +20,11 @@ module.exports = {
 
 async function getUser(token) {
     try {
-        const data = await db.query(`SELECT * FROM users WHERE token= $1;`, [token])
+
+        const data = await db.query(`SELECT * FROM users WHERE token=$1;`, [token])
 
         console.log("user:")
-        console.log(data.rows[0])
+        console.log(data)
 
         return data.rows[0]
     } catch (e) {
@@ -33,18 +34,18 @@ async function getUser(token) {
 
 
 async function getUserById(userId) {
-    const data = await db.query(`SELECT * FROM users WHERE id= $1;`, [userId])
+    const data = await db.query(`SELECT * FROM users WHERE id=$1;`, [userId])
     return data.rows[0]
 }
 
 async function searchUsers(query) {
-    const users = await db.query(`SELECT * from users WHERE name like '%${query}%' OR surname= '%${query}%' OR email= '%${query}%'`)
+    const users = await db.query(`SELECT * from users WHERE name like '%${query}%' OR surname like '%${query}%' OR email like '%${query}%'`)
     return users.rows
 }
 
 async function getUserByEmail(email) {
     try {
-        const data = await db.query(`SELECT * FROM users WHERE email= $1;`, [
+        const data = await db.query(`SELECT * FROM users WHERE email=$1;`, [
             email,
         ]);
         return data.rows[0];
@@ -78,19 +79,19 @@ async function updatePassword(token, currentPassword, oldPassword, newPassword, 
 }
 
 async function updateToken(token, email) {
-    await db.query(`UPDATE users SET token= $1 WHERE email= $2;`, [token, email])
+    await db.query(`UPDATE users SET token=$1 WHERE email=$2;`, [token, email])
 }
 
 async function updateUser(name, surname, description, website, location, language, avatar, token) {
     await db.query(`UPDATE users SET 
-            name = $2,
-            surname = $3,
-            description = $4,
-            website = $5,
-            location = $6,
-            language = $7,
-            avatar = $8
-        WHERE token = $1;`, [token, name, surname, description, website, location, language, avatar]);
+            name=$2,
+            surname=$3,
+            description=$4,
+            website=$5,
+            location=$6,
+            language=$7,
+            avatar=$8
+        WHERE token=$1;`, [token, name, surname, description, website, location, language, avatar]);
     return "Данные обновлены"
 }
 
