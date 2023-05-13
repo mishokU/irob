@@ -4,13 +4,13 @@ import {
     useCreateRequirementMutation, useGetRequirementMutation, useUpdateRequirementMutation
 } from "../../../../../data/store/rooms/RoomRequirementsApi";
 import useWebSocket from "react-use-websocket";
-import {WS_URL} from "../../page/RoomViewModel";
 import {isRequirementEvent, RoomWebSocketTypes} from "../../../domain/requests/HandleEventTypes";
 import {useSelector} from "react-redux";
 import {RootState} from "../../../../../data/store";
 import {CreateRequirementResult} from "../../../../../data/models/rooms/requirements/CreateRequirementResult";
 import {RequirementState} from "../../page/RequirementState";
 import { NotificationPosition, initNotification, usePopupContext } from "../../../../main/contexts/NotificationProvider";
+import {WS_URL} from "../../../../../constants/Constants";
 
 export default function CreateRequirementViewModel(isVisibleState: RequirementState, setIsVisibleState: (value: RequirementState) => void) {
 

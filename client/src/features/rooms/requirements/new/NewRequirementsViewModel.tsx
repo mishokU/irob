@@ -8,13 +8,13 @@ import {
     useGetRequirementsMutation
 } from "../../../../data/store/rooms/RoomRequirementsApi";
 import useWebSocket from "react-use-websocket";
-import {WS_URL} from "../../main/page/RoomViewModel";
 import {
     getEventType,
     getRequirement,
     isRequirementEvent,
     RoomWebSocketTypes
 } from "../../domain/requests/HandleEventTypes";
+import {WS_URL} from "../../../../constants/Constants";
 
 
 export default function NewRequirementsViewModel(setIsVisibleState: (value: RequirementState) => void) {

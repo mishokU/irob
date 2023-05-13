@@ -1,6 +1,5 @@
 import {useEffect, useRef, useState} from "react";
 import useWebSocket from "react-use-websocket";
-import {WS_URL} from "../../main/page/RoomViewModel";
 import {
     getEventType, getMessage, getRequirementMessage, isSendMessageEvent, RoomWebSocketTypes
 } from "../../domain/requests/HandleEventTypes";
@@ -11,6 +10,7 @@ import {MessagesUiConverter} from "../uiConverters/MessagesUiConverter";
 import {MessageUiModel} from "../models/MessageUiModel";
 import {useGetRoomMessagesMutation} from "../../../../data/store/rooms/RoomMessengerApi";
 import {RoomMessageResponse} from "../../../../data/models/rooms/messenger/RoomMessagesResponse";
+import {WS_URL} from "../../../../constants/Constants";
 
 export enum ScrollType {
     TOP, BOTTOM

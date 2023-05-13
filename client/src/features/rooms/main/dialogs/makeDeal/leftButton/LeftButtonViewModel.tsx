@@ -6,11 +6,11 @@ import {
     RoomWebSocketTypes
 } from "../../../../domain/requests/HandleEventTypes";
 import useWebSocket from "react-use-websocket";
-import {WS_URL} from "../../../page/RoomViewModel";
 import {useDispatch, useSelector} from "react-redux";
 import {RootState} from "../../../../../../data/store";
 import {LeftButtonProps} from "./LeftButtonProps";
 import {updateFirstAgreement} from "../../../../../../data/slices/RoomSlice";
+import {WS_URL} from "../../../../../../constants/Constants";
 
 
 export default function LeftButtonViewModel({applyRequirementsCount, fullApplyRequirementsCount}: LeftButtonProps) {

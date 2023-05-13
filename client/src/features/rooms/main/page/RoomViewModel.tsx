@@ -14,8 +14,7 @@ import {useRemoveUserMutation} from "../../../../data/store/rooms/RoomUsersApi";
 import {RequirementState} from "./RequirementState";
 import {useModalsContext} from "../../../main/contexts/ModalsProvider";
 import {initNotification, NotificationPosition, usePopupContext} from "../../../main/contexts/NotificationProvider";
-
-export const WS_URL = 'ws://localhost:4000';
+import {WS_URL} from "../../../../constants/Constants";
 
 export default function RoomViewModel() {
 

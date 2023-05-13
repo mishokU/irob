@@ -2,9 +2,9 @@ import {isSendMessageEvent, RoomWebSocketTypes} from "../../domain/requests/Hand
 import {MessageType} from "../../domain/requests/MessageModel";
 import {useState} from "react";
 import useWebSocket from "react-use-websocket";
-import {WS_URL} from "../../main/page/RoomViewModel";
 import {useSelector} from "react-redux";
 import {RootState} from "../../../../data/store";
+import {WS_URL} from "../../../../constants/Constants";
 
 export default function RoomMessageInputViewModel() {
 

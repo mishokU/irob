@@ -1,5 +1,4 @@
 import useWebSocket from "react-use-websocket";
-import {WS_URL} from "../main/page/RoomViewModel";
 import {
     getUser, getEventType, isUserEvent, RoomWebSocketTypes
 } from "../domain/requests/HandleEventTypes";
@@ -9,6 +8,7 @@ import {RootState} from "../../../data/store";
 import {RoomUserResponse} from "../../../data/models/rooms/users/RoomUserResponse";
 import {useGetRoomUsersMutation} from "../../../data/store/rooms/RoomUsersApi";
 import {RoommatesConverter} from "./RoommatesConverter";
+import {WS_URL} from "../../../constants/Constants";
 
 export default function RoommatesViewModel() {
 
