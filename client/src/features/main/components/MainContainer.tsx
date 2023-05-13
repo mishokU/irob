@@ -59,34 +59,32 @@ export function MainContainer() {
         {notificationContext?.isVisible && <NotificationMainComponent/>}
         {asqQuestionContext?.props.isVisible && <AsqQuestionModal/>}
         {isHeaderVisible && <HeaderComponent/>}
-        <main>
-            <Routes>
-                <Route path="*" element={<NotExistsPage/>}/>
-                <Route index element={<StartPage/>}/>
-                <Route path={IROBRoutes.nonAuthPage} element={<NotExistsPage/>}/>
-                <Route path={IROBRoutes.sample} element={<SamplePage/>}/>
-                <Route path={IROBRoutes.home} element={<StartPage/>}/>
-                <Route path={IROBRoutes.about} element={<AboutUsComponent/>}/>
-                <Route path={IROBRoutes.faq} element={<FaqPage/>}/>
-                <Route path={IROBRoutes.privacy} element={<PolicyPrivacyPage/>}/>
-                <Route path={IROBRoutes.terms} element={<TermsOfUsePage/>}/>
-                <Route
-                    path={IROBRoutes.card}
-                    element={isAuth ? <ContentFullCardPage/> : <Navigate to={IROBRoutes.auth}/>}/>
-                <Route
-                    path={IROBRoutes.rooms + "/:id"}
-                    element={isAuth ? <RoomComponent/> : <Navigate to={IROBRoutes.auth}/>}/>
-                <Route
-                    path={IROBRoutes.profile}
-                    element={isAuth ? <ProfilePage/> : <Navigate to={IROBRoutes.auth}/>}/>
-                <Route
-                    path={IROBRoutes.catalogue}
-                    element={isAuth ? <CataloguePage/> : <Navigate to={IROBRoutes.auth}/>}/>
-                <Route path={IROBRoutes.auth} element={<AuthPage/>}/>
-                <Route
-                    path={IROBRoutes.settings}
-                    element={isAuth ? <SettingsPage/> : <Navigate to={IROBRoutes.auth}/>}/>
-            </Routes>
-        </main>
+        <Routes>
+            <Route path="*" element={<NotExistsPage/>}/>
+            <Route index element={<StartPage/>}/>
+            <Route path={IROBRoutes.nonAuthPage} element={<NotExistsPage/>}/>
+            <Route path={IROBRoutes.sample} element={<SamplePage/>}/>
+            <Route path={IROBRoutes.home} element={<StartPage/>}/>
+            <Route path={IROBRoutes.about} element={<AboutUsComponent/>}/>
+            <Route path={IROBRoutes.faq} element={<FaqPage/>}/>
+            <Route path={IROBRoutes.privacy} element={<PolicyPrivacyPage/>}/>
+            <Route path={IROBRoutes.terms} element={<TermsOfUsePage/>}/>
+            <Route
+                path={IROBRoutes.card}
+                element={isAuth ? <ContentFullCardPage/> : <Navigate to={IROBRoutes.auth}/>}/>
+            <Route
+                path={IROBRoutes.rooms + "/:id"}
+                element={isAuth ? <RoomComponent/> : <Navigate to={IROBRoutes.auth}/>}/>
+            <Route
+                path={IROBRoutes.profile}
+                element={isAuth ? <ProfilePage/> : <Navigate to={IROBRoutes.auth}/>}/>
+            <Route
+                path={IROBRoutes.catalogue}
+                element={isAuth ? <CataloguePage/> : <Navigate to={IROBRoutes.auth}/>}/>
+            <Route path={IROBRoutes.auth} element={<AuthPage/>}/>
+            <Route
+                path={IROBRoutes.settings}
+                element={isAuth ? <SettingsPage/> : <Navigate to={IROBRoutes.auth}/>}/>
+        </Routes>
     </div>)
 }

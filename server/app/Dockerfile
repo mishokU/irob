@@ -1,14 +1,11 @@
 FROM node:16.10.0-alpine
-RUN apk --no-cache add --virtual .builds-deps build-base python3
-RUN apk add --no-cache tzdata
+RUN apk --no-cache add --virtual .builds-deps build-base python3 tzdata
 
 WORKDIR /opt/server/
 COPY ./package.json ./
-RUN rm -rf node_modules
-RUN npm install --lts
-RUN npm install
+RUN yarn install
 COPY . .
-CMD [ "npm", "run", "start" ]
+CMD [ "yarn", "server" ]
 
 FROM node:16.10-alpine as dev
 RUN apk --no-cache add --virtual .builds-deps build-base python3 tzdata
