@@ -57,7 +57,9 @@ async function getUsers(request, result) {
 
         const roomId = request.params.roomId;
 
-        const roomUsers = await roomUserController.getRoomUsers(token, roomId)
+        const user = await userController.getUser(token)
+
+        const roomUsers = await roomUserController.getRoomUsers(user.id, roomId)
         const room = await roomController.getRoom(roomId)
         const userModels = await Promise.map(roomUsers, async (roomUser) => {
             const user = await userController.getUserById(roomUser.user_id).catch(e => console.log(e));
@@ -112,7 +114,7 @@ async function joinUserToRoom(request, result) {
 
 async function leaveFromRoom(request, result) {
     try {
-        const roomId = request.params.roomId;
+        const roomId = request.params.roomId
         const userId = request.params.userId
         await roomUserController.leaveFromRoom(userId, roomId)
         result.status(200).json({
