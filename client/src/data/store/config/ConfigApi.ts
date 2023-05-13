@@ -6,7 +6,11 @@ import {ConfigSingleNetworkResponse} from "../../models/config/ConfigSingleNetwo
 
 export const ConfigApi = createApi({
     reducerPath: 'irob/api/config', baseQuery: fetchBaseQuery({
-        baseUrl: `${ServerUrl}/config`
+        baseUrl: `${ServerUrl}/config`,
+        prepareHeaders: (headers) => {
+            headers.set('token', localStorage.getItem("jwtToken") || "")
+            return headers
+        },
     }), endpoints: build => ({
         getConfig: build.mutation<ConfigResponse, void>({
             query: (body) => ({

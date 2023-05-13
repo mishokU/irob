@@ -7,7 +7,11 @@ import {ServerUrl} from "../../../constants/Constants";
 
 export const AuthApi = createApi({
     reducerPath: 'irob/api/auth', baseQuery: fetchBaseQuery({
-        baseUrl: `${ServerUrl}/auth`
+        baseUrl: `${ServerUrl}/auth`,
+        prepareHeaders: (headers) => {
+            headers.set('token', localStorage.getItem("jwtToken") || "")
+            return headers
+        },
     }), endpoints: build => ({
         registration: build.mutation<AuthResponse, RegistrationRequest>({
             query: (body) => ({
