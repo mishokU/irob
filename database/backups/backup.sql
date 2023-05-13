@@ -507,6 +507,7 @@ COPY public.config (id, network_url, enabled, name, chain_id, chain_hex) FROM st
 
 COPY public.content (id, name, description, owner, type, director, country, actors, video_url, category, date, user_id, video_preview, cost, start_distr, end_distr, genres, year, trailer_url, duration) FROM stdin;
 42	Cyberpank	With the untimely death of his beloved wife still bitter in his mouth, John Wick, the expert former assassin, receives one final gift from her a precious keepsake to help John find a new meaning in life now that she is gone. But when the arrogant Russian mob prince, Iosef Tarasov, and his men pay Wick a rather unwelcome visit to rob him of his prized 1969 Mustang and his wifes present, the...	Summit Entertainment	Film	David Leitch, Chad Stahelski	China, United States	Michael Nyqvist, Keanu Reeves, Alfie Allen	https://firebasestorage.googleapis.com/v0/b/irob-d735a.appspot.com/o/videos%2Fvideo1682695617001irob?alt=media&token=658ee2e6-a556-4d89-9bf2-e0cd6b8acf8e		2023-04-28	3	https://firebasestorage.googleapis.com/v0/b/irob-d735a.appspot.com/o/videoPreviews%2Fpreview1682695617001irob?alt=media&token=0adb340d-9f0e-4cb2-b377-9ed5f44ff6b2	0.004	03.12.1999	03.12.1999	Action, Crime, Thriller / Suspense	2014	null	undefined
+43	ацацу	ацауц		Film	аца	ац		https://firebasestorage.googleapis.com/v0/b/irob-d735a.appspot.com/o/videos%2Fvideo1683927642908irob?alt=media&token=77afd329-c57a-4ba6-99b4-cce8773ef4d6		2023-05-12	4	https://firebasestorage.googleapis.com/v0/b/irob-d735a.appspot.com/o/videoPreviews%2Fpreview1683927642909irob?alt=media&token=e965712a-3bc0-4bb9-937f-3954e5eb8c4f						null	undefined
 \.
 
 
@@ -599,6 +600,8 @@ COPY public.notifications (id, type, user_id, message, date, room_id, is_watched
 134	requirement_accepted	3	Your requirement was accepted in room: scw88	2023-05-09	scw88	f
 135	requirement_accepted	4	Your requirement was accepted in room: scw88	2023-05-09	scw88	f
 136	requirement_accepted	3	Your requirement was accepted in room: scw88	2023-05-09	scw88	f
+137	requirement_accepted	6	Your requirement was accepted in room: dwpmd	2023-05-10	dwpmd	f
+138	requirement_accepted	6	Your requirement was accepted in room: dwpmd	2023-05-10	dwpmd	f
 \.
 
 
@@ -624,6 +627,9 @@ COPY public.room_messages (id, date, content, user_id, room_id, type) FROM stdin
 69	2023-05-09 7:22:38	fwefwf	4	scw88	0
 70	2023-05-09 7:22:39	fwefwwe	4	scw88	0
 71	2023-05-09 1:47:21	ftfty tyf tyf tfyytftfyfyf tyfytf	4	scw88	0
+72	2023-05-10 4:38:45	efwefwfwe	6	dwpmd	0
+73	2023-05-10 4:41:27	fewefew	6	dwpmd	0
+74	2023-05-12 1:52:17	fwefewefw	4	dwpmd	0
 \.
 
 
@@ -662,9 +668,12 @@ COPY public.room_requirements (id, room_id, user_id, title, description, type, v
 129	scw88	4	ffwef	fewfwwe	Duration	30	t	\N	0
 130	scw88	4	fwfwe		Hold deposit	0.002	t	\N	0
 131	scw88	3	fwfwe		Cost	0.003	f	\N	0
-108	da95	1	ацуац		Duration	30	f	40	16
-95	8wvdp	1	rwr	ergerereere	Duration	30	f	38	16
-86	2gvyy	3	fefwe	gergrgregre	Duration	30	f	35	16
+132	dwpmd	3			Cost	0.004	t	\N	0
+133	dwpmd	6	egegwe	fwfwe	Duration	30	f	\N	0
+134	dwpmd	6	fefwefw	fwefefwe	Hold deposit	0.004	f	\N	0
+86	2gvyy	3	fefwe	gergrgregre	Duration	30	f	35	17
+95	8wvdp	1	rwr	ergerereere	Duration	30	f	38	17
+108	da95	1	ацуац		Duration	30	f	40	17
 \.
 
 
@@ -817,6 +826,10 @@ COPY public.room_users (id, user_id, room_id) FROM stdin;
 116	3	d1rwxl
 117	4	scw88
 118	3	scw88
+119	6	dwpmd
+120	3	dwpmd
+121	4	dwpmd
+122	4	1b07w
 \.
 
 
@@ -830,6 +843,8 @@ luadx	1		f	f	3	42
 ktnri	1		f	f	3	42
 da95	1		t	t	3	42
 scw88	4	Untitled	f	f	3	42
+dwpmd	6	Test 3	f	f	3	42
+1b07w	4	ffefw	f	f	0	0
 \.
 
 
@@ -840,9 +855,10 @@ scw88	4	Untitled	f	f	3	42
 COPY public.users (id, name, surname, avatar, description, website, nickname, password, email, token, location, language, followers, account, disabled, "isAdmin") FROM stdin;
 2	Алексей	У	\N				$2a$10$2S7n7x5u0EhX1xEUmLX2iuK/IXw2vyGDnG.j4L0igSnzGhoIg9Tgu	e@mail.ru	eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImVAbWFpbC5ydSIsImlhdCI6MTY4MTE2MTQ1Nn0._n2OK6ThQazJkg8yqqLIvGd906og1XHZboNyaj24IH8			0	0xd5cC383881D6d9A7dc1891A0235E11D03Cb992d3	f	\N
 1	Misha	Usov	https://firebasestorage.googleapis.com/v0/b/irob-d735a.appspot.com/o/images%2F2023-02-01%2012.34.13.jpg?alt=media&token=fa495542-0bc8-4feb-9365-dac7fe3e5434	With the untimely death of his beloved wife still bitter in his mouth, John Wick, the expert former assassin, receives one final gift from her a precious keepsake to help John find a new meaning in life now that she is gone. But when the arrogant Russian mob prince, Iosef Tarasov, an	ewfwefwe		$2a$10$PXyx/J3c2YL8OV2z5P.mFuQ7HeYxA2pb0X0c42vWnxTd7LofnLECi	usov.misha@gmail.com	eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InVzb3YubWlzaGFAZ21haWwuY29tIiwiaWF0IjoxNjgyNDY2Nzg1fQ.IvKWSDVexO_YL3iUTm4Zcoz-X_eC6aXCIXIKj46oZ0s	\N	\N	0	0xd4039eB67CBB36429Ad9DD30187B94f6A5122215	f	t
-4							$2a$10$V5i4q.Bl0b3d9dqIXfNJVuOhJbADHsViQced5wwZxAJPROvFjJg12	kazakov@itmo.dev	eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImthemFrb3ZAaXRtby5kZXYiLCJpYXQiOjE2ODM1NTkzNDl9.VBrA34ai0aaIEEGhcEPtoikCsHhU2YeAcR8Ha4VIU50			0	0x0a5BAeFCB3Ea40c21a70059F91B49706Cf320470	f	t
 3	Alex 	Usov	https://firebasestorage.googleapis.com/v0/b/irob-d735a.appspot.com/o/images%2F%D0%A1%D0%BD%D0%B8%D0%BC%D0%BE%D0%BA%20%D1%8D%D0%BA%D1%80%D0%B0%D0%BD%D0%B0%202023-04-09%20%D0%B2%2017.42.23.png?alt=media&token=12eb0b0b-62af-47d0-bf4b-297ec667d168				$2a$10$B8rAD1CzIpqZGii4jtBEi.Dzj2Ed0QRV.uSXIkZcC8apluDV1IcNy	ru@mail.ru	eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InJ1QG1haWwucnUiLCJpYXQiOjE2ODM1NjIxNDR9.n_V40_onDcPWESNeZUZrCyw31aitDTIngZ9x7M2s-wE	\N	\N	0	0xd5cC383881D6d9A7dc1891A0235E11D03Cb992d3	f	\N
 5							$2a$10$mY.AWcktGNa6AyGLK7ixf.DvngBXE.Ju0NZ6YkEN7qiux4DgzGFuO	usov@mail.ru	eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InVzb3ZAbWFpbC5ydSIsImlhdCI6MTY4MzU2MTY2OX0.ih5wwcckRXRSD-XFZgp9lsxtvVUMt5fwPC2Mh6CPBGA			0	0xd5cC383881D6d9A7dc1891A0235E11D03Cb992d3	f	t
+6							$2a$10$TGm.PmGTIRp5W/tfZxVHDeHcco4MRk.aS0iIuceMvhYGyD1Naaxqi	usov.isha@gmail.com	eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InVzb3YuaXNoYUBnbWFpbC5jb20iLCJpYXQiOjE2ODM3Mjk0NTB9._hRJV8mXyNAaIpY6HarEc00CLe9I4EGKyHbreg0Qk5s			0	0x0a5BAeFCB3Ea40c21a70059F91B49706Cf320470	f	\N
+4							$2a$10$V5i4q.Bl0b3d9dqIXfNJVuOhJbADHsViQced5wwZxAJPROvFjJg12	kazakov@itmo.dev	eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImthemFrb3ZAaXRtby5kZXYiLCJpYXQiOjE2ODM5MjczOTN9.Pgt9CkeolqAoIUFA58Vr_BwI0I7fC9wyjFQyqF38hd0			0	0x0a5BAeFCB3Ea40c21a70059F91B49706Cf320470	f	t
 \.
 
 
@@ -850,7 +866,7 @@ COPY public.users (id, name, surname, avatar, description, website, nickname, pa
 -- Name: content_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.content_id_seq', 42, true);
+SELECT pg_catalog.setval('public.content_id_seq', 43, true);
 
 
 --
@@ -864,28 +880,28 @@ SELECT pg_catalog.setval('public.licenses_id_seq', 43, true);
 -- Name: notifications_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.notifications_id_seq', 136, true);
+SELECT pg_catalog.setval('public.notifications_id_seq', 138, true);
 
 
 --
 -- Name: roomUsers_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public."roomUsers_id_seq"', 118, true);
+SELECT pg_catalog.setval('public."roomUsers_id_seq"', 122, true);
 
 
 --
 -- Name: room_messages_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.room_messages_id_seq', 71, true);
+SELECT pg_catalog.setval('public.room_messages_id_seq', 74, true);
 
 
 --
 -- Name: room_requirements_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.room_requirements_id_seq', 131, true);
+SELECT pg_catalog.setval('public.room_requirements_id_seq', 134, true);
 
 
 --
@@ -899,7 +915,7 @@ SELECT pg_catalog.setval('public.room_result_id_seq', 43, true);
 -- Name: users_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.users_id_seq', 5, true);
+SELECT pg_catalog.setval('public.users_id_seq', 6, true);
 
 
 --

@@ -19,7 +19,11 @@ export default function AppViewModel() {
     }, [])
 
     async function fetch() {
-        return await getConfig().unwrap()
+        try {
+            return await getConfig().unwrap()
+        } catch (e){
+            console.log(e)
+        }
     }
 
     async function loadConfig() {
