@@ -21,6 +21,10 @@ module.exports = {
 async function getUser(token) {
     try {
         const data = await db.query(`SELECT * FROM users WHERE token= $1;`, [token])
+
+        console.log("user:")
+        console.log(data.rows[0])
+
         return data.rows[0]
     } catch (e) {
         console.log("Get user error: " + e.message)

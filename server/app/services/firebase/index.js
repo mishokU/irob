@@ -1,7 +1,6 @@
 // Import the functions you need from the SDKs you need
 const {initializeApp} = require("firebase/app");
 const {getStorage, deleteObject, ref, getMetadata} = require("firebase/storage");
-const {admin} = require("firebase-admin")
 
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
@@ -25,7 +24,6 @@ const storage = getStorage();
 
 module.exports = {
     storage,
-    admin,
     getMetadata,
     ref,
     deleteObject
