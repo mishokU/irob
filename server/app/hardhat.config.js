@@ -5,6 +5,9 @@ require("dotenv").config()
 /** @type import('hardhat/config').HardhatUserConfig */
 module.exports = {
     solidity: "0.8.18",
+    settings: {
+        viaIR: true,
+    },
     networks: {
         localganache: {
             url: "HTTP://127.0.0.1:7545",
