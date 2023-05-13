@@ -8,8 +8,7 @@ import {initCreateCardProps, useModalsContext} from "../../main/contexts/ModalsP
 import {Stepper} from "./CreateContentStepper";
 import {renameFile} from "../../../domain/hooks/Utils";
 import {initNotification, usePopupContext} from "../../main/contexts/NotificationProvider";
-import {useDispatch, useSelector} from "react-redux";
-import {RootState} from "../../../data/store";
+import {useDispatch} from "react-redux";
 import {updateCatalogueState} from "../../catalogue/redux/CatalogueSlice";
 
 

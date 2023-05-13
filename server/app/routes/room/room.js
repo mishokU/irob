@@ -320,7 +320,9 @@ async function getRoom(request, result) {
 
 async function getRooms(request, result) {
     try {
+
         const token = request.get('token')
+
         const user = await userController.getUser(token)
 
         const rooms = await db.query(`SELECT * FROM rooms WHERE owner_id = $1 OR user_id = $1`, [user.id])

@@ -1,6 +1,5 @@
 import {createApi, fetchBaseQuery} from "@reduxjs/toolkit/dist/query/react";
 import {ServerUrl} from "../../../constants/Constants";
-import {VideoResponse} from "../../models/common/VideoResponse";
 
 export const ExternalApi = createApi({
     reducerPath: "irob/api/external", baseQuery: fetchBaseQuery({
@@ -10,15 +9,14 @@ export const ExternalApi = createApi({
             return headers
         },
     }), endpoints: (builder) => ({
-        getVideoUrl: builder.mutation<VideoResponse, string>({
+        getVideoUrl: builder.mutation<any, string>({
             query: (body) => ({
                 url: `/getVideoUrl`, method: `GET`, params: {
                     licenseKey: body
                 }
             }),
-            transformResponse: (response: VideoResponse) => response,
             transformErrorResponse(meta: unknown, arg: unknown): string {
-                return "Error while getRoomRequirementsCost, try later."
+                return "Error while get video, try later."
             }
         })
     })

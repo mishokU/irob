@@ -5,7 +5,6 @@ export interface ConfigResponse {
 
 export interface IrobNetwork {
     id: number
-    networkUrl: string
     chainId: number
     networkHex: string
     name: string

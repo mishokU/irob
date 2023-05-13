@@ -1,18 +1,17 @@
 import {useState} from "react";
-import {useGetVideoUrlMutation} from "../../data/store/external/ExternalApi";
-
 
 export default function SampleViewModel() {
 
-    const [key, setKey] = useState("")
+    const [key, setKey] = useState<string | null>(null)
     const [videoUrl, setVideoUrl] = useState("")
 
-    const [getVideo] = useGetVideoUrlMutation()
+    const path = "http://localhost:8012/api/api/getVideoUrl?licenseKey="
 
     const onLoadClick = async () => {
-        if (key !== "") {
-            const data = await getVideo(key).unwrap()
-            setVideoUrl(data.videoUrl)
+        if (key !== null) {
+            const url = path + key
+            console.log(url)
+            setVideoUrl(url)
         }
     }
 

@@ -3,8 +3,7 @@ import {createSlice} from "@reduxjs/toolkit";
 
 const initialState = {
     chainId: 1337,
-    chainHexId: '0x539',
-    networkUrl: ""
+    chainHexId: '0x539'
 };
 
 export const irobConfigSlice = createSlice({
@@ -12,7 +11,6 @@ export const irobConfigSlice = createSlice({
         setConfig: (state, action) => {
             state.chainId = action.payload.chainId;
             state.chainHexId = action.payload.chainHexId;
-            state.networkUrl = action.payload.networkUrl;
         }
     }
 });

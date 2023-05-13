@@ -2,8 +2,8 @@
 //Local localhost
 //Yandex 51.250.66.59
 
-export const yandexPath = "51.250.66.59"
-export const localhostPath = "localhost"
+const yandexPath = "51.250.66.59"
+const localhostPath = "localhost"
 
 export const WS_URL = `ws://${yandexPath}:4000`
 

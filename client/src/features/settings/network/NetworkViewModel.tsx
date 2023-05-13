@@ -48,8 +48,7 @@ export default function NetworkViewModel() {
             const updatedNetwork = await updateConfig({id: networkId.id}).unwrap()
             dispatch(setConfig({
                 chainId: updatedNetwork.network.chainId,
-                chainHexId: updatedNetwork.network.networkHex,
-                networkUrl: updatedNetwork.network.networkUrl
+                chainHexId: updatedNetwork.network.networkHex
             }))
             popupContext?.setState(initNotification("Network changed!"))
         }

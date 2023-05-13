@@ -24,7 +24,6 @@ async function getConfig(request, result) {
             networks: networks.map((network) => {
                 return {
                     id: network.id,
-                    networkUrl: network.network_url,
                     chainId: network.chain_id,
                     networkHex: network.chain_hex,
                     isEnabled: network.enabled,

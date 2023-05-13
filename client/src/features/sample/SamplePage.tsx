@@ -1,4 +1,3 @@
-import ReactPlayer from "react-player";
 import useViewModel from "./SampleViewModel"
 
 export function SamplePage() {
@@ -17,10 +16,11 @@ export function SamplePage() {
                 className="w-full bg-white rounded-md p-2"
                 onClick={onLoadClick}
             >Load</button>
-            <ReactPlayer
-                controls={true}
-                url={videoUrl}
-            />
+            {videoUrl !== "" && <video
+                controls
+                width="720"
+                src={videoUrl}
+            />}
         </div>
     </div>
 }
