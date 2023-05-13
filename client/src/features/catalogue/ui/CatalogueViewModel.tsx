@@ -18,11 +18,7 @@ export default function CatalogueViewModel() {
     const [getPagingContents] = useGetCatalogueItemsMutation()
 
     useEffect(() => {
-        if(catalogueReducer.items === undefined){
-            loadCatalogue().then(r => {})
-        } else {
-            setContent(catalogueReducer.items)
-        }
+        loadCatalogue().then(r => {})
     }, [])
 
     useEffect(() => {

@@ -23,9 +23,6 @@ async function getUser(token) {
 
         const data = await db.query(`SELECT * FROM users WHERE token=$1;`, [token])
 
-        console.log("user:")
-        console.log(data)
-
         return data.rows[0]
     } catch (e) {
         console.log("Get user error: " + e.message)
