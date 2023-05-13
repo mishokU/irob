@@ -321,6 +321,8 @@ async function getRoom(request, result) {
 async function getRooms(request, result) {
     try {
 
+        console.log(JSON.stringify(request.headers));
+
         const token = request.get('token')
 
         console.log("token")
