@@ -15,6 +15,7 @@ import {RequirementState} from "./RequirementState";
 import {useModalsContext} from "../../../main/contexts/ModalsProvider";
 import {initNotification, NotificationPosition, usePopupContext} from "../../../main/contexts/NotificationProvider";
 import {WS_URL} from "../../../../constants/Constants";
+import {GetRoomResponse} from "../../../../data/models/rooms/room/GetRoomResponse";
 
 export default function RoomViewModel() {
 
@@ -24,6 +25,7 @@ export default function RoomViewModel() {
 
     const [isDeleteDialogVisible, setIsDeleteDialogVisible] = useState(false)
     const [isContentVisible, setIsContentVisible] = useState(false)
+    const [error, setError] = useState<string | null>(null)
     const [isSettingsDialogVisible, setIsSettingsDialogVisible] = useState(false)
     const [isMakeDealDialogVisible, setIsMakeDealDialogVisible] = useState(false)
     const [isRequirementVisible, setIsRequirementVisible] = useState<RequirementState>({
@@ -41,36 +43,35 @@ export default function RoomViewModel() {
     const [getContentId] = useGetContentIdMutation()
 
     useWebSocket(WS_URL, {
-        onMessage: (msg) => {
-            console.log("pupa")
-            console.log(msg)
-        },
-        onError: (error) => {
-            console.log("aboba")
-            console.log(error)
-        },
-        onOpen: () => {
-            console.log('WebSocket connection established.');
-        }, share: true, filter: () => false, retryOnError: true, shouldReconnect: () => true
+        onError: (error) => console.log(error),
+        onOpen: () => console.log('WebSocket connection established.'),
+        share: true,
+        filter: () => false,
+        retryOnError: true,
+        shouldReconnect: () => true
     });
 
     useEffect(() => {
         async function fetchData() {
-            const roomId = getRoomId(roomReducer.roomId, window.location.href)
+            const roomId = window.location.href.substring(window.location.href.lastIndexOf("/") + 1, window.location.href.length)
             if (roomId !== roomReducer.roomId) {
-                dispatch(updateRoomId(window.location.href))
+                dispatch(updateRoomId(roomId))
             }
             return await roomMutation(roomId).unwrap()
         }
 
         fetchData()
-            .catch((e) => console.log("load room error: " + e))
-            .then(data => {
-                if (data) {
+            .then((data: GetRoomResponse) => {
+                if (data.success) {
+                    setIsContentVisible(true)
                     dispatch(updateRoom(data))
                     setIsPaymentButtonVisible(data.isAdmin && (!data.firstAgreement && !data.secondAgreement))
+                } else {
+                    setError(data.message)
+                    setIsContentVisible(false)
                 }
-            }).then(() => setIsContentVisible(true))
+            })
+            .catch((error) => console.log(error))
     }, [])
 
     useEffect(() => {
@@ -134,12 +135,14 @@ export default function RoomViewModel() {
         onShowCardClick,
         isPaymentButtonVisible,
         setIsRequirementVisible,
+        error,
         onBackClick
     }
 
 }
 
 export function getRoomId(roomId: string, browserHref: string) {
+    console.log(browserHref.substring(browserHref.lastIndexOf("/") + 1, browserHref.length))
     if (roomId === "") {
         roomId = browserHref.substring(browserHref.lastIndexOf("/") + 1, browserHref.length)
         return roomId

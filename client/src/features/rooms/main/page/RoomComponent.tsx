@@ -37,82 +37,83 @@ export function RoomComponent() {
         setIsMakeDealDialogVisible,
         isPaymentButtonVisible,
         onBackClick,
+        error,
         onShowCardClick
     } = useViewModel()
 
     return <div className="h-screen overflow-y-hidden">
-            {isDeleteDialogVisible && <DeleteEntityDialog
-                isDeleteDialogVisible={isDeleteDialogVisible}
-                setIsDeleteDialogVisible={setIsDeleteDialogVisible}
-                handleDeleteRoomClick={handleDeleteRoomClick}
-            />}
-            { isRequirementVisible &&
-                <CreateRequirementsDialog
+        {isDeleteDialogVisible && <DeleteEntityDialog
+            isDeleteDialogVisible={isDeleteDialogVisible}
+            setIsDeleteDialogVisible={setIsDeleteDialogVisible}
+            handleDeleteRoomClick={handleDeleteRoomClick}
+        />}
+        {isRequirementVisible && <CreateRequirementsDialog
+            isVisibleState={isRequirementVisible}
+            setIsVisibleState={setIsRequirementVisible}
+        />}
+        {isSettingsDialogVisible && <SettingsModalDialog
+            isVisible={isSettingsDialogVisible}
+            setIsVisible={setIsSettingsDialogVisible}/>}
+        {isMakeDealDialogVisible && <MakeDealDialog
+            isVisible={isMakeDealDialogVisible}
+            setIsVisible={setIsMakeDealDialogVisible}
+        />}
+        {isContentVisible && <div className="h-full">
+            <button
+                type="button"
+                onClick={onBackClick}
+                className="bg-[#ffb81c] absolute mt-8 ml-8 z-10 rounded-full w-14 h-14 p-4 text-center inline-flex">
+                <img src={backImg}/>
+                <span className="sr-only">Icon description</span>
+            </button>
+            <div className="pt-12 flex justify-center items-center space-x-2 text-2xl">
+                <h1 className="text-yellow-300">Room:</h1>
+                <h2 className="text-white">{roomReducer.roomId}</h2>
+            </div>
+            <div className="z-10 absolute right-8 top-8">
+                <div className="space-x-4">
+                    <button
+                        type="button"
+                        onClick={() => onShowCardClick()}
+                        className="bg-[#ffb81c] z-10 rounded-full w-14 h-14 p-4 text-center inline-flex">
+                        <img src={documentImg}/>
+                        <span className="sr-only">Icon description</span>
+                    </button>
+                    {roomReducer.isAdmin && <button
+                        type="button"
+                        onClick={() => {
+                            setIsSettingsDialogVisible(!isSettingsDialogVisible)
+                        }}
+                        className="bg-[#ffb81c] z-10 rounded-full w-14 h-14 p-4 text-center inline-flex">
+                        <img src={settingsImg}/>
+                        <span className="sr-only">Icon description</span>
+                    </button>}
+                    {roomReducer.isAdmin && <button
+                        type="button"
+                        onClick={() => {
+                            setIsDeleteDialogVisible(!isDeleteDialogVisible)
+                        }}
+                        className="bg-red-600 rounded-full w-14 h-14 p-4 text-center inline-flex">
+                        <img src={deleteImg}/>
+                        <span className="sr-only">Icon description</span>
+                    </button>}
+                </div>
+            </div>
+            <div className="flex justify-between ml-16 mr-16 mb-16 space-x-4 h-full pt-16">
+                <RoommatesComponent/>
+                <RoomSmartMessengerMainComponent
+                    roomName={roomReducer.roomName}
+                    setIsVisible={setIsMakeDealDialogVisible}
+                    isVisible={isMakeDealDialogVisible}
+                    isDealButtonVisible={isPaymentButtonVisible}
+                />
+                <RequirementsMainComponent
                     isVisibleState={isRequirementVisible}
                     setIsVisibleState={setIsRequirementVisible}
                 />
-            }
-            {isSettingsDialogVisible && <SettingsModalDialog
-                isVisible={isSettingsDialogVisible}
-                setIsVisible={setIsSettingsDialogVisible} />}
-            {isMakeDealDialogVisible && <MakeDealDialog
-                isVisible={isMakeDealDialogVisible}
-                setIsVisible={setIsMakeDealDialogVisible}
-            />}
-            {isContentVisible && <div className="h-full">
-                <button
-                    type="button"
-                    onClick={onBackClick}
-                    className="bg-[#ffb81c] absolute mt-8 ml-8 z-10 rounded-full w-14 h-14 p-4 text-center inline-flex">
-                    <img src={backImg} />
-                    <span className="sr-only">Icon description</span>
-                </button>
-                <div className="pt-12 flex justify-center items-center space-x-2 text-2xl">
-                    <h1 className="text-yellow-300">Room:</h1>
-                    <h2 className="text-white">{roomReducer.roomId}</h2>
-                </div>
-                <div className="z-10 absolute right-8 top-8">
-                    <div className="space-x-4">
-                        <button
-                            type="button"
-                            onClick={() => onShowCardClick()}
-                            className="bg-[#ffb81c] z-10 rounded-full w-14 h-14 p-4 text-center inline-flex">
-                            <img src={documentImg} />
-                            <span className="sr-only">Icon description</span>
-                        </button>
-                        {roomReducer.isAdmin && <button
-                            type="button"
-                            onClick={() => {
-                                setIsSettingsDialogVisible(!isSettingsDialogVisible)
-                            }}
-                            className="bg-[#ffb81c] z-10 rounded-full w-14 h-14 p-4 text-center inline-flex">
-                            <img src={settingsImg} />
-                            <span className="sr-only">Icon description</span>
-                        </button>}
-                        {roomReducer.isAdmin && <button
-                            type="button"
-                            onClick={() => {
-                                setIsDeleteDialogVisible(!isDeleteDialogVisible)
-                            }}
-                            className="bg-red-600 rounded-full w-14 h-14 p-4 text-center inline-flex">
-                            <img src={deleteImg} />
-                            <span className="sr-only">Icon description</span>
-                        </button>}
-                    </div>
-                </div>
-                <div className="flex justify-between ml-16 mr-16 mb-16 space-x-4 h-full pt-16">
-                    <RoommatesComponent />
-                    <RoomSmartMessengerMainComponent
-                        roomName={roomReducer.roomName}
-                        setIsVisible={setIsMakeDealDialogVisible}
-                        isVisible={isMakeDealDialogVisible}
-                        isDealButtonVisible={isPaymentButtonVisible}
-                    />
-                    <RequirementsMainComponent
-                        isVisibleState={isRequirementVisible}
-                        setIsVisibleState={setIsRequirementVisible}
-                    />
-                </div>
-            </div>}
-        </div>
+            </div>
+        </div>}
+        {error !== null && <div
+            className="text-red-600 text-2xl absolute top-1/2 -translate-x-1/2 -translate-y-1/2 left-1/2">{error}</div>}
+    </div>
 }

@@ -11,6 +11,7 @@ import {MakeDealResponse} from "../../models/rooms/users/MakeDealResponse";
 import {ServerUrl} from "../../../constants/Constants";
 import {GetContentIdResponse} from "../../models/rooms/room/GetContentIdResponse";
 import {CommonResponse} from "../../models/common/CommonResponse";
+import {CommonErrorResponse} from "../../models/common/CommonErrorResponse";
 
 export const RoomsApi = createApi({
     reducerPath: "irob/api/rooms", baseQuery: fetchBaseQuery({
@@ -29,8 +30,8 @@ export const RoomsApi = createApi({
                 params: {roomId: roomId}
             }),
             transformResponse: (response: GetRoomResponse) => response,
-            transformErrorResponse(meta: unknown, arg: unknown): string {
-                return "Error get room response";
+            transformErrorResponse(meta: unknown, arg: unknown): CommonErrorResponse {
+                return {message: "Error in get room!"};
             },
         }),
         getRooms: build.mutation<RoomResponse[], void>({

@@ -46,12 +46,15 @@ function broadcastMessage(json) {
     const data = JSON.stringify(json);
     try {
         const roomId = json.data.roomId
+        console.log(roomId)
         for (let userId in clients) {
             let client = clients[userId]
             let user = users[userId]
-            if (user.roomId === roomId) {
-                if (client.readyState === WebSocket.OPEN) {
-                    client.send(data);
+            if (user) {
+                if (user.roomId === roomId) {
+                    if (client.readyState === WebSocket.OPEN) {
+                        client.send(data);
+                    }
                 }
             }
         }
@@ -110,7 +113,7 @@ async function handleMessage(message, userId) {
             const userCreatedId = dataFromClient.userCreatedId
             const isAlive = true
 
-            if(dataFromClient.type === typesDef.APPLY_REQUIREMENT){
+            if (dataFromClient.type === typesDef.APPLY_REQUIREMENT) {
                 await createNotification(roomId, NotificationTypes.REQUIREMENT_ACCEPTED, userCreatedId)
             }
 

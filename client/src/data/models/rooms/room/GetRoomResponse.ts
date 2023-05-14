@@ -1,4 +1,6 @@
 export interface GetRoomResponse {
+    success: boolean
+    message: string | null
     roomName: string
     isAdmin: boolean
     roomId: string

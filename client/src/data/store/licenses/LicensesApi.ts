@@ -26,7 +26,10 @@ export const LicensesApi = createApi({
                     licenseId: license.licenseId,
                     address: license.address
                 }
-            })
+            }),
+            transformErrorResponse(meta: unknown, arg: unknown): string {
+                return "Error while getRoomRequirementsCost, try later."
+            }
         }),
         handleFavourite: builder.mutation<HandleFavouriteResponse, number>({
             query: (licenseId) => ({

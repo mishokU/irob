@@ -11,21 +11,17 @@ export const RoomUsersApi = createApi({
             query: (roomId) => ({
                 url: `/getUsers/${roomId}`, method: `GET`,
             }),
-            transformResponse: (response: GetRoomUsersResponse) => response.users,
-            transformErrorResponse(meta: unknown, arg: unknown): string {
-                return "Error while get room users";
-            },
-        }), removeUser: build.mutation<boolean, string>({
+            transformResponse: (response: GetRoomUsersResponse) => response.users
+        }),
+        removeUser: build.mutation<boolean, string>({
             query: (roomId) => ({
                 url: `/leave`, method: `DELETE`, roomId
             }),
-        }), joinUser: build.mutation<boolean, any>({
+        }),
+        joinUser: build.mutation<boolean, any>({
             query: (body) => ({
                 url: `/join`, method: `POST`, body
-            }),
-            transformErrorResponse(meta: unknown, arg: unknown): string {
-                return "Error while join user to room";
-            },
+            })
         })
     }),
 });

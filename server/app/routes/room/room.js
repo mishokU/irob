@@ -65,7 +65,7 @@ async function getContentId(request, result) {
 
         const contentId = await roomController.getContentId(roomId)
 
-        if(contentId !== 0){
+        if (contentId !== 0) {
             result.status(200).json({
                 success: true,
                 contentId: contentId
@@ -74,7 +74,7 @@ async function getContentId(request, result) {
             result.status(200).json({success: false})
         }
 
-    } catch (e){
+    } catch (e) {
         const message = "Error in get content id: " + e.message
         console.log(message)
         result.status(500).json({
@@ -225,7 +225,7 @@ async function createRoom(request, result) {
         const {roomId, title, userId, contentId} = request.body;
 
         let newTitle = ""
-        if(title === ""){
+        if (title === "") {
             newTitle = "Untitled"
         } else {
             newTitle = title
@@ -233,7 +233,7 @@ async function createRoom(request, result) {
 
         await roomController.createRoom(roomId, newTitle, userId, contentId, token)
 
-        if(contentId){
+        if (contentId) {
             await contentController.createStartRequirements(roomId, contentId, userId)
         }
 
@@ -293,27 +293,36 @@ async function getRoom(request, result) {
         const roomId = request.params.roomId;
 
         const user = await userController.getUser(token)
-        const roomRes = await db.query(`SELECT * FROM rooms WHERE room_id = $1;`, [roomId])
+        const room = await roomController.getRoom(roomId)
 
-        const room = roomRes.rows[0]
-        const isAdmin = room.owner_id === user.id || room.user_id === user.id
+        if (room) {
+            const isAdmin = room.owner_id === user.id || room.user_id === user.id
+            result.status(200).json({
+                success: true,
+                roomId: room.room_id,
+                isAdmin: isAdmin,
+                ownerId: room.owner_id,
+                firstAgreement: room.first_agreement,
+                type: room.type,
+                owner: room.owner,
+                contentId: room.content_id,
+                secondAgreement: room.second_agreement,
+                userId: room.user_id,
+                roomName: room.name
+            })
+        } else {
+            result.status(200).json({
+                success: false,
+                message: "There is no such room, create it first!"
+            })
+        }
 
-        result.status(200).json({
-            roomId: room.room_id,
-            isAdmin: isAdmin,
-            ownerId: room.owner_id,
-            firstAgreement: room.first_agreement,
-            type: room.type,
-            owner: room.owner,
-            contentId: room.content_id,
-            secondAgreement: room.second_agreement,
-            userId: room.user_id,
-            roomName: room.name
-        })
     } catch (e) {
-        console.log(e)
+        const message = "Error in get room: " + e.message
+        console.log(message)
         result.status(500).json({
-            message: "Sm went wrong in getRoom: " + e.message
+            success: false,
+            message: message
         })
     }
 }
