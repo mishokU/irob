@@ -76,7 +76,6 @@ services:
   db:
     hostname: ${COMPOSE_PROJECT_NAME}_db
     container_name: ${COMPOSE_PROJECT_NAME}_db
-    image: postgres:15.2-alpine
     build:
       context: ./database
       dockerfile: Dockerfile
