@@ -1,7 +1,7 @@
 import {GetShortContentResponse} from "./GetShortContentResponse";
 
 export interface GetCatalogueItemsResponse {
-    items: GetShortContentResponse[]
+    content: GetShortContentResponse[]
     offset: number
     message: string
     success: boolean

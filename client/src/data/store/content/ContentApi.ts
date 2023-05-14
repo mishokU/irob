@@ -5,6 +5,7 @@ import {CommonResponse} from "../../models/common/CommonResponse";
 import {GetContentResponse} from "../../models/content/GetContentResponse";
 import {UpdateContentRequest} from "../../../features/createContentModal/domain/UpdateContentRequest";
 import {GetCatalogueItemsResponse} from "../../models/content/GetCatalogueItemsResponse";
+import {CommonErrorResponse} from "../../models/common/CommonErrorResponse";
 
 export const ContentApi = createApi({
     reducerPath: "irob/api/content", baseQuery: fetchBaseQuery({
@@ -44,8 +45,8 @@ export const ContentApi = createApi({
                 url: `/getUserPaging`, method: `GET`
             }),
             transformResponse: (response: GetCatalogueItemsResponse) => response,
-            transformErrorResponse(meta: unknown, arg: unknown): string {
-                return "Error while getRoomRequirementsCost, try later."
+            transformErrorResponse(meta: unknown, arg: unknown): CommonErrorResponse {
+                return {message: "Error while get user content, try later.", success: false}
             }
         }),
         deleteContent: builder.mutation<CommonResponse, number>({

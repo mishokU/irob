@@ -17,7 +17,7 @@ export const LicensesApi = createApi({
             }),
             transformResponse: (response: LicensesResponse) => response,
             transformErrorResponse(meta: unknown, arg: unknown): string {
-                return "Error while getRoomRequirementsCost, try later."
+                return "Error while get profile licenses, try later."
             }
         }),
         deleteLicense: builder.mutation<DeleteLicenseResult, DeleteLicenseRequest>({

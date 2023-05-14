@@ -31,7 +31,7 @@ export const RoomsApi = createApi({
             }),
             transformResponse: (response: GetRoomResponse) => response,
             transformErrorResponse(meta: unknown, arg: unknown): CommonErrorResponse {
-                return {message: "Error in get room!"};
+                return {message: "Error in get room!", success: false};
             },
         }),
         getRooms: build.mutation<RoomResponse[], void>({

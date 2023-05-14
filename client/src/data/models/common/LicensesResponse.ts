@@ -7,7 +7,7 @@ export interface LicenseResponse {
     status: string
     uid: string
     name: string
-    userId: string
+    userId: number
     type: string
     owner: string
     date: string

@@ -2,6 +2,7 @@ import {useEffect, useState} from "react";
 import {CatalogueUi} from "../../catalogue/items/CatalogueUi";
 import {GetShortContentResponse} from "../../../data/models/content/GetShortContentResponse";
 import {useGetUserCatalogueItemsMutation} from "../../../data/store/content/ContentApi";
+import {GetCatalogueItemsResponse} from "../../../data/models/content/GetCatalogueItemsResponse";
 
 export default function ProfileContentViewModel() {
 
@@ -16,21 +17,19 @@ export default function ProfileContentViewModel() {
             return await getPagingUserContent().unwrap()
         }
 
-        getCatalogue()
-            .catch((error) => console.log(error))
-            .then((result: any) => {
-                if (result.success) {
-                    const convertedUi = result.content.map((item: GetShortContentResponse) => {
-                        return {
-                            videoPreview: item.videoPreview,
-                            contentId: item.contentId,
-                            name: item.name
-                        }
-                    })
-                    setContent(convertedUi)
-                    setIsEmptyVisible(result.content.length === 0)
-                }
-            })
+        getCatalogue().then((result: GetCatalogueItemsResponse) => {
+            if (result.success) {
+                const convertedUi = result.content.map((item: GetShortContentResponse) => {
+                    return {
+                        videoPreview: item.videoPreview,
+                        contentId: item.contentId,
+                        name: item.name
+                    }
+                })
+                setContent(convertedUi)
+                setIsEmptyVisible(result.content.length === 0)
+            }
+        }).catch((error) => console.log(error))
 
     }, [])
 

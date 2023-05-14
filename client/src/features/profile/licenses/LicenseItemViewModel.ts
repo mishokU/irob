@@ -8,7 +8,7 @@ import {
     useGetSoldLicensesMutation,
     useHandleFavouriteMutation
 } from "../../../data/store/licenses/LicensesApi";
-import {LicenseResponse} from "../../../data/models/common/LicensesResponse";
+import {LicenseResponse, LicensesResponse} from "../../../data/models/common/LicensesResponse";
 import {ClickType, getLicenseStatus, LicenseStatus, LicenseUiModel} from "./LicenseUiModel";
 import {useNavigate} from "react-router-dom";
 import {IROBRoutes} from "../../../routes/IROBRoutes";
@@ -47,15 +47,14 @@ export function LicenseItemViewModel(type: LicenseMenu, setIsVisible: Dispatch<D
             } else if (type === LicenseMenu.SOLD) {
                 const data = getSoldLicensesMutation()
                 return data.unwrap()
-            } else if (type === LicenseMenu.FAVOURITE) {
+            } else {
                 const data = getFavouriteLicensesMutation()
                 return data.unwrap()
             }
         }
 
         loadLicenses()
-            .catch((error) => console.log(error))
-            .then((data: any) => {
+            .then((data: LicensesResponse) => {
                 const items = data.licenses.map((license: LicenseResponse) => {
                     return {
                         status: getLicenseStatus(license.status),
@@ -72,11 +71,12 @@ export function LicenseItemViewModel(type: LicenseMenu, setIsVisible: Dispatch<D
                         isPrivateKeyButtonVisible: license.isPrivateKeyButtonVisible,
                         isFavourite: license.isFavourite,
                         progress: license.progress,
+                        isProgressVisible: false,
                         isUidVisible: false,
                     }
                 })
                 setLicenseItems(items)
-            })
+            }).catch((error) => console.log(error))
     }, [])
 
     const onDeleteClick = async (license: LicenseUiModel | null) => {

@@ -8,6 +8,7 @@ import AuthMiddleware from "../middleware/AuthMiddleware";
 import {updateProfile} from "../../../data/slices/ProfileSlice";
 import {useDispatch} from "react-redux";
 import { initNotification, usePopupContext } from "../../main/contexts/NotificationProvider";
+import {useCookies} from "react-cookie";
 
 const validator = require("email-validator");
 
@@ -23,7 +24,8 @@ export default function RegistrationViewModel(errorState: (value: string) => voi
 
     const [registration] = useRegistrationMutation()
 
-    const authMiddleware = AuthMiddleware()
+    const [, setCookie] = useCookies(['token'])
+
     const popupContext = usePopupContext()
     const navigate = useNavigate()
     const dispatch = useDispatch()
@@ -35,7 +37,7 @@ export default function RegistrationViewModel(errorState: (value: string) => voi
                     email: email,
                     password: password
                 }).unwrap()
-                authMiddleware.saveToken(payload.token)
+                setCookie('token', payload.token)
                 dispatch(updateProfile({user: payload.user}))
                 navigate(IROBRoutes.profile)
                 popupContext?.setState(initNotification(payload.message))
