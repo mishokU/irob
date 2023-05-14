@@ -13,6 +13,7 @@ import {CreateNotificationProvider} from "./features/main/contexts/NotificationM
 import {ContentFullCardProvider} from "./features/main/contexts/ContentFullCardProvider";
 import {NotificationProvider} from './features/main/contexts/NotificationProvider';
 import {AskQuestionProvider} from "./features/main/contexts/AskQuestionProvider";
+import {CookiesProvider} from "react-cookie";
 
 const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement);
 
@@ -26,7 +27,9 @@ root.render(<ModalsProvider>
                             <MetaMaskProvider>
                                 <NotificationProvider>
                                     <AskQuestionProvider>
-                                        <App/>
+                                        <CookiesProvider>
+                                            <App/>
+                                        </CookiesProvider>
                                     </AskQuestionProvider>
                                 </NotificationProvider>
                             </MetaMaskProvider>

@@ -6,12 +6,7 @@ import {SendResumeRequest} from "../../../features/abousUs/domain/SendResumeRequ
 
 export const ResumeApi = createApi({
     reducerPath: 'irob/api/email/resume', baseQuery: fetchBaseQuery({
-        baseUrl: `${ServerUrl}/emails`,
-        prepareHeaders: (headers) => {
-            headers.set("Content-Type", "multipart/form-data boundary=------WebKitFormBoundaryg7okV37G7Gfll2hf--")
-            headers.set('token', localStorage.getItem("jwtToken") || "")
-            return headers
-        },
+        baseUrl: `${ServerUrl}/emails`
     }), endpoints: build => ({
         sendResume: build.mutation<CommonResponse, SendResumeRequest>({
             query: (body) => ({

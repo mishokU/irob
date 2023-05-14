@@ -1,5 +1,7 @@
+const Cookies = require("universal-cookie");
 module.exports = {
-    getUsername
+    getUsername,
+    getToken
 }
 
 function getUsername(user) {
@@ -8,5 +10,10 @@ function getUsername(user) {
     } else {
         return user.name + " " + user.surname
     }
+}
+
+function getToken(request) {
+    const cookies = new Cookies(request.headers.cookie);
+    return cookies.get('token')
 }
 

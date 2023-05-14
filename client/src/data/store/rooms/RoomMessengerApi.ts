@@ -5,11 +5,7 @@ import {ServerUrl} from "../../../constants/Constants";
 
 export const RoomMessengerApi = createApi({
     reducerPath: "irob/api/room/messages", baseQuery: fetchBaseQuery({
-        baseUrl: `${ServerUrl}/room/messages`,
-        prepareHeaders: (headers, { getState }) => {
-            headers.set('token', localStorage.getItem("jwtToken") || "")
-            return headers
-        },
+        baseUrl: `${ServerUrl}/room/messages`
     }), endpoints: (build) => ({
         getRoomMessages: build.mutation<RoomMessagesPagingResponse, GetRoomMessagesRequest>({
             query: (body) => ({

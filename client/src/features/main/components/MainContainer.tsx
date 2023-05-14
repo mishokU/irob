@@ -27,6 +27,9 @@ import {TermsOfUsePage} from "../../termsOfUse/TermsOfUsePage";
 import AuthMiddleware from "../../auth/middleware/AuthMiddleware";
 import {useAskQuestionContext} from "../contexts/AskQuestionProvider";
 import {AsqQuestionModal} from "../../faq/modals/AsqQuestionModal";
+import {CookieComponent} from "../cookie/CookieComponent";
+import {Location} from "@remix-run/router";
+import {useCookies} from "react-cookie";
 
 export function MainContainer() {
     const modalsContext = useModalsContext()
@@ -38,15 +41,14 @@ export function MainContainer() {
     const asqQuestionContext = useAskQuestionContext()
     const authMiddleware = AuthMiddleware()
     const isAuth = authMiddleware.getToken() !== null
+    const [cookie] = useCookies(['CookieConsent']);
+
     {
         popupContext?.state.text !== undefined && setTimeout(() => {
             popupContext?.setState(initNotification())
         }, popupContext?.state.timeMs)
     }
-    const isHeaderVisible: boolean =
-        !location.pathname.toString().includes(IROBRoutes.rooms) &&
-        !location.pathname.toString().includes(IROBRoutes.card) &&
-        !location.pathname.toString().includes(IROBRoutes.sample)
+
     return (<div className="relative">
         {popupContext?.state.text !== undefined && <CommonNotification
             text={popupContext.state.text}
@@ -58,7 +60,8 @@ export function MainContainer() {
         {contentCardFull?.isVisibleProps.isVisible && <ContentFullCardComponent/>}
         {notificationContext?.isVisible && <NotificationMainComponent/>}
         {asqQuestionContext?.props.isVisible && <AsqQuestionModal/>}
-        {isHeaderVisible && <HeaderComponent/>}
+        {isHeaderVisible(location) && <HeaderComponent/>}
+        {!cookie.CookieConsent && <CookieComponent/>}
         <Routes>
             <Route path="*" element={<NotExistsPage/>}/>
             <Route index element={<StartPage/>}/>
@@ -87,4 +90,10 @@ export function MainContainer() {
                 element={isAuth ? <SettingsPage/> : <Navigate to={IROBRoutes.auth}/>}/>
         </Routes>
     </div>)
+}
+
+function isHeaderVisible(location: Location) {
+    return !location.pathname.toString().includes(IROBRoutes.rooms) &&
+        !location.pathname.toString().includes(IROBRoutes.card) &&
+        !location.pathname.toString().includes(IROBRoutes.sample)
 }

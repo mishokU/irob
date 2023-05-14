@@ -36,7 +36,7 @@ contract DepositHolder is Alive {
 
     function sendDeposit(uint progress) payable public {
         require(
-            msg.sender == buyer || msg.sender == deposit || msg.sender == seller,
+            msg.sender == buyer || msg.sender == seller,
             "Failure! Send deposit can only owner"
         );
 

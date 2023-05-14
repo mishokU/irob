@@ -3,11 +3,7 @@ import {ServerUrl} from "../../../constants/Constants";
 
 export const ExternalApi = createApi({
     reducerPath: "irob/api/external", baseQuery: fetchBaseQuery({
-        baseUrl: `${ServerUrl}/api`,
-        prepareHeaders: (headers) => {
-            headers.set('token', localStorage.getItem("jwtToken") || "")
-            return headers
-        },
+        baseUrl: `${ServerUrl}/api`
     }), endpoints: (builder) => ({
         getVideoUrl: builder.mutation<any, string>({
             query: (body) => ({

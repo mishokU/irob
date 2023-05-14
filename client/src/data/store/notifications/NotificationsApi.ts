@@ -4,13 +4,8 @@ import {NotificationsResult} from "../../models/notifications/NotificationsResul
 
 export const NotificationsApi = createApi({
     reducerPath: "irob/api/notifications", baseQuery: fetchBaseQuery({
-        baseUrl: `${ServerUrl}/notifications`,
-        prepareHeaders: (headers) => {
-            headers.set('token', localStorage.getItem("jwtToken") || "")
-            return headers
-        }
-    }),
-    endpoints: (builder) => ({
+        baseUrl: `${ServerUrl}/notifications`
+    }), endpoints: (builder) => ({
         getNotifications: builder.mutation<NotificationsResult, void>({
             query: (body) => ({
                 url: `/all`, method: `GET`,

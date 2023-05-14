@@ -9,11 +9,7 @@ import {CanClaimRewardResponse} from "../../models/licenses/CanClaimRewardRespon
 
 export const LicensesApi = createApi({
     reducerPath: "irob/api/licenses", baseQuery: fetchBaseQuery({
-        baseUrl: `${ServerUrl}/licenses`,
-        prepareHeaders: (headers) => {
-            headers.set('token', localStorage.getItem("jwtToken") || "")
-            return headers
-        },
+        baseUrl: `${ServerUrl}/licenses`
     }), endpoints: (builder) => ({
         getProfileLicenses: builder.mutation<LicensesResponse, void>({
             query: (body) => ({

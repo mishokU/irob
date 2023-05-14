@@ -19,5 +19,4 @@ function App() {
         {state.error.isVisible && <ErrorPage onClick={onReloadClick}/>}
     </div>
 }
-
 export default App;

@@ -5,7 +5,7 @@ const userController = require("../../controllers/UserController");
 const roomController = require("../../controllers/RoomControllers")
 
 const Promise = require("bluebird");
-const {getUsername} = require("../../controllers/Utils");
+const {getUsername, getToken} = require("../../controllers/Utils");
 const {deleteObject, storage, ref} = require("../../services/firebase/index");
 
 const contentRouter = new Router()
@@ -39,7 +39,7 @@ contentRouter.get('/getUserPaging', (request, result) => {
 async function getPagingContent(request, result, isUserContent) {
     try {
 
-        const token = request.get('token')
+        const token = getToken(request)
 
         const offset = request.query.offset
 
@@ -221,7 +221,7 @@ async function deleteDatabaseContent(result, contentId) {
 async function createContent(request, result) {
     try {
 
-        const token = request.get('token')
+        const token = getToken(request)
 
         const {
             type,

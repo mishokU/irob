@@ -8,6 +8,7 @@ const getBalance = require("../../scripts/getBalance")
 const {Router} = require("express");
 const Web3 = require("web3")
 const {ethers} = require("hardhat");
+const {getToken} = require("../../controllers/Utils");
 
 const userRouter = new Router()
 
@@ -52,7 +53,7 @@ userRouter.get('/getLedgerTransactions', (request, result) => {
 
 async function updateUser(request, result) {
     try {
-        const token = request.get('token')
+        const token = getToken(request)
         const name = request.body.name
         const surname = request.body.surname
         const description = request.body.description
@@ -85,7 +86,7 @@ async function updateUser(request, result) {
 
 async function getProfile(request, result) {
     try {
-        const token = request.get('token')
+        const token = getToken(request)
         const user = await userController.getUser(token)
         if (user !== undefined) {
             result.status(200).json({
@@ -119,7 +120,7 @@ async function getAllUsers(request, result, next) {
 async function updateAccountLedger(request, result) {
     try {
 
-        const token = request.get('token')
+        const token = getToken(request)
         const account = request.body.account
 
         const checkSummedAddress = Web3.utils.toChecksumAddress(account)
@@ -147,7 +148,7 @@ async function updateAccountLedger(request, result) {
 async function updateLanguageAndLocation(request, result) {
     try {
 
-        const token = request.get('token')
+        const token = getToken(request)
         const {language, location} = request.body
 
         await userController.updateLanguageAndLocation(token, language.trim(), location.trim())
@@ -172,7 +173,7 @@ async function updateLanguageAndLocation(request, result) {
 async function handleDisableAccount(request, result) {
     try {
 
-        const token = request.get('token')
+        const token = getToken(request)
 
         const isDisabled = await userController.handleDisableAccount(token)
 
@@ -202,7 +203,7 @@ async function handleDisableAccount(request, result) {
 async function deleteAccount(request, result) {
     try {
 
-        const token = request.get('token')
+        const token = getToken(request)
 
         await userController.deleteAccount(token)
 
@@ -262,7 +263,7 @@ async function getAccountTransactions(request, result) {
 async function updatePassword(request, result) {
     try {
 
-        const token = request.get('token')
+        const token = getToken(request)
 
         const {newPassword, oldPassword, repeatNewPassword} = request.body
 

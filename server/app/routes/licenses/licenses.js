@@ -5,6 +5,7 @@ const roomController = require("../../controllers/RoomControllers")
 const contentController = require("../../controllers/ContentController")
 
 const Promise = require("bluebird");
+const {getToken} = require("../../controllers/Utils");
 
 const licensesRouter = new Router()
 
@@ -171,7 +172,7 @@ async function getAllLicenses(request, result) {
 }
 
 async function getLicenses(request, type) {
-    const token = request.get('token')
+    const token = getToken(request)
     if (type === "all") {
         const licenses = await licensesController.getAllUserLicenses(token)
         return await convertLicenses(licenses, true)

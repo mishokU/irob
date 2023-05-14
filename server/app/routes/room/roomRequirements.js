@@ -3,6 +3,7 @@ const {Router} = require("express");
 const roomRequirementsController = require("../../controllers/RoomRequirementsController")
 const roomController = require("../../controllers/RoomControllers")
 const userController = require("../../controllers/UserController");
+const {getToken} = require("../../controllers/Utils");
 
 const roomRequirementsRouter = new Router()
 
@@ -65,7 +66,7 @@ async function updateRoomRequirement(request, result) {
 
 async function createRoomRequirement(request, result) {
     try {
-        const token = request.get('token')
+        const token = getToken(request)
         const {roomId, title, description, type, value} = request.body
         const user = await userController.getUser(token)
         const requirementId = await roomRequirementsController.createRequirement(user.id, roomId, title, description, value, type)

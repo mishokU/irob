@@ -11,7 +11,7 @@ const contentController = require("../../controllers/ContentController")
 const NotificationTypes = require("../notification/notificationTypes");
 
 const Promise = require("bluebird");
-const {getUsername} = require("../../controllers/Utils");
+const {getUsername, getToken} = require("../../controllers/Utils");
 
 const roomRouter = new Router()
 
@@ -221,7 +221,7 @@ async function updateRoom(request, result) {
 async function createRoom(request, result) {
     try {
 
-        const token = request.get('token')
+        const token = getToken(request)
         const {roomId, title, userId, contentId} = request.body;
 
         let newTitle = ""
@@ -256,7 +256,7 @@ async function createRoom(request, result) {
 
 async function deleteRoom(request, result) {
     try {
-        const token = request.get('token')
+        const token = getToken(request)
         const roomId = request.query.roomId;
 
         const user = await userController.getUser(token)
@@ -289,7 +289,7 @@ async function deleteRoom(request, result) {
 async function getRoom(request, result) {
     try {
 
-        const token = request.get('token')
+        const token = getToken(request)
         const roomId = request.params.roomId;
 
         const user = await userController.getUser(token)
@@ -323,7 +323,7 @@ async function getRooms(request, result) {
 
         console.log(JSON.stringify(request.headers));
 
-        const token = request.get('token')
+        const token = getToken(request)
 
         console.log("token")
         console.log(token)

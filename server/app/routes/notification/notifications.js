@@ -1,6 +1,7 @@
 const {Router} = require("express");
 
 const notificationsController = require("../../controllers/NotificationsController")
+const {getToken} = require("../../controllers/Utils");
 
 const notificationsRouter = new Router()
 
@@ -22,14 +23,21 @@ notificationsRouter.get('/all', (request, result) => {
 async function getAll(request, result) {
     try {
 
-        const token = request.get('token')
+        const token = getToken(request)
 
         const notifications = await notificationsController.getAllNotifications(token)
 
-        result.status(200).json({
-            success: true,
-            notifications: notifications
-        })
+        if (notifications === undefined) {
+            result.status(200).json({
+                success: true,
+                notifications: []
+            })
+        } else {
+            result.status(200).json({
+                success: true,
+                notifications: notifications
+            })
+        }
 
     } catch (e) {
         const message = "Error in get all notifications: " + e.message
@@ -65,7 +73,7 @@ async function deleteNotification(request, result) {
 async function createNotification(request, result) {
     try {
 
-        const { roomId, type, userId } = request.body
+        const {roomId, type, userId} = request.body
 
         await notificationsController.createNotification(userId, roomId, type)
 

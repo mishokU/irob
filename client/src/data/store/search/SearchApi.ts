@@ -7,11 +7,7 @@ import {SendEmailRequest} from "../../../features/faq/domain/SendEmailRequest";
 
 export const SearchApi = createApi({
     reducerPath: 'irob/api/search', baseQuery: fetchBaseQuery({
-        baseUrl: `${ServerUrl}/search`,
-        prepareHeaders: (headers, {getState}) => {
-            headers.set('token', localStorage.getItem("jwtToken") || "")
-            return headers
-        },
+        baseUrl: `${ServerUrl}/search`
     }), endpoints: build => ({
         searchUsersByCredentials: build.mutation<SearchUsersResponse, SearchUsersRequest>({
             query: (body) => ({

@@ -21,30 +21,37 @@ export default function NotificationMainViewModel() {
     const [getNotifications] = useGetNotificationsMutation()
 
     useEffect(() => {
+
         async function fetchData() {
             return await getNotifications().unwrap()
         }
 
-        fetchData()
-            .catch((error) => console.log(error))
-            .then((data) => {
-                if (data !== undefined) {
-                    const uiNotifications = data.notifications.map((notification: SingleNotification) => {
-                        return {
-                            username: notification.username,
-                            userId: notification.userId,
-                            message: notification.message,
-                            id: notification.id,
-                            roomId: notification.room_id,
-                            type: notificationConverter.convert(notification.type)
+        try {
+
+            fetchData()
+                .catch((error) => console.log(error))
+                .then((data) => {
+                    console.log(data)
+                    if (data !== undefined) {
+                        const uiNotifications = data.notifications.map((notification: SingleNotification) => {
+                            return {
+                                username: notification.username,
+                                userId: notification.userId,
+                                message: notification.message,
+                                id: notification.id,
+                                roomId: notification.room_id,
+                                type: notificationConverter.convert(notification.type)
+                            }
+                        })
+                        setNotifications(uiNotifications)
+                        if (uiNotifications.length === 0) {
+                            setIsEmptyVisible(true)
                         }
-                    })
-                    setNotifications(uiNotifications)
-                    if (uiNotifications.length === 0) {
-                        setIsEmptyVisible(true)
                     }
-                }
-            })
+                })
+        } catch (e) {
+            console.log(e)
+        }
     }, [])
 
     const onNotificationClick = (item: NotificationItem) => {

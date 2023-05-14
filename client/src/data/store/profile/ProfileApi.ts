@@ -14,16 +14,12 @@ import {DeleteAccountResponse} from "../../models/profile/DeleteAccountResponse"
 import {DisableAccountResponse} from "../../models/profile/DisableAccountResponse";
 import {UpdatePasswordResponse} from "../../models/profile/UpdatePasswordResponse";
 import {UpdatePasswordRequest} from "../../../features/settings/domain/models/UpdatePasswordRequest";
-import { CommonResponse } from "../../models/common/CommonResponse";
+import {CommonResponse} from "../../models/common/CommonResponse";
 import {GetLedgerTransactionsResponse} from "../../models/profile/GetLedgerTransactionsResponse";
 
 export const ProfileApi = createApi({
     reducerPath: "irob/api/profile", baseQuery: fetchBaseQuery({
-        baseUrl: `${ServerUrl}/profile`,
-        prepareHeaders: (headers, {getState}) => {
-            headers.set('token', localStorage.getItem("jwtToken") || "")
-            return headers
-        },
+        baseUrl: `${ServerUrl}/profile`
     }), endpoints: (build) => ({
         getProfile: build.mutation<ProfileResponse, void>({
             query: () => ({

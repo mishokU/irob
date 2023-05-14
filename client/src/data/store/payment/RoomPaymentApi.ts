@@ -1,13 +1,7 @@
 import {createApi, fetchBaseQuery} from "@reduxjs/toolkit/dist/query/react";
-import {
-    GetRoomRequirementsCostResponse
-} from "../../models/rooms/payment/GetRoomRequirementsCostResponse";
-import {
-    RoomPaymentRequest
-} from "../../../features/rooms/domain/requests/RoomPaymentRequest";
-import {
-    CreateLicenseRequest
-} from "../../../features/rooms/domain/requests/CreateLicenseRequest";
+import {GetRoomRequirementsCostResponse} from "../../models/rooms/payment/GetRoomRequirementsCostResponse";
+import {RoomPaymentRequest} from "../../../features/rooms/domain/requests/RoomPaymentRequest";
+import {CreateLicenseRequest} from "../../../features/rooms/domain/requests/CreateLicenseRequest";
 import {CreateLicenseResult} from "../../models/payment/CreateLicenseResult";
 import {GetRoomResult} from "../../models/rooms/payment/GetRoomResult";
 import {GetContractDataResult} from "../../models/payment/GetContractDataResult";
@@ -16,10 +10,7 @@ import {ServerUrl} from "../../../constants/Constants";
 
 export const RoomPaymentApi = createApi({
     reducerPath: "irob/api/room/payment", baseQuery: fetchBaseQuery({
-        baseUrl: `${ServerUrl}/room/payment`, prepareHeaders: (headers) => {
-            headers.set('token', localStorage.getItem("jwtToken") || "")
-            return headers
-        },
+        baseUrl: `${ServerUrl}/room/payment`
     }), endpoints: (builder) => ({
         getRoomRequirementsCost: builder.mutation<GetRoomRequirementsCostResponse, RoomPaymentRequest>({
             query: (body) => ({

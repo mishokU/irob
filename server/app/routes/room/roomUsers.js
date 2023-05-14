@@ -3,6 +3,7 @@ const roomUserController = require("../../controllers/RoomUsersController");
 const userController = require("../../controllers/UserController");
 const roomController = require("../../controllers/RoomControllers")
 const Promise = require('bluebird');
+const {getToken} = require("../../controllers/Utils");
 
 const roomUsersRouter = new Router()
 
@@ -53,7 +54,7 @@ async function hasUser(request, result) {
 async function getUsers(request, result) {
     try {
 
-        const token = request.get('token')
+        const token = getToken(request)
 
         const roomId = request.params.roomId;
 

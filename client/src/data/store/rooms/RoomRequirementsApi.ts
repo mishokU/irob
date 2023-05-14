@@ -15,11 +15,7 @@ import { CommonResponse } from "../../models/common/CommonResponse";
 
 export const RoomRequirementsApi = createApi({
     reducerPath: 'irob/api/room/requirements', baseQuery: fetchBaseQuery({
-        baseUrl: `${ServerUrl}/room/requirements`,
-        prepareHeaders: (headers, { getState }) => {
-            headers.set('token', localStorage.getItem("jwtToken") || "")
-            return headers
-        },
+        baseUrl: `${ServerUrl}/room/requirements`
     }), endpoints: build => ({
         createRequirement: build.mutation<CreateRequirementResult, CreateRequirementRequest>({
             query: (body) => ({

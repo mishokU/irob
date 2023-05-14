@@ -5,11 +5,7 @@ import {ServerUrl} from "../../../constants/Constants";
 
 export const RoomUsersApi = createApi({
     reducerPath: "irob/api/rooms/users", baseQuery: fetchBaseQuery({
-        baseUrl: `${ServerUrl}/room/users`,
-        prepareHeaders: (headers, { getState }) => {
-            headers.set('token', localStorage.getItem("jwtToken") || "")
-            return headers
-        },
+        baseUrl: `${ServerUrl}/room/users`
     }), endpoints: (build) => ({
         getRoomUsers: build.mutation<RoomUserResponse[], string>({
             query: (roomId) => ({

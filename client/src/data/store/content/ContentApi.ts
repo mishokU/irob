@@ -8,11 +8,7 @@ import {GetCatalogueItemsResponse} from "../../models/content/GetCatalogueItemsR
 
 export const ContentApi = createApi({
     reducerPath: "irob/api/content", baseQuery: fetchBaseQuery({
-        baseUrl: `${ServerUrl}/content`,
-        prepareHeaders: (headers) => {
-            headers.set('token', localStorage.getItem("jwtToken") || "")
-            return headers
-        },
+        baseUrl: `${ServerUrl}/content`
     }), endpoints: (builder) => ({
         createContent: builder.mutation<CommonResponse, CreateContentRequest>({
             query: (body) => ({

@@ -12,6 +12,7 @@ const etherscan = require("../../services/etherscan/etherscanApi")
 
 
 const Web3 = require("web3");
+const {getToken} = require("../../controllers/Utils");
 
 const roomPaymentRouter = new Router()
 
@@ -37,7 +38,7 @@ roomPaymentRouter.get('/contractData', (request, result) => {
 async function getContractData(request, result) {
     try {
 
-        const token = request.get('token')
+        const token = getToken(request)
 
         const ownerId = request.query.ownerId
         const userId = request.query.userId
@@ -125,7 +126,7 @@ async function getRoomResult(request, result) {
 async function getRoomRequirementsCost(request, result) {
     try {
 
-        const token = request.get('token')
+        const token = getToken(request)
 
         const roomId = request.query.roomId
         const secondSideUserId = request.query.userId
@@ -207,7 +208,7 @@ async function getRequirementsCostFromTestNet(requirements, depositCost) {
 async function createSmartContract(request, result) {
     try {
 
-        const token = request.get('token')
+        const token = getToken(request)
         const {ownerId, userId, roomId, contractAddress} = request.body
 
         const roomResult = await roomResultController.getRoomResult(roomId)

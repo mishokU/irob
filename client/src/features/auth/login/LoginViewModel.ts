@@ -8,7 +8,8 @@ import {AuthExceptionsConverter} from "../domain/errors/AuthExceptionsConverter"
 import {useDispatch} from "react-redux";
 import {updateProfile} from "../../../data/slices/ProfileSlice";
 import AuthMiddleware from "../middleware/AuthMiddleware";
-import { NotificationPosition, initNotification, usePopupContext } from "../../main/contexts/NotificationProvider";
+import {NotificationPosition, initNotification, usePopupContext} from "../../main/contexts/NotificationProvider";
+import {useCookies} from "react-cookie";
 
 export default function LoginViewModel(errorState: (value: string) => void) {
 
@@ -19,19 +20,22 @@ export default function LoginViewModel(errorState: (value: string) => void) {
     const [passwordError, setPasswordError] = useState<string | null>(null)
 
     const authMiddleware = AuthMiddleware()
+    const [, setCookie] = useCookies(['token'])
+
     const [login] = useLoginMutation()
 
     const authErrorConverter = new AuthExceptionsConverter()
 
     const popupContext = usePopupContext()
-    const navigate = useNavigate();
-    const dispatch = useDispatch();
+    const navigate = useNavigate()
+    const dispatch = useDispatch()
 
     const handleLogin = async () => {
         try {
             if (isEmailAndPasswordValid(email, password)) {
                 const payload = await login({email, password}).unwrap()
                 authMiddleware.saveToken(payload.token)
+                setCookie('token', payload.token)
                 dispatch(updateProfile({
                     user: payload.user
                 }))
