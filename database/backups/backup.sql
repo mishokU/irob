@@ -47,8 +47,8 @@ ALTER ROLE postgres WITH SUPERUSER INHERIT CREATEROLE CREATEDB LOGIN REPLICATION
 -- PostgreSQL database dump
 --
 
--- Dumped from database version 12.14
--- Dumped by pg_dump version 12.14
+-- Dumped from database version 12.15
+-- Dumped by pg_dump version 12.15
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;
@@ -132,8 +132,8 @@ GRANT CONNECT ON DATABASE template1 TO PUBLIC;
 -- PostgreSQL database dump
 --
 
--- Dumped from database version 12.14
--- Dumped by pg_dump version 12.14
+-- Dumped from database version 12.15
+-- Dumped by pg_dump version 12.15
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;
@@ -508,6 +508,7 @@ COPY public.config (id, network_url, enabled, name, chain_id, chain_hex) FROM st
 COPY public.content (id, name, description, owner, type, director, country, actors, video_url, category, date, user_id, video_preview, cost, start_distr, end_distr, genres, year, trailer_url, duration) FROM stdin;
 42	Cyberpank	With the untimely death of his beloved wife still bitter in his mouth, John Wick, the expert former assassin, receives one final gift from her a precious keepsake to help John find a new meaning in life now that she is gone. But when the arrogant Russian mob prince, Iosef Tarasov, and his men pay Wick a rather unwelcome visit to rob him of his prized 1969 Mustang and his wifes present, the...	Summit Entertainment	Film	David Leitch, Chad Stahelski	China, United States	Michael Nyqvist, Keanu Reeves, Alfie Allen	https://firebasestorage.googleapis.com/v0/b/irob-d735a.appspot.com/o/videos%2Fvideo1682695617001irob?alt=media&token=658ee2e6-a556-4d89-9bf2-e0cd6b8acf8e		2023-04-28	3	https://firebasestorage.googleapis.com/v0/b/irob-d735a.appspot.com/o/videoPreviews%2Fpreview1682695617001irob?alt=media&token=0adb340d-9f0e-4cb2-b377-9ed5f44ff6b2	0.004	03.12.1999	03.12.1999	Action, Crime, Thriller / Suspense	2014	null	undefined
 43	ацацу	ацауц		Film	аца	ац		https://firebasestorage.googleapis.com/v0/b/irob-d735a.appspot.com/o/videos%2Fvideo1683927642908irob?alt=media&token=77afd329-c57a-4ba6-99b4-cce8773ef4d6		2023-05-12	4	https://firebasestorage.googleapis.com/v0/b/irob-d735a.appspot.com/o/videoPreviews%2Fpreview1683927642909irob?alt=media&token=e965712a-3bc0-4bb9-937f-3954e5eb8c4f						null	undefined
+45	Фильм года			Film				https://firebasestorage.googleapis.com/v0/b/irob-d735a.appspot.com/o/videos%2Fvideo1684179476656irob?alt=media&token=f198b951-f629-4ce3-b484-d080ae77ea16		2023-05-15	1	https://firebasestorage.googleapis.com/v0/b/irob-d735a.appspot.com/o/videoPreviews%2Fpreview1684179476656irob?alt=media&token=cb917ea1-9bbc-4842-b7d5-3bc49691976c						null	undefined
 \.
 
 
@@ -517,6 +518,7 @@ COPY public.content (id, name, description, owner, type, director, country, acto
 
 COPY public.licenses (id, uid, status, date, is_favourite, user_id, address, room_id, content_id, video_url) FROM stdin;
 43	04c32068-068c-48b6-b028-a0d8b20839e1	claimed	Tue May 09 2023 01:16:35 GMT+0300 (Moscow Standard Time)	t	4	0x601Aa2179fE17c2849FaFA065624D6c3b4C86175	d1rwxl	42	\N
+44	ae744128-f188-425f-9ab8-375afa63b240	running	Mon May 15 2023 16:39:59 GMT+0300 (Moscow Standard Time)	t	7	0x3B46eE55BFF6C700272e036Cbd47De3c0aA92B9a	rkywy	44	\N
 \.
 
 
@@ -602,6 +604,12 @@ COPY public.notifications (id, type, user_id, message, date, room_id, is_watched
 136	requirement_accepted	3	Your requirement was accepted in room: scw88	2023-05-09	scw88	f
 137	requirement_accepted	6	Your requirement was accepted in room: dwpmd	2023-05-10	dwpmd	f
 138	requirement_accepted	6	Your requirement was accepted in room: dwpmd	2023-05-10	dwpmd	f
+139	requirement_accepted	1	Your requirement was accepted in room: rkywy	2023-05-15	rkywy	f
+140	requirement_accepted	1	Your requirement was accepted in room: rkywy	2023-05-15	rkywy	f
+141	requirement_accepted	1	Your requirement was accepted in room: rkywy	2023-05-15	rkywy	f
+142	requirement_accepted	8	Your requirement was accepted in room: 8333x	2023-05-15	8333x	f
+143	requirement_accepted	8	Your requirement was accepted in room: 8333x	2023-05-15	8333x	f
+144	requirement_accepted	8	Your requirement was accepted in room: 8333x	2023-05-15	8333x	f
 \.
 
 
@@ -630,6 +638,102 @@ COPY public.room_messages (id, date, content, user_id, room_id, type) FROM stdin
 72	2023-05-10 4:38:45	efwefwfwe	6	dwpmd	0
 73	2023-05-10 4:41:27	fewefew	6	dwpmd	0
 74	2023-05-12 1:52:17	fwefewefw	4	dwpmd	0
+75	2023-05-15 3:33:26	выаывва	7	2t67w	0
+76	2023-05-15 3:33:26	ываы	7	2t67w	0
+77	2023-05-15 3:33:27	ыва	7	2t67w	0
+78	2023-05-15 3:33:46	feffefwe	1	2t67w	0
+79	2023-05-15 3:33:56	efwefefwe	1	2t67w	0
+80	2023-05-15 3:35:20	аафы	7	rkywy	0
+81	2023-05-15 3:35:28	fwfwfwefw	1	rkywy	0
+82	2023-05-15 9:20:30	I want to buy yor service!	8	8333x	0
+83	2023-05-15 9:21:09	Привет	1	8333x	0
+84	2023-05-15 9:21:10	ахахах	1	8333x	0
+85	2023-05-15 9:21:52	многа	1	8333x	0
+86	2023-05-15 9:21:54	меня цену	1	8333x	0
+87	2023-05-15 9:22:10	Твой сервис стоит дороже!	8	8333x	0
+88	2023-05-15 9:22:45	пока 0	1	8333x	0
+89	2023-05-15 9:23:34	первый принял	1	8333x	0
+90	2023-05-15 9:23:39	будет стоить ) Ну крутямба ) всё работает ))	8	8333x	0
+91	2023-05-15 9:23:53	давай еще два	1	8333x	0
+92	2023-05-15 9:24:33	чего два?	8	8333x	0
+93	2023-05-15 9:25:10	условия	1	8333x	0
+94	2023-05-15 9:28:46	Сделал	8	8333x	0
+95	2023-05-15 9:29:00	теперь принимай	1	8333x	0
+96	2023-05-15 9:29:37	Не вижу где сообщения о том что принял и не понятно куда жать	8	8333x	0
+97	2023-05-15 9:29:44	Согласен (	1	8333x	0
+98	2023-05-15 9:29:48	жми на мечи	1	8333x	0
+99	2023-05-15 9:30:18	Нажал 	8	8333x	0
+100	2023-05-15 9:30:29	а дальше?	8	8333x	0
+101	2023-05-15 9:30:36	Теперь соглашайся)	1	8333x	0
+102	2023-05-15 9:30:51	Мечи по идее должны загораться когда ты принял условия	8	8333x	0
+103	2023-05-15 9:30:59	Да, я вот сегодня этозаметил	1	8333x	0
+104	2023-05-15 9:31:03	Что не хватает этого 	1	8333x	0
+105	2023-05-15 9:32:06	Не активно соглашение	8	8333x	0
+106	2023-05-15 9:32:12	скинул скрин	8	8333x	0
+107	2023-05-15 9:32:36	вот блин	1	8333x	0
+108	2023-05-15 9:32:41	а перезагрузи 	1	8333x	0
+109	2023-05-15 9:32:43	страничку	1	8333x	0
+110	2023-05-15 9:33:01	сейчас	8	8333x	0
+111	2023-05-15 9:33:35	нет, всё так же кнопки не активны	8	8333x	0
+112	2023-05-15 9:34:12	Эх, это грустно 	1	8333x	0
+113	2023-05-15 9:34:16	Ладно, ща поправлю 	1	8333x	0
+114	2023-05-15 9:34:17	2 минуты	1	8333x	0
+115	2023-05-15 9:34:40	Не грустно ) это первые тесты	8	8333x	0
+116	2023-05-15 9:34:59	и так круто работает	8	8333x	0
+117	2023-05-15 9:35:28	Готоов	1	8333x	0
+118	2023-05-15 9:35:31	перезагружай	1	8333x	0
+119	2023-05-15 9:35:49	Ща будет самое сложное	1	8333x	0
+120	2023-05-15 9:36:04	Нужно подключить тебе кошелек	1	8333x	0
+121	2023-05-15 9:36:44	Но до этого надо сначала создать котент	1	8333x	0
+122	2023-05-15 9:36:46	о ... мечей нет теперь	8	8333x	0
+123	2023-05-15 9:36:53	контент, на который ты будешь подписываться 	1	8333x	0
+124	2023-05-15 9:37:01	Да, мечей нет, но есть вкладка Payment 	1	8333x	0
+125	2023-05-15 9:37:12	да есть	8	8333x	0
+126	2023-05-15 9:38:22	Вот, я создал контент	1	8333x	0
+127	2023-05-15 9:38:26	Теперь ты можешь посмотреть его	1	8333x	0
+128	2023-05-15 9:38:34	нажав на документ справа сверху	1	8333x	0
+129	2023-05-15 9:38:48	смотрю	8	8333x	0
+130	2023-05-15 9:39:52	там не нажимается закладка и треугольник 	8	8333x	0
+131	2023-05-15 9:40:08	А, это да	1	8333x	0
+132	2023-05-15 9:40:12	Это я не сделал )))	1	8333x	0
+133	2023-05-15 9:40:22	и подсказка не выводится что это	8	8333x	0
+134	2023-05-15 9:40:43	А там описания нет	1	8333x	0
+135	2023-05-15 9:40:48	Это превью по первому кадру	1	8333x	0
+136	2023-05-15 9:40:52	Из видео	1	8333x	0
+137	2023-05-15 9:40:56	Обычно туда добавляется еще трейлер	1	8333x	0
+138	2023-05-15 9:40:58	да это я понял	8	8333x	0
+139	2023-05-15 9:41:00	но и его там нет 	1	8333x	0
+140	2023-05-15 9:41:27	я просто про то что у треугольника и вкладки здорово бы сделать всплывающие подсказки	8	8333x	0
+141	2023-05-15 9:41:56	аааа	1	8333x	0
+142	2023-05-15 9:41:59	Ну хорошо 	1	8333x	0
+143	2023-05-15 9:42:34	да вообще кстати эти подсказки бы помогли и с кнопкой мечи 	8	8333x	0
+144	2023-05-15 9:42:46	и с Условиями	8	8333x	0
+145	2023-05-15 9:43:05	всплывающая подсказка это всегда удобно	8	8333x	0
+146	2023-05-15 9:43:18	Ну хорошо 	1	8333x	0
+147	2023-05-15 9:43:20	Это можно 	1	8333x	0
+148	2023-05-15 9:43:35	Хорошо )	8	8333x	0
+149	2023-05-15 9:43:47	Миня вообщем очень круто !!!!!	8	8333x	0
+150	2023-05-15 9:43:57	Ну пока еще не оч круто 	1	8333x	0
+151	2023-05-15 9:43:57	Давай только с кошельком завтра 	8	8333x	0
+152	2023-05-15 9:44:01	Да	1	8333x	0
+153	2023-05-15 9:44:04	мне ложиться пора 	8	8333x	0
+154	2023-05-15 9:44:06	С кошельком там чутка сложнее	1	8333x	0
+155	2023-05-15 9:44:07	Давай	1	8333x	0
+156	2023-05-15 9:44:09	спокойной ночи)	1	8333x	0
+157	2023-05-15 9:44:25	) Тоже не сиди долго )	8	8333x	0
+158	2023-05-15 9:44:35	Света Ланку забрала сегодня	8	8333x	0
+159	2023-05-15 9:44:41	Это мое пространство	1	8333x	0
+160	2023-05-15 9:44:53	могу сидеть тут сколько захочу 😈	1	8333x	0
+161	2023-05-15 9:44:59	домой только привезла на парнас	8	8333x	0
+162	2023-05-15 9:45:09	Ну что поделать (	1	8333x	0
+163	2023-05-15 9:45:15	))) можешь, только спать тоже надо	8	8333x	0
+164	2023-05-15 9:45:32	Да нет. Света сама довольна	8	8333x	0
+165	2023-05-15 9:45:50	Ланка классная. Я сам по ней соскучился	8	8333x	0
+166	2023-05-15 9:45:59	Ну скоро приедешь и все будет 	1	8333x	0
+167	2023-05-15 9:46:18	да ) 	8	8333x	0
+168	2023-05-15 9:46:33	Ладно ) всё ушёл 	8	8333x	0
+169	2023-05-15 9:46:39	завтра дотестим )	8	8333x	0
+170	2023-05-15 9:46:58	ОКИ	1	8333x	0
 \.
 
 
@@ -674,6 +778,12 @@ COPY public.room_requirements (id, room_id, user_id, title, description, type, v
 86	2gvyy	3	fefwe	gergrgregre	Duration	30	f	35	17
 95	8wvdp	1	rwr	ergerereere	Duration	30	f	38	17
 108	da95	1	ацуац		Duration	30	f	40	17
+135	rkywy	1	ewefew		Duration	30	f	44	0
+136	rkywy	1	fefew	fewfew	Hold deposit	0.004	f	44	0
+137	rkywy	1	efeefw	fewfe	Cost	0.004	f	44	0
+138	8333x	8	Contract value		Cost	0.0000001	f	\N	0
+139	8333x	8	Contract duration		Duration	10	f	\N	0
+140	8333x	8	Contract deposit		Hold deposit	1	f	\N	0
 \.
 
 
@@ -700,6 +810,7 @@ COPY public.room_result (id, room_id, requirements, gas, deposit, user_id, cost)
 41	7pg8a	0.001	0.000000139	0.004	4	0
 42	838sk	0.001	0.000000090	0.004	4	0
 43	d1rwxl	0.001	0.000000081	0.004	4	0
+44	rkywy	0.001	0.000000059	0.004	7	0
 \.
 
 
@@ -830,6 +941,12 @@ COPY public.room_users (id, user_id, room_id) FROM stdin;
 120	3	dwpmd
 121	4	dwpmd
 122	4	1b07w
+123	7	2t67w
+124	1	2t67w
+125	7	rkywy
+126	1	rkywy
+127	1	8333x
+128	8	8333x
 \.
 
 
@@ -839,12 +956,12 @@ COPY public.room_users (id, user_id, room_id) FROM stdin;
 
 COPY public.rooms (room_id, owner_id, name, first_agreement, second_agreement, user_id, content_id) FROM stdin;
 0b0x9	1		f	f	3	42
-luadx	1		f	f	3	42
-ktnri	1		f	f	3	42
-da95	1		t	t	3	42
 scw88	4	Untitled	f	f	3	42
 dwpmd	6	Test 3	f	f	3	42
 1b07w	4	ffefw	f	f	0	0
+2t67w	7	123233	f	f	0	0
+rkywy	7	Untitled	t	t	1	44
+8333x	1	Сделка века!	t	t	0	45
 \.
 
 
@@ -854,11 +971,13 @@ dwpmd	6	Test 3	f	f	3	42
 
 COPY public.users (id, name, surname, avatar, description, website, nickname, password, email, token, location, language, followers, account, disabled, "isAdmin") FROM stdin;
 2	Алексей	У	\N				$2a$10$2S7n7x5u0EhX1xEUmLX2iuK/IXw2vyGDnG.j4L0igSnzGhoIg9Tgu	e@mail.ru	eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImVAbWFpbC5ydSIsImlhdCI6MTY4MTE2MTQ1Nn0._n2OK6ThQazJkg8yqqLIvGd906og1XHZboNyaj24IH8			0	0xd5cC383881D6d9A7dc1891A0235E11D03Cb992d3	f	\N
-1	Misha	Usov	https://firebasestorage.googleapis.com/v0/b/irob-d735a.appspot.com/o/images%2F2023-02-01%2012.34.13.jpg?alt=media&token=fa495542-0bc8-4feb-9365-dac7fe3e5434	With the untimely death of his beloved wife still bitter in his mouth, John Wick, the expert former assassin, receives one final gift from her a precious keepsake to help John find a new meaning in life now that she is gone. But when the arrogant Russian mob prince, Iosef Tarasov, an	ewfwefwe		$2a$10$PXyx/J3c2YL8OV2z5P.mFuQ7HeYxA2pb0X0c42vWnxTd7LofnLECi	usov.misha@gmail.com	eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InVzb3YubWlzaGFAZ21haWwuY29tIiwiaWF0IjoxNjgyNDY2Nzg1fQ.IvKWSDVexO_YL3iUTm4Zcoz-X_eC6aXCIXIKj46oZ0s	\N	\N	0	0xd4039eB67CBB36429Ad9DD30187B94f6A5122215	f	t
 3	Alex 	Usov	https://firebasestorage.googleapis.com/v0/b/irob-d735a.appspot.com/o/images%2F%D0%A1%D0%BD%D0%B8%D0%BC%D0%BE%D0%BA%20%D1%8D%D0%BA%D1%80%D0%B0%D0%BD%D0%B0%202023-04-09%20%D0%B2%2017.42.23.png?alt=media&token=12eb0b0b-62af-47d0-bf4b-297ec667d168				$2a$10$B8rAD1CzIpqZGii4jtBEi.Dzj2Ed0QRV.uSXIkZcC8apluDV1IcNy	ru@mail.ru	eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InJ1QG1haWwucnUiLCJpYXQiOjE2ODM1NjIxNDR9.n_V40_onDcPWESNeZUZrCyw31aitDTIngZ9x7M2s-wE	\N	\N	0	0xd5cC383881D6d9A7dc1891A0235E11D03Cb992d3	f	\N
 5							$2a$10$mY.AWcktGNa6AyGLK7ixf.DvngBXE.Ju0NZ6YkEN7qiux4DgzGFuO	usov@mail.ru	eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InVzb3ZAbWFpbC5ydSIsImlhdCI6MTY4MzU2MTY2OX0.ih5wwcckRXRSD-XFZgp9lsxtvVUMt5fwPC2Mh6CPBGA			0	0xd5cC383881D6d9A7dc1891A0235E11D03Cb992d3	f	t
 6							$2a$10$TGm.PmGTIRp5W/tfZxVHDeHcco4MRk.aS0iIuceMvhYGyD1Naaxqi	usov.isha@gmail.com	eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InVzb3YuaXNoYUBnbWFpbC5jb20iLCJpYXQiOjE2ODM3Mjk0NTB9._hRJV8mXyNAaIpY6HarEc00CLe9I4EGKyHbreg0Qk5s			0	0x0a5BAeFCB3Ea40c21a70059F91B49706Cf320470	f	\N
 4							$2a$10$V5i4q.Bl0b3d9dqIXfNJVuOhJbADHsViQced5wwZxAJPROvFjJg12	kazakov@itmo.dev	eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImthemFrb3ZAaXRtby5kZXYiLCJpYXQiOjE2ODM5MjczOTN9.Pgt9CkeolqAoIUFA58Vr_BwI0I7fC9wyjFQyqF38hd0			0	0x0a5BAeFCB3Ea40c21a70059F91B49706Cf320470	f	t
+1	Misha	Usov	https://firebasestorage.googleapis.com/v0/b/irob-d735a.appspot.com/o/images%2F2023-02-01%2012.34.13.jpg?alt=media&token=fa495542-0bc8-4feb-9365-dac7fe3e5434	With the untimely death of his beloved wife still bitter in his mouth, John Wick, the expert former assassin, receives one final gift from her a precious keepsake to help John find a new meaning in life now that she is gone. But when the arrogant Russian mob prince, Iosef Tarasov, an	ewfwefwe		$2a$10$PXyx/J3c2YL8OV2z5P.mFuQ7HeYxA2pb0X0c42vWnxTd7LofnLECi	usov.misha@gmail.com	eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InVzb3YubWlzaGFAZ21haWwuY29tIiwiaWF0IjoxNjg0MTU3NjAwfQ.bYI8CAb8cnIcj-2yt65hLEdmd_eC12PrbUDeUpJX-I4	\N	\N	0	0x0a5BAeFCB3Ea40c21a70059F91B49706Cf320470	f	t
+7							$2a$10$TKxDGl62YKz0VALtpyUKLe2N5W.6HT/fvGBLoASsOIU9UsFM1haTi	vasilisk@mail.ru	eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InZhc2lsaXNrQG1haWwucnUiLCJpYXQiOjE2ODQxNTc1NTh9.VFeiQ0UVEqBL2TipjrCAxNIeXPEHit_SpNInliRYw0o			0	0xcD53484c7464CB68A6962028dcbD53027C6432AE	f	t
+8	Alexey	Usov	https://firebasestorage.googleapis.com/v0/b/irob-d735a.appspot.com/o/images%2FRio_Peru-7.jpg?alt=media&token=e0a2b5c4-367c-4b82-ba82-5e469be247bb	The best man in universe			$2a$10$pZfD1PHNtqFon4G9/P7GZ.8UEf0mJqfPIxa6aq4CarLm/bPgB.0k.	usov.fgs@gmail.com	eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InVzb3YuZmdzQGdtYWlsLmNvbSIsImlhdCI6MTY4NDE3ODEwOX0.PmlUbNlq_2Q_nMRMoxf00a5EQbikrkK9uhK7JMrIGjY	\N	\N	0	\N	f	\N
 \.
 
 
@@ -866,56 +985,56 @@ COPY public.users (id, name, surname, avatar, description, website, nickname, pa
 -- Name: content_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.content_id_seq', 43, true);
+SELECT pg_catalog.setval('public.content_id_seq', 45, true);
 
 
 --
 -- Name: licenses_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.licenses_id_seq', 43, true);
+SELECT pg_catalog.setval('public.licenses_id_seq', 44, true);
 
 
 --
 -- Name: notifications_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.notifications_id_seq', 138, true);
+SELECT pg_catalog.setval('public.notifications_id_seq', 144, true);
 
 
 --
 -- Name: roomUsers_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public."roomUsers_id_seq"', 122, true);
+SELECT pg_catalog.setval('public."roomUsers_id_seq"', 128, true);
 
 
 --
 -- Name: room_messages_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.room_messages_id_seq', 74, true);
+SELECT pg_catalog.setval('public.room_messages_id_seq', 170, true);
 
 
 --
 -- Name: room_requirements_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.room_requirements_id_seq', 134, true);
+SELECT pg_catalog.setval('public.room_requirements_id_seq', 140, true);
 
 
 --
 -- Name: room_result_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.room_result_id_seq', 43, true);
+SELECT pg_catalog.setval('public.room_result_id_seq', 44, true);
 
 
 --
 -- Name: users_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.users_id_seq', 6, true);
+SELECT pg_catalog.setval('public.users_id_seq', 8, true);
 
 
 --
@@ -1010,8 +1129,8 @@ ALTER TABLE ONLY public.users
 -- PostgreSQL database dump
 --
 
--- Dumped from database version 12.14
--- Dumped by pg_dump version 12.14
+-- Dumped from database version 12.15
+-- Dumped by pg_dump version 12.15
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;
