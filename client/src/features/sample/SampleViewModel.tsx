@@ -1,15 +1,14 @@
 import {useState} from "react";
+import {videoPath} from "../../constants/Constants";
 
 export default function SampleViewModel() {
 
     const [key, setKey] = useState<string | null>(null)
     const [videoUrl, setVideoUrl] = useState("")
 
-    const path = "http://localhost:8012/api/api/getVideoUrl?licenseKey="
-
     const onLoadClick = async () => {
         if (key !== null) {
-            const url = path + key
+            const url = videoPath + key
             console.log(url)
             setVideoUrl(url)
         }
