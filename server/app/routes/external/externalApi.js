@@ -46,7 +46,7 @@ async function getVideoUrl(request, result) {
             console.log("range:")
             console.log(range)
 
-            if (range) {
+            if (false) {
 
                 const parts = range.replace(/bytes=/, '').split('-')
                 console.log("parts: " + parts)
@@ -69,12 +69,6 @@ async function getVideoUrl(request, result) {
                     'Content-Length': chunkSize,
                     'Content-Type': 'video/mp4'
                 };
-
-                const options = {
-                    hostname: "firebasestorage.googleapis.com",
-                    path: filePath,
-                    headers: headers
-                }
 
                 https.get(filePath, (stream) => {
                     result.writeHead(206, headers);
