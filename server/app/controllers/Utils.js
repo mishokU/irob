@@ -14,6 +14,9 @@ function getUsername(user) {
 
 function getToken(request) {
     const cookies = new Cookies(request.headers.cookie);
-    return cookies.get('token')
+    console.log("token")
+    const token = cookies.get('token')
+    console.log(token)
+    return token
 }
 
