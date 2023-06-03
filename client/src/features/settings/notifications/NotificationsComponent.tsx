@@ -2,7 +2,7 @@ import {SettingsStrings} from "../strings/SettingsStrings";
 import {buttonTheme} from "../../../ui/themes/Themes";
 
 export function NotificationsComponent() {
-    return <div className="border-[#29303A] -mt-4 rounded-2xl p-4 text-white w-[550px]">
+    return <div className="border-[#29303A] -mt-4 rounded-2xl p-4 text-white lg:w-[550px] w-full">
         <h1 className="text-xl font-bold">{SettingsStrings.Notifications}</h1>
         <p className="mt-4 text-[#8fadc0]">We will definitely notify you of any important changes,
             and you can choose the topics of the remaining notifications yourself.

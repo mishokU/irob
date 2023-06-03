@@ -10,10 +10,9 @@ export function ProfileContentTabs({menu, setMenu}: TabProps) {
     const menuStyle = "p-3 hover:border-[#4a5058] hover:text-white rounded-xl border-2 border-transparent"
     const menuStyleActive = "p-3 bg-[#1E252F] text-white rounded-xl border-[#29303A] border-2"
     return <div>
-        <ul className="flex flex-wrap -mb-px text-sm font-medium text-center space-x-3" role="tablist">
+        <ul className="flex overflow-y-scroll scrollbar-none -mb-px text-sm font-medium text-center space-x-3" role="tablist">
             <li role="presentation">
                 <button className={menu === ProfileMenu.Rooms ? menuStyleActive : menuStyle} onClick={() => {
-
                     setMenu(ProfileMenu.Rooms)
                 }}>Rooms
                 </button>

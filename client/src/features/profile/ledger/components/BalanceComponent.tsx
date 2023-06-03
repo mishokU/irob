@@ -12,7 +12,7 @@ export interface BalanceProps {
 }
 
 export function BalanceComponent({state, connect, onReceiveClick, onSendClick} : BalanceProps) {
-    return <div className="w-[500px] border-2 border-[#4a5058] h-fit rounded-lg p-2 items-center relative">
+    return <div className="lg:w-[500px] w-full border-2 border-[#4a5058] h-fit rounded-lg p-2 items-center relative">
         {state.isLoading && <IROBProgressBar/>}
         <h1 className="text-3xl text-white ml-4 mt-2">Balance</h1>
         <div className="flex justify-center min-h-[180px]">

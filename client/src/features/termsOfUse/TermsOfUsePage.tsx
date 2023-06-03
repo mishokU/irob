@@ -4,9 +4,9 @@ import {email} from "../../constants/Constants";
 
 export function TermsOfUsePage() {
     return <div>
-        <div className="ml-56 mr-56 mt-16 mb-16">
+        <div className="lg:ml-56 lg:mr-56 ml-4 mr-4 mt-16 mb-16">
             <h1 className="text-xl text-[#EAB308] text-center">IROB Terms of use</h1>
-            <div className="mt-12 w-[600px] m-auto">
+            <div className="mt-12 lg:w-[600px] w-fit m-auto">
                 <div className="space-y-6">
                     <div>
                         <p className="text-start text-[#8fadc0]">

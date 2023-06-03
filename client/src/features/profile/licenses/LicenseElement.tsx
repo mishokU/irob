@@ -41,23 +41,32 @@ export function LicenseElement(
         onShowProgressClick
     }: LicenseElementProps) {
     const notificationContext = usePopupContext()
-    const invisibleBorder = `border-[#4a5058] border-2 rounded-xl w-full h-[50px] cursor-pointer flex justify-start items-center`
-    const visibleBorder = `rounded-t-xl border-[#4a5058] border-2 w-full h-[50px] cursor-pointer flex justify-start items-center`
+    const invisibleBorder = `border-[#4a5058] border-2 rounded-xl w-full lg:h-[50px] h-fit cursor-pointer flex justify-start items-center`
+    const visibleBorder = `rounded-t-xl border-[#4a5058] border-2 w-full lg:h-[50px] h-fit cursor-pointer flex justify-start items-center`
     const isVisible = license.isUidVisible || license.isProgressVisible
     return (<div key={license.id}>
         <div className={isVisible ? visibleBorder : invisibleBorder}>
-            <div className="space-x-4 flex ml-6 justify-between items-center w-full mr-4">
-                <div className="flex w-fit space-x-4 items-center">
-                    {license.status === LicenseStatus.running && <div className="bg-green-500 w-3 h-3 min-w-[12px] rounded rounded-full"/>}
-                    {license.status === LicenseStatus.canceled && <div className="bg-red-500 w-3 h-3 min-w-[12px] rounded rounded-full"/>}
-                    {license.status === LicenseStatus.success && <div className="bg-[#ffb81c] w-3 h-3 min-w-[12px] rounded rounded-full"/>}
-                    {license.status === LicenseStatus.claimed && <div className="bg-white w-3 h-3 min-w-[12px] rounded rounded-full"/>}
-                    {license.type && <h1 className="select-none min-w-fit">{license.type}</h1>}
-                    {license.name &&
-                        <h2 className="line-clamp-1 min-w-fit max-w-[150px] select-none">{license.name}</h2>}
-                    {license.owner &&
-                        <h1 className="line-clamp-1 min-w-fit max-w-[150px] select-none">{license.owner}</h1>}
-                    <h1 className="min-w-fit line-clamp-1 select-none">{license.date}</h1>
+            <div
+                className="lg:space-x-4 space-x-0 space-y-2 lg:space-y-0 lg:flex lg:ml-6 ml-4 justify-between items-center w-full mr-4 p-2 lg:p-0">
+                <div className="lg:flex w-fit lg:space-x-4 space-x-0 items-center">
+                    <div className="flex space-x-2 items-center">
+                        {license.status === LicenseStatus.running &&
+                            <div className="bg-green-500 w-3 h-3 min-w-[12px] rounded rounded-full"/>}
+                        {license.status === LicenseStatus.canceled &&
+                            <div className="bg-red-500 w-3 h-3 min-w-[12px] rounded rounded-full"/>}
+                        {license.status === LicenseStatus.success &&
+                            <div className="bg-[#ffb81c] w-3 h-3 min-w-[12px] rounded rounded-full"/>}
+                        {license.status === LicenseStatus.claimed &&
+                            <div className="bg-white w-3 h-3 min-w-[12px] rounded rounded-full"/>}
+                        {license.type && <h1 className="select-none min-w-fit">{license.type}</h1>}
+                        {license.name &&
+                            <h2 className="line-clamp-1 min-w-fit max-w-[150px] select-none">{license.name}</h2>}
+                    </div>
+                    <div className="flex space-x-2">
+                        {license.owner &&
+                            <h1 className="line-clamp-1 min-w-fit max-w-[150px] select-none">{license.owner}</h1>}
+                        <h1 className="min-w-fit line-clamp-1 select-none">{license.date}</h1>
+                    </div>
                 </div>
                 <div className="flex w-fit space-x-3">
                     {license.isClaimRewardVisible && <div

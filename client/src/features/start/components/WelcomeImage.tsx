@@ -1,7 +1,7 @@
 export function WelcomeImage() {
     return <div>
         <svg
-            className="m-auto"
+            className="m-auto w-[300px] h-[300px] lg:w-fit lg:h-fit"
             xmlns="http://www.w3.org/2000/svg"
             width="100mm"
             height="100mm"

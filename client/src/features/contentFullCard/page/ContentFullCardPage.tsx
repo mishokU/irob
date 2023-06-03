@@ -25,11 +25,11 @@ export function ContentFullCardPage() {
         handleDeleteCardClick
     } = useViewModel()
 
-    return <div className="h-screen overflow-y-hidden relative">
+    return <div className="overflow-y-hidden relative">
         <button
             type="button"
             onClick={onBackClick}
-            className="bg-[#ffb81c] absolute mt-8 ml-8 z-10 rounded-full w-14 h-14 p-4 text-center inline-flex">
+            className="bg-[#ffb81c] absolute mt-8 lg:ml-8 ml-4 z-10 rounded-full w-14 h-14 p-4 text-center inline-flex">
             <img alt="back" src={backImg}/>
             <span className="sr-only">Icon description</span>
         </button>
@@ -56,12 +56,12 @@ export function ContentFullCardPage() {
                 url={state.content.videoTrailerUrl}
             />}
             {!state.isTrailerVisible && <div>
-                <div className="pt-12 flex justify-center items-center space-x-2 text-4xl">
-                    <h1 className="text-yellow-300 ">Content card</h1>
+                <div className="pt-12 flex justify-center items-center space-x-2 lg:text-4xl text-2xl">
+                    <h1 className="text-yellow-300">Content card</h1>
                 </div>
-                <div className="flex justify-center items-center space-x-4 pt-12 pl-32 pr-32 pb-12 mt-4">
-                    <div className="flex">
-                        <div className="flex text-white w-[500px]">
+                <div className="flex justify-center items-center space-x-4 pt-12 lg:pl-32 pl-4 lg:pr-32 pr-4 pb-12 mt-4">
+                    <div className="lg:flex lg:space-y-0 space-y-4">
+                        <div className="flex text-white lg:w-[500px] w-full">
                             <div className="max-w-lg pr-8 space-y-4">
                                 <div className="flex space-x-4">
                                     <div
@@ -95,7 +95,7 @@ export function ContentFullCardPage() {
                                 alt="preview"
                                 placeholder="bg-black"
                                 src={state.content.videoPreview}
-                                className="w-[54em] h-[33em] bg-black rounded-2xl"/>
+                                className="lg:w-[54em] w-full lg:h-[33em] h-full bg-black rounded-2xl"/>
                             <div className="ml-1 mr-1 flex space-x-4">
                                 {state.content.videoTrailerUrl !== "null" && <button
                                     className={buttonTheme + " mt-4 w-full"}

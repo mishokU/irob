@@ -3,7 +3,7 @@ import {buttonTheme} from "../../../ui/themes/Themes";
 
 
 export function ConfidentialComponent() {
-    return <div className="border-[#29303A] -mt-4 rounded-2xl p-4 text-white w-[550px]">
+    return <div className="border-[#29303A] -mt-4 rounded-2xl p-4 text-white lg:w-[550px] w-full">
         <h1 className="text-xl font-bold">{SettingsStrings.PrivacyData}</h1>
         <p className="mt-4 text-[#8fadc0]">Choose whether you want your Pinterest profile to be hidden from search
             engines and what data we use

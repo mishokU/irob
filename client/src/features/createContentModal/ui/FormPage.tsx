@@ -20,7 +20,7 @@ export function FormPage({
      onContentTypeChange,
      onDirectorChange
 }: FormPageProps) {
-    return <div className="w-1/2">
+    return <div className="lg:w-1/2 w-full lg:pr-0 pr-3">
         <h1 className="text-2xl font-bold">Filling out the form</h1>
         <div className="relative">
             <p className="mt-4">Content Type</p>

@@ -7,11 +7,11 @@ function App() {
     const {state, onReloadClick, onCloseTestNotificationClick} = useViewModel()
     return <div>
         {state.inTestMode && <div
-            className="w-screen h-[50px] flex justify-center items-center text-white bg-black">
+            className="w-screen lg:h-[50px] h-fit pb-2 lg:flex md:flex flex-none justify-center items-center text-center text-white bg-black">
             Service in test mode: use only Sepolia network for deals!
             <div
                 onClick={onCloseTestNotificationClick}
-                className="ml-8 cursor-pointer rounded-full border-2 border-white">
+                className="lg:ml-8 md:ml-8 h-fit cursor-pointer lg:m-0 m-auto w-fit rounded-full border-2 border-white">
                 <img alt="close" src={close}/>
             </div>
         </div>}

@@ -8,12 +8,13 @@ import {NewRequirementsList} from "./new/NewRequirementsList";
 
 export function RequirementsMainComponent({setIsVisibleState, isVisibleState}: CreateRequirementsProps) {
     const {menu, setMenu, roomReducer} = useViewModel()
-    return <div className={!roomReducer.isFinished ? "w-[300px] min-w-[300px] -mt-2" : "w-[300px] min-w-[300px]"}>
+    return <div
+        className={!roomReducer.isFinished ? "lg:w-[300px] w-full min-w-[300px] lg:-mt-2 mt-4" : "lg:block hidden  w-[300px] min-w-[300px]"}>
         <div className="flex justify-between items-end">
             <div className="text-white text-2xl">Requirements</div>
             <div className={roomReducer.isFinished ? "pointer-events-none cursor-none select-none" : "cursor-pointer"}
                  onClick={() => setIsVisibleState({isVisible: true, requirement: null})}>
-                {!roomReducer.isFinished && <img alt="photo" className="w-10 h-10" src={createRequirementImg}/>}
+                {!roomReducer.isFinished && <img alt="photo" className="bg-[#ffb81c] rounded-full p-2 w-10 h-10" src={createRequirementImg}/>}
             </div>
         </div>
         <RequirementTabs menu={menu} setMenu={setMenu}/>

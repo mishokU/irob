@@ -15,7 +15,7 @@ export function ProfileLedgerPage() {
     } = useViewModel()
     const {menu, setSend, setReceive, setBalance} = ProfileLedgerMenuHandler()
     return <div>
-        <div className="flex space-x-12">
+        <div className="lg:flex lg:space-x-12 space-y-4 lg:space-y-0 space-x-0">
             {menu === ProfileLedgerMenu.SEND && <SendMoneyComponent
                 onBackClick={setBalance}
                 maxBalance={state.balance}/>

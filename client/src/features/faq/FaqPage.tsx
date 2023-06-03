@@ -8,15 +8,16 @@ import {initAskQuestionProps, useAskQuestionContext} from "../main/contexts/AskQ
 export function FaqPage() {
     const {items} = useViewModel()
     const askQuestion = useAskQuestionContext()
-    return <div className="mt-24">
+    return <div className="mt-24 ml-4 mr-4">
         <div className="text-center">
             <div className="space-y-6">
-                <h1 className="text-[#ffb81c]">FAQ</h1>
-                <h2 className="text-white text-6xl">We have answer.</h2>
-                <p className="text-[#8fadc0]">Here’s are some of the most common ones we've already <br/> been
+                <h1 className="text-[#ffb81c] text-2xl">FAQ</h1>
+                <h2 className="text-white lg:text-6xl text-3xl">We have answer.</h2>
+                <p className="text-[#8fadc0]">Here’s are some of the most common ones we've already <br
+                    className="lg:block hidden"/> been
                     asked. If
                     you have any questions that
-                    are not listed <br/> below feel free to <a
+                    are not listed <br className="lg:block hidden"/> below feel free to <a
                         onClick={() => askQuestion?.setVisibility(initAskQuestionProps(null, true))}
                         className="text-[#ffb81c] underline cursor-pointer"> contact
                         us </a></p>

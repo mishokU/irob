@@ -9,7 +9,7 @@ export interface ContentTypeDropDownProps {
 }
 
 export function ContentTypeDropDown({type, setType}: ContentTypeDropDownProps) {
-    return (<div className="w-40">
+    return (<div className="lg:w-40 w-full">
             <Listbox value={type} onChange={setType}>
                 <div className="mt-2">
                     <Listbox.Button className="relative w-full cursor-default rounded-lg h-[45px] bg-transparent border-2 border-[#29303A] py-2 pl-3 pr-10

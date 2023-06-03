@@ -9,7 +9,7 @@ export function Footer() {
     const navigate = useNavigate()
     return (<footer className="w-full min-h-[120px] bottom-0">
         <div className="h-0.5 opacity-5 bg-[#8fadc0]"/>
-        <div className="pl-32 pr-32 pt-8 pb-16 text-[#8fadc0] grid grid-cols-4">
+        <div className="lg:pl-32 lg:pr-32 pl-4 pr-4 pt-8 pb-16 text-[#8fadc0] grid lg:grid-cols-4 grid-cols-2 lg:gap-0 gap-4">
             <div className="space-y-4">
                 <h1>SOCIAL'S</h1>
                 <div className="flex space-x-4">

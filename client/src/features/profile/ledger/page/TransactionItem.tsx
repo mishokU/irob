@@ -17,7 +17,7 @@ export function TransactionItem({transaction}: TransactionItemProps) {
         </div>}
         {transaction.isContractCreation && <div className="flex items-center space-x-2">
             <h1>Creation: </h1>
-            <a target="_blank" href={link} className="hover:underline text-sm">{transaction.contractAddress}</a>
+            <a target="_blank" href={link} className="hover:underline sm:underline text-sm">{transaction.contractAddress}</a>
         </div>}
         <div className="flex justify-between">
             <div className="flex items-center space-x-2">

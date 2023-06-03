@@ -4,7 +4,7 @@ WORKDIR /app
 COPY ./package.json ./
 RUN yarn install
 COPY . .
-CMD ["yarn", "start"]
+CMD ["yarn", "build"]
 
 FROM node:20-alpine as dev
 RUN apk --no-cache add --virtual .builds-deps build-base python3

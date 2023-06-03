@@ -10,7 +10,7 @@ export interface ReceiveMoneyProps {
 
 export function ReceiveMoneyComponent({onBackClick, account}: ReceiveMoneyProps) {
     const notificationContext = usePopupContext()
-    return <div className="w-[500px] border-2 border-[#4a5058] h-fit rounded-lg p-2 items-center relative">
+    return <div className="lg:w-[500px] w-full border-2 border-[#4a5058] h-fit rounded-lg p-2 items-center relative">
         <div className="flex items-center mt-2 ml-2">
             <BackButtonLedger onBackClick={onBackClick}/>
             <h1 className="text-3xl text-white ml-4">Receive</h1>
@@ -28,7 +28,7 @@ export function ReceiveMoneyComponent({onBackClick, account}: ReceiveMoneyProps)
                     <CopyIcon/>
                 </div>
             </div>
-            <div className="pl-4 pr-4 pt-2 pb-2 border-2 rounded-lg border-[#4a5058]">
+            <div className="pl-4 pr-4 pt-2 pb-2 border-2 rounded-lg truncate border-[#4a5058]">
                 {account}
             </div>
         </div>

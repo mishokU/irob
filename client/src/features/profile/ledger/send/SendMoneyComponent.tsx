@@ -11,7 +11,7 @@ export interface SendMoneyProps {
 export function SendMoneyComponent({onBackClick, maxBalance}: SendMoneyProps) {
     const {value, error, setAddress, isLoading, setValue, onMaxClick, onSendClick} = useViewModel(maxBalance)
     const sendStyle = isLoading ? `${buttonThemeDisabled} w-full ` : `${buttonTheme} w-full`
-    return <div className="w-[500px] border-2 border-[#4a5058] h-fit rounded-lg p-2 items-center relative">
+    return <div className="lg:w-[500px] w-full border-2 border-[#4a5058] h-fit rounded-lg p-2 items-center relative">
         <div className="flex items-center mt-2 ml-2">
             <BackButtonLedger onBackClick={onBackClick}/>
             <h1 className="text-3xl text-white ml-4">Send</h1>

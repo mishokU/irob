@@ -28,6 +28,10 @@ export default function RoomViewModel() {
     const [error, setError] = useState<string | null>(null)
     const [isSettingsDialogVisible, setIsSettingsDialogVisible] = useState(false)
     const [isMakeDealDialogVisible, setIsMakeDealDialogVisible] = useState(false)
+
+    const [isRequirementsVisible, setIsRequirementsVisible] = useState(!(window.innerWidth < 920))
+    const [isUsersVisible, setIsUsersVisible] = useState(!(window.innerWidth < 920))
+
     const [isRequirementVisible, setIsRequirementVisible] = useState<RequirementState>({
         isVisible: false, requirement: null
     })
@@ -135,6 +139,10 @@ export default function RoomViewModel() {
         onShowCardClick,
         isPaymentButtonVisible,
         setIsRequirementVisible,
+        isRequirementsVisible,
+        isUsersVisible,
+        setIsUsersVisible,
+        setIsRequirementsVisible,
         error,
         onBackClick
     }

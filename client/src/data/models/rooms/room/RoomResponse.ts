@@ -5,7 +5,7 @@ export interface RoomResponse {
     owner: string
     type: string
     ownerName: string
-    lastMessage: string
+    lastMessage: string | null
     lastMessageDate: string
     requirements: string
 }

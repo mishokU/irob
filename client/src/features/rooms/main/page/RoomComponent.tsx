@@ -10,6 +10,8 @@ import backImg from "../../../../ui/assets/left_24px.png";
 import {SettingsModalDialog} from "../dialogs/settings/SettingsModalDialog";
 import {MakeDealDialog} from "../dialogs/makeDeal/MakeDealDialog";
 import documentImg from "../../asserts/document.png"
+import documentRequirement from "../../asserts/requirements_icon.png"
+import room_users_icon from "../../asserts/room_users_icon.png"
 
 /*
     Комната с комнонентами
@@ -35,7 +37,11 @@ export function RoomComponent() {
         setIsRequirementVisible,
         isMakeDealDialogVisible,
         setIsMakeDealDialogVisible,
+        isUsersVisible,
+        isRequirementsVisible,
         isPaymentButtonVisible,
+        setIsUsersVisible,
+        setIsRequirementsVisible,
         onBackClick,
         error,
         onShowCardClick
@@ -62,13 +68,27 @@ export function RoomComponent() {
             <button
                 type="button"
                 onClick={onBackClick}
-                className="bg-[#ffb81c] absolute mt-8 ml-8 z-10 rounded-full w-14 h-14 p-4 text-center inline-flex">
+                className="bg-[#ffb81c] absolute mt-8 lg:ml-8 ml-4 z-10 rounded-full w-14 h-14 p-4 text-center inline-flex">
                 <img src={backImg}/>
                 <span className="sr-only">Icon description</span>
             </button>
-            <div className="pt-12 flex justify-center items-center space-x-2 text-2xl">
-                <h1 className="text-yellow-300">Room:</h1>
-                <h2 className="text-white">{roomReducer.roomId}</h2>
+            <div className="lg:pt-12 pt-32 flex justify-center items-center text-2xl">
+                <div className="flex justify-between items-center w-full pr-4 pl-4">
+                    <div
+                        onClick={() => setIsUsersVisible(!isUsersVisible)}
+                        className="lg:hidden block bg-[#ffb81c] rounded-full p-2 h-fit">
+                        <img className="w-[30px] h-[30px]" src={room_users_icon}/>
+                    </div>
+                    <div className="flex space-x-2 m-auto">
+                        <h1 className="text-yellow-300">Room:</h1>
+                        <h2 className="text-white">{roomReducer.roomId}</h2>
+                    </div>
+                    <div
+                        onClick={() => setIsRequirementsVisible(!isRequirementsVisible)}
+                        className="lg:hidden block bg-[#ffb81c] rounded-full p-2 h-fit">
+                        <img className="w-[30px] h-[30px]" src={documentRequirement}/>
+                    </div>
+                </div>
             </div>
             <div className="z-10 absolute right-8 top-8">
                 <div className="space-x-4">
@@ -99,18 +119,19 @@ export function RoomComponent() {
                     </button>}
                 </div>
             </div>
-            <div className="flex justify-between ml-16 mr-16 mb-16 space-x-4 h-full pt-16">
-                <RoommatesComponent/>
-                <RoomSmartMessengerMainComponent
+            <div
+                className="flex justify-between lg:ml-16 ml-4 lg:mr-16 mr-4 mb-16 lg:space-x-4 space-x-0 h-full lg:pt-16 pt-2">
+                {isUsersVisible && <RoommatesComponent isVisible={isUsersVisible}/>}
+                {((!isUsersVisible && !isRequirementsVisible) || window.innerWidth > 920) && <RoomSmartMessengerMainComponent
                     roomName={roomReducer.roomName}
                     setIsVisible={setIsMakeDealDialogVisible}
                     isVisible={isMakeDealDialogVisible}
                     isDealButtonVisible={isPaymentButtonVisible}
-                />
-                <RequirementsMainComponent
+                />}
+                {isRequirementsVisible && <RequirementsMainComponent
                     isVisibleState={isRequirementVisible}
                     setIsVisibleState={setIsRequirementVisible}
-                />
+                />}
             </div>
         </div>}
         {error !== null && <div

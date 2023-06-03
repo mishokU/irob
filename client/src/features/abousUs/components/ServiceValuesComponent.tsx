@@ -1,7 +1,7 @@
 export function ServiceValuesComponent() {
-    return <div className="pl-56 bg-[#0c131a] pr-56 pb-16">
-        <h1 className="text-center text-[#EAB308] pt-16 text-2xl">Service values</h1>
-        <div className="grid grid-cols-3 mt-8 gap-12">
+    return <div className="lg:pl-56 pl-8 bg-[#0c131a] lg:pr-56 pr-8 lg:pb-16 pb-4">
+        <h1 className="text-center text-[#EAB308] lg:pt-16 pt-8 text-2xl">Service values</h1>
+        <div className="grid lg:grid-cols-3 grid-cols-1 mt-8 lg:gap-12 gap-6">
             <div className="text-start space-y-4">
                 <h2 className="text-xl">Political Independence</h2>
                 <p className="text-[#8fadc0]">The value of political independence is reflected in the decentralization

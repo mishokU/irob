@@ -58,7 +58,7 @@ export function CreateLicenseModal({roomId}: CreateLicenseProps) {
                     <div className="fixed inset-0 bg-black bg-opacity-50"/>
                 </Transition.Child>
                 <div className="fixed inset-0 overflow-y-auto">
-                    <div className="flex min-h-full items-center justify-center p-4 text-center text-white">
+                    <div className="flex min-h-full items-center justify-center lg:p-4 p-2 text-center text-white">
                         <Transition.Child
                             as={Fragment}
                             enter="ease-out duration-300"
@@ -69,12 +69,12 @@ export function CreateLicenseModal({roomId}: CreateLicenseProps) {
                             leaveTo="opacity-0 scale-95"
                         >
                             <Dialog.Panel
-                                className=" transform overflow-hidden border-2 border-[#29303A] w-3/5 rounded-2xl bg-[#0E1420] text-left align-middle shadow-xl transition-all">
+                                className=" transform overflow-hidden border-2 border-[#29303A] lg:w-3/5 w-full rounded-2xl bg-[#0E1420] text-left align-middle shadow-xl transition-all">
                                 {state.isLoading && <IROBProgressBar/>}
                                 {state.isLoading && <div className="absolute z-20 w-full h-full bg-black opacity-70"/>}
                                 <div className="p-6">
                                     <div className="flex justify-between">
-                                        <h1 className="text-3xl font-bold">Content card creation</h1>
+                                        <h1 className="lg:text-3xl text-2xl font-bold">Content card creation</h1>
                                         <button onClick={() => {
                                             modalsContext?.setState(initCreateCardProps())
                                         }}
@@ -83,9 +83,9 @@ export function CreateLicenseModal({roomId}: CreateLicenseProps) {
                                         </button>
                                     </div>
                                     <CreateContentStepper state={stepper}/>
-                                    <div className="mt-4 h-[550px]">
+                                    <div className="mt-4 h-[550px] overflow-y-scroll overflow-x-hidden">
                                         {
-                                            stepper === Stepper.INFO && <div className="flex space-x-4">
+                                            stepper === Stepper.INFO && <div className="lg:flex lg:space-x-4 lg:space-y-0 space-y-4">
                                                 <FormPage
                                                     state={state}
                                                     onNameChange={onNameChange}
@@ -102,7 +102,7 @@ export function CreateLicenseModal({roomId}: CreateLicenseProps) {
                                             </div>
                                         }
                                         {
-                                            stepper === Stepper.ADDITIONAL && <div className="flex space-x-4">
+                                            stepper === Stepper.ADDITIONAL && <div className="lg:flex lg:space-x-4 lg:space-y-0 space-y-4">
                                                 <AdditionalInfoComponent
                                                     onCastChanged={onActorsChange}
                                                     onGenresChanged={onGenresChanged}

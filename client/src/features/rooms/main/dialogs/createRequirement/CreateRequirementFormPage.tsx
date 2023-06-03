@@ -40,10 +40,10 @@ export function CreateRequirementFormPage({isVisibleState, setIsVisibleState}: C
     return <div className="relative">
         {isProgress && error === "" && <IROBProgressBar/>}
         <div className={(isProgress || error !== "") ? "invisible" : ""}>
-            <h1 className="text-3xl font-bold">
+            <h1 className="lg:text-3xl text-xl font-bold">
                 {requirementId === null ? "Requirement creation" : "Requirement updating"}
             </h1>
-            <div className="flex space-x-4">
+            <div className="lg:flex lg:space-x-4 space-x-0 space-y-4 lg:space-y-0">
                 <div className="w-full">
                     <p className="mt-4">Title</p>
                     <div className="flex relative">

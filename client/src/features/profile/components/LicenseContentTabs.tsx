@@ -7,10 +7,10 @@ export interface LicenseTabProps {
 }
 
 export function LicenseContentTabs({menu, setMenu}: LicenseTabProps) {
-    const menuStyle = "p-3 hover:border-[#4a5058] hover:text-white rounded-xl border-2 border-transparent"
-    const menuStyleActive = "p-3 bg-[#1E252F] text-white rounded-xl border-[#29303A] border-2"
+    const menuStyle = "p-3 hover:border-[#4a5058] hover:text-white rounded-xl border-2 border-transparent line-clamp-1"
+    const menuStyleActive = "p-3 bg-[#1E252F] text-white rounded-xl border-[#29303A] border-2 line-clamp-1"
     return <>
-        <ul className="flex flex-wrap -mb-px text-sm font-medium text-center space-x-3" role="tablist">
+        <ul className="flex overflow-y-scroll scrollbar-none -mb-px text-sm font-medium text-center space-x-3" role="tablist">
             <li role="presentation">
                 <button className={menu === LicenseMenu.MY_LICENSES ? menuStyleActive : menuStyle} onClick={() => {
                     setMenu(LicenseMenu.MY_LICENSES)

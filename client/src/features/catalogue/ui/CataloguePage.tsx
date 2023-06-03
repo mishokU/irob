@@ -9,7 +9,7 @@ export function CataloguePage() {
     const modalsContext = useModalsContext()
     const style = !isEmptyVisible ? "w-screen relative" : "w-screen h-screen relative"
     return (<div className={style}>
-        <div className="pt-6 pl-12 ml-24 mr-24">
+        <div className="pt-6 lg:pl-12 lg:ml-24 lg:mr-24 ml-4 mr-4">
             {isEmptyVisible && <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[350px]">
                 <div className="space-y-6 items-center">
                     <h1 className="text-2xl text-center text-white">
@@ -31,7 +31,7 @@ export function CataloguePage() {
                 <div className="pb-4 text-[#8fadc0]">Get a preview of what’s available for licensing on
                     IROB. Sign in or Sign up for free to access all content!
                 </div>
-                <div className="flex w-fit gap-4 grid lg:grid-cols-5 md:grid-cols-3 sm:grid-cols-2">
+                <div className="lg:flex w-fit gap-4 lg:grid lg:grid-cols-5 md:grid-cols-3 sm:grid-cols-1 lg:m-0 space-y-4 lg:space-y-0 m-auto">
                     {content.map((item: CatalogueUi) => <CatalogueItemComponent item={item}/>)}
                 </div>
             </div>}

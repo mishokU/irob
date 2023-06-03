@@ -2,11 +2,11 @@ import {StepCard} from "./StepCard";
 
 export function HowItWorksSection() {
     return <section className="text-center bg-[#0c131a] -mt-8">
-        <div className="w-[480px] h-fit m-auto">
-            <h2 className="text-yellow-400 pt-16 text-base">HOW IT WORKS</h2>
-            <h1 className="mt-8 text-2xl text-left">IROB offers a secure 24/7 digital film market for the
+        <div className="lg:w-[480px] w-fit pl-4 pr-4 h-fit m-auto">
+            <h2 className="text-yellow-400 lg:pt-16 pt-4 text-base">HOW IT WORKS</h2>
+            <h1 className="mt-8 text-2xl lg:text-left text-center">IROB offers a secure 24/7 digital film market for the
                 film industry.</h1>
-            <p className="mt-8 pb-16 text-left">IROB is an innovative blockchain-based platform that
+            <p className="pl-8 pr-8 lg:pl-0 lg:pr-0 mt-8 pb-16  text-left">IROB is an innovative blockchain-based platform that
                 allows users to buy and sell movie licenses securely and transparently. With IROB,
                 filmmakers can easily monetize their content by licensing it to interested buyers,
                 while buyers can access a vast library of licensed movies at competitive prices.

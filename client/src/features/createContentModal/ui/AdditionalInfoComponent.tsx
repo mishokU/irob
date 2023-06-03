@@ -17,7 +17,7 @@ export function AdditionalInfoComponent({
         onOwnerChanged,
         onYearChanged
 }: AdditionalInfoProps) {
-    return <div className="w-3/5 items-center">
+    return <div className="lg:w-3/5 w-full lg:pr-0 pr-3 items-center">
         <h1>Additional content information</h1>
         <p>There are some unnecessary fields that you can field</p>
         <div>

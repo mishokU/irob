@@ -13,7 +13,7 @@ export function ProfileCard() {
     const authMiddleware = AuthMiddleware()
     const {profileReducer, avatar} = useViewModel()
 
-    return <div className="text-center w-[380px] border-[#4a5058] h-fit border-2 p-4 rounded-2xl top-0">
+    return <div className="text-center lg:w-[380px] w-full border-[#4a5058] h-fit border-2 p-4 rounded-2xl top-0">
         <div className="flex justify-center">
             <img
                 placeholder={avatarPlaceholder}

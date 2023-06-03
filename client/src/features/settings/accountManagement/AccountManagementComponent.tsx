@@ -14,7 +14,7 @@ export function AccountManagementComponent() {
         setIsUpdatePasswordVisible,
         disableButtonText
     } = useViewModel()
-    return <div className="border-[#29303A] -mt-4 rounded-2xl p-4 text-white w-[550px]">
+    return <div className="border-[#29303A] -mt-4 rounded-2xl p-4 text-white lg:w-[550px] w-full">
         {
             isUpdatePasswordVisible && <UpdatePasswordModal
                 newPassword={newPassword}

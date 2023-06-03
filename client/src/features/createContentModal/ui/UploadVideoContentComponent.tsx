@@ -14,10 +14,10 @@ export interface UploadVideoProps {
 
 export function UploadVideoContentComponent({handleFileChange, media, clearVideo, isTrailer} : UploadVideoProps) {
     const inputRef = useRef<HTMLInputElement>(null);
-    return <div className={isTrailer ? ` mt-12 w-1/2` : ` mt-0 w-1/2`}>
+    return <div className={isTrailer ? ` mt-12 lg:w-1/2 w-full lg:pr-0 pr-3` : ` mt-0 lg:w-1/2 w-full lg:pr-0 pr-3`}>
         {!isTrailer && <h1 className="text-2xl font-bold">Content upload</h1>}
         <p className="mt-4">{isTrailer ? "Trailer (Optional)" : "Video"}</p>
-        <div className="border-[#29303A] border-2 mt-2 w-[464px] h-[260px] rounded-xl justify-center items-center flex z-10">
+        <div className="border-[#29303A] border-2 mt-2 lg:w-[464px] w-full h-[260px] rounded-xl justify-center items-center flex z-10">
             {
                 media === null && <div>
                     <input

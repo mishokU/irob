@@ -4,7 +4,7 @@ import {buttonTheme} from "../../../ui/themes/Themes";
 
 export function NetworkComponent() {
     const {updateNetwork, networks, setNetwork} = useViewModel()
-    return <div className="border-[#29303A] -mt-4 rounded-2xl p-4 text-white w-[550px]">
+    return <div className="border-[#29303A] -mt-4 rounded-2xl p-4 text-white lg:w-[550px] w-full">
         <h1 className="text-xl font-bold">{SettingsStrings.NetworkChanger}</h1>
         <p className="mt-4 text-[#8fadc0]">Admins can change network url</p>
         <div className="space-y-4">

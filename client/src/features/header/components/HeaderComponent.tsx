@@ -4,6 +4,7 @@ import {NonAuthHeader} from "./NonAuthHeader";
 import {AuthHeader} from "./AuthHeader";
 import {useLocation} from "react-router-dom";
 import AuthMiddleware from "../../auth/middleware/AuthMiddleware";
+import {MobileNavBar} from "./MobileNavBar";
 
 export function HeaderComponent() {
 
@@ -28,8 +29,11 @@ export function HeaderComponent() {
     })
 
     return (<header className={`z-60 sticky top-0 bg-[#0E1420]`}>
-        {location.pathname !== IROBRoutes.auth && !isUserLogged && <NonAuthHeader/>}
-        {location.pathname !== IROBRoutes.auth && isUserLogged && <AuthHeader/>}
+        <MobileNavBar/>
+        <div className="hidden lg:block md:block">
+            {location.pathname !== IROBRoutes.auth && !isUserLogged && <NonAuthHeader/>}
+            {location.pathname !== IROBRoutes.auth && isUserLogged && <AuthHeader/>}
+        </div>
         {!visible && <div className="h-0.5 w-full bg-gray-800"/>}
     </header>)
 }

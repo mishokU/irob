@@ -16,8 +16,8 @@ export function SettingsPage() {
     const {profileReducer} = useViewModel()
     const menuStyle = "p-3 hover:border-[#4a5058] hover:text-white rounded-xl border-2 border-transparent"
     const menuStyleActive = "p-3 bg-[#1E252F] text-white rounded-xl border-[#29303A] border-2"
-    return <div className="flex ml-12 mt-8 mt-24">
-        <div className="w-[16em] text-white min-w-[14em]">
+    return <div className="lg:flex lg:ml-12 lg:mr-0 ml-4 mr-4 mt-8 mt-24">
+        <div className="lg:w-[16em] w-full text-white min-w-[14em]">
             <div className="flex space-x-2 pb-4" onClick={onBackClick}>
                 <img className="w-[30px]" src={backImg}/>
                 <p className="text-xl text-white underline cursor-pointer">Back to profile</p>

@@ -11,7 +11,7 @@ export function PersonalDataComponent() {
         setLanguage,
         setLocation
     } = useViewModel()
-    return <div className="border-[#29303A] -mt-4 rounded-2xl p-4 text-white w-[550px]">
+    return <div className="border-[#29303A] -mt-4 rounded-2xl p-4 text-white lg:w-[550px] w-full">
         <h1 className="text-xl font-bold">{SettingsStrings.PersonalData}</h1>
         <p className="mt-4 text-[#8fadc0]">Edit basic personal information to improve recommendations. This information
             is confidential and will not appear on your public profile.
