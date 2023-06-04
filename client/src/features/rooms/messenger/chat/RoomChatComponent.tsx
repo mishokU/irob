@@ -13,9 +13,10 @@ export function RoomChatComponent({isVisible, setIsVisible, isDealButtonVisible}
         <div
             onScroll={onScroll}
             ref={messagesEndRef}
-            className="border-2 border-[#29303A] rounded-lg mt-4 p-4 w-full h-[calc(100vh-300px)] overflow-y-scroll scrollbar scroll-auto">
+            className="border-2 border-[#29303A] rounded-lg lg:mt-4 mt-2 p-4 w-full lg:h-[calc(100vh-300px)]
+            h-[calc(100vh-250px)] overflow-y-scroll scrollbar scroll-auto">
             {messageList.map((item: MessageUiModel) => (
-                (item.type === MessageType.CONTENT && <SimpleMessageComponent message={item}/>) ||
+                (item.type === MessageType.CONTENT && <SimpleMessageComponent key={item.id} message={item}/>) ||
                 (item.type === MessageType.CREATE_REQUIREMENT && <RequirementMessageComponent message={item}/>))
             )}
         </div>

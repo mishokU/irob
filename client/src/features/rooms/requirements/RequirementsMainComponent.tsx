@@ -9,7 +9,7 @@ import {NewRequirementsList} from "./new/NewRequirementsList";
 export function RequirementsMainComponent({setIsVisibleState, isVisibleState}: CreateRequirementsProps) {
     const {menu, setMenu, roomReducer} = useViewModel()
     return <div
-        className={!roomReducer.isFinished ? "lg:w-[300px] w-full min-w-[300px] lg:-mt-2 mt-4" : "lg:block hidden  w-[300px] min-w-[300px]"}>
+        className={!roomReducer.isFinished ? "lg:w-[300px] w-full min-w-[300px] lg:-mt-2 mt-4" : "lg:block lg:w-[300px] w-full min-w-[300px]"}>
         <div className="flex justify-between items-end">
             <div className="text-white text-2xl">Requirements</div>
             <div className={roomReducer.isFinished ? "pointer-events-none cursor-none select-none" : "cursor-pointer"}

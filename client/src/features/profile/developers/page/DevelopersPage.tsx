@@ -10,10 +10,10 @@ import {RootState} from "../../../../data/store";
 export function DevelopersPage() {
     const navigate = useNavigate()
     const profileReducer = useSelector((state: RootState) => state.profile)
-    return <div className="ml-4 mt-4 space-y-2">
+    return <div className="lg:ml-4 ml-0 mt-4 space-y-2">
         <h1 className="text-2xl">On this page you can find all necessary information about IROB API</h1>
         <div
-            className="h-[36em] w-fit pr-6 overflow-y-scroll scrollbar">
+            className="h-[36em] w-fit lg:pr-6 pr-0 lg:overflow-y-scroll lg:scrollbar">
             <GetVideoUrlInfo/>
             <RequirementsUpdatingInfo/>
             {(isDev() || profileReducer.isAdmin) && <button

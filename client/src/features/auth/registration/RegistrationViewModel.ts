@@ -25,7 +25,7 @@ export default function RegistrationViewModel(errorState: (value: string) => voi
     const [registration] = useRegistrationMutation()
 
     const authMiddleware = AuthMiddleware()
-    const [, setCookie] = useCookies(['token'])
+    const [, setCookie, removeCookie] = useCookies(['token'])
 
     const popupContext = usePopupContext()
     const navigate = useNavigate()
@@ -39,6 +39,7 @@ export default function RegistrationViewModel(errorState: (value: string) => voi
                     password: password
                 }).unwrap()
                 authMiddleware.saveToken(payload.token)
+                removeCookie('token')
                 setCookie('token', payload.token)
                 dispatch(updateProfile({user: payload.user}))
                 navigate(IROBRoutes.profile)

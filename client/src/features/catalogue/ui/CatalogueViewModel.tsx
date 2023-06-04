@@ -53,9 +53,14 @@ export default function CatalogueViewModel() {
             })
     }
 
+    const onRefreshClick = async () => {
+        loadCatalogue()
+    }
+
     return {
         error,
         isEmptyVisible,
+        onRefreshClick,
         content
     }
 }

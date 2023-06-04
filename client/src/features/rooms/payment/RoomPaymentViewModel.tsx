@@ -1,33 +1,33 @@
-import {useMetaMask} from "metamask-react";
-import {useEffect, useState} from "react";
+import { useMetaMask } from "metamask-react";
+import { useEffect, useState } from "react";
 import {
     useCreateLicenseMutation,
     useGetContractDataMutation,
     useGetRoomRequirementsCostMutation,
     useGetRoomResultMutation
 } from "../../../data/store/payment/RoomPaymentApi";
-import {useSelector} from "react-redux";
-import {RootState} from "../../../data/store";
-import {initialRoomPaymentState, RoomPaymentState} from "./RoomPaymentState";
-import {useUpdateLedgerAccountMutation} from "../../../data/store/profile/ProfileApi";
-import {RoomPrices} from "../../../data/models/rooms/payment/RoomPrices";
-import {ButtonType} from "./ButtonType";
-import {GetRoomRequirementsCostResponse} from "../../../data/models/rooms/payment/GetRoomRequirementsCostResponse";
-import {getLicenseStatus, LicenseStatus} from "../../profile/licenses/LicenseUiModel";
-import {isMetamaskAvailable} from "../../../domain/web3/isMetamaskAvailable";
-import {signAndCreateContract} from "../../../domain/web3/signAndCreateContract";
-import {signAndSendDeposit} from "../../../domain/web3/signAndSendDeposit";
+import { useSelector } from "react-redux";
+import { RootState } from "../../../data/store";
+import { initialRoomPaymentState, RoomPaymentState } from "./RoomPaymentState";
+import { useUpdateLedgerAccountMutation } from "../../../data/store/profile/ProfileApi";
+import { RoomPrices } from "../../../data/models/rooms/payment/RoomPrices";
+import { ButtonType } from "./ButtonType";
+import { GetRoomRequirementsCostResponse } from "../../../data/models/rooms/payment/GetRoomRequirementsCostResponse";
+import { getLicenseStatus, LicenseStatus } from "../../profile/licenses/LicenseUiModel";
+import { isMetamaskAvailable } from "../../../domain/web3/isMetamaskAvailable";
+import { signAndCreateContract } from "../../../domain/web3/signAndCreateContract";
+import { signAndSendDeposit } from "../../../domain/web3/signAndSendDeposit";
 
 export default function RoomPaymentViewModel() {
 
     const roomReducer = useSelector((state: RootState) => state.room)
     const configReducer = useSelector((state: RootState) => state.config)
 
-    const {status, connect, account} = useMetaMask();
+    const { status, connect, account } = useMetaMask();
 
     const [screenState, setScreenState] = useState<RoomPaymentState>(initialRoomPaymentState(status === "connected"))
 
-    const [getCost, {isLoading: isUpdating}] = useGetRoomRequirementsCostMutation()
+    const [getCost, { isLoading: isUpdating }] = useGetRoomRequirementsCostMutation()
     const [updateAccountLedgerMutation] = useUpdateLedgerAccountMutation()
     const [createLicenseMutation] = useCreateLicenseMutation()
     const [getContractData] = useGetContractDataMutation()
@@ -38,7 +38,7 @@ export default function RoomPaymentViewModel() {
             if (account !== null) {
 
                 const roomResult = await getRoomResult(roomReducer.roomId).unwrap()
-                const response = await updateAccountLedgerMutation({account: account}).unwrap()
+                const response = await updateAccountLedgerMutation({ account: account }).unwrap()
 
                 if (roomResult.roomPrices === null) {
 
@@ -88,39 +88,43 @@ export default function RoomPaymentViewModel() {
                     roomId: roomReducer.roomId, ownerId: roomReducer.ownerId, userId: roomReducer.userId
                 }).unwrap()
 
-                if (result.success === false) {
-                    error(result.message)
-                } else {
+                if (result.buyerAddress !== result.sellerAddress) {
 
-                    const cost = screenState.leftPanel.data.contractCost.toString()
-                    const commission = screenState.leftPanel.data.commission.toString()
-                    const deposit = screenState.leftPanel.data.depositCost.toString()
-
-                    const sendCommission = await signAndSendDeposit(result.commissionAddress, commission, configReducer.chainHexId)
-
-                    const contractAddress = await signAndCreateContract(result.buyerAddress, result.data, deposit, configReducer.chainHexId)
-
-                    /*
-                        Need to save transfer cost
-                    */
-
-                    const sendDepositResult = await signAndSendDeposit(result.sellerAddress, cost, configReducer.chainHexId)
-
-                    const createLicenseResponse = await createLicenseMutation({
-                        roomId: roomReducer.roomId,
-                        ownerId: roomReducer.ownerId,
-                        userId: roomReducer.userId,
-                        contractAddress: contractAddress
-                    }).unwrap()
-
-                    const updatedBalance = Number(screenState.balance) - Number(deposit) - Number(cost)
-
-                    if (createLicenseResponse.success === false) {
-                        error(createLicenseResponse.message)
+                    if (result.success === false) {
+                        error(result.message)
                     } else {
-                        successCreation(createLicenseResponse.title, createLicenseResponse.description, updatedBalance)
-                    }
 
+                        const cost = screenState.leftPanel.data.contractCost.toString()
+                        const commission = screenState.leftPanel.data.commission.toString()
+                        const deposit = screenState.leftPanel.data.depositCost.toString()
+
+                        const sendCommission = await signAndSendDeposit(result.commissionAddress, commission, configReducer.chainHexId)
+
+                        const contractAddress = await signAndCreateContract(result.buyerAddress, result.data, deposit, configReducer.chainHexId)
+
+                        /*
+                            Need to save transfer cost
+                        */
+
+                        const sendDepositResult = await signAndSendDeposit(result.sellerAddress, cost, configReducer.chainHexId)
+
+                        const createLicenseResponse = await createLicenseMutation({
+                            roomId: roomReducer.roomId,
+                            ownerId: roomReducer.ownerId,
+                            userId: roomReducer.userId,
+                            contractAddress: contractAddress
+                        }).unwrap()
+
+                        const updatedBalance = Number(screenState.balance) - Number(deposit) - Number(cost)
+
+                        if (createLicenseResponse.success === false) {
+                            error(createLicenseResponse.message)
+                        } else {
+                            successCreation(createLicenseResponse.title, createLicenseResponse.description, updatedBalance)
+                        }
+                    }
+                } else {
+                    error("Error buyer and seller addresses can not be equal")
                 }
             }
 

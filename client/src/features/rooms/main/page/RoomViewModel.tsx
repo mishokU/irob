@@ -8,33 +8,35 @@ import {
 } from "../../../../data/store/rooms/RoomsApi";
 import {RootState} from "../../../../data/store";
 import {useNavigate} from "react-router-dom";
-import useWebSocket from "react-use-websocket";
 import {IROBRoutes} from "../../../../routes/IROBRoutes";
 import {useRemoveUserMutation} from "../../../../data/store/rooms/RoomUsersApi";
 import {RequirementState} from "./RequirementState";
 import {useModalsContext} from "../../../main/contexts/ModalsProvider";
 import {initNotification, NotificationPosition, usePopupContext} from "../../../main/contexts/NotificationProvider";
-import {WS_URL} from "../../../../constants/Constants";
 import {GetRoomResponse} from "../../../../data/models/rooms/room/GetRoomResponse";
+import {isUserEvent, RoomWebSocketTypes} from "../../domain/requests/HandleEventTypes";
+import useWebSocket from "react-use-websocket";
+import {WS_URL} from "../../../../constants/Constants";
+import {CenterMenu} from "../../messenger/main/CenterMenu";
 
 export default function RoomViewModel() {
 
     const dispatch = useDispatch();
 
     const roomReducer = useSelector((state: RootState) => state.room)
+    const profileReducer = useSelector((state: RootState) => state.profile)
 
     const [isDeleteDialogVisible, setIsDeleteDialogVisible] = useState(false)
     const [isContentVisible, setIsContentVisible] = useState(false)
     const [error, setError] = useState<string | null>(null)
     const [isSettingsDialogVisible, setIsSettingsDialogVisible] = useState(false)
     const [isMakeDealDialogVisible, setIsMakeDealDialogVisible] = useState(false)
-
-    const [isRequirementsVisible, setIsRequirementsVisible] = useState(!(window.innerWidth < 920))
-    const [isUsersVisible, setIsUsersVisible] = useState(!(window.innerWidth < 920))
-
+    const [isRightTopMenuVisible, setIsRightTopMenuVisible] = useState(false)
     const [isRequirementVisible, setIsRequirementVisible] = useState<RequirementState>({
         isVisible: false, requirement: null
     })
+
+    const [menu, setMenu] = useState(CenterMenu.CHAT)
 
     const [isPaymentButtonVisible, setIsPaymentButtonVisible] = useState(false)
 
@@ -46,13 +48,8 @@ export default function RoomViewModel() {
     const [leaveUserMutation] = useRemoveUserMutation()
     const [getContentId] = useGetContentIdMutation()
 
-    useWebSocket(WS_URL, {
-        onError: (error) => console.log(error),
-        onOpen: () => console.log('WebSocket connection established.'),
-        share: true,
-        filter: () => false,
-        retryOnError: true,
-        shouldReconnect: () => true
+    const {sendJsonMessage} = useWebSocket(WS_URL, {
+        share: true, filter: isUserEvent
     });
 
     useEffect(() => {
@@ -76,6 +73,16 @@ export default function RoomViewModel() {
                 }
             })
             .catch((error) => console.log(error))
+    }, [])
+
+    useEffect(() => {
+        sendJsonMessage({
+            type: RoomWebSocketTypes.userJoined,
+            username: profileReducer.fullName,
+            roomId: roomReducer.roomId,
+            avatar: profileReducer.avatar,
+            userId: profileReducer.profileId
+        });
     }, [])
 
     useEffect(() => {
@@ -109,6 +116,7 @@ export default function RoomViewModel() {
     const useCreateContent = useModalsContext()
 
     const onShowCardClick = async () => {
+        console.log(roomReducer.contentId)
         if (roomReducer.contentId !== 0) {
             navigate(IROBRoutes.card, {state: {contentId: roomReducer.contentId, fromCatalogue: false}})
         } else {
@@ -119,6 +127,14 @@ export default function RoomViewModel() {
                 useCreateContent?.setState({isVisible: true, roomId: roomReducer.roomId})
             }
         }
+    }
+
+    function setChat() {
+        setMenu(CenterMenu.CHAT)
+    }
+
+    function setPayment() {
+        setMenu(CenterMenu.PAYMENT)
     }
 
     function removeUserFromRoom() {
@@ -139,11 +155,11 @@ export default function RoomViewModel() {
         onShowCardClick,
         isPaymentButtonVisible,
         setIsRequirementVisible,
-        isRequirementsVisible,
-        isUsersVisible,
-        setIsUsersVisible,
-        setIsRequirementsVisible,
+        setIsRightTopMenuVisible,
+        isRightTopMenuVisible,
+        setMenu,
         error,
+        menu,
         onBackClick
     }
 

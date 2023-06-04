@@ -7,7 +7,6 @@ const {getToken} = require("../../controllers/Utils");
 
 const roomRequirementsRouter = new Router()
 
-// export our router to be mounted by the parent application
 module.exports = roomRequirementsRouter
 
 roomRequirementsRouter.post('/apply', (request, result) => {

@@ -13,7 +13,6 @@ import {WS_URL} from "../../../constants/Constants";
 export default function RoommatesViewModel() {
 
     const roomReducer = useSelector((state: RootState) => state.room)
-    const profileReducer = useSelector((state: RootState) => state.profile)
 
     const [users, addUser] = useState<RoomUserResponse[]>([]);
 
@@ -21,7 +20,7 @@ export default function RoommatesViewModel() {
 
     const [userRoomMutation] = useGetRoomUsersMutation()
 
-    const {sendJsonMessage, lastMessage} = useWebSocket(WS_URL, {
+    const {lastMessage} = useWebSocket(WS_URL, {
         share: true, filter: isUserEvent
     });
 
@@ -40,16 +39,6 @@ export default function RoommatesViewModel() {
         });
 
     }, [userRoomMutation, roomReducer.roomId])
-
-    useEffect(() => {
-        sendJsonMessage({
-            type: RoomWebSocketTypes.userJoined,
-            username: profileReducer.fullName,
-            roomId: roomReducer.roomId,
-            avatar: profileReducer.avatar,
-            userId: profileReducer.profileId
-        });
-    }, [])
 
     useEffect(() => {
         if (lastMessage !== null) {

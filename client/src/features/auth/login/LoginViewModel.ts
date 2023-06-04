@@ -20,7 +20,7 @@ export default function LoginViewModel(errorState: (value: string) => void) {
     const [passwordError, setPasswordError] = useState<string | null>(null)
 
     const authMiddleware = AuthMiddleware()
-    const [, setCookie] = useCookies(['token'])
+    const [, setCookie, removeCookie] = useCookies(['token'])
 
     const [login] = useLoginMutation()
 
@@ -35,6 +35,7 @@ export default function LoginViewModel(errorState: (value: string) => void) {
             if (isEmailAndPasswordValid(email, password)) {
                 const payload = await login({email, password}).unwrap()
                 authMiddleware.saveToken(payload.token)
+                removeCookie('token')
                 setCookie('token', payload.token)
                 dispatch(updateProfile({
                     user: payload.user

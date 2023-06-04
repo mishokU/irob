@@ -3,13 +3,9 @@ import starImg from "../asserts/star_48px.png"
 import {IROBProgressBar} from "../../../ui/common/IROBProgressBar";
 import avatarPlaceholder from "../../../ui/assets/avatart_placeholder.png"
 
-export interface RoommatesComponentProps {
-    isVisible: boolean
-}
-
-export function RoommatesComponent({isVisible}: RoommatesComponentProps) {
+export function RoommatesComponent() {
     const {users} = useViewModel()
-    return <div className={`${isVisible ? 'block' : 'hidden'} lg:w-[300px] w-full relative min-w-[300px] text-white`}>
+    return <div className={`block lg:w-[300px] w-full relative min-w-[300px] text-white`}>
         <div className="flex text-2xl space-x-4">
             <div>Users</div>
         </div>

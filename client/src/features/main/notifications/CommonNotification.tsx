@@ -15,7 +15,7 @@ export function CommonNotification({ text, showTimeMs, position }: TopRightNotif
     }
     return <div
         role="alert"
-        className={state + "max-w-[340px] w-fit p-4 z-60 h-fit rounded-2xl text-white text-lg border-2 bg-[#0c131a] border-[#ffb81c] absolute"}>
+        className={state + "max-w-[340px] w-fit p-4 z-60 h-fit rounded-2xl text-white text-lg border-2 bg-[#0c131a] border-[#ffb81c] fixed"}>
         <p>{text}</p>
     </div>
 }

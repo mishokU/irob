@@ -7,7 +7,7 @@ function App() {
     const {state, onReloadClick, onCloseTestNotificationClick} = useViewModel()
     return <div>
         {state.inTestMode && <div
-            className="w-screen lg:h-[50px] h-fit pb-2 lg:flex md:flex flex-none justify-center items-center text-center text-white bg-black">
+            className="w-screen lg:h-[50px] h-fit pb-1 pt-1 lg:pr-0 pr-4 pl-4 lg:pl-0 flex justify-center items-center text-center text-white bg-black">
             Service in test mode: use only Sepolia network for deals!
             <div
                 onClick={onCloseTestNotificationClick}

@@ -9,7 +9,7 @@ import {IROBRoutes} from "../../../routes/IROBRoutes";
 export function RegistrationComponent(auth: IAuth) {
     const {handleRegistration, setEmail, setPassword, emailError, passwordError} = useViewModel(auth.errorState)
     const navigate = useNavigate()
-    return <div className="absolute space-y-4 w-[18.75em]">
+    return <div className="space-y-4 w-[18.75em]">
         <h1 className="text-2xl font-bold text-center text-white">Get started!</h1>
         <p className="text-center text-1xl pb-4 text-[#8fadc0]">Join the community, and get the whole experience</p>
         <form className="flex-column items-center">

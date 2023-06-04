@@ -24,7 +24,7 @@ export function AuthPage() {
         </div>
         {message != null && <ErrorToastComponent message={message}/>}
         <div className="lg:block hidden h-[50em] w-[50em] rotate-45 bg-[#0c131a] absolute -ml-[25em] -mt-[25em]"/>
-        <div className="flex items-center justify-center mt-8 ">
+        <div className="flex items-center justify-center mt-8 m-auto lg:w-fit lg:h-fit w-[100px] h-[100px]">
             <BigLogoImage/>
         </div>
         <div className="flex justify-center h-fit">

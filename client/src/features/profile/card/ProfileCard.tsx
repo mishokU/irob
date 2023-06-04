@@ -6,13 +6,14 @@ import {useDispatch} from "react-redux";
 import {clearProfile} from "../../../data/slices/ProfileSlice";
 import AuthMiddleware from "../../auth/middleware/AuthMiddleware";
 import avatarPlaceholder from "../../../ui/assets/avatart_placeholder.png"
+import {useCookies} from "react-cookie";
 
 export function ProfileCard() {
     const navigate = useNavigate()
     const dispatch = useDispatch()
     const authMiddleware = AuthMiddleware()
     const {profileReducer, avatar} = useViewModel()
-
+    const [, , removeCookie] = useCookies(['token'])
     return <div className="text-center lg:w-[380px] w-full border-[#4a5058] h-fit border-2 p-4 rounded-2xl top-0">
         <div className="flex justify-center">
             <img
@@ -33,6 +34,7 @@ export function ProfileCard() {
             </button>
             <button className={buttonTheme + " mt-6 w-full"} onClick={() => {
                 authMiddleware.removeToken()
+                removeCookie('token')
                 dispatch(clearProfile())
                 navigate(IROBRoutes.home)
             }}>Logout

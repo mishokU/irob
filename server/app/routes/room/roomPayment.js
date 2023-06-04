@@ -10,13 +10,11 @@ const contentController = require("../../controllers/ContentController")
 
 const etherscan = require("../../services/etherscan/etherscanApi")
 
-
 const Web3 = require("web3");
 const {getToken} = require("../../controllers/Utils");
 
 const roomPaymentRouter = new Router()
 
-// export our router to be mounted by the parent application
 module.exports = roomPaymentRouter
 
 roomPaymentRouter.get('/cost', (request, result) => {

@@ -12,6 +12,7 @@ const {
     updateFirstAgreement,
     createNotification
 } = require('./irobApi')
+
 const NotificationTypes = require("./notificationTypes");
 
 // Spinning the http server and the WebSocket server.
@@ -46,7 +47,6 @@ function broadcastMessage(json) {
     const data = JSON.stringify(json);
     try {
         const roomId = json.data.roomId
-        console.log(roomId)
         for (let userId in clients) {
             let client = clients[userId]
             let user = users[userId]
@@ -101,7 +101,7 @@ async function handleMessage(message, userId) {
                 roomId, userId, content, date, avatar, messageType, username
             )
 
-            json.data = {content, username, avatar, roomId, date, userId};
+            json.data = {content, username, avatar, roomId, date, userId}
 
         } else if (dataFromClient.type === typesDef.CREATE_REQUIREMENT || dataFromClient.type === typesDef.APPLY_REQUIREMENT) {
 
@@ -189,4 +189,4 @@ wsServer.on('connection', function (connection, request) {
     connection.on('message', (message) => handleMessage(message, userId));
     // User disconnected
     connection.on('close', () => handleDisconnect(userId));
-});
+})

@@ -13,27 +13,27 @@ export function GetVideoUrlInfo() {
         <h2 className="text-xl mt-4">Get video url by current license key</h2>
         <div className="space-y-2">
             <h2>Returns the success and message</h2>
-            <div className="bg-[#4a5058] w-[500px] rounded-lg p-2 flex space-x-2">
+            <div className="bg-[#4a5058] lg:w-[500px] w-full rounded-lg p-2 flex space-x-2">
                 <h2>GET: </h2>
                 <p>{ServerUrl}/api/getVideoUrl</p>
             </div>
         </div>
         <div className="space-y-2">
             <p>With query</p>
-            <div className="bg-[#4a5058] w-[500px] rounded-lg p-2">
+            <div className="bg-[#4a5058] lg:w-[500px] w-full rounded-lg p-2">
                 <p>licenseKey: da9147d1-c0e8-4416-99a6-bc8001a9bf05</p>
             </div>
         </div>
         <div className="space-y-2">
             <h2>Good response</h2>
-            <div className="bg-[#4a5058] w-[500px] rounded-lg p-2">
-                <p>{goodValue}</p>
+            <div className="bg-[#4a5058] lg:w-[500px] w-full rounded-lg p-2">
+                <code>{goodValue}</code>
             </div>
         </div>
         <div className="space-y-2">
             <h2>Bad response</h2>
-            <div className="bg-[#4a5058] w-[500px] rounded-lg p-2">
-                <p>{value}</p>
+            <div className="bg-[#4a5058] lg:w-[500px] w-full rounded-lg p-2">
+                <code>{value}</code>
             </div>
         </div>
     </div>

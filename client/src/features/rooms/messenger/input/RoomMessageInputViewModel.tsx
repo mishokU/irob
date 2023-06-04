@@ -19,6 +19,7 @@ export default function RoomMessageInputViewModel() {
 
     const sendMessage = async () => {
         try {
+            console.log(singleMessage)
             if (singleMessage !== "") {
                 sendJsonMessage({
                     type: RoomWebSocketTypes.sendMessage,

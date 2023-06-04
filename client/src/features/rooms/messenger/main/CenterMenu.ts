@@ -1,4 +1,6 @@
 export enum CenterMenu {
     CHAT,
-    PAYMENT
+    PAYMENT,
+    USERS,
+    REQUIREMENTS
 }
