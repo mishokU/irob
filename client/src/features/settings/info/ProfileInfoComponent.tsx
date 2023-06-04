@@ -35,7 +35,7 @@ export function ProfileInfoComponent() {
                 onChange={uploadImagesResult}
                 id="image_uploads"
                 name="image_uploads"
-                className="invisible"
+                className="hidden"
                 readOnly={true}
                 accept=".jpg, .jpeg, .png"/>
         </div>

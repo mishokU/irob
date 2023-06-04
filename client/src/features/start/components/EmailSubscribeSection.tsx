@@ -6,9 +6,9 @@ import {useState} from "react";
 export function EmailSubscribeSection() {
     const askQuestion = useAskQuestionContext()
     const [email, setEmail] = useState("")
-    return <section className="bg-[#0c131a] p-8">
+    return <section className="bg-[#0c131a] lg:p-8 p-4">
         <div className="lg:block hidden h-20 w-full bg-[#0c131a] absolute -mt-14 opacity-5 lg:-rotate-10 -rotate-0"/>
-        <div className="lg:p-8 p-4">
+        <div className="lg:p-8">
             <div className="lg:w-2/3 w-full h-fit lg:pt-16 pt-8 lg:pb-16 pb-4 lg:pl-8 pl-4 space-y-8 lg:pr-8 pr-4 m-auto bg-[#111a22] rounded-lg ">
                 <div className="space-y-4">
                     <h2 className="lg:pl-8 text-xs text-[#ffb81c]">NOT SURE YET?</h2>

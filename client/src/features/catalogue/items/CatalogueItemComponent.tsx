@@ -11,7 +11,7 @@ export function CatalogueItemComponent({item}: CatalogueItemProps) {
     return <div
         className="cursor-pointer w-fit"
         onClick={() => navigate(IROBRoutes.card, {state: {contentId: item.contentId, fromCatalogue: true}})}>
-        <div className="rounded-xl border-sm border-2 border-gray-700 max-w-[16em] w-fit lg:h-[10em] overflow-hidden">
+        <div className="rounded-xl border-sm border-2 border-gray-700 max-w-[16em] w-fit lg:h-[10em] h-[10em] overflow-hidden">
             <img
                 placeholder="bg-black"
                 src={item.videoPreview}

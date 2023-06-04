@@ -39,7 +39,7 @@ export function CataloguePage() {
                 <div className="pb-4 text-[#8fadc0]">Get a preview of what’s available for licensing on
                     IROB. Sign in or Sign up for free to access all content!
                 </div>
-                <div className="lg:flex w-fit gap-4 lg:grid lg:grid-cols-5 md:grid-cols-3 sm:grid-cols-1 lg:m-0 space-y-4 lg:space-y-0 m-auto">
+                <div className="lg:flex pb-4 w-fit gap-4 lg:grid lg:grid-cols-5 md:grid-cols-3 grid-cols-1 lg:m-0 space-y-4 lg:space-y-0 m-auto">
                     {content.map((item: CatalogueUi) => <CatalogueItemComponent item={item} />)}
                 </div>
             </div>}

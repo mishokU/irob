@@ -1,9 +1,9 @@
-import React, {useState} from "react";
+import React, { useState } from "react";
 import AuthMiddleware from "../../auth/middleware/AuthMiddleware";
-import {IROBRoutes} from "../../../routes/IROBRoutes";
-import {NavLink, useNavigate} from "react-router-dom";
-import {LogoImage} from "../assets/LogoImage";
-import {useModalsContext} from "../../main/contexts/ModalsProvider";
+import { IROBRoutes } from "../../../routes/IROBRoutes";
+import { NavLink, useNavigate } from "react-router-dom";
+import { LogoImage } from "../assets/LogoImage";
+import { useModalsContext } from "../../main/contexts/ModalsProvider";
 
 export function MobileNavBar() {
     const navigate = useNavigate()
@@ -14,7 +14,9 @@ export function MobileNavBar() {
     return <div className="lg:hidden md:hidden block">
         <div className="pr-4 pt-2 pb-2">
             <div className="flex justify-between items-center">
-                <LogoImage/>
+                <div onClick={() => navigate(IROBRoutes.home)}>
+                    <LogoImage />
+                </div>
                 <div className="lg:ml-4 ml-0 space-x-6">
                     <NavLink className="text-2xl font-bold text-[#ffb81c]" to={IROBRoutes.home}>IROB</NavLink>
                 </div>
@@ -51,9 +53,8 @@ export function MobileNavBar() {
                 </div>
             </div>
             <div
-                className={`flex-1 justify-self-center pb-3 z-50 bg-[#0E1420] h-screen z-50 absolute w-full bg-opacity-60 ${
-                    navbar ? "block" : "hidden"
-                }`}
+                className={`flex-1 justify-self-center pb-3 z-50 bg-[#0E1420] h-screen z-50 absolute w-full bg-opacity-60 ${navbar ? "block" : "hidden"
+                    }`}
             >
                 <div className="bg-[#0E1420] pb-8">
                     <ul className="items-center justify-center pt-8 ml-8 text-white space-y-8">
@@ -83,7 +84,7 @@ export function MobileNavBar() {
                         </li>}
                         {isUserLogged && <li>
                             <a onClick={() => {
-                                createContent?.setState({isVisible: true, roomId: null})
+                                createContent?.setState({ isVisible: true, roomId: null })
                                 setNavbar(false)
                             }}>Upload content</a>
                         </li>}
